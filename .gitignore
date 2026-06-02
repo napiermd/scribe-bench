@@ -1,0 +1,9 @@
+node_modules/
+dist/
+*.log
+.DS_Store
+.env
+.env.*
+leaderboard/_pending.json
+# PriMock57 is fetched, not vendored (git-LFS audio is large)
+data/primock57/primock57/

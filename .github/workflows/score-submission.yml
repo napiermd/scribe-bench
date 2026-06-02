@@ -1,0 +1,40 @@
+name: validate-submission
+
+# Runs on every PR. Validates the leaderboard JSON shape and runs the
+# deterministic (no-LLM) checks + unit tests. LLM-judge scoring is NOT run in
+# CI (it needs a judge key and is non-deterministic) — submitters run the judge
+# locally and report the result; CI guards the parts that must be reproducible.
+
+on:
+  pull_request:
+    paths:
+      - 'leaderboard/**'
+      - 'eval/**'
+      - 'data/**'
+      - 'test/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm install
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit tests (deterministic checks)
+        run: npm test
+      - name: Validate leaderboard JSON
+        run: |
+          node -e "
+            const j = require('./leaderboard/results.json');
+            if (!Array.isArray(j.results)) { throw new Error('results must be an array'); }
+            for (const r of j.results) {
+              for (const k of ['system','dataset','n','narrativeMean','dangerousFabricationRate','leakRate','judgeModel']) {
+                if (r[k] === undefined) throw new Error('result missing field: ' + k + ' in ' + JSON.stringify(r.system));
+              }
+            }
+            console.log('leaderboard OK:', j.results.length, 'entries');
+          "

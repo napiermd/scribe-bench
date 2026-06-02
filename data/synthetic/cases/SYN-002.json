@@ -1,0 +1,7 @@
+{
+  "id": "SYN-002",
+  "provenance": "synthetic",
+  "tags": ["clinic", "primary-care", "diabetes"],
+  "source": "This is a 64-year-old woman here for diabetes follow-up. She's been on metformin a thousand twice a day. Her sugars at home running one-forty to one-eighty fasting, she checks maybe three times a week. A1c today is 8.1, up from 7.4 last visit. She admits she's been skipping the evening dose because it upsets her stomach. No vision changes, no numbness or tingling in the feet, no chest pain. Feet look good today, monofilament intact bilaterally, no ulcers. I talked to her about adding empagliflozin ten milligrams daily, she's agreeable. We'll recheck A1c in three months. Continue metformin, reinforce taking it with food. Referred to the diabetic educator. Flu shot given today.",
+  "reference": "HPI: 64F with type 2 diabetes here for follow-up, on metformin 1000mg BID. Home fasting glucose 140-180, checks ~3x/week. Reports skipping evening metformin due to GI upset. Denies vision changes, peripheral neuropathy symptoms, chest pain.\n\nExam: Feet without ulceration, monofilament intact bilaterally.\n\nData: A1c 8.1% (up from 7.4%).\n\nAssessment/Plan: Type 2 DM, suboptimally controlled with adherence barrier. Add empagliflozin 10mg daily (patient agreeable). Continue metformin, counsel to take with food. Diabetic educator referral. Influenza vaccine administered. Recheck A1c in 3 months."
+}

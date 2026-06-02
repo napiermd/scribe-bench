@@ -1,0 +1,7 @@
+{
+  "id": "SYN-001",
+  "provenance": "synthetic",
+  "tags": ["ed", "chest-pain", "cardiac"],
+  "source": "Okay this is a 58-year-old gentleman, no significant past medical history that he knows of, comes in with about two hours of substernal chest pressure that started while he was mowing the lawn. Radiates to the left arm, associated with some shortness of breath and a little nausea. No relief with rest. He took two of his wife's aspirin before coming in. On exam he's diaphoretic, vitals heart rate 96, blood pressure 148 over 90, satting 97 on room air, afebrile. Heart regular, no murmur, lungs clear, no leg edema. First troponin came back at 0.42 which is elevated, and the ECG shows ST depressions in the lateral leads V4 through V6. I'm going to call it an NSTEMI. Started him on a heparin drip, gave him aspirin and sublingual nitro with good relief. Cardiology is on the way to take him to the cath lab. Admitting to telemetry.",
+  "reference": "HPI: 58M with no known cardiac history presents with 2 hours of exertional substernal chest pressure radiating to the left arm, with dyspnea and nausea, onset while mowing the lawn, not relieved by rest. Self-administered ASA prior to arrival.\n\nExam: Diaphoretic. HR 96, BP 148/90, SpO2 97% RA, afebrile. RRR no murmur, lungs CTA, no peripheral edema.\n\nData: Troponin 0.42 (elevated). ECG: lateral ST depressions V4-V6.\n\nAssessment/Plan: NSTEMI. Heparin drip, ASA, SL nitroglycerin with relief. Cardiology consulted for cath. Admit to telemetry."
+}

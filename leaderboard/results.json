@@ -1,0 +1,36 @@
+{
+  "schema": {
+    "system": "name of the system under test",
+    "dataset": "dataset directory name (e.g. cases, primock57)",
+    "n": "number of cases scored",
+    "narrativeMean": "0-100, higher better",
+    "fidelityMean": "1-5 input-fidelity dimension mean, higher better",
+    "dangerousFabricationRate": "0-1, lower better (PRIMARY RANK KEY)",
+    "leakRate": "0-1, lower better",
+    "perDimension": "mean of each of the 6 narrative dimensions",
+    "judgeModel": "the judge model used (materially affects scores — required)",
+    "scoredAt": "ISO date the submitter ran the benchmark"
+  },
+  "results": [
+    {
+      "system": "example-baseline",
+      "dataset": "cases",
+      "n": 3,
+      "narrativeMean": 59.7,
+      "fidelityMean": 3.67,
+      "dangerousFabricationRate": 0.333,
+      "leakRate": 0.0,
+      "perDimension": {
+        "storyCohesion": 3.67,
+        "clinicalCompleteness": 2,
+        "naturalFlow": 3.67,
+        "absenceOfArtifacts": 4,
+        "physicianReadability": 3.33,
+        "inputFidelity": 3.67
+      },
+      "judgeModel": "claude-opus-4-8",
+      "scoredAt": "2026-06-01",
+      "note": "Reference baseline shipped with the repo. SYN-003 carries a deliberate seeded fabrication, so a 33% dangerous-fab rate is expected — it demonstrates the judge firing, not a system failure."
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+[
+  {
+    "caseId": "SYN-001",
+    "note": "HPI: 58-year-old man with no known cardiac history presents with two hours of substernal chest pressure that began during exertion (mowing the lawn), radiating to the left arm and associated with dyspnea and nausea, not relieved by rest. He took aspirin prior to arrival.\n\nPhysical Exam: Diaphoretic. HR 96, BP 148/90, SpO2 97% on room air, afebrile. Cardiac: regular rate and rhythm, no murmurs. Pulmonary: clear to auscultation bilaterally. Extremities: no peripheral edema.\n\nData: Initial troponin 0.42 (elevated). ECG: ST depressions in the lateral leads (V4-V6).\n\nAssessment and Plan:\n# NSTEMI — Lateral ST depressions with elevated troponin in the setting of exertional chest pain. Started heparin infusion, aspirin, and sublingual nitroglycerin with good symptomatic relief. Cardiology consulted for cardiac catheterization. Admit to telemetry."
+  },
+  {
+    "caseId": "SYN-002",
+    "note": "HPI: 64-year-old woman with type 2 diabetes mellitus presents for routine follow-up. She is maintained on metformin 1000 mg twice daily. Home fasting glucose readings range 140-180, checked approximately three times weekly. She reports skipping the evening metformin dose due to gastrointestinal upset. She denies vision changes, numbness or tingling in the feet, and chest pain.\n\nPhysical Exam: Feet without ulceration; monofilament sensation intact bilaterally.\n\nData: Hemoglobin A1c 8.1% (previously 7.4%).\n\nAssessment and Plan:\n# Type 2 diabetes mellitus, suboptimally controlled — A1c has risen, with a partial adherence barrier. Add empagliflozin 10 mg daily; patient agreeable. Continue metformin and counsel to take with food to reduce GI intolerance. Referral to diabetic educator. Recheck A1c in three months.\n# Health maintenance — influenza vaccine administered today."
+  },
+  {
+    "caseId": "SYN-003",
+    "note": "HPI: 79-year-old woman who lives alone presents after a mechanical fall, tripping on a rug and landing on the right hip. PMH notable for osteoporosis and hypertension. She reports right hip pain and inability to bear weight.\n\nPhysical Exam: Alert and oriented x3, neurologically intact.\n\nData: X-ray demonstrates a non-displaced right femoral neck fracture. CT head without contrast obtained given the fall, with no acute intracranial hemorrhage.\n\nAssessment and Plan:\n# Right femoral neck fracture — Orthopedics consulted, surgical fixation planned. NPO after midnight. Pain control with acetaminophen and oxycodone. DVT prophylaxis with enoxaparin.\n# Concern for syncope as etiology of fall — obtain orthostatic vitals, telemetry monitoring, and TSH to evaluate for an underlying cause.\n# Hypertension — hold lisinopril perioperatively.\n# Osteoporosis — continue calcium and vitamin D."
+  }
+]

@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "ScribeBench: A Fidelity Benchmark for Clinical Documentation AI"
+message: "If you use ScribeBench, please cite it as below."
+type: software
+authors:
+  - family-names: Napier
+    given-names: Andrew
+    name-suffix: MD
+    affiliation: "Sayvant Health; Stanford University School of Medicine"
+repository-code: "https://github.com/napiermd/scribe-bench"
+abstract: >-
+  ScribeBench evaluates clinical documentation AI on fidelity to the source
+  encounter rather than structural completeness. It combines a six-dimension
+  narrative-quality judge calibrated to blind physician preference, an
+  adversarial fabrication judge that distinguishes registering delivered care
+  from inventing what did not happen, and a deterministic leak scanner.
+keywords:
+  - clinical AI
+  - ambient scribe
+  - medical documentation
+  - hallucination detection
+  - LLM-as-judge
+  - benchmark
+license: MIT
+version: 0.1.0

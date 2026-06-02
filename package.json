@@ -1,0 +1,29 @@
+{
+  "name": "scribe-bench",
+  "version": "0.1.0",
+  "description": "A fidelity benchmark for clinical documentation AI — narrative quality + fabrication detection, calibrated to physician preference.",
+  "license": "MIT",
+  "author": "Andrew Napier, MD",
+  "type": "module",
+  "scripts": {
+    "bench": "tsx eval/run_benchmark.ts",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "keywords": [
+    "clinical-ai",
+    "benchmark",
+    "medical-documentation",
+    "ambient-scribe",
+    "hallucination",
+    "fabrication-detection",
+    "llm-as-judge",
+    "healthcare"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.19.19",
+    "tsx": "^4.19.2",
+    "typescript": "^5.6.3",
+    "vitest": "^2.1.8"
+  }
+}

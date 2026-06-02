@@ -1,0 +1,26 @@
+ScribeBench data and rubrics — Creative Commons Attribution 4.0 International
+(CC-BY-4.0)
+
+This license applies to the contents of `data/synthetic/`, the scoring rubrics
+embedded in `eval/`, and the `docs/` methodology, all authored for this project.
+
+You are free to share and adapt this material for any purpose, including
+commercially, provided you give appropriate credit.
+
+Full text: https://creativecommons.org/licenses/by/4.0/legalcode
+
+---
+
+NOTE ON THIRD-PARTY DATA
+
+`data/primock57/` is NOT covered by this license. PriMock57 is distributed by
+Babylon Health under its own CC-BY-4.0 terms and is fetched at runtime, not
+vendored here. See https://github.com/babylonhealth/primock57 and cite:
+
+  Papadopoulos Korfiatis et al., "PriMock57: A Dataset Of Primary Care Mock
+  Consultations", ACL 2022. arXiv:2204.00333
+
+NOTE ON PATIENT DATA
+
+This repository contains NO real patient data. All `data/synthetic/` cases are
+fabricated for demonstration and carry no protected health information.
