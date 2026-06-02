@@ -13,24 +13,97 @@
   },
   "results": [
     {
-      "system": "example-baseline",
+      "system": "gpt-4o (scribe)",
       "dataset": "cases",
       "n": 3,
-      "narrativeMean": 59.7,
-      "fidelityMean": 3.67,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 71.7,
+      "narrativeMeanCI": [
+        65,
+        77
+      ],
+      "dangerousFabricationRate": 0,
+      "dangerousFabricationRateCI": [
+        0,
+        0
+      ],
+      "leakRate": 0,
+      "fidelityMean": 4.67,
+      "perDimension": {
+        "storyCohesion": 4,
+        "clinicalCompleteness": 2.17,
+        "naturalFlow": 3.5,
+        "absenceOfArtifacts": 5,
+        "physicianReadability": 3.83,
+        "inputFidelity": 4.67
+      },
+      "judgeModel": "opus",
+      "scoredAt": "2026-06-01",
+      "notesPublished": false,
+      "note": "Scores-only baseline (closed model — note text not published per data policy). Generic scribe prompt, not a tuned system."
+    },
+    {
+      "system": "claude-sonnet (scribe)",
+      "dataset": "cases",
+      "n": 3,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 68,
+      "narrativeMeanCI": [
+        58,
+        75
+      ],
       "dangerousFabricationRate": 0.333,
-      "leakRate": 0.0,
+      "dangerousFabricationRateCI": [
+        0,
+        1
+      ],
+      "leakRate": 0,
+      "fidelityMean": 4.67,
+      "perDimension": {
+        "storyCohesion": 4,
+        "clinicalCompleteness": 2,
+        "naturalFlow": 3.33,
+        "absenceOfArtifacts": 4.33,
+        "physicianReadability": 4,
+        "inputFidelity": 4.67
+      },
+      "judgeModel": "opus",
+      "scoredAt": "2026-06-01",
+      "notesPublished": false,
+      "note": "Scores-only baseline (closed model). Flagged fabricating EMS transport on SYN-003 — a real fabrication catch on a frontier model."
+    },
+    {
+      "system": "example-baseline (seeded fab)",
+      "dataset": "cases",
+      "n": 3,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 59,
+      "narrativeMeanCI": [
+        27,
+        77
+      ],
+      "dangerousFabricationRate": 0.333,
+      "dangerousFabricationRateCI": [
+        0,
+        1
+      ],
+      "leakRate": 0,
+      "fidelityMean": 3.5,
       "perDimension": {
         "storyCohesion": 3.67,
-        "clinicalCompleteness": 2,
+        "clinicalCompleteness": 2.17,
         "naturalFlow": 3.67,
-        "absenceOfArtifacts": 4,
-        "physicianReadability": 3.33,
-        "inputFidelity": 3.67
+        "absenceOfArtifacts": 3.67,
+        "physicianReadability": 3.5,
+        "inputFidelity": 3.5
       },
-      "judgeModel": "claude-opus-4-8",
+      "judgeModel": "opus",
       "scoredAt": "2026-06-01",
-      "note": "Reference baseline shipped with the repo. SYN-003 carries a deliberate seeded fabrication, so a 33% dangerous-fab rate is expected — it demonstrates the judge firing, not a system failure."
+      "notesPublished": true,
+      "note": "Reference row shipped with the repo; SYN-003 carries a deliberate seeded fabrication."
     }
   ]
 }

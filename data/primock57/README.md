@@ -15,15 +15,22 @@ That clones the upstream repo into `data/primock57/primock57/`.
 
 ## Converting to ScribeBench cases
 
-Each ScribeBench case is `{ id, source, reference, tags, provenance }` (see
-`eval/types.ts`). For PriMock57:
+The adapter `scripts/build_primock57_cases.ts` parses both speaker `.TextGrid`
+files per consultation, merges their utterances in time order into a
+`Doctor:`/`Patient:` transcript, and pairs it with the clinician-written note:
 
-- `source` ← the collated consultation transcript (`transcripts/`)
-- `reference` ← the clinician-written note (`notes/`)
+- `source` ← the time-merged consultation transcript (markup stripped)
+- `reference` ← the clinician-written note (`notes/<base>.json` → `note`)
 - `provenance` ← `"primock57"`
 
-A small adapter (`scripts/build_primock57_cases.ts`) is on the v0.2 roadmap. Until
-then, point `--dataset` at a directory of converted case JSON files.
+```bash
+bash scripts/fetch_primock57.sh                 # clone upstream (CC-BY)
+npx tsx scripts/build_primock57_cases.ts        # → data/primock57/cases/ (57 cases)
+npx tsx eval/run_benchmark.ts --dataset data/primock57/cases --candidate <notes>.json ...
+```
+
+The 57 derived cases are vendored under `data/primock57/cases/` (CC-BY-4.0
+permits redistribution of derivatives with attribution — see below).
 
 ## Citation
 

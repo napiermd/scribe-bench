@@ -7,6 +7,8 @@
   "type": "module",
   "scripts": {
     "bench": "tsx eval/run_benchmark.ts",
+    "build-primock57": "tsx scripts/build_primock57_cases.ts",
+    "generate-baseline": "tsx scripts/generate_baseline.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },

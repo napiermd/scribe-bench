@@ -36,6 +36,9 @@ export interface NarrativeResult {
   normalized: number;  // 0-100
   dimensions: NarrativeDimensions;
   reasoning: string;
+  /** True when the judge errored (after retries) rather than scoring. Fail-closed:
+   *  an errored result is excluded from aggregates, never counted as a real score. */
+  errored?: boolean;
 }
 
 /** Deterministic leak hit (pure string scan, no LLM). */
@@ -52,6 +55,9 @@ export interface FabricationResult {
   dangerous: string[];
   standard: string[];
   reasoning: string;
+  /** True when the judge errored (after retries). Fail-closed: NEVER treated as a
+   *  clean result — the case is excluded from aggregates and the run flags it. */
+  errored?: boolean;
 }
 
 /** Per-case score row. */
@@ -60,17 +66,35 @@ export interface CaseScore {
   narrative: NarrativeResult;
   fabrication: FabricationResult;
   leaks: LeakHit[];
+  /** True if either judge errored after retries on every repeat — excluded from aggregate. */
+  errored: boolean;
+  /** Number of judge repeats that contributed to this case's averaged score. */
+  repeats: number;
+  /** Std-dev of the normalized narrative score across repeats (0 if repeats<2). */
+  narrativeSpread: number;
 }
+
+/** A [low, high] confidence interval. */
+export type CI = [number, number];
 
 /** Aggregate benchmark result for a candidate system (the leaderboard row). */
 export interface BenchmarkScore {
   system: string;
   dataset: string;
+  /** Cases that produced a real score (errored cases excluded). */
   n: number;
+  /** Cases excluded because a judge errored after retries (fail-closed). */
+  nErrored: number;
+  /** Judge repeats per case (ET2). */
+  repeats: number;
   /** Mean narrative score, 0-100. Higher is better. */
   narrativeMean: number;
+  /** 95% bootstrap CI on narrativeMean across cases. */
+  narrativeMeanCI: CI;
   /** Fraction of cases with a DANGEROUS fabrication. Lower is better. */
   dangerousFabricationRate: number;
+  /** 95% bootstrap CI on dangerousFabricationRate across cases. */
+  dangerousFabricationRateCI: CI;
   /** Fraction of cases with any deterministic leak. Lower is better. */
   leakRate: number;
   /** Mean input-fidelity dimension (1-5). The headline fidelity metric. */

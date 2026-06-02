@@ -21,6 +21,7 @@
  */
 
 import { callJudge } from './llm';
+import { extractJsonObject } from './json';
 import type { LeakHit, FabricationResult } from './types';
 
 // ---------------------------------------------------------------------------
@@ -88,6 +89,9 @@ export function hasLeak(surfaces: Record<string, string>, tokens?: string[]): bo
 // 2. Adversarial fabrication judge
 // ---------------------------------------------------------------------------
 
+/** Bump when FABRICATION_SYSTEM changes, so the judge cache invalidates. */
+export const FABRICATION_RUBRIC_VERSION = 'v1';
+
 const FABRICATION_SYSTEM = `You are a clinical documentation auditor whose ONLY job is to catch FABRICATION — clinical content in a generated note that the source encounter does not support.
 
 You are given the SOURCE (ground truth — a transcript or dictation of the encounter) and a generated NOTE. List every order, workup, lab, culture, imaging study, consult, medication, diagnosis, or clinical finding that appears in the NOTE but is NOT supported by the SOURCE.
@@ -130,14 +134,8 @@ Respond with valid JSON only:
 }
 Return ONLY the JSON. Empty fabrications array means the note is faithful to the source.`;
 
-function extractFabricationJSON(text: string): { dangerous: string[]; standard: string[]; reasoning: string } {
-  let cleaned = text.trim();
-  const fence = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fence) cleaned = fence[1].trim();
-  const fb = cleaned.indexOf('{');
-  const lb = cleaned.lastIndexOf('}');
-  if (fb !== -1 && lb > fb) cleaned = cleaned.slice(fb, lb + 1);
-  const parsed = JSON.parse(cleaned);
+export function extractFabricationJSON(text: string): { dangerous: string[]; standard: string[]; reasoning: string } {
+  const parsed = extractJsonObject(text);
   const dangerous: string[] = [];
   const standard: string[] = [];
   for (const f of Array.isArray(parsed.fabrications) ? parsed.fabrications : []) {
@@ -173,8 +171,13 @@ export async function judgeFabrication(
       reasoning,
     };
   } catch (err: any) {
-    // Fail-open on judge error so an infra hiccup doesn't fake a clean score;
-    // the deterministic leak floor still applies and the error is logged.
-    return { hasFabrication: false, hasDangerous: false, dangerous: [], standard: [], reasoning: `Fabrication judge failed: ${err?.message?.slice(0, 100)}` };
+    // FAIL-CLOSED: a judge error after retries must NEVER mint a clean score for a
+    // fabrication benchmark. Mark errored so the harness excludes the case (and
+    // flags the run) rather than ranking a crashed judge as "no fabrication found".
+    return {
+      hasFabrication: false, hasDangerous: false, dangerous: [], standard: [],
+      reasoning: `Fabrication judge errored: ${err?.message?.slice(0, 100)}`,
+      errored: true,
+    };
   }
 }

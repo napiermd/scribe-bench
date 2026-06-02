@@ -14,7 +14,11 @@
  */
 
 import { callJudge } from './llm';
+import { extractJsonObject } from './json';
 import type { NarrativeDimensions, NarrativeResult } from './types';
+
+/** Bump when NARRATIVE_RUBRIC_SYSTEM changes, so the judge cache invalidates. */
+export const NARRATIVE_RUBRIC_VERSION = 'v1';
 
 const NARRATIVE_RUBRIC_SYSTEM = `You are a board-certified physician evaluating clinical documentation quality. You have 20+ years of experience reading and writing clinical notes. You evaluate notes the way a physician would — you care about clinical reasoning, diagnostic precision, and whether the note tells a story another physician can act on.
 
@@ -111,14 +115,8 @@ interface RawNarrative {
   reasoning: string;
 }
 
-function extractJSON(text: string): RawNarrative {
-  let cleaned = text.trim();
-  const fence = cleaned.match(/```(?:json)?\s*([\s\S]*?)```/);
-  if (fence) cleaned = fence[1].trim();
-  const fb = cleaned.indexOf('{');
-  const lb = cleaned.lastIndexOf('}');
-  if (fb !== -1 && lb > fb) cleaned = cleaned.slice(fb, lb + 1);
-  const parsed = JSON.parse(cleaned);
+export function extractJSON(text: string): RawNarrative {
+  const parsed = extractJsonObject(text);
   if (!parsed?.dimensions) throw new Error('Response JSON missing "dimensions"');
   const d = parsed.dimensions;
   const keys = ['story_cohesion', 'clinical_completeness', 'natural_flow', 'absence_of_artifacts', 'physician_readability', 'input_fidelity'];
@@ -130,7 +128,7 @@ function extractJSON(text: string): RawNarrative {
   return parsed;
 }
 
-const FLOOR = (reason: string): NarrativeResult => ({
+const FLOOR = (reason: string, errored = false): NarrativeResult => ({
   total: 6,
   normalized: 0,
   dimensions: {
@@ -138,6 +136,7 @@ const FLOOR = (reason: string): NarrativeResult => ({
     absenceOfArtifacts: 1, physicianReadability: 1, inputFidelity: 1,
   },
   reasoning: reason,
+  errored,
 });
 
 /**
@@ -163,7 +162,9 @@ export async function evaluateNarrative(
     try {
       raw = extractJSON(await callJudge(sys, user, maxRetries));
     } catch (err: any) {
-      if (attempt >= 2) return FLOOR(`Parse failure: ${err?.message?.slice(0, 120)}`);
+      // Judge error or unparseable response after retries → errored (excluded
+      // from aggregates), NOT a silently-floored real score.
+      if (attempt >= 2) return FLOOR(`Judge error: ${err?.message?.slice(0, 120)}`, true);
     }
   }
 

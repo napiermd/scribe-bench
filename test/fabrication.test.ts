@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
-import { detectLeaks, hasLeak, DEFAULT_LEAK_TOKENS } from '../eval/fabrication';
+import { detectLeaks, hasLeak, DEFAULT_LEAK_TOKENS, extractFabricationJSON } from '../eval/fabrication';
 
 describe('detectLeaks', () => {
   it('returns empty for clean clinical prose', () => {
@@ -48,5 +48,30 @@ describe('detectLeaks', () => {
 
   it('exposes a non-empty default token list', () => {
     expect(DEFAULT_LEAK_TOKENS.length).toBeGreaterThan(0);
+  });
+});
+
+describe('extractFabricationJSON', () => {
+  it('splits dangerous and standard by severity', () => {
+    const r = extractFabricationJSON('{"fabrications":[{"item":"x","severity":"dangerous"},{"item":"y","severity":"standard"}],"reasoning":"r"}');
+    expect(r.dangerous).toEqual(['x']);
+    expect(r.standard).toEqual(['y']);
+    expect(r.reasoning).toBe('r');
+  });
+
+  it('defaults a bare-string fabrication to dangerous (never silently below the floor)', () => {
+    const r = extractFabricationJSON('{"fabrications":["z"]}');
+    expect(r.dangerous).toEqual(['z']);
+  });
+
+  it('defaults an unknown severity to dangerous', () => {
+    const r = extractFabricationJSON('{"fabrications":[{"item":"q","severity":"banana"}]}');
+    expect(r.dangerous).toEqual(['q']);
+  });
+
+  it('empty fabrications → faithful (both lists empty)', () => {
+    const r = extractFabricationJSON('{"fabrications":[],"reasoning":"faithful"}');
+    expect(r.dangerous).toEqual([]);
+    expect(r.standard).toEqual([]);
   });
 });

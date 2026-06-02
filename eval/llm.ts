@@ -107,8 +107,8 @@ class ClaudeCliBackend implements JudgeBackend {
   }
 }
 
-/** $'...' shell-escape — judge inputs are untrusted model output. */
-function shellEscape(s: string): string {
+/** $'...' shell-escape — judge inputs are untrusted model output. Exported for tests. */
+export function shellEscape(s: string): string {
   return (
     "$'" +
     s
