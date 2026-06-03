@@ -1,5 +1,7 @@
 # ScribeBench
 
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Benchmark: 60 cases](https://img.shields.io/badge/benchmark-60%20cases-orange) ![Tests: 55](https://img.shields.io/badge/tests-55%20passing-brightgreen)
+
 **A fidelity benchmark for clinical documentation AI.**
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
@@ -81,10 +83,11 @@ The example candidate deliberately seeds one fabrication (case `SYN-003` invents
 
 ## Datasets
 
-- **`data/synthetic/`** — fully synthetic encounters (no PHI, ever). Ships in-repo; runnable immediately.
-- **`data/primock57/`** — [PriMock57](https://github.com/babylonhealth/primock57), 57 audio-grounded mock primary-care consultations with clinician-written reference notes, CC-BY 4.0. Fetched, not vendored: `bash scripts/fetch_primock57.sh`.
+- **`data/synthetic/cases/`** — 3 fully synthetic encounters (ED, clinic, inpatient). Ships in-repo; the runnable quickstart set.
+- **`data/specialty/cases/`** — synthetic **emergency-medicine + hospital-admission** cases (physician-authored), broadening coverage beyond primary care. Extensible — PRs welcome.
+- **`data/primock57/cases/`** — 57 audio-grounded mock primary-care consultations derived from [PriMock57](https://github.com/babylonhealth/primock57) (Babylon Health, **CC-BY-4.0**), vendored as ScribeBench cases. Regenerate from upstream with `bash scripts/fetch_primock57.sh && npx tsx scripts/build_primock57_cases.ts`. This is the scored leaderboard set.
 
-**ScribeBench contains no real patient data.** Contributions must be synthetic or already-public, appropriately licensed corpora. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
+**ScribeBench contains no real patient data.** Synthetic or already-public, appropriately licensed corpora only. See [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
 ## Bring your own pipeline
 
