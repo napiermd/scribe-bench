@@ -25,6 +25,7 @@ Rank by **dangerous-fabrication rate** (lower is better), then **narrative mean*
 | System | Dataset | n | Narrative ↑ (95% CI) | Fidelity ↑ | Dangerous-fab ↓ (95% CI) | Leak ↓ | Judge |
 |--------|---------|---|----------------------|-----------|--------------------------|--------|-------|
 | claude-sonnet (scribe) | PriMock57 | 57 | **78.4** [76.5, 80.4] | 4.46 | **5.3%** [0–12%] | 0.0% | claude-opus |
+| gpt-4.1 (scribe) | PriMock57 | 57 | 73.6 [72.3, 74.9] | 4.27 | 5.3% [0–12%] | 0.0% | claude-opus |
 | gpt-4o (scribe) | PriMock57 | 57 | 67.4 [65.9, 68.7] | 3.91 | 8.8% [2–18%] | 0.0% | claude-opus |
 
 Both are **scores-only** baselines (closed-model note text not published per the data policy) from a *generic scribe prompt* — not tuned production systems — judged by Claude Opus at `repeats=2` over the 57 audio-grounded PriMock57 consults. The point isn't the ranking; it's that **every frontier model fabricates dangerous content on a non-trivial fraction of real consultations** (5–9%), and a physician-grounded benchmark surfaces exactly which.

@@ -41,7 +41,38 @@
       "judgeModel": "opus",
       "scoredAt": "2026-06-02",
       "notesPublished": false,
-      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57."
+      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 PriMock57 consults, repeats=2."
+    },
+    {
+      "system": "gpt-4.1 (scribe)",
+      "dataset": "primock57",
+      "n": 57,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 73.6,
+      "narrativeMeanCI": [
+        72.25,
+        74.9
+      ],
+      "dangerousFabricationRate": 0.053,
+      "dangerousFabricationRateCI": [
+        0,
+        0.12
+      ],
+      "leakRate": 0,
+      "fidelityMean": 4.27,
+      "perDimension": {
+        "storyCohesion": 4.04,
+        "clinicalCompleteness": 3.16,
+        "naturalFlow": 3.97,
+        "absenceOfArtifacts": 4.2,
+        "physicianReadability": 3.99,
+        "inputFidelity": 4.27
+      },
+      "judgeModel": "opus",
+      "scoredAt": "2026-06-02",
+      "notesPublished": false,
+      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 PriMock57 consults, repeats=2."
     },
     {
       "system": "gpt-4o (scribe)",
@@ -72,7 +103,7 @@
       "judgeModel": "opus",
       "scoredAt": "2026-06-02",
       "notesPublished": false,
-      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 audio-grounded primary-care consults."
+      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 PriMock57 consults, repeats=2."
     },
     {
       "system": "gpt-4o (scribe)",
