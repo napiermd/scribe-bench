@@ -13,6 +13,68 @@
   },
   "results": [
     {
+      "system": "claude-sonnet (scribe)",
+      "dataset": "primock57",
+      "n": 57,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 78.4,
+      "narrativeMeanCI": [
+        76.46,
+        80.43
+      ],
+      "dangerousFabricationRate": 0.053,
+      "dangerousFabricationRateCI": [
+        0,
+        0.12
+      ],
+      "leakRate": 0,
+      "fidelityMean": 4.46,
+      "perDimension": {
+        "storyCohesion": 4.34,
+        "clinicalCompleteness": 3.13,
+        "naturalFlow": 4.33,
+        "absenceOfArtifacts": 4.39,
+        "physicianReadability": 4.15,
+        "inputFidelity": 4.46
+      },
+      "judgeModel": "opus",
+      "scoredAt": "2026-06-02",
+      "notesPublished": false,
+      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57."
+    },
+    {
+      "system": "gpt-4o (scribe)",
+      "dataset": "primock57",
+      "n": 57,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 67.4,
+      "narrativeMeanCI": [
+        65.91,
+        68.72
+      ],
+      "dangerousFabricationRate": 0.088,
+      "dangerousFabricationRateCI": [
+        0.02,
+        0.18
+      ],
+      "leakRate": 0,
+      "fidelityMean": 3.91,
+      "perDimension": {
+        "storyCohesion": 3.99,
+        "clinicalCompleteness": 2.76,
+        "naturalFlow": 3.54,
+        "absenceOfArtifacts": 4.04,
+        "physicianReadability": 3.87,
+        "inputFidelity": 3.91
+      },
+      "judgeModel": "opus",
+      "scoredAt": "2026-06-02",
+      "notesPublished": false,
+      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 audio-grounded primary-care consults."
+    },
+    {
       "system": "gpt-4o (scribe)",
       "dataset": "cases",
       "n": 3,

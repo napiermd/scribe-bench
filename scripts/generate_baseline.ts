@@ -42,33 +42,59 @@ function shellEscape(s: string): string {
     .replace(/\x00/g, '').replace(/\x1b/g, '\\x1b') + "'";
 }
 
-function genClaude(model: string, source: string): string {
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
+async function genClaude(model: string, source: string, maxRetries = 4): Promise<string> {
   const prompt = `${SCRIBE_SYSTEM}\n\n---\n\nEncounter transcript:\n\n${source}\n\nWrite the clinical note.`;
-  const res = execSync(
-    `claude -p ${shellEscape(prompt)} --model ${model} --output-format json --max-turns 1 --allowedTools ""`,
-    { timeout: 300_000, maxBuffer: 10 * 1024 * 1024, encoding: 'utf-8', shell: '/bin/bash' },
-  );
-  return JSON.parse(res).result || '';
+  let lastErr = '';
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const res = execSync(
+        `claude -p ${shellEscape(prompt)} --model ${model} --output-format json --max-turns 1 --allowedTools ""`,
+        { timeout: 300_000, maxBuffer: 10 * 1024 * 1024, encoding: 'utf-8', shell: '/bin/bash' },
+      );
+      const parsed = JSON.parse(res);
+      // The CLI returns is_error:true for transient API/socket errors — retry those.
+      if (parsed.is_error) throw new Error(String(parsed.result || 'is_error').slice(0, 140));
+      if (!parsed.result) throw new Error('empty result');
+      return parsed.result;
+    } catch (e: any) {
+      lastErr = e?.message?.slice(0, 160) || String(e);
+      if (attempt < maxRetries) await sleep(2000 * 2 ** (attempt - 1));
+    }
+  }
+  throw new Error(`claude gen failed after ${maxRetries} attempts: ${lastErr}`);
 }
 
-async function genOpenAI(model: string, source: string): Promise<string> {
+async function genOpenAI(model: string, source: string, maxRetries = 4): Promise<string> {
   const key = process.env.OPENAI_API_KEY;
   if (!key) throw new Error('OPENAI_API_KEY not set');
-  const res = await fetch('https://api.openai.com/v1/chat/completions', {
-    method: 'POST',
-    headers: { 'content-type': 'application/json', authorization: `Bearer ${key}` },
-    body: JSON.stringify({
-      model,
-      messages: [
-        { role: 'system', content: SCRIBE_SYSTEM },
-        { role: 'user', content: `Encounter transcript:\n\n${source}\n\nWrite the clinical note.` },
-      ],
-      temperature: 0.3,
-    }),
-  });
-  if (!res.ok) throw new Error(`OpenAI HTTP ${res.status}: ${(await res.text()).slice(0, 200)}`);
-  const data: any = await res.json();
-  return data.choices?.[0]?.message?.content || '';
+  let lastErr = '';
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', authorization: `Bearer ${key}` },
+        body: JSON.stringify({
+          model,
+          messages: [
+            { role: 'system', content: SCRIBE_SYSTEM },
+            { role: 'user', content: `Encounter transcript:\n\n${source}\n\nWrite the clinical note.` },
+          ],
+          temperature: 0.3,
+        }),
+      });
+      if (!res.ok) throw new Error(`OpenAI HTTP ${res.status}: ${(await res.text()).slice(0, 160)}`);
+      const data: any = await res.json();
+      const note = data.choices?.[0]?.message?.content || '';
+      if (!note) throw new Error('empty completion');
+      return note;
+    } catch (e: any) {
+      lastErr = e?.message?.slice(0, 160) || String(e);
+      if (attempt < maxRetries) await sleep(2000 * 2 ** (attempt - 1));
+    }
+  }
+  throw new Error(`openai gen failed after ${maxRetries} attempts: ${lastErr}`);
 }
 
 async function main() {
@@ -83,7 +109,7 @@ async function main() {
 
   const notes: { caseId: string; note: string }[] = [];
   for (const c of cases) {
-    const note = gen === 'openai' ? await genOpenAI(model, c.source) : genClaude(model, c.source);
+    const note = gen === 'openai' ? await genOpenAI(model, c.source) : await genClaude(model, c.source);
     notes.push({ caseId: c.id, note });
     console.log(`  ${c.id}: ${note.length} chars`);
   }

@@ -20,15 +20,26 @@ Rank by **dangerous-fabrication rate** (lower is better), then **narrative mean*
 
 > **Data policy:** the leaderboard stores **aggregate scores only** — never raw model-generated note text. Full candidate notes are published only for open-weight models or your own runs. This respects provider output terms (publishing closed-model outputs as a redistributable dataset is not something we do). The bundled dataset is CC-BY synthetic + PriMock57 only.
 
-| System | Dataset | n | Narrative ↑ | Fidelity ↑ | Dangerous-fab ↓ | Leak ↓ | Judge |
-|--------|---------|---|------------|-----------|-----------------|--------|-------|
-| gpt-4o (scribe) | synthetic | 3 | 71.7 | 4.67 | **0.0%** | 0.0% | claude-opus |
-| claude-sonnet (scribe) | synthetic | 3 | 68.0 | 4.67 | 33.3% | 0.0% | claude-opus |
-| example-baseline (seeded fab) † | synthetic | 3 | 59.0 | 3.50 | 33.3% | 0.0% | claude-opus |
+| System | Dataset | n | Narrative ↑ (95% CI) | Fidelity ↑ | Dangerous-fab ↓ (95% CI) | Leak ↓ | Judge |
+|--------|---------|---|----------------------|-----------|--------------------------|--------|-------|
+| claude-sonnet (scribe) | PriMock57 | 57 | **78.4** [76.5, 80.4] | 4.46 | **5.3%** [0–12%] | 0.0% | claude-opus |
+| gpt-4o (scribe) | PriMock57 | 57 | 67.4 [65.9, 68.7] | 3.91 | 8.8% [2–18%] | 0.0% | claude-opus |
 
-† Reference row with a deliberate seeded fabrication in `SYN-003`. The Claude-sonnet row's 33% is a **real** catch — on `SYN-003` it fabricated "arrival via EMS" when the source says the daughter drove the patient in.
+Both are **scores-only** baselines (closed-model note text not published per the data policy) from a *generic scribe prompt* — not tuned production systems — judged by Claude Opus at `repeats=2` over the 57 audio-grounded PriMock57 consults. The point isn't the ranking; it's that **every frontier model fabricates dangerous content on a non-trivial fraction of real consultations** (5–9%), and a physician-grounded benchmark surfaces exactly which.
 
-Baselines are **scores-only** (closed-model note text not published), generated with a generic scribe prompt (not tuned systems), `n=3` synthetic cases, `repeats=2`. CIs are wide at n=3 by design — the 57-case PriMock57 set (`data/primock57/cases/`) tightens them. Submit a real system to take the top spot.
+<details>
+<summary>Synthetic demo set (n=3, illustrative — wide CIs by design)</summary>
+
+| System | n | Narrative ↑ | Fidelity ↑ | Dangerous-fab ↓ | Judge |
+|--------|---|------------|-----------|-----------------|-------|
+| gpt-4o (scribe) | 3 | 71.7 | 4.67 | 0.0% | claude-opus |
+| claude-sonnet (scribe) | 3 | 68.0 | 4.67 | 33.3% | claude-opus |
+| example-baseline (seeded fab) † | 3 | 59.0 | 3.50 | 33.3% | claude-opus |
+
+† `SYN-003` carries a deliberate seeded fabrication. The claude-sonnet 33% is a **real** catch — on `SYN-003` it fabricated "arrival via EMS" when the source says the daughter drove the patient in. At n=3 these CIs are wide on purpose; the PriMock57 table above is the substantive board.
+</details>
+
+Submit a real system to take the top spot — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
 
 Live results: [`leaderboard/results.json`](leaderboard/results.json).
 
