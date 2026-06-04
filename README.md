@@ -27,8 +27,9 @@ Rank by **dangerous-fabrication rate** (lower is better), then **narrative mean*
 | claude-sonnet (scribe) | PriMock57 | 57 | **78.4** [76.5, 80.4] | 4.46 | **5.3%** [0–12%] | 0.0% | claude-opus |
 | gpt-4.1 (scribe) | PriMock57 | 57 | 73.6 [72.3, 74.9] | 4.27 | 5.3% [0–12%] | 0.0% | claude-opus |
 | gpt-4o (scribe) | PriMock57 | 57 | 67.4 [65.9, 68.7] | 3.91 | 8.8% [2–18%] | 0.0% | claude-opus |
+| claude-haiku (scribe) | PriMock57 | 57 | 67.5 [65.7, 69.3] | 4.22 | 24.6% [14–35%] | 0.0% | claude-opus |
 
-Both are **scores-only** baselines (closed-model note text not published per the data policy) from a *generic scribe prompt* — not tuned production systems — judged by Claude Opus at `repeats=2` over the 57 audio-grounded PriMock57 consults. The point isn't the ranking; it's that **every frontier model fabricates dangerous content on a non-trivial fraction of real consultations** (5–9%), and a physician-grounded benchmark surfaces exactly which.
+All are **scores-only** baselines (closed-model note text not published per the data policy) from a *generic scribe prompt* — not tuned production systems — judged by Claude Opus at `repeats=2` over the 57 audio-grounded PriMock57 consults. The point isn't the ranking; it's the **gradient**: frontier models (claude-sonnet, gpt-4.1) fabricate dangerous content on ~5% of real consultations, gpt-4o on ~9%, and a small model (claude-haiku) on ~25%. Every one of them does it on a non-trivial fraction — and a physician-grounded benchmark surfaces exactly which cases. Bigger ≠ safe; smaller is markedly worse.
 
 <details>
 <summary>Synthetic demo set (n=3, illustrative — wide CIs by design)</summary>

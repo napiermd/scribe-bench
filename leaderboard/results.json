@@ -106,6 +106,37 @@
       "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 PriMock57 consults, repeats=2."
     },
     {
+      "system": "claude-haiku (scribe)",
+      "dataset": "primock57",
+      "n": 57,
+      "nErrored": 0,
+      "repeats": 2,
+      "narrativeMean": 67.5,
+      "narrativeMeanCI": [
+        65.7,
+        69.32
+      ],
+      "dangerousFabricationRate": 0.246,
+      "dangerousFabricationRateCI": [
+        0.14,
+        0.35
+      ],
+      "leakRate": 0,
+      "fidelityMean": 4.22,
+      "perDimension": {
+        "storyCohesion": 3.99,
+        "clinicalCompleteness": 2.66,
+        "naturalFlow": 3.57,
+        "absenceOfArtifacts": 3.88,
+        "physicianReadability": 3.85,
+        "inputFidelity": 4.22
+      },
+      "judgeModel": "opus",
+      "scoredAt": "2026-06-02",
+      "notesPublished": false,
+      "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 PriMock57 consults, repeats=2."
+    },
+    {
       "system": "gpt-4o (scribe)",
       "dataset": "cases",
       "n": 3,
