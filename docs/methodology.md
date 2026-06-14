@@ -38,7 +38,7 @@ A 0-token, 100%-precision string scan for raw template placeholders (`*(...)*`) 
 
 ## Inter-rater reliability — read this before trusting any single-rater eval
 
-Two board-certified physicians independently scored the same 35 blind A/B note pairs. Agreement: **κ = 0.028** (95% CI includes zero) — barely above chance. A frontier LLM judge on this rubric agreed with a *given* physician about 61% of the time, comparable to physician–physician agreement.
+Three board-certified physicians reviewed the same 36 blind A/B note pairs (84 total ratings). The primary overlapping rater pair agreed at **κ = 0.028** across 35 shared ratings, with wide confidence intervals that include chance agreement. A frontier LLM judge on this rubric agreed with a *given* physician about 61% of the time, comparable to physician–physician agreement.
 
 The implication is not "the judge is bad." It is that **clinical-note preference is intrinsically noisy**, and any eval resting on one rater (human or model) is measuring that rater. ScribeBench reports aggregate rates over a dataset for this reason, and we recommend bootstrap confidence intervals on every leaderboard comparison rather than single-case or single-rater claims.
 
