@@ -6,6 +6,11 @@
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
+The public website is not a consumer app or a model popularity contest. It is the
+public face of the evaluation harness: inspect the claim, see what dangerous
+fabrication looks like, run a single-note lab check, and find the powered
+PriMock57 command needed to submit a current model.
+
 Hallucination-and-omission scoring for clinical notes is not new — [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu established it. ScribeBench adds two things they don't:
 
 1. **A fabrication tier that distinguishes *registering delivered care* from *inventing what didn't happen*.** An ambient scribe's job is to register care the clinician actually delivered — a critical-care-time attestation, a placement statement captured from the encounter. That is the product working, not a hallucination. Other taxonomies flag it as one. ScribeBench tiers it as STANDARD and reserves DANGEROUS for content asserting something that *did not happen*. See [`docs/fabrication-taxonomy.md`](docs/fabrication-taxonomy.md).
@@ -29,7 +34,7 @@ Rank powered PriMock57 runs by **dangerous-fabrication rate** (lower is better),
 | gpt-4o (scribe) | PriMock57 | 57 | 67.4 [65.9, 68.7] | 3.91 | 8.8% [2–18%] | 0.0% | claude-opus |
 | claude-haiku (scribe) | PriMock57 | 57 | 67.5 [65.7, 69.3] | 4.22 | 24.6% [14–35%] | 0.0% | claude-opus |
 
-All are **scores-only** baselines (closed-model note text not published per the data policy) from a *generic scribe prompt* — not tuned production systems — judged by Claude Opus at `repeats=2` over the 57 audio-grounded PriMock57 consults. The point isn't the ranking; it's the **gradient**: frontier models (claude-sonnet, gpt-4.1) fabricate dangerous content on ~5% of real consultations, gpt-4o on ~9%, and a small model (claude-haiku) on ~25%. Every one of them does it on a non-trivial fraction — and a physician-grounded benchmark surfaces exactly which cases. Bigger ≠ safe; smaller is markedly worse.
+All are **scores-only launch baselines** (closed-model note text not published per the data policy) from a *generic scribe prompt* — not tuned production systems and not a current market ranking — judged by Claude Opus at `repeats=2` over the 57 audio-grounded PriMock57 consults. The point is the **failure gradient** and the public harness: frontier launch models (claude-sonnet, gpt-4.1) fabricated dangerous content on ~5% of real consultations, gpt-4o on ~9%, and a small model (claude-haiku) on ~25%. Current model rows should be added as new powered PriMock57 runs.
 
 <details>
 <summary>Synthetic demo set (n=3, illustrative — wide CIs by design)</summary>

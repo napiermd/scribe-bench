@@ -31,6 +31,7 @@
           </span>
         </a>
         <nav class="nav" aria-label="Primary navigation">
+          <a href="#purpose">Purpose</a>
           <a href="#leaderboard">Leaderboard</a>
           <a href="#lab">Lab</a>
           <a href="#demo">Demo case</a>
@@ -46,10 +47,12 @@
         <div class="wrap summary-grid">
           <div class="intro-panel">
             <p class="eyebrow">Released June 2026</p>
-            <h1>Clinical notes can sound excellent and still be false.</h1>
+            <h1>A public audit bench for AI scribe fidelity.</h1>
             <p class="lede">
-              ScribeBench tests whether an AI scribe preserved the encounter or invented care.
-              It ranks systems by dangerous-fabrication rate, then narrative quality.
+              ScribeBench exists to answer one practical question: did the generated note
+              preserve the source encounter, or did it invent care that never happened?
+              Clinicians can inspect failure modes; builders can run the harness and submit
+              powered rows.
             </p>
             <div class="actions">
               <a class="button primary" href="#leaderboard">View leaderboard</a>
@@ -100,18 +103,54 @@
         </div>
       </section>
 
+      <section class="wrap section purpose-section" id="purpose">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Why this exists</p>
+            <h2>Not a consumer app. Not a model popularity contest.</h2>
+            <p>
+              The website is the public face of an evaluation harness for clinical AI scribes.
+              A visitor should be able to see the benchmark claim, inspect what a dangerous
+              fabrication looks like, run a single-note lab check, and find the exact command
+              for a real PriMock57 benchmark run.
+            </p>
+          </div>
+        </div>
+        <div class="purpose-grid">
+          <article>
+            <h3>For clinicians and buyers</h3>
+            <p>See why fluent notes are not enough: unsupported CTs, diagnoses, orders, and workups can look polished while changing care.</p>
+          </article>
+          <article>
+            <h3>For builders</h3>
+            <p>Run the scoring harness on your generated notes, then submit aggregate scores without publishing closed-model note text.</p>
+          </article>
+          <article>
+            <h3>For the public record</h3>
+            <p>Separate real powered runs from smoke tests, state the judge model, and make every leaderboard row auditable.</p>
+          </article>
+        </div>
+      </section>
+
       <section class="wrap section" id="leaderboard">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Powered leaderboard</p>
-            <h2>PriMock57 leaderboard, ranked by dangerous-fabrication rate</h2>
+            <p class="eyebrow">Launch baselines</p>
+            <h2>PriMock57 powered rows, not a current market ranking</h2>
             <p>
-              Only the 57-case PriMock57 runs are ranked here. The bundled 3-case
-              synthetic checks are shown separately because they are useful plumbing tests,
-              not credible evidence of model performance.
+              These n=57 rows prove the benchmark path and show the failure gradient from
+              the launch baselines. They are not meant to claim that GPT-4o, GPT-4.1, or
+              older Claude rows are the models people should use today. Current-model rows
+              should be added through powered PriMock57 runs using the backend commands below.
             </p>
           </div>
           <a class="text-link" href="/assets/results.json">Raw results JSON</a>
+        </div>
+        <div class="notice-band">
+          <strong>What visitors should do here:</strong>
+          inspect the ranked powered rows as historical baselines, use the demo to understand
+          dangerous fabrication, then run or submit a current model on PriMock57. The site is
+          useful only when smoke tests, launch baselines, and current powered rows stay separate.
         </div>
         <div class="leaderboard-shell">
           <table class="leaderboard-table">

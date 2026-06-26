@@ -285,6 +285,40 @@ h4 {
   font-size: 0.92rem;
 }
 
+.purpose-section {
+  padding-top: 48px;
+}
+
+.purpose-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.purpose-grid article {
+  border-top: 3px solid var(--accent);
+  background: var(--panel);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+}
+
+.purpose-grid p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.notice-band {
+  border: 1px solid rgba(152, 111, 11, 0.32);
+  background: #fff7df;
+  color: #4f3b08;
+  padding: 0.85rem 1rem;
+  margin: 0 0 1rem;
+}
+
+.notice-band strong {
+  color: #3d2d06;
+}
+
 .subsection-head {
   margin: 1.6rem 0 0.8rem;
 }
@@ -890,6 +924,7 @@ h4 {
   }
 
   .method-cards,
+  .purpose-grid,
   .field-row,
   .field-row.lab-model-row,
   .lab-textareas,
