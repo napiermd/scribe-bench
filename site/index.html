@@ -1,0 +1,401 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ScribeBench | Clinical documentation AI fidelity benchmark</title>
+    <meta
+      name="description"
+      content="ScribeBench is a public benchmark for clinical documentation AI: narrative quality, source fidelity, leak detection, and dangerous fabrication review."
+    />
+    <meta property="og:title" content="ScribeBench" />
+    <meta property="og:url" content="https://scribe-bench.vercel.app/" />
+    <meta
+      property="og:description"
+      content="A public fidelity benchmark for clinical documentation AI."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://scribe-bench.vercel.app/" />
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="/" aria-label="ScribeBench home">
+          <span class="brand-mark" aria-hidden="true">SB</span>
+          <span>
+            <strong>ScribeBench</strong>
+            <small>Clinical documentation AI fidelity benchmark</small>
+          </span>
+        </a>
+        <nav class="nav" aria-label="Primary navigation">
+          <a href="#leaderboard">Leaderboard</a>
+          <a href="#lab">Lab</a>
+          <a href="#demo">Demo case</a>
+          <a href="#method">Method</a>
+          <a href="#run">Run it</a>
+          <a href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="summary-band">
+        <div class="wrap summary-grid">
+          <div class="intro-panel">
+            <p class="eyebrow">Released June 2026</p>
+            <h1>Clinical notes can sound excellent and still be false.</h1>
+            <p class="lede">
+              ScribeBench tests whether an AI scribe preserved the encounter or invented care.
+              It ranks systems by dangerous-fabrication rate, then narrative quality.
+            </p>
+            <div class="actions">
+              <a class="button primary" href="#leaderboard">View leaderboard</a>
+              <a class="button secondary" href="#lab">Score a note</a>
+            </div>
+          </div>
+
+          <section class="scoreboard" aria-labelledby="scoreboard-title">
+            <div class="section-head compact">
+              <div>
+                <p class="eyebrow">Current public artifact</p>
+                <h2 id="scoreboard-title">Benchmark snapshot</h2>
+              </div>
+            </div>
+            <dl class="metric-grid" id="snapshot-metrics">
+              <div>
+                <dt>Official cases</dt>
+                <dd>--</dd>
+              </div>
+              <div>
+                <dt>Ranked systems</dt>
+                <dd>--</dd>
+              </div>
+              <div>
+                <dt>Primary metric</dt>
+                <dd>Dangerous fab</dd>
+              </div>
+              <div>
+                <dt>Data policy</dt>
+                <dd>Scores only</dd>
+              </div>
+            </dl>
+            <div class="visual-card" aria-label="Benchmark checks">
+              <div class="check-rail">
+                <span>Narrative</span>
+                <span>Fidelity</span>
+                <span>Fabrication</span>
+                <span>Leaks</span>
+              </div>
+              <div class="pipeline-bars" aria-hidden="true">
+                <span style="--w: 78%"></span>
+                <span style="--w: 89%"></span>
+                <span style="--w: 38%"></span>
+                <span style="--w: 100%"></span>
+              </div>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <section class="wrap section" id="leaderboard">
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Powered leaderboard</p>
+            <h2>PriMock57 leaderboard, ranked by dangerous-fabrication rate</h2>
+            <p>
+              Only the 57-case PriMock57 runs are ranked here. The bundled 3-case
+              synthetic checks are shown separately because they are useful plumbing tests,
+              not credible evidence of model performance.
+            </p>
+          </div>
+          <a class="text-link" href="/assets/results.json">Raw results JSON</a>
+        </div>
+        <div class="leaderboard-shell">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th scope="col">Rank</th>
+                <th scope="col">System</th>
+                <th scope="col">Dataset</th>
+                <th scope="col">n</th>
+                <th scope="col">Dangerous fab</th>
+                <th scope="col">Narrative</th>
+                <th scope="col">Fidelity</th>
+                <th scope="col">Leak</th>
+                <th scope="col">Judge</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr>
+                <td colspan="9">Loading leaderboard...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="subsection-head">
+          <div>
+            <p class="eyebrow">Synthetic smoke tests</p>
+            <h3>Visible, but not ranked</h3>
+            <p>
+              These rows use the bundled n=3 synthetic cases to exercise the scoring path
+              and demo behavior. A 0% or 33% rate at this size should never outrank a powered
+              benchmark run.
+            </p>
+          </div>
+        </div>
+        <div class="leaderboard-shell secondary-table">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th scope="col">Status</th>
+                <th scope="col">System</th>
+                <th scope="col">Dataset</th>
+                <th scope="col">n</th>
+                <th scope="col">Dangerous fab</th>
+                <th scope="col">Narrative</th>
+                <th scope="col">Fidelity</th>
+                <th scope="col">Leak</th>
+                <th scope="col">Judge</th>
+              </tr>
+            </thead>
+            <tbody id="smoke-body">
+              <tr>
+                <td colspan="9">Loading smoke tests...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="wrap section lab-section" id="lab">
+        <div class="section-head split-head">
+          <div>
+            <p class="eyebrow">Live lab</p>
+            <h2>Score a note against a source encounter</h2>
+            <p>
+              Paste a source encounter and generated note, choose a provider/model, and run
+              a fast ScribeBench-style check for narrative quality, fidelity, fabrications, and leaks.
+              The lab is exploratory and single-pass; leaderboard rows use fixed datasets,
+              repeats, and aggregate confidence intervals.
+            </p>
+          </div>
+          <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
+        </div>
+
+        <div class="lab-shell">
+          <form class="lab-form" id="lab-form">
+            <div class="field-row lab-model-row">
+              <label class="field">
+                <span>Provider</span>
+                <select id="lab-provider">
+                  <option value="openrouter">OpenRouter free</option>
+                  <option value="baseten">Baseten Model APIs</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Model</span>
+                <select id="lab-model"></select>
+              </label>
+              <button class="button secondary compact-button" id="refresh-models" type="button">Refresh models</button>
+            </div>
+
+            <label class="field">
+              <span id="lab-key-label">Temporary provider API key</span>
+              <input
+                id="lab-key"
+                type="password"
+                autocomplete="off"
+                placeholder="Optional; uses the configured Vercel key when available"
+              />
+              <small class="field-hint" id="provider-hint">
+                OpenRouter free models use the configured site key; paste a temporary key only to override it.
+              </small>
+            </label>
+
+            <div class="lab-textareas">
+              <label class="field">
+                <span>Source encounter</span>
+                <textarea id="lab-source" rows="14"></textarea>
+              </label>
+              <label class="field">
+                <span>Generated note</span>
+                <textarea id="lab-note" rows="14"></textarea>
+              </label>
+            </div>
+
+            <div class="lab-actions">
+              <button class="button primary" id="run-lab" type="submit">Run live judge</button>
+              <button class="button secondary" id="clear-lab" type="button">Clear</button>
+              <span id="lab-status" role="status" aria-live="polite"></span>
+            </div>
+          </form>
+
+          <aside class="lab-results" aria-live="polite">
+            <div class="lab-empty" id="lab-empty">
+              <h3>Waiting for a note</h3>
+              <p>
+                The result will show a normalized narrative score, six dimensions,
+                dangerous fabrication items, standard items, deterministic leaks, and model usage.
+              </p>
+            </div>
+
+            <div class="lab-output" id="lab-output" hidden>
+              <div class="result-hero">
+                <div>
+                  <p class="eyebrow">Result</p>
+                  <strong id="lab-score">--</strong>
+                  <span>Narrative</span>
+                </div>
+                <div>
+                  <p class="eyebrow">Dangerous fab</p>
+                  <strong id="lab-danger">--</strong>
+                  <span>Flagged items</span>
+                </div>
+              </div>
+
+              <div class="dimension-list" id="lab-dimensions"></div>
+
+              <section class="result-block danger-block">
+                <h4>Dangerous fabrications</h4>
+                <ul id="lab-danger-list"></ul>
+              </section>
+
+              <section class="result-block">
+                <h4>Standard / accepted items</h4>
+                <ul id="lab-standard-list"></ul>
+              </section>
+
+              <section class="result-block">
+                <h4>Leak scan</h4>
+                <ul id="lab-leak-list"></ul>
+              </section>
+
+              <section class="result-block">
+                <h4>Reasoning</h4>
+                <p id="lab-reasoning"></p>
+              </section>
+
+              <p class="lab-meta" id="lab-meta"></p>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section class="wrap section split" id="demo">
+        <div class="section-head split-head">
+          <div>
+            <p class="eyebrow">Walk-up demo</p>
+            <h2>Inspect what the benchmark catches</h2>
+            <p>
+              The demo uses the bundled synthetic candidate. One case intentionally inserts
+              a false head CT and syncope workup so the fabrication judge has something to find.
+            </p>
+          </div>
+        </div>
+
+        <div class="case-workspace">
+          <aside class="case-list" aria-label="Demo cases">
+            <div class="case-list-title">Synthetic cases</div>
+            <div id="case-buttons"></div>
+          </aside>
+          <div class="case-detail">
+            <div class="case-toolbar">
+              <div>
+                <p class="eyebrow" id="case-tags">Case</p>
+                <h3 id="case-title">Loading case...</h3>
+              </div>
+              <span class="pill" id="case-status">Demo</span>
+            </div>
+
+            <div class="comparison-grid">
+              <article class="doc-pane">
+                <h4>Source encounter</h4>
+                <pre id="source-text"></pre>
+              </article>
+              <article class="doc-pane">
+                <h4>Candidate note</h4>
+                <pre id="candidate-text"></pre>
+              </article>
+            </div>
+
+            <article class="finding-panel">
+              <h4>Why this matters</h4>
+              <p id="case-finding"></p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="wrap section method-grid" id="method">
+        <div class="method-copy">
+          <p class="eyebrow">Method</p>
+          <h2>Three checks, one public scoring harness</h2>
+          <p>
+            ScribeBench separates quality from safety. A note can be fluent and complete while
+            still inventing something clinically meaningful, so the fabrication review is run as
+            a separate adversarial judge.
+          </p>
+        </div>
+        <div class="method-cards">
+          <article>
+            <span>01</span>
+            <h3>Narrative quality</h3>
+            <p>Six physician-style dimensions: story, completeness, flow, artifacts, readability, and input fidelity.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Fabrication review</h3>
+            <p>Flags unsupported clinical content and separates dangerous invention from standard charting.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Leak detection</h3>
+            <p>Deterministic scan for raw template placeholders and internal metadata tokens.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="wrap section run-panel" id="run">
+        <div>
+          <p class="eyebrow">Use it</p>
+          <h2>Run ScribeBench against your own notes</h2>
+          <p>
+            Generate one candidate note per case, then score it with the benchmark runner.
+            Closed-model note text should stay local; publish aggregate scores only.
+          </p>
+        </div>
+        <pre class="code-block"><code>npm install
+
+export SCRIBEBENCH_BACKEND=anthropic
+export ANTHROPIC_API_KEY=sk-ant-...
+
+npx tsx eval/run_benchmark.ts \
+  --dataset data/synthetic/cases \
+  --candidate your_notes.json \
+  --system "your-system" \
+  --out leaderboard/_pending.json</code></pre>
+        <div class="link-row">
+          <a href="https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" target="_blank" rel="noreferrer">Submission guide</a>
+          <a href="https://github.com/napiermd/scribe-bench/blob/main/docs/methodology.md" target="_blank" rel="noreferrer">Methodology</a>
+          <a href="https://github.com/napiermd/scribe-bench/blob/main/docs/fabrication-taxonomy.md" target="_blank" rel="noreferrer">Fabrication taxonomy</a>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="wrap footer-inner">
+        <p>ScribeBench is an open reproducibility artifact by Andrew Napier, MD.</p>
+        <div>
+          <a href="https://napiermd.me/clinical-ai" target="_blank" rel="noreferrer">NapierMD clinical AI</a>
+          <a href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+    <script src="/app.js" type="module"></script>
+  </body>
+</html>

@@ -47,6 +47,26 @@ Submit a real system to take the top spot — see [`leaderboard/SUBMISSION.md`](
 
 Live results: [`leaderboard/results.json`](leaderboard/results.json).
 
+## Public website
+
+This repo now builds a static public ScribeBench site for Vercel, currently live
+at `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up experience:
+a powered PriMock57 leaderboard, a separate not-ranked synthetic smoke-test table,
+benchmark snapshot, synthetic demo case viewer, methodology summary, live lab,
+and run-it-yourself instructions.
+
+```bash
+npm run build
+npm run preview
+```
+
+Source lives in [`site/`](site/). The build script copies the static app into
+`dist/` and publishes bounded JSON from the existing benchmark artifacts.
+The live Lab can use a Vercel `OPENROUTER_API_KEY` environment variable, or a
+temporary OpenRouter key pasted into the browser for that session. Baseten's
+OpenAI-compatible Model APIs are wired as an optional provider and become available
+when `BASETEN_API_KEY` is configured on Vercel or supplied temporarily in the lab.
+
 ---
 
 ## Metrics

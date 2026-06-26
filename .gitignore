@@ -1,5 +1,6 @@
 node_modules/
 dist/
+.vercel/
 *.log
 .DS_Store
 .env
@@ -9,3 +10,6 @@ leaderboard/_pending.json
 .scribebench-cache/
 # PriMock57 is fetched, not vendored (git-LFS audio is large)
 data/primock57/primock57/
+.gstack/
+.vercel
+fusion-traces/

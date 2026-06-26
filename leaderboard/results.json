@@ -2,6 +2,7 @@
   "schema": {
     "system": "name of the system under test",
     "dataset": "dataset directory name (e.g. cases, primock57)",
+    "claimLevel": "powered for ranked benchmark rows; smoke for illustrative/demo rows that must not be ranked",
     "n": "number of cases scored",
     "narrativeMean": "0-100, higher better",
     "fidelityMean": "1-5 input-fidelity dimension mean, higher better",
@@ -15,6 +16,7 @@
     {
       "system": "claude-sonnet (scribe)",
       "dataset": "primock57",
+      "claimLevel": "powered",
       "n": 57,
       "nErrored": 0,
       "repeats": 2,
@@ -46,6 +48,7 @@
     {
       "system": "gpt-4.1 (scribe)",
       "dataset": "primock57",
+      "claimLevel": "powered",
       "n": 57,
       "nErrored": 0,
       "repeats": 2,
@@ -77,6 +80,7 @@
     {
       "system": "gpt-4o (scribe)",
       "dataset": "primock57",
+      "claimLevel": "powered",
       "n": 57,
       "nErrored": 0,
       "repeats": 2,
@@ -108,6 +112,7 @@
     {
       "system": "claude-haiku (scribe)",
       "dataset": "primock57",
+      "claimLevel": "powered",
       "n": 57,
       "nErrored": 0,
       "repeats": 2,
@@ -139,6 +144,7 @@
     {
       "system": "gpt-4o (scribe)",
       "dataset": "cases",
+      "claimLevel": "smoke",
       "n": 3,
       "nErrored": 0,
       "repeats": 2,
@@ -170,6 +176,7 @@
     {
       "system": "claude-sonnet (scribe)",
       "dataset": "cases",
+      "claimLevel": "smoke",
       "n": 3,
       "nErrored": 0,
       "repeats": 2,
@@ -201,6 +208,7 @@
     {
       "system": "example-baseline (seeded fab)",
       "dataset": "cases",
+      "claimLevel": "smoke",
       "n": 3,
       "nErrored": 0,
       "repeats": 2,
