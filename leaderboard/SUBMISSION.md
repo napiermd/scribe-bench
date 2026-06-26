@@ -8,16 +8,23 @@
    ]
    ```
 
-2. **Score.**
+2. **Score a powered run.**
    ```bash
-   export SCRIBEBENCH_BACKEND=anthropic   # or: cli
-   export ANTHROPIC_API_KEY=sk-ant-...    # if using the anthropic backend
+   export SCRIBEBENCH_BACKEND=baseten      # or: anthropic, cli, openrouter
+   export BASETEN_API_KEY=...              # for SCRIBEBENCH_BACKEND=baseten
+   export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
+
    npx tsx eval/run_benchmark.ts \
-     --dataset data/synthetic/cases \
-     --candidate your_notes.json \
+     --dataset data/primock57/cases \
+     --candidate your_primock57_notes.json \
      --system "your-system" \
+     --repeats 2 \
      --out leaderboard/_pending.json
    ```
+
+   Use `data/synthetic/cases` only as a smoke test to verify your candidate-note
+   format and judge plumbing. Synthetic n=3 output must be recorded as
+   `claimLevel: "smoke"`, not as a ranked row.
 
 3. **Record.** Copy the `summary` object from `_pending.json` into the `results` array in
    `leaderboard/results.json`, add an ISO `scoredAt`, and set `claimLevel`:

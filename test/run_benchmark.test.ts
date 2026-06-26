@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest';
 import * as fs from 'fs';
 import * as os from 'os';
 import * as path from 'path';
-import { aggregateRepeats, aggregate, loadCases } from '../eval/run_benchmark';
+import { aggregateRepeats, aggregate, datasetLabel, loadCases } from '../eval/run_benchmark';
 import type { NarrativeResult, FabricationResult, CaseScore, NarrativeDimensions } from '../eval/types';
 
 function dims(v: number): NarrativeDimensions {
@@ -105,5 +105,15 @@ describe('loadCases', () => {
     const cases = loadCases(dir);
     expect(cases).toHaveLength(1);
     expect(cases[0].id).toBe('X');
+  });
+});
+
+describe('datasetLabel', () => {
+  it('labels PriMock57 case directories as primock57 for powered rows', () => {
+    expect(datasetLabel('data/primock57/cases')).toBe('primock57');
+  });
+
+  it('keeps the synthetic smoke dataset label as cases', () => {
+    expect(datasetLabel('data/synthetic/cases')).toBe('cases');
   });
 });

@@ -362,24 +362,40 @@
       <section class="wrap section run-panel" id="run">
         <div>
           <p class="eyebrow">Use it</p>
-          <h2>Run ScribeBench against your own notes</h2>
+          <h2>Run smoke tests, then a powered benchmark</h2>
           <p>
-            Generate one candidate note per case, then score it with the benchmark runner.
-            Closed-model note text should stay local; publish aggregate scores only.
+            The 3-case synthetic set is only a plumbing check. A public leaderboard
+            row should come from the powered PriMock57 run with aggregate scores only.
           </p>
         </div>
-        <pre class="code-block"><code>npm install
+        <div class="command-stack">
+          <article>
+            <h3>Powered leaderboard run</h3>
+            <pre class="code-block"><code>npm install
 
-export SCRIBEBENCH_BACKEND=anthropic
-export ANTHROPIC_API_KEY=sk-ant-...
+export SCRIBEBENCH_BACKEND=baseten
+export BASETEN_API_KEY=...
+export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
 
 npx tsx eval/run_benchmark.ts \
-  --dataset data/synthetic/cases \
-  --candidate your_notes.json \
+  --dataset data/primock57/cases \
+  --candidate your_primock57_notes.json \
   --system "your-system" \
+  --repeats 2 \
   --out leaderboard/_pending.json</code></pre>
+          </article>
+          <article>
+            <h3>Smoke test only</h3>
+            <pre class="code-block"><code>npx tsx eval/run_benchmark.ts \
+  --dataset data/synthetic/cases \
+  --candidate data/synthetic/example_candidate.json \
+  --system "example-baseline" \
+  --out leaderboard/_pending.json</code></pre>
+          </article>
+        </div>
         <div class="link-row">
           <a href="https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" target="_blank" rel="noreferrer">Submission guide</a>
+          <a href="https://github.com/napiermd/scribe-bench/blob/main/docs/model-backends.md" target="_blank" rel="noreferrer">Model backends</a>
           <a href="https://github.com/napiermd/scribe-bench/blob/main/docs/methodology.md" target="_blank" rel="noreferrer">Methodology</a>
           <a href="https://github.com/napiermd/scribe-bench/blob/main/docs/fabrication-taxonomy.md" target="_blank" rel="noreferrer">Fabrication taxonomy</a>
         </div>

@@ -7,6 +7,7 @@ const DEFAULT_FREE_MODELS = [
 
 const PREFERRED_MODEL_IDS = DEFAULT_FREE_MODELS.map((model) => model.id);
 const PROVIDERS = new Set(['openrouter', 'baseten']);
+const DISCOURAGED_FREE_MODEL_RE = /\b(code|coder|coding|uncensored|venice)\b|(?:^|[-/])(?:1\.2b|3b|9b)(?:[-/:]|$)/i;
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') {
@@ -27,16 +28,7 @@ async function listOpenRouterModels(req, res) {
     if (!response.ok) throw new Error(`OpenRouter models HTTP ${response.status}`);
     const payload = await response.json();
     const models = (payload.data || [])
-      .filter((model) => {
-        const pricing = model.pricing || {};
-        const input = model.architecture?.input_modalities || [];
-        const output = model.architecture?.output_modalities || [];
-        return pricing.prompt === '0' &&
-          pricing.completion === '0' &&
-          input.includes('text') &&
-          output.includes('text') &&
-          model.id.includes(':free');
-      })
+      .filter(isUsableFreeTextJudge)
       .sort((a, b) => preferredRank(a.id) - preferredRank(b.id))
       .slice(0, 24)
       .map((model) => ({
@@ -108,6 +100,19 @@ async function listBasetenModels(req, res) {
 function preferredRank(id) {
   const index = PREFERRED_MODEL_IDS.indexOf(id);
   return index === -1 ? 100 : index;
+}
+
+function isUsableFreeTextJudge(model) {
+  const pricing = model.pricing || {};
+  const input = model.architecture?.input_modalities || [];
+  const output = model.architecture?.output_modalities || [];
+  const haystack = `${model.id || ''} ${model.name || ''}`;
+  return pricing.prompt === '0' &&
+    pricing.completion === '0' &&
+    input.includes('text') &&
+    output.includes('text') &&
+    model.id.includes(':free') &&
+    !DISCOURAGED_FREE_MODEL_RE.test(haystack);
 }
 
 function normalizeProvider(req) {

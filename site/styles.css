@@ -817,6 +817,21 @@ h4 {
   color: var(--muted);
 }
 
+.command-stack {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
+}
+
+.command-stack article {
+  min-width: 0;
+}
+
+.command-stack h3 {
+  margin: 0 0 0.55rem;
+  font-size: 1rem;
+}
+
 .code-block {
   overflow: auto;
   background: #10221f;

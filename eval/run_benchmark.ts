@@ -19,12 +19,14 @@
  * non-zero — a crashed judge never mints a clean leaderboard row.
  *
  * Judge backend via env (SCRIBEBENCH_BACKEND, default "anthropic").
+ * Supported backends: anthropic, cli, baseten, openrouter.
  */
 
 import * as fs from 'fs';
 import * as path from 'path';
 import { evaluateNarrative, NARRATIVE_RUBRIC_VERSION } from './narrative_judge';
 import { judgeFabrication, detectLeaks, FABRICATION_RUBRIC_VERSION } from './fabrication';
+import { currentBackendName, currentJudgeModel } from './llm';
 import { makeKey, readCache, writeCache } from './cache';
 import { mean, stdev, bootstrapCI } from './stats';
 import type {
@@ -153,6 +155,14 @@ export function loadCases(dir: string): BenchmarkCase[] {
   });
 }
 
+export function datasetLabel(datasetDir: string): string {
+  const base = path.basename(datasetDir);
+  const parent = path.basename(path.dirname(datasetDir));
+  if (base === 'cases' && parent === 'primock57') return 'primock57';
+  if (base === 'cases' && parent === 'specialty') return 'specialty';
+  return base;
+}
+
 /** Run async thunks with a bounded concurrency cap, preserving order. */
 async function pool<T>(jobs: (() => Promise<T>)[], concurrency: number): Promise<T[]> {
   const results: T[] = new Array(jobs.length);
@@ -208,8 +218,8 @@ async function main() {
     process.exit(1);
   }
 
-  const backend = (process.env.SCRIBEBENCH_BACKEND || 'anthropic').toLowerCase();
-  const judgeModel = process.env.SCRIBEBENCH_JUDGE_MODEL || 'claude-opus-4-8';
+  const backend = currentBackendName();
+  const judgeModel = currentJudgeModel();
   console.log(`Scoring "${system}" on ${cases.length} cases × ${repeats} repeats (judge: ${judgeModel}, backend: ${backend}, concurrency: ${concurrency})\n`);
 
   // Build all judge jobs (case × repeat × {narrative, fab}); leaks are deterministic.
@@ -246,7 +256,7 @@ async function main() {
     console.log(`  ${s.caseId.padEnd(16)} narrative ${String(Math.round(s.narrative.normalized)).padStart(3)}/100${spread}  fidelity ${s.narrative.dimensions.inputFidelity}/5${danger}${leak}`);
   }
 
-  const agg = aggregate(system, path.basename(datasetDir), judgeModel, repeats, scores);
+  const agg = aggregate(system, datasetLabel(datasetDir), judgeModel, repeats, scores);
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify({ summary: agg, perCase: scores }, null, 2));
 

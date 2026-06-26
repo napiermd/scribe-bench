@@ -1,6 +1,6 @@
 // @vitest-environment node
 import { describe, it, expect } from 'vitest';
-import { shellEscape } from '../eval/llm';
+import { defaultJudgeModelForBackend, shellEscape } from '../eval/llm';
 
 // shellEscape guards an execSync over UNTRUSTED model output. A miss here is a
 // shell-injection vector, so the adversarial inputs matter.
@@ -54,5 +54,16 @@ describe('shellEscape', () => {
     expect(out.endsWith("'")).toBe(true);
     expect(out).not.toContain('\x00');
     expect(out).not.toContain('\n');
+  });
+});
+
+describe('defaultJudgeModelForBackend', () => {
+  it('uses a Baseten model when the Baseten backend is selected', () => {
+    expect(defaultJudgeModelForBackend('baseten')).toBe('deepseek-ai/DeepSeek-V4-Pro');
+  });
+
+  it('keeps provider-specific defaults distinct for cache provenance', () => {
+    expect(defaultJudgeModelForBackend('anthropic')).not.toBe(defaultJudgeModelForBackend('baseten'));
+    expect(defaultJudgeModelForBackend('cli')).not.toBe(defaultJudgeModelForBackend('openrouter'));
   });
 });

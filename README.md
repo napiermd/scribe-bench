@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Benchmark: 60 cases](https://img.shields.io/badge/benchmark-60%20cases-orange) ![Tests: 55](https://img.shields.io/badge/tests-55%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 62](https://img.shields.io/badge/tests-62%20passing-brightgreen)
 
 **A fidelity benchmark for clinical documentation AI.**
 
@@ -18,7 +18,7 @@ Hallucination-and-omission scoring for clinical notes is not new — [ACI-Bench]
 
 ## Leaderboard
 
-Rank by **dangerous-fabrication rate** (lower is better), then **narrative mean** (higher is better). Submit your system via PR — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
+Rank powered PriMock57 runs by **dangerous-fabrication rate** (lower is better), then **narrative mean** (higher is better). Submit your system via PR — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
 
 > **Data policy:** the leaderboard stores **aggregate scores only** — never raw model-generated note text. Full candidate notes are published only for open-weight models or your own runs. This respects provider output terms (publishing closed-model outputs as a redistributable dataset is not something we do). The bundled dataset is CC-BY synthetic + PriMock57 only.
 
@@ -45,7 +45,7 @@ All are **scores-only** baselines (closed-model note text not published per the 
 
 Submit a real system to take the top spot — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
 
-Live results: [`leaderboard/results.json`](leaderboard/results.json).
+Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marked `claimLevel: "smoke"` are visible for transparency but are not ranked.
 
 ## Public website
 
@@ -88,12 +88,23 @@ The fabrication judge draws a line most metrics miss: **registering care the cli
 npm install
 
 # Pick a judge backend:
-#   anthropic (default) — needs ANTHROPIC_API_KEY
-#   cli                 — uses the `claude` CLI over OAuth (Max/Pro plan, no key)
-export SCRIBEBENCH_BACKEND=anthropic
-export ANTHROPIC_API_KEY=sk-ant-...
+#   anthropic  — needs ANTHROPIC_API_KEY
+#   cli        — uses the `claude` CLI over OAuth (Max/Pro plan, no key)
+#   baseten    — OpenAI-compatible Baseten Model APIs, needs BASETEN_API_KEY
+#   openrouter — OpenAI-compatible OpenRouter, needs OPENROUTER_API_KEY
+export SCRIBEBENCH_BACKEND=baseten
+export BASETEN_API_KEY=...
+export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
 
-# Score the bundled example candidate on the synthetic dataset:
+# Powered run for a public leaderboard claim:
+npx tsx eval/run_benchmark.ts \
+  --dataset data/primock57/cases \
+  --candidate your_primock57_notes.json \
+  --system "your-system" \
+  --repeats 2 \
+  --out leaderboard/_pending.json
+
+# Smoke test only; do not submit this as a ranked row:
 npx tsx eval/run_benchmark.ts \
   --dataset data/synthetic/cases \
   --candidate data/synthetic/example_candidate.json \
@@ -101,7 +112,7 @@ npx tsx eval/run_benchmark.ts \
   --out leaderboard/_pending.json
 ```
 
-The example candidate deliberately seeds one fabrication (case `SYN-003` invents a head CT and a syncope workup the source rules out) so you can see the fabrication judge fire.
+The example candidate deliberately seeds one fabrication (case `SYN-003` invents a head CT and a syncope workup the source rules out) so you can see the fabrication judge fire. It is useful for plumbing and demos, not for ranking systems.
 
 ## Datasets
 
@@ -117,7 +128,9 @@ The eval engine is a small, dependency-light TypeScript library:
 
 - `eval/narrative_judge.ts` — `evaluateNarrative(note, { source })`
 - `eval/fabrication.ts` — `judgeFabrication(note, source)` + `detectLeaks(surfaces)` (pure, no LLM)
-- `eval/llm.ts` — pluggable backend (Anthropic API / Claude CLI / your own)
+- `eval/llm.ts` — pluggable backend (Anthropic API / Claude CLI / Baseten / OpenRouter / your own)
+
+See [`docs/model-backends.md`](docs/model-backends.md) for Baseten, OpenRouter, and powered-run examples.
 
 ## Prior work
 
