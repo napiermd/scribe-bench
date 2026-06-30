@@ -116,7 +116,7 @@ function isUsableFreeTextJudge(model) {
 }
 
 function normalizeProvider(req) {
-  const fromQuery = req.query?.provider || new URL(req.url || '/', 'https://scribe-bench.vercel.app').searchParams.get('provider');
+  const fromQuery = new URL(req.url || '/', 'https://scribe-bench.vercel.app').searchParams.get('provider');
   const provider = String(fromQuery || 'openrouter').toLowerCase();
   return PROVIDERS.has(provider) ? provider : 'openrouter';
 }
