@@ -13,6 +13,8 @@ describe('browser local receipt', () => {
     expect(result.fabrication.dangerous.join(' ')).toMatch(/head CT|head imaging/i);
     expect(result.fabrication.dangerous.join(' ')).toMatch(/syncope/i);
     expect(result.fabrication.dangerous.join(' ')).toMatch(/EMS|ambulance/i);
+    expect(result.evidence.dangerous.some((item) => /head CT|head imaging/i.test(item.finding) && /negative head CT/i.test(item.noteExcerpt) && /No head strike/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /syncope/i.test(item.finding) && /syncope workup/i.test(item.noteExcerpt) && /No loss of consciousness/i.test(item.sourceExcerpt))).toBe(true);
     expect(result.normalized).toBeLessThan(80);
   });
 

@@ -1275,15 +1275,17 @@ function renderQuickResult(result) {
   const list = document.getElementById("quick-result-list");
   if (list) {
     list.innerHTML = "";
-    const items = dangerousCount
-      ? result.fabrication.dangerous
-      : leakCount
+    if (dangerousCount) {
+      renderDangerousFindingsInto(list, result);
+    } else {
+      const items = leakCount
         ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
         : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak."];
-    for (const item of items.filter(Boolean)) {
-      const li = document.createElement("li");
-      li.textContent = item;
-      list.appendChild(li);
+      for (const item of items.filter(Boolean)) {
+        const li = document.createElement("li");
+        li.textContent = item;
+        list.appendChild(li);
+      }
     }
   }
   setText("quick-result-next", verdict.action);
@@ -1330,11 +1332,18 @@ function buildQuickReceiptText(result) {
   const normalized = Number(result.normalized || 0);
   const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
+  const evidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
   const flaggedItems = dangerousCount
-    ? dangerous
+    ? dangerous.flatMap((item) => {
+        const detail = evidence.find((entry) => entry?.finding === item);
+        const lines = [`- ${item}`];
+        if (detail?.noteExcerpt) lines.push(`  Note excerpt: ${detail.noteExcerpt}`);
+        if (detail?.sourceExcerpt) lines.push(`  Source check: ${detail.sourceExcerpt}`);
+        return lines;
+      })
     : leakCount
-      ? leaks
-      : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak flagged by the browser receipt."];
+      ? leaks.map((item) => `- ${item}`)
+      : ["- No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak flagged by the browser receipt."];
 
   return [
     "ScribeBench source-vs-note receipt",
@@ -1345,7 +1354,7 @@ function buildQuickReceiptText(result) {
     `Summary: ${verdict.copy}`,
     "",
     "Flagged items:",
-    ...flaggedItems.map((item) => `- ${item}`),
+    ...flaggedItems,
     "",
     `Next proof step: ${verdict.action}`,
     "",
@@ -1785,7 +1794,7 @@ function renderLabResult(result) {
     dims.appendChild(row);
   }
 
-  renderList("lab-danger-list", result.fabrication?.dangerous, "None flagged.");
+  renderDangerousFindings("lab-danger-list", result, "None flagged.");
   renderList("lab-standard-list", result.fabrication?.standard, "None listed.");
   renderList("lab-leak-list", (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`), "No deterministic leaks.");
   document.getElementById("lab-reasoning").textContent = result.reasoning || "No reasoning returned.";
@@ -2168,6 +2177,56 @@ function renderList(id, items, emptyText) {
     li.textContent = item;
     list.appendChild(li);
   }
+}
+
+function renderDangerousFindings(id, result, emptyText) {
+  const list = document.getElementById(id);
+  if (!list) return;
+  list.innerHTML = "";
+  const findings = cleanStringArray(result?.fabrication?.dangerous);
+  if (!findings.length) {
+    const li = document.createElement("li");
+    li.textContent = emptyText;
+    list.appendChild(li);
+    return;
+  }
+  renderDangerousFindingsInto(list, result);
+}
+
+function renderDangerousFindingsInto(list, result) {
+  const findings = cleanStringArray(result?.fabrication?.dangerous);
+  const evidence = Array.isArray(result?.evidence?.dangerous) ? result.evidence.dangerous : [];
+  for (const finding of findings) {
+    const detail = evidence.find((entry) => entry?.finding === finding);
+    const li = document.createElement("li");
+    if (!detail?.noteExcerpt && !detail?.sourceExcerpt) {
+      li.textContent = finding;
+      list.appendChild(li);
+      continue;
+    }
+    li.className = "evidence-finding";
+    const summary = document.createElement("strong");
+    summary.textContent = finding;
+    li.appendChild(summary);
+
+    const dl = document.createElement("dl");
+    appendEvidenceRow(dl, "Note says", detail.noteExcerpt);
+    appendEvidenceRow(dl, detail.reason === "source contradiction" ? "Source says" : "Source check", detail.sourceExcerpt);
+    li.appendChild(dl);
+    list.appendChild(li);
+  }
+}
+
+function appendEvidenceRow(list, label, value) {
+  if (!value) return;
+  const wrapper = document.createElement("div");
+  const dt = document.createElement("dt");
+  const dd = document.createElement("dd");
+  dt.textContent = label;
+  dd.textContent = value;
+  wrapper.appendChild(dt);
+  wrapper.appendChild(dd);
+  list.appendChild(wrapper);
 }
 
 function setLabStatus(message) {

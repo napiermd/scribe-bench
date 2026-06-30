@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Receipts now show their evidence",
+      "why": "The browser-only checker could flag unsupported care, but the result still asked visitors to trust the checker instead of showing the source and note snippets behind each flag.",
+      "proof": "Local receipts now return structured evidence for dangerous findings, including the note excerpt, source excerpt, and reason. The first-screen receipt and Lab dangerous-finding list render those excerpts inline, and the copyable receipt includes them.",
+      "next": "Keep making every verdict inspectable: a public QA artifact should show the reader why it is worried before asking them to cite it.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "NapierMD context made visible",
       "why": "ScribeBench still felt too detached from the broader NapierMD build-in-public story, with the clinical-AI provenance hidden in the footer.",
       "proof": "Added a Why this exists section that ties the benchmark to NapierMD's after-the-demo clinical AI lane: ScribeBench is not the scribe product, it is the public pressure test for whether a signed note stays true to the source.",

@@ -81,6 +81,7 @@ The first screen now states the product through concrete visitor jobs:
 - **Check one note:** paste the source encounter plus AI note and catch unsupported care like the seeded CT/syncope workup.
 - **Challenge a claim:** turn "hallucination-free" language into an evidence ask with dataset, n, judge, repeats, and rates.
 - **Publish evidence:** use aggregate PriMock57 or real-workflow scores for system claims while keeping raw closed-model notes out.
+- **Inspect the proof:** flagged browser-check items now show note and source excerpts so the receipt reads like evidence, not a black-box verdict.
 
 The site gives non-repo visitors a walk-up
 experience: a job-oriented first screen, a working source-vs-note checker, an evidence
@@ -98,7 +99,8 @@ public evidence row. The note path runs the seeded SYN-003 receipt in place inst
 of sending visitors into benchmark machinery. The first screen also includes a
 no-key browser checker with the seeded fall case loaded and scored, pasteable
 source and note fields for a visitor's own example, and a copyable receipt that
-carries findings and next proof steps without copying raw encounter text. The next
+carries findings, note/source evidence excerpts, and next proof steps without copying
+raw encounter text into the public ledger. The next
 section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a

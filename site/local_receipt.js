@@ -94,7 +94,35 @@ function normalize(text) {
 }
 
 function excerptAround(text, index, span = 56) {
-  return normalize(text.slice(Math.max(0, index - span), index + span));
+  const normalized = normalize(text);
+  const safeIndex = Math.max(0, Math.min(index, normalized.length));
+  let start = Math.max(0, safeIndex - span);
+  let end = Math.min(normalized.length, safeIndex + span);
+
+  if (start > 0) {
+    const nextSpace = normalized.slice(start, Math.min(safeIndex, start + 32)).search(/\s/);
+    if (nextSpace >= 0) start += nextSpace + 1;
+  }
+  if (end < normalized.length) {
+    const previousSpace = normalized.slice(Math.max(safeIndex, end - 32), end).lastIndexOf(" ");
+    if (previousSpace >= 0) end = Math.max(safeIndex, end - 32) + previousSpace;
+  }
+
+  const excerpt = normalize(normalized.slice(start, end));
+  return `${start > 0 ? "... " : ""}${excerpt}${end < normalized.length ? " ..." : ""}`;
+}
+
+function sentenceExcerptAround(text, index, span = 72) {
+  const normalized = normalize(text);
+  const safeIndex = Math.max(0, Math.min(index, normalized.length));
+  const before = normalized.slice(0, safeIndex);
+  const start = Math.max(before.lastIndexOf("."), before.lastIndexOf("?"), before.lastIndexOf("!"), before.lastIndexOf(";")) + 1;
+  const after = normalized.slice(safeIndex);
+  const endOffsets = [after.indexOf("."), after.indexOf("?"), after.indexOf("!"), after.indexOf(";")]
+    .filter((value) => value >= 0);
+  const end = endOffsets.length ? safeIndex + Math.min(...endOffsets) + 1 : normalized.length;
+  const sentence = normalize(normalized.slice(start, end));
+  return sentence && sentence.length <= 220 ? sentence : excerptAround(normalized, safeIndex, span);
 }
 
 function firstMatch(text, patterns) {
@@ -110,14 +138,24 @@ function hasAny(text, patterns) {
 }
 
 function noteHasPositive(text, patterns) {
+  return Boolean(firstPositiveHit(text, patterns));
+}
+
+function firstPositiveHit(text, patterns) {
   const sentences = splitSentences(text);
   for (const sentence of sentences) {
     for (const pattern of patterns) {
       const match = pattern.exec(sentence);
-      if (match && !hasLocalNegation(sentence, match.index)) return true;
+      if (match && !hasLocalNegation(sentence, match.index)) {
+        return {
+          match,
+          sentence,
+          excerpt: sentenceExcerptAround(sentence, match.index, 72),
+        };
+      }
     }
   }
-  return false;
+  return null;
 }
 
 function splitSentences(text) {
@@ -171,23 +209,44 @@ export function runLocalReceipt(source, note, metadata = {}) {
 
   const dangerous = [];
   const standard = [];
+  const dangerousEvidence = [];
   for (const group of CLAIM_GROUPS) {
-    const noteMatch = noteHasPositive(noteText, group.note);
+    const noteMatch = firstPositiveHit(noteText, group.note);
     if (!noteMatch) continue;
-    const sourceSupports = hasAny(sourceText, group.support);
-    const sourceContradicts = hasAny(sourceText, group.contradiction);
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
     if (sourceContradicts || !sourceSupports) {
-      dangerous.push(
-        sourceContradicts
-          ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
-          : `${group.label} appears in the note, but the source does not visibly support it.`
-      );
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching support phrase found in the source text.",
+      });
     }
   }
 
   for (const group of WORKUP_GROUPS) {
-    if (group.pattern.test(noteText) && !hasAny(sourceText, group.support)) {
-      dangerous.push(`${group.label} appears in the note, but the source does not support that workup.`);
+    const noteMatch = group.pattern.exec(noteText);
+    const supportHit = firstMatch(sourceText, group.support);
+    if (noteMatch && !supportHit) {
+      const finding = `${group.label} appears in the note, but the source does not support that workup.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: "missing visible support",
+        noteExcerpt: sentenceExcerptAround(noteText, noteMatch.index, 72),
+        sourceExcerpt: "No matching support phrase found in the source text.",
+      });
     }
   }
 
@@ -195,6 +254,16 @@ export function runLocalReceipt(source, note, metadata = {}) {
 
   const leaks = detectLocalLeaks(noteText);
   const uniqueDangerous = [...new Set(dangerous)];
+  const uniqueDangerousEvidence = uniqueDangerous.map(
+    (finding) =>
+      dangerousEvidence.find((item) => item.finding === finding) || {
+        finding,
+        label: "structured mismatch",
+        reason: "source-note mismatch",
+        noteExcerpt: "",
+        sourceExcerpt: "",
+      }
+  );
   const overlap = sourceNoteOverlap(sourceText, noteText);
   const dimensions = localDimensions({ dangerous: uniqueDangerous.length, standard: standard.length, leaks: leaks.length, overlap });
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
@@ -209,6 +278,7 @@ export function runLocalReceipt(source, note, metadata = {}) {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
     dimensions,
     fabrication: { dangerous: uniqueDangerous, standard },
+    evidence: { dangerous: uniqueDangerousEvidence },
     leaks,
     reasoning,
     model: "browser-local-receipt",

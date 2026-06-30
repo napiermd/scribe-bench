@@ -687,6 +687,50 @@ h4 {
   line-height: 1.42;
 }
 
+.evidence-finding {
+  list-style: none;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  margin-left: -1.1rem;
+  padding: 0.72rem 0.78rem;
+}
+
+.evidence-finding strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.evidence-finding dl {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0.7rem 0 0;
+}
+
+.evidence-finding dl div {
+  min-width: 0;
+  border-left: 3px solid var(--line-strong);
+  background: var(--panel-soft);
+  padding: 0.52rem 0.62rem;
+}
+
+.evidence-finding dt {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evidence-finding dd {
+  margin: 0.22rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.38;
+  overflow-wrap: anywhere;
+}
+
 .quick-result-next {
   border-left: 3px solid var(--accent);
   margin-top: 0.9rem;
@@ -2679,6 +2723,10 @@ h4 {
 
 .danger-block li {
   color: var(--danger);
+}
+
+.danger-block .evidence-finding {
+  color: var(--ink);
 }
 
 .result-block p {
