@@ -6,7 +6,7 @@
       "status": "shipped",
       "title": "No-key local receipt path",
       "why": "A public usefulness loop cannot depend entirely on free hosted models behaving. Visitors need a meaningful first receipt even when provider keys, quotas, or latency get in the way.",
-      "proof": "Added a browser-only local receipt module, Lab controls, tests, and static build wiring. The local path catches explicit source contradictions, unsupported common workups such as head CT or syncope workup, EMS arrival mismatches, and deterministic template leaks without sending text to any API.",
+      "proof": "Added a browser-only local receipt module, Lab controls, first-screen instant receipt CTA, tests, and static build wiring. The local path catches explicit source contradictions, unsupported common workups such as head CT or syncope workup, EMS arrival mismatches, and deterministic template leaks without sending text to any API.",
       "next": "Use the local receipt as the instant front door, then keep the live judge and powered PriMock57 paths as stronger evidence levels.",
       "links": [
         { "label": "Run Lab", "href": "#lab" },

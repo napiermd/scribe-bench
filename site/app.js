@@ -198,9 +198,9 @@ const startRoutes = {
     copy:
       "Start with one encounter and one generated note. ScribeBench checks whether the note stayed faithful, invented unsupported care, leaked template junk, and what claim that result can actually support.",
     input: "Source encounter and generated note.",
-    action: "Run the Lab judge, then review flagged claims against the source.",
+    action: "Run the local receipt instantly, then use the live judge if you need model-backed scoring.",
     output: "A copyable QA receipt and a clear next proof step.",
-    primary: { label: "Run note triage", href: "#lab" },
+    primary: { label: "Run instant receipt", href: "#lab" },
     secondary: { label: "See the seeded catch", href: "#demo" },
   },
   buyer: {
@@ -796,6 +796,13 @@ function bindStartRouter() {
   buttons.forEach((button) => {
     button.addEventListener("click", () => selectRoute(button.dataset.startRoute || "note"));
   });
+  document.getElementById("start-route-primary")?.addEventListener("click", (event) => {
+    const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
+    if (activeRoute === "note") {
+      event.preventDefault();
+      runSeededLocalReceipt();
+    }
+  });
   selectRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
 }
 
@@ -824,6 +831,7 @@ function bindLab() {
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
   document.getElementById("run-local-receipt")?.addEventListener("click", runLocalReceipt);
+  document.getElementById("run-local-receipt-top")?.addEventListener("click", runSeededLocalReceipt);
   liveSmokeButtons().forEach((button) => button.addEventListener("click", runLiveSmokeCheck));
   document.getElementById("copy-evidence-packet")?.addEventListener("click", copyEvidencePacket);
   document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
@@ -1121,6 +1129,40 @@ function runLocalReceipt(event) {
   renderLabResult(result);
   setLabStatus("Local receipt complete. No API key or network call used.");
   return result;
+}
+
+function runSeededLocalReceipt(event) {
+  event?.preventDefault?.();
+  const c = seededCase();
+  if (!c) {
+    setInstantReceiptStatus("Demo cases are still loading. Try again in a moment.", "review");
+    return null;
+  }
+
+  setInstantReceiptBusy(true);
+  setInstantReceiptStatus("Running: loading SYN-003 and creating a browser-only receipt...", "review");
+  document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  try {
+    populateLab(c);
+    const note = document.getElementById("lab-note");
+    if (note) note.dataset.generatedModel = "bundled example candidate";
+    const result = runLocalReceipt();
+    if (!result) {
+      setInstantReceiptStatus("Could not create the local receipt. Check the Lab inputs.", "review");
+      return null;
+    }
+    const dangerCount = result.fabrication?.dangerous?.length || 0;
+    const leakCount = result.leaks?.length || 0;
+    const finding = dangerCount
+      ? `Complete: ${dangerCount} unsupported item${dangerCount === 1 ? "" : "s"} flagged without an API call.`
+      : leakCount
+        ? `Complete: ${leakCount} leak${leakCount === 1 ? "" : "s"} flagged without an API call.`
+        : "Complete: no obvious unsupported item flagged in the browser-only receipt.";
+    setInstantReceiptStatus(finding, dangerCount ? "danger" : leakCount ? "review" : "ok");
+    return result;
+  } finally {
+    setInstantReceiptBusy(false);
+  }
 }
 
 async function runLiveSmokeCheck() {
@@ -1574,6 +1616,27 @@ function renderList(id, items, emptyText) {
 function setLabStatus(message) {
   const status = document.getElementById("lab-status");
   if (status) status.textContent = message;
+}
+
+function instantReceiptButtons() {
+  return ["run-local-receipt-top"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+}
+
+function setInstantReceiptBusy(isBusy) {
+  instantReceiptButtons().forEach((button) => {
+    button.disabled = isBusy;
+    const fallback = button.dataset.defaultLabel || "Run instant receipt";
+    button.textContent = isBusy ? (button.dataset.runningLabel || fallback) : fallback;
+  });
+}
+
+function setInstantReceiptStatus(message, tone = "") {
+  const status = document.getElementById("instant-receipt-status");
+  if (!status) return;
+  status.textContent = message;
+  status.dataset.tone = tone;
 }
 
 function liveSmokeButtons() {

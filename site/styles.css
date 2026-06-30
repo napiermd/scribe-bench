@@ -437,6 +437,7 @@ h4 {
   gap: 0.7rem;
 }
 
+.instant-receipt-lane,
 .live-smoke-lane {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -448,16 +449,28 @@ h4 {
   padding: 0.9rem 0;
 }
 
+.instant-receipt-lane {
+  border-color: rgba(15, 118, 110, 0.28);
+}
+
+.instant-receipt-lane + .live-smoke-lane {
+  margin-top: 0;
+  border-top: 0;
+}
+
+.instant-receipt-lane .eyebrow,
 .live-smoke-lane .eyebrow {
   margin-bottom: 0.42rem;
 }
 
+.instant-receipt-lane h2,
 .live-smoke-lane h2 {
   font-family: var(--sans);
   font-size: 1.12rem;
   line-height: 1.2;
 }
 
+.instant-receipt-lane p,
 .live-smoke-lane p {
   max-width: 42rem;
   color: var(--muted);
@@ -465,6 +478,7 @@ h4 {
   margin: 0.42rem 0 0;
 }
 
+#instant-receipt-status,
 #live-smoke-status {
   display: inline-flex;
   width: fit-content;
@@ -474,14 +488,17 @@ h4 {
   font-weight: 750;
 }
 
+#instant-receipt-status[data-tone="ok"],
 #live-smoke-status[data-tone="ok"] {
   color: var(--accent-strong);
 }
 
+#instant-receipt-status[data-tone="review"],
 #live-smoke-status[data-tone="review"] {
   color: var(--gold);
 }
 
+#instant-receipt-status[data-tone="danger"],
 #live-smoke-status[data-tone="danger"] {
   color: var(--danger);
 }
@@ -2485,6 +2502,7 @@ h4 {
   .start-router-panel,
   .start-route-steps,
   .thesis-strip,
+  .instant-receipt-lane,
   .live-smoke-lane,
   .workflow-strip,
   .field-row,
@@ -2497,6 +2515,7 @@ h4 {
     grid-template-columns: 1fr;
   }
 
+  .instant-receipt-lane .button,
   .live-smoke-lane .button,
   .start-route-actions .button,
   .split-actions,

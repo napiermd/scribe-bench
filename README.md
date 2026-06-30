@@ -84,13 +84,14 @@ one-note reviewers paste source plus note and get a receipt; buyers and clinical
 leaders turn vendor claims into an evidence ask; builders run smoke checks before
 claiming quality; contributors add the missing current powered rows. The homepage shows
 the seeded CT/syncope fabrication catch as a ScribeBench receipt before asking
-visitors to click deeper, then gives first-screen paths to run a current
-free-model smoke check, check one note, publish aggregate evidence for a scribe
-system, or evaluate whether a public claim is backed by proof. The Lab opens
-with that seeded failure already
-loaded plus a precomputed demo verdict, and the homepage can launch a one-click
-OpenRouter smoke flow that generates a fresh candidate note from SYN-003, judges
-it, and leaves the visitor with a verdict. Visitors can also run the live judge,
+visitors to click deeper, then gives first-screen paths to run an instant no-key
+local receipt, run a current free-model smoke check, check one note, publish
+aggregate evidence for a scribe system, or evaluate whether a public claim is
+backed by proof. The Lab opens with that seeded failure already
+loaded plus a precomputed demo verdict, and the homepage can launch either a
+one-click browser-only receipt for SYN-003 or an OpenRouter smoke flow that
+generates a fresh candidate note, judges it, and leaves the visitor with a
+verdict. Visitors can also run the live judge,
 read the fabrication verdict, copy a short evidence packet that names the scope,
 models, finding, and next proof step, then copy a fuller QA summary before they
 test their own notes. The judge path requests JSON-object responses where supported

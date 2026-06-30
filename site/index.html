@@ -111,10 +111,31 @@
                 </div>
               </div>
             </div>
+            <div class="instant-receipt-lane" aria-label="Run an instant no-key ScribeBench receipt">
+              <div>
+                <p class="eyebrow">No-key instant receipt</p>
+                <h2>Run the seeded catch entirely in your browser.</h2>
+                <p>
+                  One click loads SYN-003 and creates a local receipt for the invented head CT,
+                  syncope workup, and EMS-arrival mismatch. No API key, quota, or network judge.
+                </p>
+                <span id="instant-receipt-status" role="status" aria-live="polite">Ready: no provider key needed.</span>
+              </div>
+              <button
+                class="button primary"
+                id="run-local-receipt-top"
+                type="button"
+                data-default-label="Run instant receipt"
+                data-running-label="Running receipt..."
+              >
+                Run instant receipt
+              </button>
+            </div>
+
             <div class="live-smoke-lane" aria-label="Run a current free-model smoke check">
               <div>
                 <p class="eyebrow">Live free-model smoke check</p>
-                <h2>Try the current OpenRouter path against the seeded fall case.</h2>
+                <h2>Then try the current OpenRouter path against the seeded fall case.</h2>
                 <p>
                   One click loads SYN-003, generates a fresh candidate note with the configured
                   free model, runs the judge, and shows whether unsupported care was invented.
