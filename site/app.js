@@ -390,6 +390,7 @@ function renderLabResult(result) {
   document.getElementById("lab-output").hidden = false;
   document.getElementById("lab-score").textContent = `${result.normalized ?? "--"}/100`;
   document.getElementById("lab-danger").textContent = String(result.fabrication?.dangerous?.length ?? 0);
+  renderLabVerdict(result);
 
   const dims = document.getElementById("lab-dimensions");
   dims.innerHTML = "";
@@ -414,6 +415,52 @@ function renderLabResult(result) {
   const usage = result.usage ? ` Tokens: ${result.usage.total_tokens || "unknown"}.` : "";
   const provider = result.provider ? ` Provider: ${result.provider}.` : "";
   document.getElementById("lab-meta").textContent = `${generated}Judge: ${result.model || "unknown"}.${provider} Rubric: ${result.rubric || "site-lab"}.${usage}`;
+}
+
+function renderLabVerdict(result) {
+  const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
+  const leakCount = result.leaks?.filter(Boolean).length || 0;
+  const fidelity = Number(result.dimensions?.inputFidelity || 0);
+  const normalized = Number(result.normalized || 0);
+  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized });
+  const card = document.getElementById("lab-verdict-card");
+  card.className = `verdict-card ${verdict.tone}`;
+  document.getElementById("lab-verdict-title").textContent = verdict.title;
+  document.getElementById("lab-verdict-copy").textContent = verdict.copy;
+  document.getElementById("lab-verdict-action").textContent = verdict.action;
+}
+
+function labVerdict({ dangerousCount, leakCount, fidelity, normalized }) {
+  if (dangerousCount > 0) {
+    return {
+      tone: "danger",
+      title: "Do not trust this note without review",
+      copy: `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} changed what the reader would believe happened.`,
+      action: "Compare each flagged item against the source. A system with this pattern needs a powered benchmark run before any public claim.",
+    };
+  }
+  if (leakCount > 0) {
+    return {
+      tone: "review",
+      title: "Clean the pipeline before trusting the result",
+      copy: `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} appeared in the note output.`,
+      action: "Fix prompt/template plumbing, regenerate the note, then judge again.",
+    };
+  }
+  if (normalized < 70 || fidelity <= 3) {
+    return {
+      tone: "review",
+      title: "No dangerous fabrication flagged, but quality is not strong",
+      copy: `The judge scored narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
+      action: "Use this as a triage signal, then inspect the note manually or run a larger benchmark before comparing systems.",
+    };
+  }
+  return {
+    tone: "ok",
+    title: "No dangerous fabrication flagged in this sample",
+    copy: `The judge found no unsupported clinical claims and scored input fidelity at ${fidelity || "--"}/5.`,
+    action: "This is one note, not a leaderboard claim. For a system-level answer, run the powered PriMock57 path.",
+  };
 }
 
 function selectedProvider() {

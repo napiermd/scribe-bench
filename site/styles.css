@@ -663,6 +663,52 @@ h4 {
   margin-top: 0.28rem;
 }
 
+.verdict-card {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 0.95rem;
+  margin-bottom: 1rem;
+}
+
+.verdict-card h3 {
+  font-size: 1.08rem;
+}
+
+.verdict-card p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.45rem 0 0;
+}
+
+.verdict-card.danger {
+  border-color: rgba(180, 35, 24, 0.32);
+  background: var(--danger-soft);
+}
+
+.verdict-card.danger h3,
+.verdict-card.danger .eyebrow {
+  color: var(--danger);
+}
+
+.verdict-card.review {
+  border-color: rgba(152, 111, 11, 0.34);
+  background: #fff7df;
+}
+
+.verdict-card.review h3,
+.verdict-card.review .eyebrow {
+  color: var(--gold);
+}
+
+.verdict-card.ok {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: var(--accent-soft);
+}
+
+.verdict-card.ok h3,
+.verdict-card.ok .eyebrow {
+  color: var(--accent-strong);
+}
+
 .dimension-list {
   display: grid;
   gap: 0.5rem;

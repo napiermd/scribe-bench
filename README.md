@@ -73,10 +73,11 @@ npm run preview
 Source lives in [`site/`](site/). The build script copies the static app into
 `dist/` and publishes bounded JSON from the existing benchmark artifacts.
 The live Lab can generate a candidate note from the source encounter, then judge
-that note in the same browser flow with a separate judge model. It can use a
-Vercel `OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key
-pasted into the browser for that session. Baseten's OpenAI-compatible Model APIs
-are wired as an optional provider and become available when `BASETEN_API_KEY` is
+that note in the same browser flow with a separate judge model. It returns a
+plain-language verdict and next step, not just a raw score. It can use a Vercel
+`OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key pasted
+into the browser for that session. Baseten's OpenAI-compatible Model APIs are
+wired as an optional provider and become available when `BASETEN_API_KEY` is
 configured on Vercel or supplied temporarily in the lab.
 
 ---
