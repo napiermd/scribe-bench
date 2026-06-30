@@ -407,7 +407,8 @@ function renderSnapshot(results, metadata) {
 }
 
 function renderLeaderboard(results) {
-  renderResultRows("leaderboard-body", rankedRows(results).sort(byRank), {
+  const ranked = rankedRows(results).sort(byRank);
+  renderResultRows("leaderboard-body", ranked, {
     ranked: true,
     emptyText: "No powered PriMock57 rows found.",
   });
@@ -415,6 +416,59 @@ function renderLeaderboard(results) {
     ranked: false,
     emptyText: "No synthetic smoke-test rows found.",
   });
+  renderEvidenceDigest(results, ranked);
+}
+
+function renderEvidenceDigest(results, ranked = rankedRows(results).sort(byRank)) {
+  const best = ranked[0];
+  const riskiest = [...ranked].sort((a, b) =>
+    Number(b.dangerousFabricationRate || 0) - Number(a.dangerousFabricationRate || 0) ||
+    String(a.system || "").localeCompare(String(b.system || ""))
+  )[0];
+  const smoke = smokeRows(results).filter((row) => row.claimLevel === "smoke");
+  const latestSmoke = latestRow(smoke);
+
+  if (best) {
+    setText("digest-best-system", best.system);
+    setText(
+      "digest-best-detail",
+      `${formatScoredAt(best.scoredAt)} powered PriMock57 row, n=${best.n}, dangerous fab ${fmtPercent(Number(best.dangerousFabricationRate) || 0)}${fmtCI(best.dangerousFabricationRateCI, true)}. Historical baseline, not a current buying guide.`
+    );
+  } else {
+    setText("digest-best-system", "No powered row yet");
+    setText("digest-best-detail", "Run at least 30 PriMock57 cases before publishing a system-level claim.");
+  }
+
+  if (riskiest) {
+    setText("digest-risk-system", riskiest.system);
+    setText(
+      "digest-risk-detail",
+      `Highest dangerous-fab signal in the powered rows: ${fmtPercent(Number(riskiest.dangerousFabricationRate) || 0)} across ${riskiest.n} PriMock57 cases. This is why fluent notes still need source checks.`
+    );
+  } else {
+    setText("digest-risk-system", "No risk signal yet");
+    setText("digest-risk-detail", "The table needs powered rows before it can show a failure gradient.");
+  }
+
+  if (latestSmoke) {
+    const n = Number(latestSmoke.n) || 0;
+    const dangerCases = Math.round((Number(latestSmoke.dangerousFabricationRate) || 0) * n);
+    setText("digest-smoke-system", latestSmoke.system);
+    setText(
+      "digest-smoke-detail",
+      `${formatScoredAt(latestSmoke.scoredAt)} smoke row, n=${n}, ${dangerCases}/${n} dangerous-fab cases. Useful plumbing proof; not a ranked result.`
+    );
+  } else {
+    setText("digest-smoke-system", "No smoke row yet");
+    setText("digest-smoke-detail", "Run the Lab smoke path first, then graduate credible candidates to PriMock57.");
+  }
+
+  setText(
+    "digest-action-detail",
+    ranked.length
+      ? `${ranked.length} powered historical row${ranked.length === 1 ? "" : "s"} are visible. The useful next public artifact is a current powered PriMock57 row with aggregate scores, date, judge, repeats, and tuning disclosure.`
+      : "The useful next public artifact is a powered PriMock57 row with aggregate scores, date, judge, repeats, and tuning disclosure."
+  );
 }
 
 function renderEvidenceFreshness(results) {

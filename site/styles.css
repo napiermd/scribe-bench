@@ -1260,6 +1260,51 @@ h4 {
   color: #3d2d06;
 }
 
+.evidence-digest {
+  display: grid;
+  grid-template-columns: 1.15fr repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 1rem 0;
+}
+
+.evidence-digest-copy,
+.evidence-digest article {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.evidence-digest-copy h3 {
+  font-size: 1.12rem;
+}
+
+.evidence-digest-copy p:not(.eyebrow),
+.evidence-digest article p {
+  color: var(--muted);
+  margin: 0.45rem 0 0;
+}
+
+.evidence-digest article {
+  display: grid;
+  align-content: start;
+  min-height: 144px;
+}
+
+.evidence-digest article span {
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evidence-digest article strong {
+  display: block;
+  margin-top: 0.55rem;
+  line-height: 1.25;
+}
+
 .evidence-agenda {
   display: grid;
   grid-template-columns: minmax(0, 0.58fr) minmax(0, 1fr);
@@ -3030,6 +3075,7 @@ h4 {
   .summary-grid,
   .claim-tool,
   .challenge-tool,
+  .evidence-digest,
   .evidence-agenda,
   .current-run-card,
   .fresh-smoke-card,

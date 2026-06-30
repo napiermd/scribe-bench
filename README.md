@@ -103,7 +103,10 @@ an action path: review a flagged note, escalate a clean triage result to the Lab
 challenge a vendor claim, or publish an aggregate powered row before making a
 system-level claim. The Evidence section now opens with what the evidence can prove
 today: historical powered launch baselines, fresh smoke and one-note QA checks,
-and the still-missing current powered rows. The public Repo map section explains how the project pieces
+and the still-missing current powered rows. It also includes a data-backed reader
+digest before the tables so visitors see the best historical row, worst historical
+failure signal, freshest smoke row, and next public action before they encounter
+old GPT-4o/launch-model names. The public Repo map section explains how the project pieces
 fit together: the Vercel checker, model-backed APIs, TypeScript eval engine,
 synthetic and PriMock57 case data, scores-only evidence ledger, and GitHub
 submission path. Buyers and clinical leaders can turn common vendor claims
