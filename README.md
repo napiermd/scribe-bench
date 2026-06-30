@@ -78,6 +78,9 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 
 The first screen now states the product through concrete visitor jobs:
 
+- **Know who it is for:** clinical AI buyers, builders, reviewers, and public commenters with a source encounter plus an AI-written note.
+- **Know the output:** a copyable receipt that names what the note claimed, what the source supports, and what proof is still missing.
+- **Know the boundary:** ScribeBench is not the scribe product, not a patient app, and not a current model popularity board.
 - **Check one note:** paste the source encounter plus AI note and catch unsupported care like the seeded CT/syncope workup.
 - **Challenge a claim:** turn "hallucination-free" language into an evidence ask with dataset, n, judge, repeats, and rates.
 - **Publish evidence:** use aggregate PriMock57 or real-workflow scores for system claims while keeping raw closed-model notes out.

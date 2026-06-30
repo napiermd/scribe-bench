@@ -304,6 +304,28 @@ h4 {
   line-height: 1.22;
 }
 
+.purpose-line {
+  border-left: 4px solid var(--accent);
+  background: var(--panel-soft);
+  margin: 1rem 0 0;
+  padding: 0.78rem 0.92rem;
+}
+
+.purpose-line p {
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.42;
+  margin: 0;
+}
+
+.purpose-line strong {
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
 .thesis-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));

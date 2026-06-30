@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "First screen now names the public point",
+      "why": "The site could run a useful receipt, but the first viewport still made a new visitor infer who ScribeBench was for and why the public artifact mattered.",
+      "proof": "Replaced the generic first-screen job strip with a compact For/Do/Point line: clinical AI buyers, builders, reviewers, and public commenters can get a receipt, challenge claims, or publish aggregate evidence; the output is proof, not a vague score.",
+      "next": "Keep making the public site answer the visitor's skeptical questions before it asks them to trust benchmark machinery.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Why this exists", "href": "#why-this-exists" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Receipts now show their evidence",
       "why": "The browser-only checker could flag unsupported care, but the result still asked visitors to trust the checker instead of showing the source and note snippets behind each flag.",
       "proof": "Local receipts now return structured evidence for dangerous findings, including the note excerpt, source excerpt, and reason. The first-screen receipt and Lab dangerous-finding list render those excerpts inline, and the copyable receipt includes them.",
