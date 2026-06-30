@@ -26,7 +26,7 @@ const providerConfigs = {
     keyHint: "OpenRouter free models use the configured site key; paste a temporary key only to override it.",
     slowNotice: "Still running. Free OpenRouter models can take about a minute on full notes.",
     preferredGenerationModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
-    preferredJudgeModel: "nvidia/nemotron-3-super-120b-a12b:free",
+    preferredJudgeModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
     defaultModels: [
       { id: "nvidia/nemotron-3-ultra-550b-a55b:free", name: "NVIDIA: Nemotron 3 Ultra (free)" },
       { id: "nvidia/nemotron-3-super-120b-a12b:free", name: "NVIDIA: Nemotron 3 Super (free)" },

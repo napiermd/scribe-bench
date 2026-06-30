@@ -6,8 +6,8 @@
       "status": "shipped",
       "title": "Harder judge JSON repair",
       "why": "The first PriMock57 current-row probe generated a note successfully but the OpenRouter judge returned malformed JSON, blocking a current powered evidence run.",
-      "proof": "Added JSON-object mode for OpenRouter judging, a third API repair attempt with prior-output context, and parser repair for raw control characters inside strings plus trailing commas.",
-      "next": "Rerun the PriMock57 current-row probe and graduate it into a full scores-only row once judge responses are stable.",
+      "proof": "Added JSON-object mode for OpenRouter judging, a third API repair attempt with prior-output context, and parser repair for raw control characters inside strings plus trailing commas. A follow-up PM57 reference-note probe showed nvidia/nemotron-3-ultra-550b-a55b:free returns a parseable judge result while the previous Super judge path still failed on the generated PM57 note.",
+      "next": "Use the Ultra judge as the public OpenRouter default, then rerun the PriMock57 current-row probe and graduate it into a full scores-only row once judge responses are stable.",
       "links": [
         { "label": "Run Lab", "href": "#lab" },
         { "label": "Current challenge", "href": "#current-challenge" },
