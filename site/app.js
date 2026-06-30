@@ -711,7 +711,6 @@ function renderWorkLog(payload) {
   list.innerHTML = "";
 
   if (!entries.length) {
-    setText("hero-latest-ship", "No public work-log entry is published yet.");
     list.innerHTML = `
       <article>
         <span class="queue-status needed">Missing</span>
@@ -721,12 +720,6 @@ function renderWorkLog(payload) {
     `;
     return;
   }
-
-  const latest = entries[0];
-  setText(
-    "hero-latest-ship",
-    `${formatScoredAt(latest.date || payload.updatedAt || "")}: ${compactText(latest.title || "latest public change", 86)}`
-  );
 
   entries.slice(0, 4).forEach((entry) => {
     const links = Array.isArray(entry.links) ? entry.links : [];
@@ -758,7 +751,6 @@ function renderWorkLog(payload) {
 
 function renderWorkLogError() {
   const list = document.getElementById("worklog-list");
-  setText("hero-latest-ship", "The public work-log asset did not load.");
   if (!list) return;
   list.innerHTML = `
     <article>
@@ -790,11 +782,6 @@ function formatScoredAt(value) {
 function formatTimestamp(value) {
   const date = new Date(String(value || ""));
   return Number.isNaN(date.getTime()) ? "" : fmtDateTime.format(date);
-}
-
-function compactText(value, max = 140) {
-  const text = String(value || "").replace(/\s+/g, " ").trim();
-  return text.length > max ? `${text.slice(0, Math.max(0, max - 3))}...` : text;
 }
 
 function rankedRows(results) {

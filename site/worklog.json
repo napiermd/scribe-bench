@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First screen now answers what can be used today",
+      "why": "The hero had a live proof trail, but leading with the latest shipped change made the artifact feel self-referential. The stronger public answer is what a visitor can use today, what remains unproven, and where the current row is blocked.",
+      "proof": "The first screen now labels the top proof card Today's answer and says ScribeBench is useful for one-note QA but not a current winner board. It keeps the current PriMock57 gap and evidence boundary above the fold while the detailed worklog stays lower on the page.",
+      "next": "Keep the first viewport focused on reader decisions: use now, do not overclaim, and contribute the next proof row.",
+      "links": [
+        { "label": "Today's answer", "href": "#main" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current run status", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Receipts now route visitors to the next useful action",
       "why": "After the first-screen checker found a source-note issue, the visitor still had to choose among broad site sections. That made the product feel more like a dense benchmark page than a usable QA workflow.",
       "proof": "Quick-check receipts now include a Use this result panel. For flagged source-note issues it recommends using the result as a QA finding first, then offers direct actions to copy the QA packet, challenge a claim, or add aggregate evidence. Clean triage and leak results get different guidance.",
