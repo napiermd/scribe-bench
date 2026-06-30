@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Receipts now state what the result can prove",
+      "why": "The first-screen checker could catch source-note issues, but a visitor still had to infer what that single receipt meant for a vendor review, public claim, or system-level benchmark. That gap made the site feel more like a clever demo than a usable public evidence artifact.",
+      "proof": "Quick-check results now include can-support, cannot-support, and use-next fields. The copied receipt carries the same evidence meaning, so a pasted QA artifact separates one-note review from leaderboard claims and clinical clearance.",
+      "next": "Keep making every public output self-explanatory: a visitor should know the evidence level, boundary, and next proof step from the artifact itself.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Next steps", "href": "#next-steps" },
+        { "label": "Evidence levels", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Copied receipts use the visitor's local date",
       "why": "A receipt copied just after midnight in Vietnam could still show the previous UTC date. For a QA artifact or vendor-review packet, a wrong-looking date undermines trust even when the findings are correct.",
       "proof": "The quick-check receipt now formats its Date line from the browser's local calendar date instead of slicing an ISO UTC timestamp.",

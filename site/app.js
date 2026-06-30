@@ -1327,6 +1327,10 @@ function renderQuickResult(result) {
   }
   setText("quick-result-title", verdict.title);
   setText("quick-result-summary", verdict.copy);
+  const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
+  setText("quick-result-can-support", meaning.canSupport);
+  setText("quick-result-cannot-support", meaning.cannotSupport);
+  setText("quick-result-use-next", meaning.useNext);
   const list = document.getElementById("quick-result-list");
   if (list) {
     list.innerHTML = "";
@@ -1452,6 +1456,7 @@ function buildQuickReceiptText(result) {
     localResult: Boolean(result.localResult),
     issueTypes: receiptIssueTypes(result),
   });
+  const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
   const evidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
   const flaggedItems = dangerousCount
@@ -1473,6 +1478,11 @@ function buildQuickReceiptText(result) {
     `Case: ${caseLabel}`,
     `Finding: ${verdict.title}`,
     `Summary: ${verdict.copy}`,
+    "",
+    "Evidence meaning:",
+    `Can support: ${meaning.canSupport}`,
+    `Cannot support: ${meaning.cannotSupport}`,
+    `Use next: ${meaning.useNext}`,
     "",
     "Flagged source-note issues:",
     ...flaggedItems,
@@ -2044,6 +2054,31 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
       ? `The browser-only receipt found no obvious source-note issues and estimated input fidelity at ${fidelity || "--"}/5.`
       : `The judge found no obvious source-note issues and scored input fidelity at ${fidelity || "--"}/5.`,
     action: "This is one note, not a leaderboard claim. For a system-level answer, run the powered PriMock57 path.",
+  };
+}
+
+function receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes = "" }) {
+  if (dangerousCount) {
+    const typeText = issueTypes ? ` covering ${issueTypes}` : "";
+    return {
+      canSupport: `One source-note pair has reviewable issues${typeText}.`,
+      cannotSupport: "A leaderboard rank, system-safety claim, or clinical clearance.",
+      useNext: "Review or fix this note, then run aggregate evidence before making a public system claim.",
+    };
+  }
+
+  if (leakCount) {
+    return {
+      canSupport: "The note output leaked template or metadata text that needs cleanup.",
+      cannotSupport: "That the note is otherwise faithful or clinically ready.",
+      useNext: "Remove the leak, recheck the source-note pair, then escalate any claim to the Lab or powered run.",
+    };
+  }
+
+  return {
+    canSupport: "The covered browser checks did not catch an obvious source-note issue.",
+    cannotSupport: "That the note is faithful, safe, or representative of the whole scribe system.",
+    useNext: "Use human review or the Lab for this note, and a powered row for any system-level claim.",
   };
 }
 

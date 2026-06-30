@@ -792,6 +792,41 @@ h4 {
   overflow-wrap: anywhere;
 }
 
+.quick-result-meaning {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0.95rem 0 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.quick-result-meaning div {
+  min-width: 0;
+  padding: 0.68rem 0.72rem;
+  border-right: 1px solid var(--line);
+}
+
+.quick-result-meaning div:last-child {
+  border-right: 0;
+}
+
+.quick-result-meaning dt {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-result-meaning dd {
+  margin: 0.28rem 0 0;
+  color: var(--ink);
+  font-size: 0.84rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
 .quick-result-next {
   border-left: 3px solid var(--accent);
   margin-top: 0.9rem;
@@ -3451,6 +3486,7 @@ h4 {
   .thesis-strip,
   .proof-path,
   .quick-check-form,
+  .quick-result-meaning,
   .instant-receipt-lane,
   .live-smoke-lane,
   .field-row,
@@ -3486,6 +3522,15 @@ h4 {
 
   .after-receipt-primary {
     grid-column: span 1;
+  }
+
+  .quick-result-meaning div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .quick-result-meaning div:last-child {
+    border-bottom: 0;
   }
 
   .repo-map-primary {
