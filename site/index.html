@@ -6,13 +6,13 @@
     <title>ScribeBench | Clinical documentation AI fidelity benchmark</title>
     <meta
       name="description"
-      content="ScribeBench is a public benchmark for clinical documentation AI: narrative quality, source fidelity, leak detection, and dangerous fabrication review."
+      content="ScribeBench is a public QA surface for clinical documentation AI: live note checks, source fidelity review, leak detection, and dangerous fabrication evidence."
     />
     <meta property="og:title" content="ScribeBench" />
     <meta property="og:url" content="https://scribe-bench.vercel.app/" />
     <meta
       property="og:description"
-      content="A public fidelity benchmark for clinical documentation AI."
+      content="A public QA surface for testing whether generated clinical notes invented care."
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -31,7 +31,7 @@
           </span>
         </a>
         <nav class="nav" aria-label="Primary navigation">
-          <a href="#purpose">Use cases</a>
+          <a href="#purpose">Start here</a>
           <a href="#leaderboard">Evidence</a>
           <a href="#lab">Lab</a>
           <a href="#demo">Demo case</a>
@@ -47,24 +47,38 @@
         <div class="wrap summary-grid">
           <div class="intro-panel">
             <p class="eyebrow">Build-in-public clinical AI benchmark</p>
-            <h1>Find out if an AI scribe invented care.</h1>
+            <h1>Did the AI scribe invent care?</h1>
             <p class="lede">
-              ScribeBench is a public workbench for testing generated clinical notes against
-              the encounter they came from. Start with the seeded failure case, try the live
-              generate-and-judge lab, then run PriMock57 to publish a real powered row.
+              ScribeBench is a public QA surface for generated clinical notes. Paste a source
+              encounter and candidate note for a fast verdict, inspect the seeded failure case,
+              or run PriMock57 to publish evidence that other people can audit.
             </p>
             <div class="actions">
-              <a class="button primary" href="#demo">Inspect seeded failure</a>
-              <a class="button secondary" href="#lab">Run note check</a>
-              <a class="button secondary" href="#run">Submit powered row</a>
+              <a class="button primary" href="#lab">Run a note check</a>
+              <a class="button secondary" href="#demo">Inspect seeded failure</a>
+              <a class="button secondary" href="#run">Publish evidence</a>
             </div>
+            <dl class="answer-strip" aria-label="What ScribeBench answers">
+              <div>
+                <dt>Visitor question</dt>
+                <dd>Did this note add unsupported care?</dd>
+              </div>
+              <div>
+                <dt>Useful output</dt>
+                <dd>Verdict, flagged items, copyable QA summary</dd>
+              </div>
+              <div>
+                <dt>Public claim</dt>
+                <dd>Powered PriMock57 row with confidence intervals</dd>
+              </div>
+            </dl>
           </div>
 
           <section class="scoreboard" aria-labelledby="scoreboard-title">
             <div class="section-head compact">
               <div>
                 <p class="eyebrow">Current public evidence</p>
-                <h2 id="scoreboard-title">What is proven so far</h2>
+                <h2 id="scoreboard-title">Evidence, not hype</h2>
               </div>
             </div>
             <dl class="metric-grid" id="snapshot-metrics">
@@ -85,18 +99,20 @@
                 <dd>Scores only</dd>
               </div>
             </dl>
-            <div class="visual-card" aria-label="Benchmark checks">
-              <div class="check-rail">
-                <span>Narrative</span>
-                <span>Fidelity</span>
-                <span>Fabrication</span>
-                <span>Leaks</span>
-              </div>
-              <div class="pipeline-bars" aria-hidden="true">
-                <span style="--w: 78%"></span>
-                <span style="--w: 89%"></span>
-                <span style="--w: 38%"></span>
-                <span style="--w: 100%"></span>
+            <div class="visual-card" aria-label="How to use ScribeBench">
+              <div class="proof-list">
+                <div>
+                  <strong>One-note triage</strong>
+                  <span>Use the Lab to catch unsupported findings, workups, diagnoses, and leaks before a note gets trusted.</span>
+                </div>
+                <div>
+                  <strong>System-level evidence</strong>
+                  <span>Use PriMock57 for claims. The old launch rows stay visible as baselines, not as a current buying guide.</span>
+                </div>
+                <div>
+                  <strong>Build in public</strong>
+                  <span>Submit aggregate scores and methodology through GitHub so the result is reproducible.</span>
+                </div>
               </div>
             </div>
           </section>
@@ -106,33 +122,49 @@
       <section class="wrap section purpose-section" id="purpose">
         <div class="section-head">
           <div>
-            <p class="eyebrow">What visitors can do</p>
-            <h2>Three practical jobs, one benchmark.</h2>
+            <p class="eyebrow">Who it is for</p>
+            <h2>A public QA instrument, not a scribe app.</h2>
             <p>
-              This is not a consumer documentation product and it is not trying to crown a
-              favorite model from stale launch rows. It is a public testing surface for a
-              specific question: did the generated note preserve the clinical encounter, or
-              did it invent something that changes care?
+              ScribeBench is for people who need to test clinical-documentation AI before making
+              claims about it: builders, clinical leaders, evaluators, and anyone following the
+              public work. The site gives each visitor a concrete action and a concrete artifact.
             </p>
+          </div>
+        </div>
+        <div class="workflow-strip" aria-label="ScribeBench workflow">
+          <div>
+            <span>Input</span>
+            <strong>Source encounter + generated note</strong>
+          </div>
+          <div>
+            <span>Check</span>
+            <strong>Narrative quality, fidelity, fabrications, leaks</strong>
+          </div>
+          <div>
+            <span>Output</span>
+            <strong>Single-note verdict or powered leaderboard row</strong>
           </div>
         </div>
         <div class="job-grid">
           <article>
             <span class="job-number">01</span>
-            <h3>Evaluate an AI scribe</h3>
-            <p>Use the demo and evidence table to see why polished notes can still be unsafe when they invent CTs, diagnoses, orders, or workups.</p>
+            <h3>Clinical or product leader</h3>
+            <p>Use the demo and Lab to see whether a polished note invents CTs, diagnoses, orders, workups, or contradicted facts.</p>
+            <p class="job-output"><strong>You leave with:</strong> a verdict and a list of claims to review against the source.</p>
             <a href="#demo">Start with the seeded failure</a>
           </article>
           <article>
             <span class="job-number">02</span>
-            <h3>Test your pipeline</h3>
-            <p>Generate a candidate note in the lab, or paste one from your own scribe, then run the repo on PriMock57 before making any public claim.</p>
+            <h3>AI scribe builder</h3>
+            <p>Generate a candidate note in the Lab, paste one from your own pipeline, then copy the judge summary into QA notes.</p>
+            <p class="job-output"><strong>You leave with:</strong> a fast failure signal and the next benchmark step.</p>
             <a href="#lab">Run the live lab</a>
           </article>
           <article>
             <span class="job-number">03</span>
-            <h3>Add current evidence</h3>
-            <p>Generate notes for the public PriMock57 cases, score them with a declared judge, and submit aggregate results through GitHub.</p>
+            <h3>Benchmark contributor</h3>
+            <p>Generate notes for PriMock57, score them with a declared judge, and submit aggregate results through GitHub.</p>
+            <p class="job-output"><strong>You leave with:</strong> a public row that can update the stale launch baselines.</p>
             <a href="#run">See the submission path</a>
           </article>
         </div>

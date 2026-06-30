@@ -60,10 +60,12 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
-experience: role-based entry points, an evidence ledger, a powered PriMock57
-leaderboard, a separate not-ranked synthetic smoke-test table, benchmark snapshot,
-synthetic demo case viewer, methodology summary, live generate-and-judge lab,
-and run-it-yourself submission path.
+experience: a decision-oriented homepage, role-based entry points, an evidence
+ledger, a powered PriMock57 leaderboard, a separate not-ranked synthetic smoke-test
+table, benchmark snapshot, synthetic demo case viewer, methodology summary, live
+generate-and-judge lab, and run-it-yourself submission path. The public framing is
+deliberately practical: one-note triage in the Lab, system-level evidence through
+PriMock57, and build-in-public updates through GitHub submissions.
 
 ```bash
 npm run build
