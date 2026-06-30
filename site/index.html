@@ -49,33 +49,39 @@
             <p class="eyebrow">Build-in-public clinical AI benchmark</p>
             <h1>Did the AI scribe invent care?</h1>
             <p class="lede">
-              ScribeBench is a public QA surface for generated clinical notes. Paste a source
-              encounter and candidate note for a fast verdict, inspect the seeded failure case,
-              or run PriMock57 to publish evidence that other people can audit.
+              ScribeBench turns a clinical source encounter and an AI-written note into a
+              concrete evidence artifact: a one-note QA verdict, a caught-fabrication example,
+              or a powered PriMock57 benchmark row that other people can audit.
             </p>
             <p class="mobile-proof">
               <strong>Example catch:</strong> source says no head strike or loss of consciousness;
               the note invents a head CT and syncope workup.
             </p>
+            <div class="quick-paths" aria-label="Choose a ScribeBench path">
+              <article>
+                <span>I have one note</span>
+                <strong>Check source fidelity</strong>
+                <p>Paste source + note. Get verdict, flags, leaks, and a QA summary.</p>
+                <a href="#lab">Run note triage</a>
+              </article>
+              <article>
+                <span>I have a scribe system</span>
+                <strong>Publish aggregate evidence</strong>
+                <p>Run PriMock57. Submit scores-only rows with judge and method declared.</p>
+                <a href="#run">Run the harness</a>
+              </article>
+              <article>
+                <span>I am evaluating claims</span>
+                <strong>Separate demo from proof</strong>
+                <p>Compare the seeded catch, powered rows, and current evidence queue.</p>
+                <a href="#leaderboard">Read the evidence</a>
+              </article>
+            </div>
             <div class="actions">
               <a class="button primary" href="#lab">Run a note check</a>
               <a class="button secondary" href="#demo">Inspect seeded failure</a>
               <a class="button secondary" href="#evidence-queue">See evidence queue</a>
             </div>
-            <dl class="answer-strip" aria-label="What ScribeBench answers">
-              <div>
-                <dt>Visitor question</dt>
-                <dd>Did this note add unsupported care?</dd>
-              </div>
-              <div>
-                <dt>Useful output</dt>
-                <dd>Verdict, flagged items, copyable QA summary</dd>
-              </div>
-              <div>
-                <dt>Public claim</dt>
-                <dd>Powered PriMock57 row with confidence intervals</dd>
-              </div>
-            </dl>
           </div>
 
           <section class="scoreboard" aria-labelledby="scoreboard-title">
@@ -130,11 +136,11 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Who it is for</p>
-            <h2>A public QA instrument, not a scribe app.</h2>
+            <h2>Use it when a note or vendor claim needs proof.</h2>
             <p>
-              ScribeBench is for people who need to test clinical-documentation AI before making
-              claims about it: builders, clinical leaders, evaluators, and anyone following the
-              public work. The site gives each visitor a concrete action and a concrete artifact.
+              The point is not to replace clinical review or crown yesterday's model. The point is
+              to make unsupported clinical claims visible, reproducible, and discussable in public:
+              first as a one-note triage result, then as an aggregate benchmark row.
             </p>
           </div>
         </div>

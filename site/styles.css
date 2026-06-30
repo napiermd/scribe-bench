@@ -221,7 +221,7 @@ h4 {
 }
 
 .lede {
-  margin: 1.2rem 0 0;
+  margin: 1rem 0 0;
   max-width: 56rem;
   color: var(--muted);
   font-size: clamp(1.05rem, 2vw, 1.28rem);
@@ -231,31 +231,32 @@ h4 {
   display: none;
 }
 
-.answer-strip {
+.quick-paths {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0;
-  margin: 1.1rem 0 0;
+  margin: 1rem 0 0;
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
 }
 
-.answer-strip div {
+.quick-paths article {
   min-width: 0;
-  padding: 0.85rem 0.9rem;
+  padding: 0.64rem 0.72rem;
   border-right: 1px solid var(--line);
 }
 
-.answer-strip div:first-child {
+.quick-paths article:first-child {
   padding-left: 0;
 }
 
-.answer-strip div:last-child {
+.quick-paths article:last-child {
   border-right: 0;
   padding-right: 0;
 }
 
-.answer-strip dt {
+.quick-paths span {
+  display: block;
   color: var(--accent-strong);
   font-size: 0.7rem;
   font-weight: 850;
@@ -263,12 +264,28 @@ h4 {
   text-transform: uppercase;
 }
 
-.answer-strip dd {
-  margin: 0.25rem 0 0;
+.quick-paths strong {
+  display: block;
+  margin-top: 0.2rem;
   color: var(--ink);
   font-size: 0.94rem;
   font-weight: 750;
-  line-height: 1.35;
+  line-height: 1.22;
+}
+
+.quick-paths p {
+  margin: 0.28rem 0 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.28;
+}
+
+.quick-paths a {
+  display: inline-flex;
+  margin-top: 0.28rem;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 850;
 }
 
 .actions,
@@ -1471,7 +1488,7 @@ h4 {
   .agenda-grid,
   .lab-guide,
   .queue-list article,
-  .answer-strip,
+  .quick-paths,
   .workflow-strip,
   .field-row,
   .field-row.lab-model-row,
@@ -1484,7 +1501,7 @@ h4 {
     position: static;
   }
 
-  .answer-strip div,
+  .quick-paths article,
   .workflow-strip div {
     border-right: 0;
     border-bottom: 1px solid var(--line);
@@ -1497,7 +1514,7 @@ h4 {
     padding-right: 1rem;
   }
 
-  .answer-strip div:last-child,
+  .quick-paths article:last-child,
   .workflow-strip div:last-child {
     border-bottom: 0;
   }

@@ -64,7 +64,9 @@ experience: a decision-oriented homepage, role-based entry points, an evidence
 ledger, a powered PriMock57 leaderboard, a separate not-ranked synthetic smoke-test
 table, benchmark snapshot, synthetic demo case viewer, methodology summary, live
 generate-and-judge lab, and run-it-yourself submission path. The homepage shows
-the seeded CT/syncope fabrication catch before asking visitors to click deeper.
+the seeded CT/syncope fabrication catch before asking visitors to click deeper,
+then gives three first-screen paths: check one note, publish aggregate evidence
+for a scribe system, or evaluate whether a public claim is backed by proof.
 The Lab opens with that seeded failure already loaded, then walks visitors through
 running the judge, reading the fabrication verdict, and copying a QA summary before
 they test their own notes. The public framing is deliberately practical: one-note
