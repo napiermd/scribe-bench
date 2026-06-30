@@ -23,6 +23,14 @@ describe('extractJsonObject', () => {
     expect(extractJsonObject('{"a":{"b":1}}')).toEqual({ a: { b: 1 } });
   });
 
+  it('repairs raw newlines inside JSON strings', () => {
+    expect(extractJsonObject('{"reasoning":"line one\nline two"}')).toEqual({ reasoning: 'line one\nline two' });
+  });
+
+  it('repairs trailing commas before closing objects and arrays', () => {
+    expect(extractJsonObject('{"a":1,"b":[2,3,],}')).toEqual({ a: 1, b: [2, 3] });
+  });
+
   it('throws on unparseable input', () => {
     expect(() => extractJsonObject('not json at all')).toThrow();
   });

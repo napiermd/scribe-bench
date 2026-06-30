@@ -115,6 +115,7 @@ type ChatProviderConfig = {
   endpoint: string;
   apiKeyEnv: string;
   defaultModel: string;
+  jsonMode?: boolean;
   extraHeaders?: Record<string, string>;
 };
 
@@ -123,6 +124,7 @@ class ChatCompletionsBackend implements JudgeBackend {
   private model: string;
   private apiKey: string;
   private endpoint: string;
+  private jsonMode: boolean;
   private extraHeaders: Record<string, string>;
 
   constructor(config: ChatProviderConfig) {
@@ -130,6 +132,7 @@ class ChatCompletionsBackend implements JudgeBackend {
     this.apiKey = process.env[config.apiKeyEnv] || '';
     this.model = process.env.SCRIBEBENCH_JUDGE_MODEL || config.defaultModel;
     this.endpoint = config.endpoint;
+    this.jsonMode = Boolean(config.jsonMode);
     this.extraHeaders = config.extraHeaders || {};
     if (!this.apiKey) {
       throw new Error(`${config.apiKeyEnv} not set (required for SCRIBEBENCH_BACKEND=${config.name})`);
@@ -151,6 +154,7 @@ class ChatCompletionsBackend implements JudgeBackend {
             model: this.model,
             temperature: 0.1,
             max_tokens: 1500,
+            ...(this.jsonMode ? { response_format: { type: 'json_object' } } : {}),
             messages: [
               { role: 'system', content: system },
               { role: 'user', content: user },
@@ -259,6 +263,7 @@ export function resolveBackend(): JudgeBackend {
         endpoint: 'https://openrouter.ai/api/v1/chat/completions',
         apiKeyEnv: 'OPENROUTER_API_KEY',
         defaultModel: defaultJudgeModelForBackend('openrouter'),
+        jsonMode: true,
         extraHeaders: {
           'http-referer': 'https://scribe-bench.vercel.app',
           'x-openrouter-title': 'ScribeBench Eval',

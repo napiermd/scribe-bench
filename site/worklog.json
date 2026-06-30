@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Harder judge JSON repair",
+      "why": "The first PriMock57 current-row probe generated a note successfully but the OpenRouter judge returned malformed JSON, blocking a current powered evidence run.",
+      "proof": "Added JSON-object mode for OpenRouter judging, a third API repair attempt with prior-output context, and parser repair for raw control characters inside strings plus trailing commas.",
+      "next": "Rerun the PriMock57 current-row probe and graduate it into a full scores-only row once judge responses are stable.",
+      "links": [
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Current-model challenge planner",
       "why": "The site now gives visitors a concrete answer to the stale-leaderboard objection: pick the kind of current row you can run, name the system, and copy the exact evidence plan.",
       "proof": "Added the Current-model challenge section with target switching, system-label input, live proof-plan rendering, and clipboard/fallback copy behavior for frontier, open/free, real-workflow, and second-judge runs.",

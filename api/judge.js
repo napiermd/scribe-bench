@@ -18,6 +18,7 @@ const PROVIDERS = {
     envKey: 'OPENROUTER_API_KEY',
     headerKey: 'x-openrouter-key',
     title: 'OpenRouter',
+    jsonMode: true,
     extraHeaders: {
       'http-referer': 'https://scribe-bench.vercel.app',
       'x-openrouter-title': 'ScribeBench Lab',
@@ -89,7 +90,8 @@ export default async function handler(req, res) {
 
 async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }) {
   let parseError;
-  for (let attempt = 0; attempt < 2; attempt++) {
+  let lastRaw = '';
+  for (let attempt = 0; attempt < 3; attempt++) {
     const repairAttempted = attempt > 0;
     const response = await fetch(providerConfig.endpoint, {
       method: 'POST',
@@ -102,8 +104,9 @@ async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }
         model,
         temperature: repairAttempted ? 0 : 0.1,
         max_tokens: 1500,
+        ...(providerConfig.jsonMode ? { response_format: { type: 'json_object' } } : {}),
         messages: [
-          { role: 'system', content: repairAttempted ? repairSystemPrompt(parseError) : ScribeBenchSystemPrompt },
+          { role: 'system', content: repairAttempted ? repairSystemPrompt(parseError, lastRaw) : ScribeBenchSystemPrompt },
           { role: 'user', content: prompt },
         ],
       }),
@@ -119,6 +122,7 @@ async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }
     }
 
     const raw = payload.choices?.[0]?.message?.content || '';
+    lastRaw = raw;
     try {
       return { payload, raw, parsed: extractJsonObject(raw), repairAttempted };
     } catch (error) {
@@ -129,11 +133,12 @@ async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }
   throw parseError || new Error('Judge did not return parseable JSON.');
 }
 
-function repairSystemPrompt(parseError) {
+function repairSystemPrompt(parseError, raw) {
+  const prior = raw ? `\n\nPrevious unparseable response excerpt:\n${String(raw).slice(0, 1200)}` : '';
   return `${ScribeBenchSystemPrompt}
 
 CRITICAL: Your previous response could not be parsed as JSON (${parseError?.message || 'parse error'}).
-Return one valid JSON object only. Do not include markdown, comments, bullet text, trailing commas, or prose outside the object.`;
+Return one valid JSON object only. Escape newlines inside string values as \\n. Do not include markdown, comments, bullet text, trailing commas, or prose outside the object.${prior}`;
 }
 
 function normalizeProvider(value) {
@@ -216,9 +221,66 @@ function extractJsonObject(text) {
   } catch (_) {
     const start = raw.indexOf('{');
     const end = raw.lastIndexOf('}');
-    if (start >= 0 && end > start) return JSON.parse(raw.slice(start, end + 1));
+    if (start >= 0 && end > start) {
+      const sliced = raw.slice(start, end + 1);
+      try {
+        return JSON.parse(sliced);
+      } catch (error) {
+        return JSON.parse(repairJsonish(sliced));
+      }
+    }
     throw new Error('Judge did not return parseable JSON.');
   }
+}
+
+function repairJsonish(input) {
+  return escapeControlCharsInStrings(input).replace(/,\s*([}\]])/g, '$1');
+}
+
+function escapeControlCharsInStrings(input) {
+  let out = '';
+  let inString = false;
+  let escaped = false;
+
+  for (const char of String(input || '')) {
+    if (escaped) {
+      out += char;
+      escaped = false;
+      continue;
+    }
+    if (char === '\\') {
+      out += char;
+      escaped = true;
+      continue;
+    }
+    if (char === '"') {
+      inString = !inString;
+      out += char;
+      continue;
+    }
+    if (inString) {
+      if (char === '\n') {
+        out += '\\n';
+        continue;
+      }
+      if (char === '\r') {
+        out += '\\r';
+        continue;
+      }
+      if (char === '\t') {
+        out += '\\t';
+        continue;
+      }
+      const code = char.charCodeAt(0);
+      if (code < 0x20) {
+        out += `\\u${code.toString(16).padStart(4, '0')}`;
+        continue;
+      }
+    }
+    out += char;
+  }
+
+  return out;
 }
 
 function detectLeaks(surfaces) {

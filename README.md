@@ -82,7 +82,9 @@ OpenRouter smoke flow that generates a fresh candidate note from SYN-003, judges
 it, and leaves the visitor with a verdict. Visitors can also run the live judge,
 read the fabrication verdict, copy a short evidence packet that names the scope,
 models, finding, and next proof step, then copy a fuller QA summary before they
-test their own notes. The public framing is
+test their own notes. The judge path requests JSON-object responses where supported
+and repairs common malformed JSON responses from free/current models before failing
+closed. The public framing is
 deliberately practical: one-note triage in the Lab, system-level evidence through
 PriMock57, and build-in-public updates through GitHub submissions. The Claim
 checker turns vague public/vendor statements such as "hallucination-free" or

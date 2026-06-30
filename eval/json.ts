@@ -14,5 +14,59 @@ export function extractJsonObject(text: string): any {
   const fb = cleaned.indexOf('{');
   const lb = cleaned.lastIndexOf('}');
   if (fb !== -1 && lb > fb) cleaned = cleaned.slice(fb, lb + 1);
-  return JSON.parse(cleaned);
+  try {
+    return JSON.parse(cleaned);
+  } catch (error) {
+    return JSON.parse(repairJsonish(cleaned));
+  }
+}
+
+function repairJsonish(input: string): string {
+  return escapeControlCharsInStrings(input).replace(/,\s*([}\]])/g, '$1');
+}
+
+function escapeControlCharsInStrings(input: string): string {
+  let out = '';
+  let inString = false;
+  let escaped = false;
+
+  for (const char of input) {
+    if (escaped) {
+      out += char;
+      escaped = false;
+      continue;
+    }
+    if (char === '\\') {
+      out += char;
+      escaped = true;
+      continue;
+    }
+    if (char === '"') {
+      inString = !inString;
+      out += char;
+      continue;
+    }
+    if (inString) {
+      if (char === '\n') {
+        out += '\\n';
+        continue;
+      }
+      if (char === '\r') {
+        out += '\\r';
+        continue;
+      }
+      if (char === '\t') {
+        out += '\\t';
+        continue;
+      }
+      const code = char.charCodeAt(0);
+      if (code < 0x20) {
+        out += `\\u${code.toString(16).padStart(4, '0')}`;
+        continue;
+      }
+    }
+    out += char;
+  }
+
+  return out;
 }
