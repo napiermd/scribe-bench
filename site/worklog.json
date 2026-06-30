@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Pasted-note receipts clear seeded labels",
+      "why": "After the seeded case loaded, editing the source or note reset the visible result but left seeded metadata on the fields, so a copied receipt for a pasted example could still say SYN-003.",
+      "proof": "Manual edits in the first-screen checker now clear the seeded case id, case type, and bundled-candidate label before the next receipt is built. Pasted source-vs-note pairs copy as pasted pairs, while untouched seeded examples still keep their SYN-003 label.",
+      "next": "Keep treating receipts like public evidence: metadata must describe the actual pair that was checked, not a previous demo state.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Work log", "href": "#worklog" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "No-key receipt path loads before model plumbing",
       "why": "The first screen could say the seeded fall case was loaded while the source and note boxes were still empty because model-list/API discovery ran before static demo data.",
       "proof": "Changed startup so static results, demo cases, and metadata load first; the seeded source-vs-note receipt appears before optional Lab model discovery. The initial status now says the seeded case is loading until it is actually populated.",

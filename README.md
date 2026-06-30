@@ -86,6 +86,7 @@ The first screen now states the product through concrete visitor jobs:
 - **Publish evidence:** use aggregate PriMock57 or real-workflow scores for system claims while keeping raw closed-model notes out.
 - **Inspect the proof:** flagged browser-check items now show note and source excerpts so the receipt reads like evidence, not a black-box verdict.
 - **Start without waiting on models:** the seeded no-key check loads from static demo data before model-list/API calls, so first-time visitors see the useful receipt path first.
+- **Keep receipts honest:** editing either quick-check text box clears seeded-case metadata, so copied receipts for pasted examples no longer claim to be `SYN-003`.
 
 The site gives non-repo visitors a walk-up
 experience: a job-oriented first screen, a working source-vs-note checker, an evidence

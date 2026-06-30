@@ -1200,8 +1200,8 @@ function bindQuickCheck() {
   if (!form) return;
   form.addEventListener("submit", runQuickLocalReceipt);
   document.getElementById("quick-load-seeded")?.addEventListener("click", () => populateQuickCheck(seededCase(), { run: true }));
-  document.getElementById("quick-source")?.addEventListener("input", resetQuickResult);
-  document.getElementById("quick-note")?.addEventListener("input", resetQuickResult);
+  document.getElementById("quick-source")?.addEventListener("input", resetQuickAfterManualEdit);
+  document.getElementById("quick-note")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
 }
 
@@ -1298,6 +1298,17 @@ function resetQuickResult() {
   setQuickCopyStatus("");
   setQuickCopyFallback("");
   setQuickStatus("Ready to check this source-note pair in the browser.", "");
+}
+
+function resetQuickAfterManualEdit() {
+  const source = document.getElementById("quick-source");
+  const note = document.getElementById("quick-note");
+  if (source) {
+    delete source.dataset.caseId;
+    delete source.dataset.caseType;
+  }
+  if (note) delete note.dataset.generatedModel;
+  resetQuickResult();
 }
 
 function setQuickStatus(message, tone = "") {
