@@ -6,13 +6,13 @@
     <title>ScribeBench | Clinical documentation AI fidelity benchmark</title>
     <meta
       name="description"
-      content="ScribeBench is a public QA surface for clinical documentation AI: live note checks, source fidelity review, leak detection, and dangerous fabrication evidence."
+      content="ScribeBench is a public QA receipt generator for clinical documentation AI: live note checks, source fidelity review, leak detection, and dangerous fabrication evidence."
     />
     <meta property="og:title" content="ScribeBench" />
     <meta property="og:url" content="https://scribe-bench.vercel.app/" />
     <meta
       property="og:description"
-      content="A public QA surface for testing whether generated clinical notes invented care."
+      content="A public QA receipt for testing whether generated clinical notes invented care."
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -48,13 +48,28 @@
       <section class="summary-band">
         <div class="wrap summary-grid">
           <div class="intro-panel">
-            <p class="eyebrow">Build-in-public clinical AI benchmark</p>
+            <p class="eyebrow">After-the-demo clinical AI evidence</p>
             <h1>Did the AI scribe invent care?</h1>
             <p class="lede">
-              ScribeBench turns a clinical source encounter and an AI-written note into a
-              concrete evidence artifact: a one-note QA verdict, a caught-fabrication example,
-              or a powered PriMock57 benchmark row that other people can audit.
+              ScribeBench is a public receipt generator for AI-scribe claims. Bring the
+              source encounter and the generated note; it tells you whether the note stayed
+              faithful, invented unsupported care, leaked template junk, or needs a full
+              PriMock57 evidence row before anyone should repeat the claim.
             </p>
+            <div class="thesis-strip" aria-label="ScribeBench in one line">
+              <div>
+                <span>When to use it</span>
+                <strong>After a demo looks good</strong>
+              </div>
+              <div>
+                <span>What it checks</span>
+                <strong>Did the signed record stay true?</strong>
+              </div>
+              <div>
+                <span>What you leave with</span>
+                <strong>A quotable QA receipt</strong>
+              </div>
+            </div>
             <p class="mobile-proof">
               <strong>Example catch:</strong> source says no head strike or loss of consciousness;
               the note invents a head CT and syncope workup.
@@ -107,14 +122,40 @@
             </div>
           </div>
 
-          <section class="scoreboard" aria-labelledby="scoreboard-title">
+          <section class="scoreboard receipt-panel" aria-labelledby="scoreboard-title">
             <div class="section-head compact">
               <div>
-                <p class="eyebrow">Current public evidence</p>
-                <h2 id="scoreboard-title">Evidence, not hype</h2>
+                <p class="eyebrow">What visitors get back</p>
+                <h2 id="scoreboard-title">A receipt, not a vibe.</h2>
               </div>
             </div>
-            <dl class="metric-grid" id="snapshot-metrics">
+            <div class="receipt-preview" aria-label="Example ScribeBench receipt">
+              <div class="receipt-topline">
+                <span>ScribeBench receipt</span>
+                <strong>SYN-003</strong>
+              </div>
+              <h3>Do not trust this note without review.</h3>
+              <p>
+                The note is fluent, but it changes the clinical story by inventing care
+                the source explicitly rules out.
+              </p>
+              <dl class="receipt-check">
+                <div>
+                  <dt>Source</dt>
+                  <dd>Mechanical rug trip, no head strike, no loss of consciousness, daughter drove her in.</dd>
+                </div>
+                <div>
+                  <dt>Note claim</dt>
+                  <dd>Negative head CT and syncope workup.</dd>
+                </div>
+                <div>
+                  <dt>Receipt output</dt>
+                  <dd><strong>Dangerous fabrication:</strong> cite the source, review the note, and run a powered row before claiming system quality.</dd>
+                </div>
+              </dl>
+              <a href="#lab">Open the receipt in the Lab</a>
+            </div>
+            <dl class="metric-grid receipt-metrics" id="snapshot-metrics">
               <div>
                 <dt>Official cases</dt>
                 <dd>--</dd>
@@ -128,29 +169,10 @@
                 <dd>Invented care</dd>
               </div>
               <div>
-                <dt>Data policy</dt>
+                <dt>Publication policy</dt>
                 <dd>Scores only</dd>
               </div>
             </dl>
-            <div class="caught-card" aria-label="Seeded fabrication example">
-              <p class="eyebrow">Example catch</p>
-              <h3>It flags a note that invented a head CT.</h3>
-              <dl class="claim-check">
-                <div>
-                  <dt>Source says</dt>
-                  <dd>Mechanical rug trip, no head strike, no loss of consciousness, daughter drove her in.</dd>
-                </div>
-                <div>
-                  <dt>Note invented</dt>
-                  <dd>Negative head CT and syncope workup.</dd>
-                </div>
-                <div>
-                  <dt>Output</dt>
-                  <dd><strong>Dangerous fabrication:</strong> review before trusting the note.</dd>
-                </div>
-              </dl>
-              <a href="#demo">Inspect SYN-003</a>
-            </div>
           </section>
         </div>
       </section>
@@ -1061,7 +1083,7 @@
       <div class="wrap footer-inner">
         <p>ScribeBench is an open reproducibility artifact by Andrew Napier, MD.</p>
         <div>
-          <a href="https://napiermd.me/clinical-ai" target="_blank" rel="noreferrer">NapierMD clinical AI</a>
+          <a href="https://napiermd.me/work#clinical-ai" target="_blank" rel="noreferrer">NapierMD clinical AI</a>
           <a href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">GitHub</a>
         </div>
       </div>

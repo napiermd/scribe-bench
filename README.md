@@ -75,15 +75,16 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
-experience: a decision-oriented homepage, role-based entry points, an evidence
+experience: a receipt-first homepage, role-based entry points, an evidence
 ledger, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
 snapshot, synthetic demo case viewer, methodology summary, live generate-and-judge
 lab, and run-it-yourself submission path. The homepage shows
-the seeded CT/syncope fabrication catch before asking visitors to click deeper,
-then gives first-screen paths to run a current free-model smoke check, check
-one note, publish aggregate evidence for a scribe system, or evaluate whether a
-public claim is backed by proof. The Lab opens with that seeded failure already
+the seeded CT/syncope fabrication catch as a ScribeBench receipt before asking
+visitors to click deeper, then gives first-screen paths to run a current
+free-model smoke check, check one note, publish aggregate evidence for a scribe
+system, or evaluate whether a public claim is backed by proof. The Lab opens
+with that seeded failure already
 loaded plus a precomputed demo verdict, and the homepage can launch a one-click
 OpenRouter smoke flow that generates a fresh candidate note from SYN-003, judges
 it, and leaves the visitor with a verdict. Visitors can also run the live judge,

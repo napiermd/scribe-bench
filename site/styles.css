@@ -176,6 +176,12 @@ button {
   padding: 1.25rem;
 }
 
+.receipt-panel {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
 .eyebrow {
   margin: 0 0 0.7rem;
   color: var(--accent-strong);
@@ -229,6 +235,40 @@ h4 {
   max-width: 56rem;
   color: var(--muted);
   font-size: clamp(1.05rem, 2vw, 1.28rem);
+}
+
+.thesis-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 1rem 0 0;
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.thesis-strip div {
+  min-width: 0;
+  padding: 0.78rem 0.82rem;
+  border-right: 1px solid var(--line);
+}
+
+.thesis-strip div:last-child {
+  border-right: 0;
+}
+
+.thesis-strip span {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.thesis-strip strong {
+  display: block;
+  margin-top: 0.28rem;
+  line-height: 1.24;
 }
 
 .mobile-proof {
@@ -1141,6 +1181,85 @@ h4 {
   font-size: 1.35rem;
   line-height: 1.1;
   font-weight: 850;
+}
+
+.receipt-preview {
+  border: 1px solid #24443f;
+  background: #10221f;
+  color: #eef8f5;
+  padding: 1rem;
+}
+
+.receipt-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.85rem;
+  color: #8bd3c9;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.receipt-topline strong {
+  color: white;
+  font-family: var(--mono);
+  letter-spacing: 0;
+}
+
+.receipt-preview h3 {
+  color: white;
+  font-size: 1.38rem;
+  max-width: 22rem;
+}
+
+.receipt-preview p {
+  color: rgba(238, 248, 245, 0.74);
+  margin: 0.65rem 0 0;
+}
+
+.receipt-check {
+  display: grid;
+  gap: 0.72rem;
+  margin: 1rem 0 0;
+}
+
+.receipt-check div {
+  border-top: 1px solid rgba(238, 248, 245, 0.16);
+  padding-top: 0.72rem;
+}
+
+.receipt-check dt {
+  color: #8bd3c9;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.receipt-check dd {
+  margin: 0.18rem 0 0;
+  color: rgba(238, 248, 245, 0.76);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+
+.receipt-check strong {
+  color: white;
+}
+
+.receipt-preview a {
+  display: inline-flex;
+  margin-top: 1rem;
+  color: white;
+  font-weight: 850;
+  text-decoration-color: rgba(139, 211, 201, 0.7);
+}
+
+.receipt-metrics {
+  margin-top: 0;
 }
 
 .caught-card {
@@ -2150,6 +2269,7 @@ h4 {
   .worklog-list article,
   .queue-list article,
   .quick-paths,
+  .thesis-strip,
   .live-smoke-lane,
   .workflow-strip,
   .field-row,
@@ -2185,6 +2305,7 @@ h4 {
   }
 
   .quick-paths article,
+  .thesis-strip div,
   .workflow-strip div {
     border-right: 0;
     border-bottom: 1px solid var(--line);
@@ -2192,12 +2313,14 @@ h4 {
     padding-right: 0;
   }
 
-  .workflow-strip div {
+  .workflow-strip div,
+  .thesis-strip div {
     padding-left: 1rem;
     padding-right: 1rem;
   }
 
   .quick-paths article:last-child,
+  .thesis-strip div:last-child,
   .workflow-strip div:last-child {
     border-bottom: 0;
   }

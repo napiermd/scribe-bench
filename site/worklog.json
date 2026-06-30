@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Receipt-first homepage framing",
+      "why": "The public site needed to answer the first-minute question more directly: what does a visitor do here, who is it for, and what do they leave with?",
+      "proof": "Reworked the hero around the after-the-demo clinical AI use case, added a first-screen ScribeBench receipt preview for SYN-003, clarified that visitors leave with a quotable QA receipt, and aligned the NapierMD footer link to the live clinical-AI work section.",
+      "next": "Keep moving from receipt-shaped one-note triage toward full powered PriMock57 rows for current models and real scribe workflows.",
+      "links": [
+        { "label": "Homepage receipt", "href": "#main" },
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "NapierMD clinical AI", "href": "https://napiermd.me/work#clinical-ai" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Live PriMock57 smoke passed",
       "why": "The public site needed proof that the current-model path is more than static copy: a visitor should be able to generate and judge a realistic PriMock57 encounter through production.",
       "proof": "Production Vercel generated PM57-d1c01 with nvidia/nemotron-3-ultra-550b-a55b:free and judged the note through the public /api/judge endpoint with the same current OpenRouter free model. The smoke result returned normalized=100, inputFidelity=5, 0 dangerous fabrications, 0 leaks, and 3 standard/non-dangerous assumptions.",
