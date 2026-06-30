@@ -865,6 +865,70 @@ h4 {
   margin: 0;
 }
 
+.repo-map-section {
+  padding-top: 54px;
+}
+
+.repo-map-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.repo-map-card {
+  display: grid;
+  align-content: start;
+  gap: 0.78rem;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.repo-map-primary {
+  grid-row: span 2;
+  border-color: rgba(15, 118, 110, 0.32);
+  background: #eef8f5;
+}
+
+.repo-map-card h3 {
+  font-size: 1.16rem;
+}
+
+.repo-map-card p,
+.repo-map-card dd {
+  color: var(--muted);
+  font-size: 0.92rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.repo-map-card dl {
+  display: grid;
+  gap: 0.58rem;
+  margin: 0;
+}
+
+.repo-map-card dt {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.repo-map-card code {
+  color: #17312e;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+.repo-map-card a {
+  align-self: end;
+  font-weight: 850;
+}
+
 .claim-section {
   padding-top: 56px;
 }
@@ -2833,6 +2897,7 @@ h4 {
 
   .method-cards,
   .after-receipt-grid,
+  .repo-map-grid,
   .evidence-ladder,
   .ledger-grid,
   .run-steps,
@@ -2881,6 +2946,10 @@ h4 {
 
   .after-receipt-primary {
     grid-column: span 1;
+  }
+
+  .repo-map-primary {
+    grid-row: span 1;
   }
 
   .case-list {

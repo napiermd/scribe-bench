@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Public repo map",
+      "why": "The site had useful pieces, but a visitor still had to infer how the website, APIs, eval engine, data, leaderboard, and submission path fit together.",
+      "proof": "Added a public Repo map section that names each repository piece, when to use it, what it outputs, and where to go next. The top navigation now links to Repo map, and the contributor start route points there as its secondary path.",
+      "next": "Keep turning the Run and Evidence sections from raw benchmark machinery into concrete visitor jobs with visible outputs.",
+      "links": [
+        { "label": "Repo map", "href": "#repo-map" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Run builder", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "First-screen task router restored",
       "why": "The site still had the right product logic hidden in JavaScript, but the homepage showed static explanation instead of asking visitors what job they were trying to do.",
       "proof": "Added the visible Start Here route chooser for one-note reviewers, vendor evaluators, scribe builders, and evidence contributors. The one-note primary action now runs the browser-only seeded receipt in the first-screen checker instead of jumping away to the Lab.",

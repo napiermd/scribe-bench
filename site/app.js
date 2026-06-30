@@ -268,7 +268,7 @@ const startRoutes = {
     action: "Copy a run plan, generate aggregate scores, and submit the scores-only row through GitHub.",
     output: "A public evidence row or a visible blocker that explains what still needs to be run.",
     primary: { label: "Copy challenge plan", href: "#current-challenge" },
-    secondary: { label: "Open run builder", href: "#run" },
+    secondary: { label: "See repo map", href: "#repo-map" },
   },
 };
 
@@ -970,6 +970,23 @@ function setRouteLink(id, link) {
   if (!target || !link) return;
   target.textContent = link.label;
   target.setAttribute("href", link.href);
+}
+
+function realignCurrentHash() {
+  if (!window.location.hash) return;
+  let id = window.location.hash.slice(1);
+  try {
+    id = decodeURIComponent(id);
+  } catch (_) {
+    return;
+  }
+  const target = document.getElementById(id);
+  if (!target) return;
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ block: "start" });
+    });
+  });
 }
 
 function bindQuickCheck() {
@@ -2210,6 +2227,8 @@ async function boot() {
     renderCurrentRunError();
     console.error(err);
   }
+
+  realignCurrentHash();
 }
 
 boot();
