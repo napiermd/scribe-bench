@@ -24,6 +24,8 @@ const providerConfigs = {
     keyStorage: "scribebench-openrouter-key",
     keyHint: "OpenRouter free models use the configured site key; paste a temporary key only to override it.",
     slowNotice: "Still running. Free OpenRouter models can take about a minute on full notes.",
+    preferredGenerationModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
+    preferredJudgeModel: "openai/gpt-oss-120b:free",
     defaultModels: [
       { id: "nvidia/nemotron-3-ultra-550b-a55b:free", name: "NVIDIA: Nemotron 3 Ultra (free)" },
       { id: "nvidia/nemotron-3-super-120b-a12b:free", name: "NVIDIA: Nemotron 3 Super (free)" },
@@ -37,6 +39,8 @@ const providerConfigs = {
     keyStorage: "scribebench-baseten-key",
     keyHint: "Baseten is optional here; add BASETEN_API_KEY in Vercel or paste a temporary key to list and run models.",
     slowNotice: "Still running. Baseten model latency depends on the selected hosted model.",
+    preferredGenerationModel: "",
+    preferredJudgeModel: "",
     defaultModels: [],
   },
 };
@@ -205,8 +209,13 @@ function bindLab() {
   }
   document.getElementById("clear-lab")?.addEventListener("click", () => {
     document.getElementById("lab-source").value = "";
-    document.getElementById("lab-note").value = "";
+    const note = document.getElementById("lab-note");
+    note.value = "";
+    delete note.dataset.generatedModel;
     setLabStatus("");
+  });
+  document.getElementById("lab-note")?.addEventListener("input", (event) => {
+    delete event.currentTarget.dataset.generatedModel;
   });
   document.getElementById("lab-form")?.addEventListener("submit", runLabJudge);
 
@@ -215,7 +224,7 @@ function bindLab() {
 
 async function generateCandidateNote() {
   const source = document.getElementById("lab-source").value.trim();
-  const model = document.getElementById("lab-model").value;
+  const model = document.getElementById("lab-generate-model").value;
   const provider = selectedProvider();
   const key = document.getElementById("lab-key").value.trim();
 
@@ -224,7 +233,7 @@ async function generateCandidateNote() {
     return;
   }
   if (!model) {
-    setLabStatus("Choose a model before generating a note.");
+    setLabStatus("Choose a generation model before generating a note.");
     return;
   }
   if (key) sessionStorage.setItem(providerConfigs[provider].keyStorage, key);
@@ -248,7 +257,9 @@ async function generateCandidateNote() {
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Generation failed (${response.status})`);
-    document.getElementById("lab-note").value = payload.note || "";
+    const note = document.getElementById("lab-note");
+    note.value = payload.note || "";
+    note.dataset.generatedModel = payload.model || model;
     const usage = payload.usage?.total_tokens ? ` Tokens: ${payload.usage.total_tokens}.` : "";
     setLabStatus(`Generated candidate with ${payload.model || model}. Run the judge next.${usage}`);
   } catch (error) {
@@ -261,8 +272,7 @@ async function generateCandidateNote() {
 }
 
 async function loadLabModels(force = false) {
-  const select = document.getElementById("lab-model");
-  if (!select) return;
+  if (!modelSelects().length) return;
   const provider = selectedProvider();
   const config = providerConfigs[provider];
   if (force) setLabStatus(`Refreshing ${config.label} models...`);
@@ -281,7 +291,14 @@ async function loadLabModels(force = false) {
 }
 
 function renderModelOptions(models) {
-  const select = document.getElementById("lab-model");
+  const provider = selectedProvider();
+  const config = providerConfigs[provider];
+  populateModelSelect(document.getElementById("lab-generate-model"), models, config.preferredGenerationModel);
+  populateModelSelect(document.getElementById("lab-judge-model"), models, config.preferredJudgeModel || config.preferredGenerationModel);
+}
+
+function populateModelSelect(select, models, preferredId) {
+  if (!select) return;
   const previous = select.value;
   select.innerHTML = "";
   if (!models.length) {
@@ -300,18 +317,25 @@ function renderModelOptions(models) {
     select.appendChild(option);
   }
   const options = [...select.options];
-  const preferred = providerConfigs[selectedProvider()].defaultModels.find((model) => options.some((option) => option.value === model.id));
   if (previous && options.some((option) => option.value === previous)) {
     select.value = previous;
-  } else if (preferred) {
-    select.value = preferred.id;
+  } else if (preferredId && options.some((option) => option.value === preferredId)) {
+    select.value = preferredId;
   }
+}
+
+function modelSelects() {
+  return ["lab-generate-model", "lab-judge-model"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
 }
 
 function populateLab(c) {
   if (!c) return;
   document.getElementById("lab-source").value = c.source || "";
-  document.getElementById("lab-note").value = c.candidateNote || "";
+  const note = document.getElementById("lab-note");
+  note.value = c.candidateNote || "";
+  delete note.dataset.generatedModel;
   setLabStatus(`Loaded ${c.id}.`);
 }
 
@@ -319,7 +343,7 @@ async function runLabJudge(event) {
   event.preventDefault();
   const source = document.getElementById("lab-source").value.trim();
   const note = document.getElementById("lab-note").value.trim();
-  const model = document.getElementById("lab-model").value;
+  const model = document.getElementById("lab-judge-model").value;
   const provider = selectedProvider();
   const key = document.getElementById("lab-key").value.trim();
 
@@ -328,7 +352,7 @@ async function runLabJudge(event) {
     return;
   }
   if (!model) {
-    setLabStatus("Choose a model before running the judge.");
+    setLabStatus("Choose a judge model before running the judge.");
     return;
   }
   if (key) sessionStorage.setItem(providerConfigs[provider].keyStorage, key);
@@ -350,6 +374,7 @@ async function runLabJudge(event) {
     });
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Judge failed (${response.status})`);
+    payload.generatedModel = document.getElementById("lab-note").dataset.generatedModel || "";
     renderLabResult(payload);
     setLabStatus("Done.");
   } catch (error) {
@@ -385,9 +410,10 @@ function renderLabResult(result) {
   renderList("lab-leak-list", (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`), "No deterministic leaks.");
   document.getElementById("lab-reasoning").textContent = result.reasoning || "No reasoning returned.";
 
+  const generated = result.generatedModel ? `Generated: ${result.generatedModel}. ` : "";
   const usage = result.usage ? ` Tokens: ${result.usage.total_tokens || "unknown"}.` : "";
   const provider = result.provider ? ` Provider: ${result.provider}.` : "";
-  document.getElementById("lab-meta").textContent = `Model: ${result.model || "unknown"}.${provider} Rubric: ${result.rubric || "site-lab"}.${usage}`;
+  document.getElementById("lab-meta").textContent = `${generated}Judge: ${result.model || "unknown"}.${provider} Rubric: ${result.rubric || "site-lab"}.${usage}`;
 }
 
 function selectedProvider() {

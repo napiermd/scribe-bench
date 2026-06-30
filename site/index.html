@@ -240,10 +240,10 @@
             <h2>Generate and judge a clinical note</h2>
             <p>
               Paste a source encounter, generate a candidate clinical note with the selected
-              provider, then judge that note for narrative quality, fidelity, fabrications, and
-              leaks. You can also paste your own generated note. This is a useful triage tool,
-              not leaderboard evidence. Public rows use fixed datasets, repeats, and aggregate
-              confidence intervals.
+              generation model, then judge that note with a separate judge model for narrative
+              quality, fidelity, fabrications, and leaks. You can also paste your own generated
+              note. This is a useful triage tool, not leaderboard evidence. Public rows use
+              fixed datasets, repeats, and aggregate confidence intervals.
             </p>
           </div>
           <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
@@ -260,8 +260,12 @@
                 </select>
               </label>
               <label class="field">
-                <span>Model</span>
-                <select id="lab-model"></select>
+                <span>Generation model</span>
+                <select id="lab-generate-model"></select>
+              </label>
+              <label class="field">
+                <span>Judge model</span>
+                <select id="lab-judge-model"></select>
               </label>
               <button class="button secondary compact-button" id="refresh-models" type="button">Refresh models</button>
             </div>
@@ -302,9 +306,10 @@
             <div class="lab-empty" id="lab-empty">
               <h3>Waiting for a note</h3>
               <p>
-                Generate a candidate note or paste one, then run the judge. The result will show
-                a normalized narrative score, six dimensions, dangerous fabrication items,
-                standard items, deterministic leaks, and model usage.
+                Generate a candidate note or paste one, then run the judge. The result will
+                separate the generator from the judge and show a normalized narrative score,
+                six dimensions, dangerous fabrication items, standard items, deterministic
+                leaks, and model usage.
               </p>
             </div>
 

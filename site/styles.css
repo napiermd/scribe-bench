@@ -561,7 +561,7 @@ h4 {
 }
 
 .field-row.lab-model-row {
-  grid-template-columns: minmax(150px, 0.4fr) minmax(0, 1fr) auto;
+  grid-template-columns: minmax(135px, 0.32fr) minmax(0, 1fr) minmax(0, 1fr) auto;
 }
 
 .field {
