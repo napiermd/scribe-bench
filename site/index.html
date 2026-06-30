@@ -56,7 +56,7 @@
             <div class="actions">
               <a class="button primary" href="#lab">Run a note check</a>
               <a class="button secondary" href="#demo">Inspect seeded failure</a>
-              <a class="button secondary" href="#run">Publish evidence</a>
+              <a class="button secondary" href="#evidence-queue">See evidence queue</a>
             </div>
             <dl class="answer-strip" aria-label="What ScribeBench answers">
               <div>
@@ -215,6 +215,88 @@
             </article>
           </div>
         </div>
+
+        <div class="queue-board" id="evidence-queue" aria-labelledby="queue-title">
+          <div class="queue-copy">
+            <p class="eyebrow">Public evidence queue</p>
+            <h3 id="queue-title">What we should run next</h3>
+            <p>
+              The old rows are only useful if the next rows are explicit. Each target below
+              says what would make it credible enough to discuss in public.
+            </p>
+          </div>
+          <div class="queue-list">
+            <article>
+              <div>
+                <span class="queue-status open">Open</span>
+                <h3>Current frontier hosted models</h3>
+                <p>Run the same PriMock57 path against the current hosted models people actually use for note generation.</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>Proof required</dt>
+                  <dd>57 cases, repeats declared, judge declared, generic prompt disclosed.</dd>
+                </div>
+                <div>
+                  <dt>First action</dt>
+                  <dd><a href="#run">Generate a powered candidate file</a></dd>
+                </div>
+              </dl>
+            </article>
+            <article>
+              <div>
+                <span class="queue-status ready">Ready</span>
+                <h3>Open and free model baselines</h3>
+                <p>Use the configured OpenRouter path to find cheap candidates, then graduate the credible ones to a powered run.</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>Proof required</dt>
+                  <dd>Smoke result plus powered PriMock57 row before any ranking claim.</dd>
+                </div>
+                <div>
+                  <dt>First action</dt>
+                  <dd><a href="#lab">Try the seeded Lab flow</a></dd>
+                </div>
+              </dl>
+            </article>
+            <article>
+              <div>
+                <span class="queue-status valuable">High value</span>
+                <h3>Real scribe workflow rows</h3>
+                <p>Submit aggregate scores from an actual pipeline, with generation method and benchmark-specific tuning disclosed.</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>Proof required</dt>
+                  <dd>Aggregate scores only, no raw closed-model note text, data policy followed.</dd>
+                </div>
+                <div>
+                  <dt>First action</dt>
+                  <dd><a href="https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" target="_blank" rel="noreferrer">Read submission rules</a></dd>
+                </div>
+              </dl>
+            </article>
+            <article>
+              <div>
+                <span class="queue-status needed">Needed</span>
+                <h3>Judge robustness runs</h3>
+                <p>Rerun promising rows with a second declared judge so the board does not quietly become one model grading another.</p>
+              </div>
+              <dl>
+                <div>
+                  <dt>Proof required</dt>
+                  <dd>Same candidate notes, second judge model, changed rankings called out.</dd>
+                </div>
+                <div>
+                  <dt>First action</dt>
+                  <dd><a href="https://github.com/napiermd/scribe-bench/blob/main/docs/model-backends.md" target="_blank" rel="noreferrer">Choose a judge backend</a></dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+        </div>
+
         <div class="ledger-grid" aria-label="Evidence status">
           <article>
             <strong>Ranked</strong>

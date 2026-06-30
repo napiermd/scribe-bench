@@ -68,10 +68,10 @@ seeded failure already loaded, then walks visitors through running the judge,
 reading the fabrication verdict, and copying a QA summary before they test their
 own notes. The public framing is deliberately practical: one-note triage in the
 Lab, system-level evidence through PriMock57, and build-in-public updates through
-GitHub submissions. The Evidence
-section also carries an open agenda for current frontier, open/free, and real
-workflow rows so the stale launch baselines become a contribution queue rather
-than a dead leaderboard.
+GitHub submissions. The Evidence section also carries a public queue for current
+frontier, open/free, real-workflow, and judge-robustness rows, including the proof
+required and first action for each target. That keeps the stale launch baselines
+framed as a contribution backlog rather than a dead leaderboard.
 
 ```bash
 npm run build
