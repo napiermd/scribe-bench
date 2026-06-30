@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Evidence decision matrix",
+      "why": "The Evidence section still felt like a pile of benchmark readouts before a visitor understood what any row could support.",
+      "proof": "Replaced the opening caveat cards with a decision matrix for one-note checks, historical rows, current-ranking claims, and vendor claims. The matrix now pulls live powered-row count, smoke status, and current-run progress from the public assets.",
+      "next": "Keep moving dense evidence machinery behind visitor decisions: what they have, what they can say, and what proof they need next.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current run status", "href": "#current-run" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Plain-language note check",
       "why": "The first screen was functionally useful, but it still made the visitor decode 'no-key receipt' and 'first-screen checker' before understanding the job.",
       "proof": "Changed the primary route, checker title, button labels, status text, and Lab copy to say the visitor is checking a note for invented care; the receipt is now framed as the copyable output.",

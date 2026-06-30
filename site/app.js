@@ -481,6 +481,12 @@ function renderEvidenceFreshness(results) {
       ? `${formatScoredAt(latestPowered.scoredAt)} (${ranked.length} powered row${ranked.length === 1 ? "" : "s"})`
       : "no powered rows yet";
   }
+  setText(
+    "decision-history-proof",
+    latestPowered
+      ? `${ranked.length} powered launch row${ranked.length === 1 ? "" : "s"}; latest scored ${formatScoredAt(latestPowered.scoredAt)}. Historical baseline, not a current buying guide.`
+      : "No powered PriMock57 row is available yet."
+  );
 
   const smoke = smokeRows(results).filter((row) => row.claimLevel === "smoke");
   const latestSmoke = latestRow(smoke);
@@ -490,6 +496,12 @@ function renderEvidenceFreshness(results) {
       ? `${formatScoredAt(latestSmoke.scoredAt)} (${smoke.length} smoke row${smoke.length === 1 ? "" : "s"})`
       : "no smoke rows yet";
   }
+  setText(
+    "decision-smoke-proof",
+    latestSmoke
+      ? `Latest smoke row: ${formatScoredAt(latestSmoke.scoredAt)}, n=${Number(latestSmoke.n) || "--"} synthetic cases. Useful plumbing proof, not a ranking.`
+      : "No smoke row is published yet; start with the Lab or one-note checker."
+  );
   renderFreshSmoke(latestSmoke);
 }
 
@@ -535,6 +547,7 @@ function renderCurrentRun(run) {
   const errored = Number(run.erroredCases) || 0;
   const links = Array.isArray(run.links) ? run.links : [];
   const resumeCommand = String(run.resumeCommand || "").trim();
+  const minimumPublishable = Number(run.minimumPublishableCases) || MIN_RANKED_CASES;
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -558,6 +571,16 @@ function renderCurrentRun(run) {
   setText("current-run-next", run.next || "Continue the run and publish only when the evidence threshold is met.");
   setText("current-run-unblock", run.unblockAsk || "Use the run builder to create a publishable powered row.");
   setText("current-run-resume-command", resumeCommand);
+  setText(
+    "decision-current-proof",
+    `${scored}/${target} current PriMock57 cases scored; publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
+  );
+  setElementHtml(
+    "decision-current-action",
+    scored >= minimumPublishable
+      ? `<a href="#current-run">Review the current-row output</a>`
+      : `<a href="#current-run">Resume the current row</a>`
+  );
   setCurrentRunCopyStatus("");
   setCurrentRunCopyFallback("");
 
@@ -584,6 +607,8 @@ function renderCurrentRunError() {
   setText("current-run-scored", "--");
   setText("current-run-errored", "--");
   setText("current-run-last-score", "--");
+  setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
+  setElementHtml("decision-current-action", `<a href="#run">Build a fresh powered row</a>`);
   const commandCard = document.getElementById("current-run-command-card");
   if (commandCard) commandCard.hidden = true;
 }
@@ -2094,6 +2119,11 @@ function setSummaryFallback(text) {
 function setText(id, text) {
   const target = document.getElementById(id);
   if (target) target.textContent = text;
+}
+
+function setElementHtml(id, html) {
+  const target = document.getElementById(id);
+  if (target) target.innerHTML = html;
 }
 
 function selectedProvider() {
