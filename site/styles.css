@@ -880,6 +880,84 @@ h4 {
   padding: 1rem;
 }
 
+.quick-smoke-artifact {
+  display: grid;
+  gap: 0.85rem;
+  border: 1px solid rgba(37, 94, 143, 0.28);
+  border-left: 4px solid var(--blue);
+  background: #eef6fb;
+  padding: 1rem;
+}
+
+.quick-smoke-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.quick-smoke-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.quick-smoke-head h3 {
+  font-size: 1.16rem;
+}
+
+.quick-smoke-artifact p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0;
+}
+
+.quick-smoke-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  border: 1px solid rgba(37, 94, 143, 0.18);
+  background: var(--panel);
+}
+
+.quick-smoke-grid div {
+  min-width: 0;
+  border-right: 1px solid rgba(37, 94, 143, 0.18);
+  padding: 0.64rem 0.7rem;
+}
+
+.quick-smoke-grid div:last-child {
+  border-right: 0;
+}
+
+.quick-smoke-grid dt {
+  color: var(--blue);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-smoke-grid dd {
+  color: var(--ink);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin: 0.25rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.quick-smoke-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+#quick-smoke-copy-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
 .quick-result h3 {
   font-size: 1.18rem;
 }
@@ -3974,6 +4052,7 @@ h4 {
   .quick-check-form,
   .quick-result-meaning,
   .quick-use-router,
+  .quick-smoke-grid,
   .instant-receipt-lane,
   .live-smoke-lane,
   .field-row,
@@ -4016,6 +4095,7 @@ h4 {
   .quick-check-actions .button,
   .quick-result-actions .button,
   .quick-use-actions .button,
+  .quick-smoke-actions .button,
   .current-run-command-actions .button,
   .case-receipt-actions .button,
   .historical-baseline-actions .button,
@@ -4068,6 +4148,7 @@ h4 {
 
   .quick-paths article,
   .quick-proof-modes a,
+  .quick-smoke-grid div,
   .thesis-strip div,
   .evidence-ladder div {
     border-right: 0;
@@ -4084,6 +4165,7 @@ h4 {
 
   .quick-paths article:last-child,
   .quick-proof-modes a:last-child,
+  .quick-smoke-grid div:last-child,
   .thesis-strip div:last-child,
   .evidence-ladder div:last-child {
     border-bottom: 0;
@@ -4091,11 +4173,13 @@ h4 {
 
   .quick-check-head,
   .quick-result-head,
+  .quick-smoke-head,
   .quick-receipt-preview-head {
     flex-direction: column;
   }
 
-  .quick-use-actions {
+  .quick-use-actions,
+  .quick-smoke-actions {
     justify-content: stretch;
   }
 
@@ -4183,8 +4267,12 @@ h4 {
     order: 2;
   }
 
-  .quick-result {
+  .quick-smoke-artifact {
     order: 3;
+  }
+
+  .quick-result {
+    order: 4;
   }
 
   .quick-check-form .field textarea {

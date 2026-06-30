@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Current smoke now leaves a first-screen packet",
+      "why": "The first screen exposed the current-model smoke button, but clicking it still sent visitors into the Lab to understand what happened. That made the live-model path feel like plumbing rather than a public artifact.",
+      "proof": "The first-screen smoke action now shows a Current smoke packet with running, blocked, and complete states. A completed smoke summarizes the case, generator, judge, evidence boundary, and copyable packet while the detailed Lab result remains one click away.",
+      "next": "Keep turning every public action into a visible artifact: local QA receipt, current smoke packet, claim ask, or powered aggregate row.",
+      "links": [
+        { "label": "Current smoke", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Add powered row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First checker now exposes the current-smoke path",
       "why": "The page could run a current OpenRouter smoke check from the Lab, but the first screen still looked like only a local receipt tool. That made visitors work too hard to understand how no-key QA, current smoke, and powered evidence rows relate.",
       "proof": "The first-screen checker now has a compact proof-mode strip for no-key receipt, current-model smoke, and powered row, plus a Run current-model smoke button wired to the existing Lab smoke path. The README Start here table now names the current free-model smoke job directly.",

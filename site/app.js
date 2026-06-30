@@ -397,6 +397,7 @@ let syntheticCases = [];
 let selectedDemoCase = null;
 let lastQuickResult = null;
 let lastLabResult = null;
+let lastSmokeResult = null;
 
 function byRank(a, b) {
   return (
@@ -1304,6 +1305,7 @@ function bindQuickCheck() {
   document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-use-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
+  document.getElementById("copy-quick-smoke-packet")?.addEventListener("click", copyQuickSmokePacket);
 }
 
 function bindPublicActionKit() {
@@ -1969,15 +1971,36 @@ function runSeededLocalReceipt(event) {
   }
 }
 
-async function runLiveSmokeCheck() {
+async function runLiveSmokeCheck(event) {
+  event?.preventDefault?.();
+  const launchedFromTop = event?.currentTarget?.id === "run-live-smoke-top";
   const c = seededCase();
   if (!c) {
     setLiveSmokeStatus("Demo cases are still loading. Try again in a moment.", "review");
+    showQuickSmokeArtifactStatus({
+      status: "Waiting",
+      statusClass: "open",
+      title: "Demo cases are still loading",
+      copy: "Try again after the seeded source and note finish loading.",
+    });
     return;
   }
+  lastSmokeResult = null;
+  setQuickSmokeCopyStatus("");
+  setQuickSmokeCopyFallback("");
   setLiveSmokeBusy(true);
   setLiveSmokeStatus("Running: loading SYN-003 and refreshing current free models...");
-  document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  showQuickSmokeArtifactStatus({
+    status: "Running",
+    statusClass: "open",
+    title: "Generating and judging a fresh current-model note",
+    copy: "ScribeBench is loading the seeded case, refreshing the OpenRouter free-model list, then generating and judging one fresh note. This stays smoke-only.",
+    caseLabel: "SYN-003",
+    generator: "Refreshing OpenRouter free models",
+    judge: "Waiting for generated note",
+    boundary: "Smoke only; not a leaderboard row.",
+  });
+  if (!launchedFromTop) document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
   try {
     const providerSelect = document.getElementById("lab-provider");
     if (providerSelect) {
@@ -1989,15 +2012,55 @@ async function runLiveSmokeCheck() {
     await loadLabModels(false);
     populateLabForLiveSmoke(c);
     setLiveSmokeStatus("Running: generating a fresh candidate note...");
+    showQuickSmokeArtifactStatus({
+      status: "Running",
+      statusClass: "open",
+      title: "Generating the candidate note",
+      copy: "The Lab is asking the selected current free model to write a fresh note from the seeded encounter.",
+      caseLabel: c.id || "SYN-003",
+      generator: selectedModelLabel("lab-generate-model"),
+      judge: selectedModelLabel("lab-judge-model"),
+      boundary: "Smoke only; not a leaderboard row.",
+    });
     const generated = await generateCandidateNote();
     if (!generated) {
       setLiveSmokeStatus("Generation did not finish. Check the Lab status for the exact error.", "review");
+      showQuickSmokeArtifactStatus({
+        status: "Blocked",
+        statusClass: "needed",
+        title: "Generation did not finish",
+        copy: currentLabStatus() || "The current free-model path did not return a candidate note. Try again later or paste a temporary provider key.",
+        caseLabel: c.id || "SYN-003",
+        generator: selectedModelLabel("lab-generate-model"),
+        judge: selectedModelLabel("lab-judge-model"),
+        boundary: "No smoke result was created.",
+      });
       return;
     }
     setLiveSmokeStatus("Running: judging the generated note for unsupported care...");
+    showQuickSmokeArtifactStatus({
+      status: "Judging",
+      statusClass: "open",
+      title: "Judging the generated note",
+      copy: "A fresh candidate note exists. The selected judge is checking it against the source for unsupported care, fidelity, and leaks.",
+      caseLabel: c.id || "SYN-003",
+      generator: generated.model || selectedModelLabel("lab-generate-model"),
+      judge: selectedModelLabel("lab-judge-model"),
+      boundary: "Smoke only; not a leaderboard row.",
+    });
     const judged = await runLabJudge();
     if (!judged) {
       setLiveSmokeStatus("Judge did not finish. Check the Lab status for the exact error.", "review");
+      showQuickSmokeArtifactStatus({
+        status: "Blocked",
+        statusClass: "needed",
+        title: "Judge did not finish",
+        copy: currentLabStatus() || "The current free-model judge did not return a usable verdict. The generated note remains in the Lab, but no smoke packet was created.",
+        caseLabel: c.id || "SYN-003",
+        generator: generated.model || selectedModelLabel("lab-generate-model"),
+        judge: selectedModelLabel("lab-judge-model"),
+        boundary: "No smoke result was created.",
+      });
       return;
     }
     const dangerCount = judged.fabrication?.dangerous?.length || 0;
@@ -2005,6 +2068,7 @@ async function runLiveSmokeCheck() {
       ? `Complete: ${receiptIssueSentence(judged)}`
       : "Complete: no obvious source-note issue flagged in this one-note smoke check.";
     setLiveSmokeStatus(label, dangerCount ? "danger" : "ok");
+    renderQuickSmokeArtifact(judged);
   } finally {
     setLiveSmokeBusy(false);
   }
@@ -2586,6 +2650,88 @@ function setLiveSmokeStatus(message, tone = "") {
   if (!status) return;
   status.textContent = message;
   status.dataset.tone = tone;
+}
+
+function showQuickSmokeArtifactStatus({
+  status,
+  statusClass = "open",
+  title,
+  copy,
+  caseLabel = "SYN-003",
+  generator = "Selected OpenRouter free model",
+  judge = "Selected OpenRouter free model",
+  boundary = "Smoke only; not a leaderboard row.",
+} = {}) {
+  const artifact = document.getElementById("quick-smoke-artifact");
+  if (!artifact) return;
+  artifact.hidden = false;
+  const statusEl = document.getElementById("quick-smoke-status");
+  if (statusEl) {
+    statusEl.textContent = status || "Smoke";
+    statusEl.className = `queue-status ${statusClass}`;
+  }
+  setText("quick-smoke-title", title || "Current smoke check");
+  setText("quick-smoke-copy", copy || "Run the current-model smoke path to create a smoke-only evidence packet.");
+  setText("quick-smoke-case", caseLabel);
+  setText("quick-smoke-generator", generator);
+  setText("quick-smoke-judge", judge);
+  setText("quick-smoke-boundary", boundary);
+}
+
+function renderQuickSmokeArtifact(result) {
+  lastSmokeResult = result;
+  const packet = labEvidencePacket(result);
+  const statusClass = packet.tone === "danger" ? "needed" : packet.tone === "review" ? "open" : "ready";
+  showQuickSmokeArtifactStatus({
+    status: packet.tone === "danger" ? "Review" : "Smoke complete",
+    statusClass,
+    title: packet.tone === "danger" ? "Current smoke found a source-note issue" : "Current smoke created a packet",
+    copy: `${packet.finding} This is one seeded synthetic case, so it can prove the public path works but cannot rank a scribe system.`,
+    caseLabel: packet.caseLabel,
+    generator: packet.generator,
+    judge: packet.judge,
+    boundary: packet.nextStep,
+  });
+  setQuickSmokeCopyStatus("");
+  setQuickSmokeCopyFallback("");
+}
+
+async function copyQuickSmokePacket() {
+  if (!lastSmokeResult) {
+    setQuickSmokeCopyStatus("Run the current-model smoke check first.");
+    return;
+  }
+  const text = buildEvidencePacketText(lastSmokeResult);
+  try {
+    await copyText(text);
+    setQuickSmokeCopyFallback("");
+    setQuickSmokeCopyStatus("Smoke packet copied.");
+  } catch (_) {
+    setQuickSmokeCopyFallback(text);
+    setQuickSmokeCopyStatus("Clipboard unavailable. Smoke packet shown below.");
+  }
+}
+
+function setQuickSmokeCopyStatus(message) {
+  const status = document.getElementById("quick-smoke-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setQuickSmokeCopyFallback(text) {
+  const fallback = document.getElementById("quick-smoke-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
+}
+
+function selectedModelLabel(selectId) {
+  const select = document.getElementById(selectId);
+  const option = select?.selectedOptions?.[0];
+  return option?.textContent?.trim() || select?.value || "selected model";
+}
+
+function currentLabStatus() {
+  return document.getElementById("lab-status")?.textContent?.trim() || "";
 }
 
 function updateLiveSmokeReadiness(models, configured) {
