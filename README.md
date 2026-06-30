@@ -79,12 +79,12 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 The first screen now states the product through concrete visitor jobs:
 
 - **Know who it is for:** clinical AI buyers, builders, reviewers, and public commenters with a source encounter plus an AI-written note.
-- **Know the output:** a copyable receipt that names what the note claimed, what the source supports, and what proof is still missing.
+- **Know the output:** a copyable receipt that names the source-note issues, what the note claimed, what the source supports, and what proof is still missing.
 - **Know the boundary:** ScribeBench is not the scribe product, not a patient app, and not a current model popularity board.
-- **Check one note:** paste the source encounter plus AI note and catch unsupported care like the seeded CT/syncope workup.
+- **Check one note:** paste the source encounter plus AI note and catch source-note issues like the seeded CT/syncope workup, demographic changes, side changes, and allergy contradictions.
 - **Challenge a claim:** turn "hallucination-free" language into an evidence ask with dataset, n, judge, repeats, and rates.
 - **Publish evidence:** use aggregate PriMock57 or real-workflow scores for system claims while keeping raw closed-model notes out.
-- **Inspect the proof:** flagged browser-check items now show note and source excerpts, including demographic, laterality, and allergy contradictions, so the receipt reads like evidence instead of a black-box verdict.
+- **Inspect the proof:** flagged browser-check and demo receipt items now show note and source excerpts, including demographic, laterality, and allergy contradictions, so the receipt reads like evidence instead of a black-box verdict.
 - **Start without waiting on models:** the seeded no-key check loads from static demo data before model-list/API calls, so first-time visitors see the useful receipt path first.
 - **Keep receipts honest:** editing either quick-check text box clears seeded-case metadata, so copied receipts for pasted examples no longer claim to be `SYN-003`.
 
@@ -107,7 +107,9 @@ source and note fields for a visitor's own example, and a copyable receipt that
 carries findings, note/source evidence excerpts, and next proof steps without copying
 raw encounter text into the public ledger. Structured mismatches such as age, sex/gender,
 left-vs-right body part, and NKDA-vs-listed-allergy contradictions carry the same
-inspectable proof as unsupported clinical-workup flags. The next
+inspectable proof as unsupported clinical-workup flags, and the receipt language now
+calls them source-note issues instead of squeezing every flag into "dangerous fabrication"
+jargon. The next
 section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a

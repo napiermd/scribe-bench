@@ -86,7 +86,7 @@ const claimGuides = {
     nextAction:
       "Paste the source and note in the Lab, run the judge, then review any flagged claims manually.",
     ask:
-      "Can you provide the source encounter and generated note so we can run a ScribeBench one-note triage check for unsupported clinical claims and leaks?",
+      "Can you provide the source encounter and generated note so we can run a ScribeBench one-note triage check for source-note issues and leaks?",
   },
   "system-better": {
     status: "Benchmark claim",
@@ -853,6 +853,7 @@ function renderCaseReceipt(c) {
     fidelity: Number(result.dimensions?.inputFidelity || 0),
     normalized: Number(result.normalized || 0),
     localResult: true,
+    issueTypes: receiptIssueTypes(result),
   });
   const status = document.getElementById("case-receipt-status");
   if (status) {
@@ -867,12 +868,14 @@ function renderCaseReceipt(c) {
 
   const list = document.getElementById("case-receipt-list");
   if (!list) return;
-  const items = dangerousCount
-    ? result.fabrication.dangerous
-    : leakCount
-      ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
-      : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak was found by the browser receipt."];
   list.innerHTML = "";
+  if (dangerousCount) {
+    renderDangerousFindingsInto(list, result);
+    return;
+  }
+  const items = leakCount
+    ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
+    : ["No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak was found by the browser receipt."];
   for (const item of items.filter(Boolean)) {
     const li = document.createElement("li");
     li.textContent = item;
@@ -1244,10 +1247,10 @@ function runQuickLocalReceipt(event) {
   const tone = dangerousCount ? "danger" : leakCount ? "review" : "ok";
   setQuickStatus(
     dangerousCount
-      ? `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} flagged.`
+      ? receiptIssueSentence(result)
       : leakCount
         ? `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} flagged.`
-        : "No obvious unsupported item flagged by the browser check.",
+        : "No obvious source-note issue flagged by the browser check.",
     tone
   );
   return result;
@@ -1264,7 +1267,14 @@ function renderQuickResult(result) {
   const leakCount = result.leaks?.filter(Boolean).length || 0;
   const fidelity = Number(result.dimensions?.inputFidelity || 0);
   const normalized = Number(result.normalized || 0);
-  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
+  const verdict = labVerdict({
+    dangerousCount,
+    leakCount,
+    fidelity,
+    normalized,
+    localResult: Boolean(result.localResult),
+    issueTypes: receiptIssueTypes(result),
+  });
   const status = document.getElementById("quick-result-status");
   if (status) {
     status.textContent = dangerousCount ? "Review before trust" : leakCount ? "Clean output" : "No obvious issue";
@@ -1280,7 +1290,7 @@ function renderQuickResult(result) {
     } else {
       const items = leakCount
         ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
-        : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak."];
+        : ["No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak."];
       for (const item of items.filter(Boolean)) {
         const li = document.createElement("li");
         li.textContent = item;
@@ -1341,7 +1351,14 @@ function buildQuickReceiptText(result) {
   const leakCount = leaks.length;
   const fidelity = Number(result.dimensions?.inputFidelity || 0);
   const normalized = Number(result.normalized || 0);
-  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
+  const verdict = labVerdict({
+    dangerousCount,
+    leakCount,
+    fidelity,
+    normalized,
+    localResult: Boolean(result.localResult),
+    issueTypes: receiptIssueTypes(result),
+  });
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
   const evidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
   const flaggedItems = dangerousCount
@@ -1354,7 +1371,7 @@ function buildQuickReceiptText(result) {
       })
     : leakCount
       ? leaks.map((item) => `- ${item}`)
-      : ["- No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak flagged by the browser receipt."];
+      : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser receipt."];
 
   return [
     "ScribeBench source-vs-note receipt",
@@ -1364,7 +1381,7 @@ function buildQuickReceiptText(result) {
     `Finding: ${verdict.title}`,
     `Summary: ${verdict.copy}`,
     "",
-    "Flagged items:",
+    "Flagged source-note issues:",
     ...flaggedItems,
     "",
     `Next proof step: ${verdict.action}`,
@@ -1770,8 +1787,8 @@ async function runLiveSmokeCheck() {
     }
     const dangerCount = judged.fabrication?.dangerous?.length || 0;
     const label = dangerCount
-      ? `Complete: ${dangerCount} unsupported clinical item${dangerCount === 1 ? "" : "s"} flagged.`
-      : "Complete: no dangerous fabrication flagged in this one-note smoke check.";
+      ? `Complete: ${receiptIssueSentence(judged)}`
+      : "Complete: no obvious source-note issue flagged in this one-note smoke check.";
     setLiveSmokeStatus(label, dangerCount ? "danger" : "ok");
   } finally {
     setLiveSmokeBusy(false);
@@ -1887,7 +1904,14 @@ function renderLabVerdict(result) {
   const leakCount = result.leaks?.filter(Boolean).length || 0;
   const fidelity = Number(result.dimensions?.inputFidelity || 0);
   const normalized = Number(result.normalized || 0);
-  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
+  const verdict = labVerdict({
+    dangerousCount,
+    leakCount,
+    fidelity,
+    normalized,
+    localResult: Boolean(result.localResult),
+    issueTypes: receiptIssueTypes(result),
+  });
   const card = document.getElementById("lab-verdict-card");
   card.className = `verdict-card ${verdict.tone}`;
   document.getElementById("lab-verdict-title").textContent = verdict.title;
@@ -1895,12 +1919,12 @@ function renderLabVerdict(result) {
   document.getElementById("lab-verdict-action").textContent = verdict.action;
 }
 
-function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult = false }) {
+function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult = false, issueTypes = "" }) {
   if (dangerousCount > 0) {
     return {
       tone: "danger",
       title: "Do not trust this note without review",
-      copy: `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} ${localResult ? "looked unsupported in the browser-only receipt" : "changed what the reader would believe happened"}.`,
+      copy: `${issueCountLabel(dangerousCount)} ${localResult ? "flagged by the browser-only receipt" : "changed what the reader would believe happened"}${issueTypes ? ` (${issueTypes})` : ""}.`,
       action: "Compare each flagged item against the source. A system with this pattern needs a powered benchmark run before any public claim.",
     };
   }
@@ -1915,19 +1939,54 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
   if (normalized < 70 || fidelity <= 3) {
     return {
       tone: "review",
-      title: "No dangerous fabrication flagged, but quality is not strong",
+      title: "No source-note issue flagged, but quality is not strong",
       copy: `${localResult ? "The browser-only receipt estimated" : "The judge scored"} narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
       action: "Use this as a triage signal, then inspect the note manually or run a larger benchmark before comparing systems.",
     };
   }
   return {
     tone: "ok",
-    title: "No dangerous fabrication flagged in this sample",
+    title: "No source-note issue flagged in this sample",
     copy: localResult
-      ? `The browser-only receipt found no obvious unsupported clinical claims and estimated input fidelity at ${fidelity || "--"}/5.`
-      : `The judge found no unsupported clinical claims and scored input fidelity at ${fidelity || "--"}/5.`,
+      ? `The browser-only receipt found no obvious source-note issues and estimated input fidelity at ${fidelity || "--"}/5.`
+      : `The judge found no obvious source-note issues and scored input fidelity at ${fidelity || "--"}/5.`,
     action: "This is one note, not a leaderboard claim. For a system-level answer, run the powered PriMock57 path.",
   };
+}
+
+function issueCountLabel(count) {
+  return `${count} source-note issue${count === 1 ? "" : "s"}`;
+}
+
+function receiptIssueSentence(result) {
+  const dangerousCount = cleanStringArray(result?.fabrication?.dangerous).length;
+  const types = receiptIssueTypes(result);
+  return `${issueCountLabel(dangerousCount)} flagged${types ? `: ${types}` : ""}.`;
+}
+
+function receiptIssueTypes(result) {
+  const dangerous = cleanStringArray(result?.fabrication?.dangerous);
+  if (!dangerous.length) return "";
+  const evidence = Array.isArray(result?.evidence?.dangerous) ? result.evidence.dangerous : [];
+  const labels = [];
+  for (const finding of dangerous) {
+    const detail = evidence.find((entry) => entry?.finding === finding);
+    const label = classifyIssueType(detail?.label || "", finding);
+    if (label && !labels.includes(label)) labels.push(label);
+  }
+  return labels.join(", ");
+}
+
+function classifyIssueType(label, finding) {
+  const text = `${label} ${finding}`.toLowerCase();
+  if (text.includes("age differs") || text.includes("age mismatch")) return "age";
+  if (text.includes("sex/gender") || text.includes("gender mismatch")) return "sex/gender";
+  if (text.includes("laterality")) return "laterality";
+  if (text.includes("allergy") || text.includes("nkda")) return "allergy";
+  if (text.includes("workup") || text.includes("head ct") || text.includes("head imaging")) return "unsupported care";
+  if (text.includes("ems") || text.includes("ambulance")) return "arrival mismatch";
+  if (text.includes("fever") || text.includes("chest pain") || text.includes("shortness of breath") || text.includes("dysuria") || text.includes("anticoagulant")) return "unsupported symptom";
+  return label ? label.replace(/\s+appears.*$/i, "").trim() : "unsupported fact";
 }
 
 function labEvidencePacket(result) {
@@ -1943,6 +2002,7 @@ function labEvidencePacket(result) {
     fidelity: Number.isFinite(fidelityValue) ? fidelityValue : 0,
     normalized: Number.isFinite(normalized) ? normalized : 0,
     localResult: Boolean(result.localResult),
+    issueTypes: receiptIssueTypes(result),
   });
   const scope = result.demoResult
     ? "Static demo"
@@ -1963,7 +2023,7 @@ function labEvidencePacket(result) {
     ? "Treat as smoke evidence; run PriMock57 before making a system claim."
     : "Use as QA triage; run a powered benchmark before comparing systems.";
   const finding = dangerous.length
-    ? `${dangerous.length} unsupported clinical item${dangerous.length === 1 ? "" : "s"} flagged. ${verdict.copy}`
+    ? verdict.copy
     : `${verdict.title}. Narrative ${scoreDisplay}; input fidelity ${fidelityDisplay}.`;
   return {
     scope,
@@ -2029,6 +2089,7 @@ function buildLabSummary(result) {
     fidelity,
     normalized: Number.isFinite(normalized) ? normalized : 0,
     localResult: Boolean(result.localResult),
+    issueTypes: receiptIssueTypes(result),
   });
   const lines = [
     "ScribeBench lab result",
@@ -2037,7 +2098,7 @@ function buildLabSummary(result) {
     `Verdict: ${verdict.title}`,
     `Narrative score: ${result.normalized ?? "--"}/100`,
     `Input fidelity: ${fidelityDisplay}/5`,
-    `Dangerous fabrications: ${dangerousCount}`,
+    `Flagged source-note issues: ${dangerousCount}`,
     `Leaks: ${leakCount}`,
     result.generatedModel ? `Generator: ${result.generatedModel}` : "",
     `Judge: ${result.localResult ? "browser-only local receipt" : result.model || "unknown"}`,
@@ -2049,7 +2110,7 @@ function buildLabSummary(result) {
     verdict.copy,
     verdict.action,
     "",
-    "Dangerous items:",
+    "Flagged source-note issues:",
     ...(dangerous.length ? dangerous.map((item) => `- ${item}`) : ["- None flagged."]),
     "",
     "Standard / accepted items:",
@@ -2073,7 +2134,7 @@ function buildEvidencePacketText(result) {
     `Verdict: ${packet.verdict.title}`,
     `Narrative score: ${packet.scoreDisplay}`,
     `Input fidelity: ${packet.fidelityDisplay}`,
-    `Dangerous fabrications: ${packet.dangerous.length}`,
+    `Flagged source-note issues: ${packet.dangerous.length}`,
     `Leaks: ${packet.leaks.length}`,
     `Generator: ${packet.generator}`,
     `Judge: ${packet.judge}`,
@@ -2088,7 +2149,7 @@ function buildEvidencePacketText(result) {
     "What this supports:",
     packet.nextStep,
     "",
-    "Flagged dangerous items:",
+    "Flagged source-note issues:",
     ...(packet.dangerous.length ? packet.dangerous.map((item) => `- ${item}`) : ["- None flagged."]),
   ];
   return lines.filter((line, index, arr) => line || arr[index - 1]).join("\n").trim();

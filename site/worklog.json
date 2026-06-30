@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Receipts now call flags source-note issues",
+      "why": "Once demographic, laterality, and allergy contradictions became first-class checks, the UI still called every flag an unsupported clinical item or dangerous fabrication. That made the public receipt sound less precise than the evidence it showed.",
+      "proof": "The quick checker, Lab verdicts, copyable summaries, and evidence packets now describe flagged source-note issues and list issue types such as age, sex/gender, laterality, allergy, unsupported care, or arrival mismatch. Demo case receipts also render the same evidence cards as the main checker.",
+      "next": "Keep making the public artifact read like a practical QA receipt: one clear issue label, visible proof, and a next action a buyer, builder, or reviewer can use.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Demo cases", "href": "#demo" },
+        { "label": "Live Lab", "href": "#lab" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Structured mismatch receipts show their proof",
       "why": "Age, sex/gender, laterality, and allergy contradictions were caught by the browser receipt but still rendered like plain verdict strings, which made some of the most patient-changing flags less inspectable than CT or syncope inventions.",
       "proof": "Local receipts now attach note and source excerpts to structured mismatch findings. A pasted note that changes a 79-year-old woman with right hip pain and penicillin allergy into an 89-year-old man with left hip pain and NKDA now shows the exact source and note snippets behind each flag.",
