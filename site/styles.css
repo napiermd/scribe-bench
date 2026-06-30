@@ -464,6 +464,74 @@ h4 {
   color: #3d2d06;
 }
 
+.evidence-agenda {
+  display: grid;
+  grid-template-columns: minmax(0, 0.58fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0 0 1rem;
+}
+
+.agenda-copy,
+.agenda-grid article {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.agenda-copy h3 {
+  font-size: 1.34rem;
+  max-width: 20rem;
+}
+
+.agenda-copy p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.75rem 0 0;
+}
+
+.agenda-copy strong {
+  color: var(--ink);
+}
+
+.agenda-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.agenda-grid article {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  box-shadow: none;
+  background: var(--panel-soft);
+  min-height: 220px;
+}
+
+.agenda-grid span {
+  color: var(--accent-strong);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.agenda-grid h3 {
+  font-size: 1.02rem;
+}
+
+.agenda-grid p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.agenda-grid a {
+  align-self: end;
+  font-weight: 850;
+  margin-top: 0.25rem;
+}
+
 .subsection-head {
   margin: 1.6rem 0 0.8rem;
 }
@@ -1171,6 +1239,7 @@ h4 {
   }
 
   .summary-grid,
+  .evidence-agenda,
   .lab-shell,
   .case-workspace,
   .method-grid,
@@ -1182,6 +1251,7 @@ h4 {
   .job-grid,
   .ledger-grid,
   .run-steps,
+  .agenda-grid,
   .answer-strip,
   .workflow-strip,
   .field-row,

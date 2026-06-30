@@ -4,6 +4,7 @@ const fmtCI = (ci, percent = false) => {
   if (percent) return ` [${(ci[0] * 100).toFixed(0)}-${(ci[1] * 100).toFixed(0)}%]`;
   return ` [${ci[0].toFixed(1)}-${ci[1].toFixed(1)}]`;
 };
+const fmtDate = new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
 
 const demoFindings = {
   "SYN-001":
@@ -89,6 +90,25 @@ function renderLeaderboard(results) {
     ranked: false,
     emptyText: "No synthetic smoke-test rows found.",
   });
+}
+
+function renderEvidenceFreshness(results) {
+  const target = document.getElementById("latest-powered-run");
+  if (!target) return;
+  const ranked = rankedRows(results);
+  const latestDate = ranked
+    .map((row) => row.scoredAt)
+    .filter(Boolean)
+    .sort()
+    .pop();
+  target.textContent = latestDate
+    ? `${formatScoredAt(latestDate)} (${ranked.length} powered row${ranked.length === 1 ? "" : "s"})`
+    : "no powered rows yet";
+}
+
+function formatScoredAt(value) {
+  const date = new Date(`${value}T00:00:00Z`);
+  return Number.isNaN(date.getTime()) ? value : fmtDate.format(date);
 }
 
 function rankedRows(results) {
@@ -640,6 +660,7 @@ async function boot() {
     ]);
     const results = resultsPayload.results || [];
     renderSnapshot(results, metadata);
+    renderEvidenceFreshness(results);
     renderLeaderboard(results);
     renderCases(casesPayload.cases || []);
   } catch (err) {
