@@ -4365,12 +4365,12 @@ h4 {
   }
 
   .quick-check-form {
-    order: 1;
+    order: 2;
     gap: 0.6rem;
   }
 
   .quick-proof-modes {
-    order: 2;
+    order: 1;
   }
 
   .quick-smoke-artifact {

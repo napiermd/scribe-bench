@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First screen now names the visitor jobs",
+      "why": "The site could already check notes, challenge claims, and collect aggregate rows, but the first screen still led with evidence modes before saying who should use them. That left the product feeling like an internal benchmark page.",
+      "proof": "The first viewport now names the three public jobs directly: clinical QA reviewers can review one AI note, buyers and operators can challenge a claim, and builders or contributors can add a public evidence row. The hero headline also promises the actual leave-behind: evidence.",
+      "next": "Keep compressing the first-screen path until a cold visitor can pick the right job without reading the whole page.",
+      "links": [
+        { "label": "Review one AI note", "href": "#quick-check" },
+        { "label": "Challenge a claim", "href": "#claim-check" },
+        { "label": "Add public row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Outputs now converge into one public evidence card",
       "why": "The site had useful receipt, smoke, and claim-copy actions, but they still felt like separate widgets. A visitor needed one obvious public artifact to leave with.",
       "proof": "One-note receipts, completed current-smoke packets, and claim asks can now create the same Public evidence card. The card states what happened, the evidence level, the boundary, the next public ask, and exposes one copy-ready block.",

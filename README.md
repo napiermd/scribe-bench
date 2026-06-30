@@ -96,7 +96,7 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`.
 
-Use the website for five jobs:
+Use the website for six jobs:
 
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. No API key required.
 2. **Try a current-model smoke.** Use the first-screen smoke action to generate and judge the seeded case with the configured OpenRouter free-model path. Treat the packet as plumbing evidence, not a ranked result.
