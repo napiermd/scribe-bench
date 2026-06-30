@@ -1146,6 +1146,105 @@ h4 {
   color: var(--accent-strong);
 }
 
+.evidence-packet {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 0.95rem;
+  margin: 0 0 1rem;
+}
+
+.evidence-packet-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.85rem;
+}
+
+.evidence-packet-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.evidence-packet-head h3 {
+  font-size: 1.08rem;
+}
+
+#packet-scope {
+  display: inline-flex;
+  min-height: 30px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--muted);
+  padding: 0.24rem 0.55rem;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+#packet-scope[data-tone="ok"] {
+  border-color: rgba(15, 118, 110, 0.28);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+#packet-scope[data-tone="review"] {
+  border-color: rgba(152, 111, 11, 0.34);
+  background: #fff7df;
+  color: var(--gold);
+}
+
+#packet-scope[data-tone="danger"] {
+  border-color: rgba(180, 35, 24, 0.32);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.packet-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.packet-grid div {
+  min-width: 0;
+  border-left: 3px solid var(--line-strong);
+  padding-left: 0.65rem;
+}
+
+.packet-grid dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.packet-grid dd {
+  margin: 0.16rem 0 0;
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.packet-finding {
+  border-top: 1px solid var(--line);
+  margin-top: 0.85rem;
+  padding-top: 0.85rem;
+}
+
+.packet-finding p {
+  color: var(--muted);
+  margin: 0.45rem 0 0;
+  font-size: 0.9rem;
+}
+
 .result-actions {
   display: flex;
   flex-wrap: wrap;
@@ -1752,6 +1851,14 @@ h4 {
 
   .case-toolbar {
     flex-direction: column;
+  }
+
+  .evidence-packet-head {
+    flex-direction: column;
+  }
+
+  .packet-grid {
+    grid-template-columns: 1fr;
   }
 
   .result-hero,

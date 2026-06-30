@@ -257,6 +257,7 @@ function bindLab() {
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
   liveSmokeButtons().forEach((button) => button.addEventListener("click", runLiveSmokeCheck));
+  document.getElementById("copy-evidence-packet")?.addEventListener("click", copyEvidencePacket);
   document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
   const providerSelect = document.getElementById("lab-provider");
   if (providerSelect) {
@@ -276,7 +277,11 @@ function bindLab() {
     resetLabResult();
     setLabStatus("");
   });
-  document.getElementById("lab-source")?.addEventListener("input", resetLabResult);
+  document.getElementById("lab-source")?.addEventListener("input", (event) => {
+    delete event.currentTarget.dataset.caseId;
+    delete event.currentTarget.dataset.caseType;
+    resetLabResult();
+  });
   document.getElementById("lab-note")?.addEventListener("input", (event) => {
     delete event.currentTarget.dataset.generatedModel;
     resetLabResult();
@@ -407,7 +412,10 @@ function seededCase() {
 
 function populateLab(c) {
   if (!c) return;
-  document.getElementById("lab-source").value = c.source || "";
+  const source = document.getElementById("lab-source");
+  source.value = c.source || "";
+  source.dataset.caseId = c.id || "";
+  source.dataset.caseType = c.provenance || "synthetic";
   const note = document.getElementById("lab-note");
   note.value = c.candidateNote || "";
   delete note.dataset.generatedModel;
@@ -428,7 +436,10 @@ function populateLab(c) {
 
 function populateLabForLiveSmoke(c) {
   if (!c) return;
-  document.getElementById("lab-source").value = c.source || "";
+  const source = document.getElementById("lab-source");
+  source.value = c.source || "";
+  source.dataset.caseId = c.id || "";
+  source.dataset.caseType = c.provenance || "synthetic";
   const note = document.getElementById("lab-note");
   note.value = "";
   delete note.dataset.generatedModel;
@@ -453,6 +464,8 @@ function buildSeededLabResult(c) {
     },
     leaks: [...result.leaks],
     generatedModel: "bundled example candidate",
+    caseId: c.id || "",
+    caseType: c.provenance || "synthetic",
     sourceChars: String(c.source || "").length,
     noteChars: String(c.candidateNote || "").length,
   };
@@ -499,6 +512,9 @@ async function runLabJudge(event) {
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Judge failed (${response.status})`);
     payload.generatedModel = document.getElementById("lab-note").dataset.generatedModel || "";
+    const sourceEl = document.getElementById("lab-source");
+    payload.caseId = sourceEl.dataset.caseId || "";
+    payload.caseType = sourceEl.dataset.caseType || "";
     payload.sourceChars = source.length;
     payload.noteChars = note.length;
     renderLabResult(payload);
@@ -566,6 +582,7 @@ function renderLabResult(result) {
   document.getElementById("lab-score").textContent = `${result.normalized ?? "--"}/100`;
   document.getElementById("lab-danger").textContent = String(result.fabrication?.dangerous?.length ?? 0);
   renderLabVerdict(result);
+  renderEvidencePacket(result);
 
   const dims = document.getElementById("lab-dimensions");
   dims.innerHTML = "";
@@ -604,6 +621,20 @@ function resetLabResult() {
   updateLabEmptyForInputs();
   setCopyStatus("");
   setSummaryFallback("");
+}
+
+function renderEvidencePacket(result) {
+  const packet = labEvidencePacket(result);
+  const scope = document.getElementById("packet-scope");
+  if (scope) {
+    scope.textContent = packet.scope;
+    scope.dataset.tone = packet.tone;
+  }
+  setText("packet-case", packet.caseLabel);
+  setText("packet-generator", packet.generator);
+  setText("packet-judge", packet.judge);
+  setText("packet-next-step", packet.nextStep);
+  setText("packet-finding", packet.finding);
 }
 
 function setLabEmptyState(title, copy, detail = "") {
@@ -690,6 +721,68 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized }) {
   };
 }
 
+function labEvidencePacket(result) {
+  const dangerous = cleanStringArray(result.fabrication?.dangerous);
+  const leaks = cleanStringArray((result.leaks || []).map(formatLeakHit));
+  const fidelityValue = Number(result.dimensions?.inputFidelity);
+  const fidelityDisplay = Number.isFinite(fidelityValue) ? `${fidelityValue}/5` : "--";
+  const normalized = Number(result.normalized);
+  const scoreDisplay = Number.isFinite(normalized) ? `${normalized}/100` : "--";
+  const verdict = labVerdict({
+    dangerousCount: dangerous.length,
+    leakCount: leaks.length,
+    fidelity: Number.isFinite(fidelityValue) ? fidelityValue : 0,
+    normalized: Number.isFinite(normalized) ? normalized : 0,
+  });
+  const scope = result.demoResult
+    ? "Static demo"
+    : result.caseId?.startsWith("SYN")
+      ? "Live smoke"
+      : "One-note triage";
+  const tone = dangerous.length ? "danger" : leaks.length || Number(normalized) < 70 ? "review" : "ok";
+  const caseLabel = result.caseId
+    ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}`
+    : "Custom pasted source";
+  const generator = result.generatedModel || (result.demoResult ? "bundled example candidate" : "pasted candidate note");
+  const judge = `${result.model || "unknown"}${result.provider ? ` via ${result.provider}` : ""}`;
+  const nextStep = result.caseId?.startsWith("SYN") || result.demoResult
+    ? "Treat as smoke evidence; run PriMock57 before making a system claim."
+    : "Use as QA triage; run a powered benchmark before comparing systems.";
+  const finding = dangerous.length
+    ? `${dangerous.length} unsupported clinical item${dangerous.length === 1 ? "" : "s"} flagged. ${verdict.copy}`
+    : `${verdict.title}. Narrative ${scoreDisplay}; input fidelity ${fidelityDisplay}.`;
+  return {
+    scope,
+    tone,
+    caseLabel,
+    generator,
+    judge,
+    nextStep,
+    finding,
+    verdict,
+    dangerous,
+    leaks,
+    scoreDisplay,
+    fidelityDisplay,
+  };
+}
+
+async function copyEvidencePacket() {
+  if (!lastLabResult) {
+    setCopyStatus("Run the judge first.");
+    return;
+  }
+  const text = buildEvidencePacketText(lastLabResult);
+  try {
+    await copyText(text);
+    setSummaryFallback("");
+    setCopyStatus("Evidence packet copied.");
+  } catch (_) {
+    setSummaryFallback(text);
+    setCopyStatus("Clipboard unavailable. Evidence packet shown below.");
+  }
+}
+
 async function copyLabSummary() {
   if (!lastLabResult) {
     setCopyStatus("Run the judge first.");
@@ -755,6 +848,36 @@ function buildLabSummary(result) {
   return lines.filter((line, index, arr) => line || arr[index - 1]).join("\n").trim();
 }
 
+function buildEvidencePacketText(result) {
+  const packet = labEvidencePacket(result);
+  const lines = [
+    "ScribeBench evidence packet",
+    `Scope: ${packet.scope} (not a leaderboard row)`,
+    `Case: ${packet.caseLabel}`,
+    `Verdict: ${packet.verdict.title}`,
+    `Narrative score: ${packet.scoreDisplay}`,
+    `Input fidelity: ${packet.fidelityDisplay}`,
+    `Dangerous fabrications: ${packet.dangerous.length}`,
+    `Leaks: ${packet.leaks.length}`,
+    `Generator: ${packet.generator}`,
+    `Judge: ${packet.judge}`,
+    result.rubric ? `Rubric: ${result.rubric}` : "",
+    result.sourceChars ? `Source length: ${result.sourceChars} chars` : "",
+    result.noteChars ? `Note length: ${result.noteChars} chars` : "",
+    "URL: https://scribe-bench.vercel.app/#lab",
+    "",
+    "Public finding:",
+    packet.finding,
+    "",
+    "What this supports:",
+    packet.nextStep,
+    "",
+    "Flagged dangerous items:",
+    ...(packet.dangerous.length ? packet.dangerous.map((item) => `- ${item}`) : ["- None flagged."]),
+  ];
+  return lines.filter((line, index, arr) => line || arr[index - 1]).join("\n").trim();
+}
+
 function cleanStringArray(value) {
   return Array.isArray(value)
     ? value.map((item) => String(item).trim()).filter(Boolean)
@@ -795,6 +918,11 @@ function setSummaryFallback(text) {
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
+}
+
+function setText(id, text) {
+  const target = document.getElementById(id);
+  if (target) target.textContent = text;
 }
 
 function selectedProvider() {

@@ -529,8 +529,41 @@
                 <p id="lab-verdict-action"></p>
               </section>
 
+              <section class="evidence-packet" id="evidence-packet" aria-labelledby="evidence-packet-title">
+                <div class="evidence-packet-head">
+                  <div>
+                    <p class="eyebrow">Evidence packet</p>
+                    <h3 id="evidence-packet-title">What this result can support</h3>
+                  </div>
+                  <span id="packet-scope">Smoke only</span>
+                </div>
+                <dl class="packet-grid">
+                  <div>
+                    <dt>Case</dt>
+                    <dd id="packet-case">--</dd>
+                  </div>
+                  <div>
+                    <dt>Generator</dt>
+                    <dd id="packet-generator">--</dd>
+                  </div>
+                  <div>
+                    <dt>Judge</dt>
+                    <dd id="packet-judge">--</dd>
+                  </div>
+                  <div>
+                    <dt>Next proof step</dt>
+                    <dd id="packet-next-step">--</dd>
+                  </div>
+                </dl>
+                <div class="packet-finding">
+                  <h4>Public finding</h4>
+                  <p id="packet-finding">Run the judge to create a packet.</p>
+                </div>
+              </section>
+
               <div class="result-actions">
-                <button class="button secondary compact-button" id="copy-lab-summary" type="button">Copy summary</button>
+                <button class="button secondary compact-button" id="copy-evidence-packet" type="button">Copy evidence packet</button>
+                <button class="button secondary compact-button" id="copy-lab-summary" type="button">Copy full QA summary</button>
                 <span id="lab-copy-status" role="status" aria-live="polite"></span>
               </div>
               <textarea

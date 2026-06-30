@@ -71,8 +71,9 @@ public claim is backed by proof. The Lab opens with that seeded failure already
 loaded plus a precomputed demo verdict, and the homepage can launch a one-click
 OpenRouter smoke flow that generates a fresh candidate note from SYN-003, judges
 it, and leaves the visitor with a verdict. Visitors can also run the live judge,
-read the fabrication verdict, and copy a QA summary before they test their own
-notes. The public framing is
+read the fabrication verdict, copy a short evidence packet that names the scope,
+models, finding, and next proof step, then copy a fuller QA summary before they
+test their own notes. The public framing is
 deliberately practical: one-note triage in the Lab, system-level evidence through
 PriMock57, and build-in-public updates through GitHub submissions. The Run section
 includes a contribution builder that generates the candidate-note JSON shape,
@@ -92,8 +93,9 @@ Source lives in [`site/`](site/). The build script copies the static app into
 `dist/` and publishes bounded JSON from the existing benchmark artifacts.
 The live Lab can generate a candidate note from the source encounter, then judge
 that note in the same browser flow with a separate judge model. It returns a
-plain-language verdict and next step, not just a raw score, and can copy a
-portable summary of the result for QA notes or public discussion. It can use a
+plain-language verdict and next step, not just a raw score, and can copy either
+a short public evidence packet or a detailed QA summary for review notes and
+public discussion. It can use a
 Vercel `OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key
 pasted into the browser for that session. Baseten's OpenAI-compatible Model APIs
 are wired as an optional provider and become available when `BASETEN_API_KEY` is
