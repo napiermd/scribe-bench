@@ -120,6 +120,25 @@ const claimGuides = {
   },
 };
 
+const claimPresets = {
+  "vendor-zero": {
+    type: "vendor-zero",
+    text: "Our AI scribe is hallucination-free and ready for clinical deployment.",
+  },
+  "one-note": {
+    type: "one-note",
+    text: "This AI-generated chart note is safe to trust as-is.",
+  },
+  "system-better": {
+    type: "system-better",
+    text: "Our scribe produces better notes than the other ambient AI systems.",
+  },
+  "current-ranking": {
+    type: "current-ranking",
+    text: "This leaderboard proves which AI scribe model is best today.",
+  },
+};
+
 const challengePlans = {
   "frontier-powered": {
     label: "Current hosted frontier model",
@@ -639,11 +658,50 @@ function renderCase(c) {
 function bindClaimChecker() {
   const form = document.getElementById("claim-form");
   if (!form) return;
+  const claimType = document.getElementById("claim-type");
+  const claimText = document.getElementById("claim-text");
   form.addEventListener("submit", (event) => event.preventDefault());
-  document.getElementById("claim-type")?.addEventListener("change", renderClaimCheck);
-  document.getElementById("claim-text")?.addEventListener("input", renderClaimCheck);
+  document.querySelectorAll("[data-claim-preset]").forEach((button) => {
+    button.addEventListener("click", () => applyClaimPreset(button.dataset.claimPreset || "vendor-zero"));
+  });
+  claimType?.addEventListener("change", () => {
+    setActiveClaimPreset(matchingClaimPresetKey());
+    renderClaimCheck();
+  });
+  claimText?.addEventListener("input", () => {
+    setActiveClaimPreset(matchingClaimPresetKey());
+    renderClaimCheck();
+  });
   document.getElementById("copy-claim-ask")?.addEventListener("click", copyClaimAsk);
+  if (!currentClaimText()) applyClaimPreset("vendor-zero");
+  else {
+    setActiveClaimPreset(matchingClaimPresetKey());
+    renderClaimCheck();
+  }
+}
+
+function applyClaimPreset(key) {
+  const preset = claimPresets[key] || claimPresets["vendor-zero"];
+  const claimType = document.getElementById("claim-type");
+  const claimText = document.getElementById("claim-text");
+  if (claimType) claimType.value = preset.type;
+  if (claimText) claimText.value = preset.text;
+  setActiveClaimPreset(key);
   renderClaimCheck();
+}
+
+function matchingClaimPresetKey() {
+  const type = document.getElementById("claim-type")?.value || "";
+  const text = currentClaimText();
+  return Object.entries(claimPresets).find(([, preset]) => preset.type === type && preset.text === text)?.[0] || "";
+}
+
+function setActiveClaimPreset(key) {
+  document.querySelectorAll("[data-claim-preset]").forEach((button) => {
+    const active = Boolean(key) && button.dataset.claimPreset === key;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
 }
 
 function selectedClaimGuide() {

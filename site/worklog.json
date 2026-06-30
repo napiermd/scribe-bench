@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Claim checker presets",
+      "why": "The claim checker was useful but still opened like an empty form. Visitors should not have to invent the first vendor claim before the tool shows its point.",
+      "proof": "Added one-click presets for hallucination-free, safe-note, better-scribe, and best-current-model claims. Each preset fills the claim type and exact claim text, updates the ScribeBench answer, and leaves a copyable public evidence ask. The claim type control now has the full form width instead of truncating the default option.",
+      "next": "Keep reducing blank states across the deeper Lab, evidence ledger, and run builder so each section starts with a concrete task and output.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Next steps", "href": "#next-steps" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "After-receipt action path",
       "why": "The first-screen checker made the site useful, but the next scroll still felt like a status report. Visitors needed to know what to do with a receipt.",
       "proof": "Replaced the old status and who-it-is-for explanation blocks with an after-receipt action map: review a flagged note, escalate a clean triage result to the Lab, challenge vendor claims, or build a powered aggregate row. Added a copyable first-screen receipt that carries scope, findings, flagged items, and next proof step without copying raw encounter text.",

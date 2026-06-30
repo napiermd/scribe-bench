@@ -889,18 +889,53 @@ h4 {
   gap: 0.9rem;
 }
 
+.claim-presets {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.claim-preset {
+  min-width: 0;
+  min-height: 44px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel-soft);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1.15;
+  padding: 0.56rem 0.62rem;
+  text-align: left;
+}
+
+.claim-preset:hover,
+.claim-preset.active {
+  border-color: rgba(15, 118, 110, 0.34);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
 .field-row.claim-row {
-  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-columns: minmax(0, 1fr);
 }
 
 .claim-form .field textarea {
   min-height: 180px;
 }
 
+.claim-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+}
+
 #claim-copy-status {
   color: var(--muted);
   font-size: 0.9rem;
-  margin: -0.2rem 0 0;
+  margin: 0;
 }
 
 .claim-output-head {
@@ -2844,6 +2879,10 @@ h4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .claim-presets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .start-router-tabs button:nth-child(2n) {
     border-right: 0;
   }
@@ -2870,6 +2909,10 @@ h4 {
 
   .brand small {
     max-width: 16rem;
+  }
+
+  .claim-presets {
+    grid-template-columns: 1fr;
   }
 
   .summary-band {

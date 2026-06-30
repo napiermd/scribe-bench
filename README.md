@@ -88,9 +88,11 @@ visitor's own example, and a copyable receipt that carries findings and next pro
 steps without copying raw encounter text. The next section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a
-system-level claim. Buyers and clinical leaders can turn vendor claims into an
-evidence ask; builders can use the Lab for live model-backed scoring; contributors
-can add the missing current powered rows. The Lab opens with that seeded failure
+system-level claim. Buyers and clinical leaders can turn common vendor claims
+such as "hallucination-free," "safe note," "better scribe," or "best current model"
+into a copyable evidence ask without starting from a blank textarea; builders can
+use the Lab for live model-backed scoring; contributors can add the missing current
+powered rows. The Lab opens with that seeded failure
 already loaded plus a precomputed demo verdict, and can also run an OpenRouter smoke
 flow that generates a fresh candidate note, judges it, and leaves the visitor with
 a verdict. Visitors can also run the live judge, read the fabrication verdict, copy

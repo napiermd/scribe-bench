@@ -238,6 +238,12 @@
 
         <div class="claim-tool" aria-label="ScribeBench claim checker">
           <form class="claim-form" id="claim-form">
+            <div class="claim-presets" aria-label="Common AI-scribe claims">
+              <button class="claim-preset" type="button" data-claim-preset="vendor-zero">Hallucination-free</button>
+              <button class="claim-preset" type="button" data-claim-preset="one-note">Safe note</button>
+              <button class="claim-preset" type="button" data-claim-preset="system-better">Better scribe</button>
+              <button class="claim-preset" type="button" data-claim-preset="current-ranking">Best current model</button>
+            </div>
             <div class="field-row claim-row">
               <label class="field">
                 <span>Claim type</span>
@@ -248,7 +254,6 @@
                   <option value="current-ranking">This leaderboard proves the best current model</option>
                 </select>
               </label>
-              <button class="button secondary compact-button" id="copy-claim-ask" type="button">Copy public ask</button>
             </div>
             <label class="field">
               <span>Claim text</span>
@@ -258,7 +263,10 @@
                 placeholder="Example: Our AI scribe is hallucination-free and ready for clinical deployment."
               ></textarea>
             </label>
-            <p id="claim-copy-status" role="status" aria-live="polite"></p>
+            <div class="claim-actions">
+              <button class="button secondary compact-button" id="copy-claim-ask" type="button">Copy public ask</button>
+              <p id="claim-copy-status" role="status" aria-live="polite"></p>
+            </div>
             <textarea
               class="copy-fallback"
               id="claim-copy-fallback"
