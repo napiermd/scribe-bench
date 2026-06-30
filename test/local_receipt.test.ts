@@ -43,6 +43,9 @@ describe('browser local receipt', () => {
     expect(dangerous).toMatch(/age differs/i);
     expect(dangerous).toMatch(/sex\/gender differs/i);
     expect(dangerous).toMatch(/laterality differs for hip/i);
+    expect(result.evidence.dangerous.some((item) => /age differs/i.test(item.finding) && /79-year-old woman/i.test(item.sourceExcerpt) && /89-year-old man/i.test(item.noteExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /sex\/gender differs/i.test(item.finding) && /woman/i.test(item.sourceExcerpt) && /man/i.test(item.noteExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /laterality differs for hip/i.test(item.finding) && /right hip/i.test(item.sourceExcerpt) && /left hip/i.test(item.noteExcerpt))).toBe(true);
   });
 
   it('catches allergy contradictions without a model', () => {
@@ -51,6 +54,7 @@ describe('browser local receipt', () => {
     const result = runLocalReceipt(source, note);
 
     expect(result.fabrication.dangerous.join(' ')).toMatch(/no known allergies.*penicillin|penicillin.*no known allergies/i);
+    expect(result.evidence.dangerous.some((item) => /allerg/i.test(item.finding) && /penicillin causes rash/i.test(item.sourceExcerpt) && /NKDA/i.test(item.noteExcerpt))).toBe(true);
   });
 
   it('does not flag matching demographics, laterality, and allergy facts', () => {

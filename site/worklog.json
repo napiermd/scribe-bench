@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Structured mismatch receipts show their proof",
+      "why": "Age, sex/gender, laterality, and allergy contradictions were caught by the browser receipt but still rendered like plain verdict strings, which made some of the most patient-changing flags less inspectable than CT or syncope inventions.",
+      "proof": "Local receipts now attach note and source excerpts to structured mismatch findings. A pasted note that changes a 79-year-old woman with right hip pain and penicillin allergy into an 89-year-old man with left hip pain and NKDA now shows the exact source and note snippets behind each flag.",
+      "next": "Keep moving every public verdict toward evidence a reader can inspect, copy, and challenge without trusting hidden model judgment.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Pasted-note receipts clear seeded labels",
       "why": "After the seeded case loaded, editing the source or note reset the visible result but left seeded metadata on the fields, so a copied receipt for a pasted example could still say SYN-003.",
       "proof": "Manual edits in the first-screen checker now clear the seeded case id, case type, and bundled-candidate label before the next receipt is built. Pasted source-vs-note pairs copy as pasted pairs, while untouched seeded examples still keep their SYN-003 label.",

@@ -250,7 +250,9 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
-  dangerous.push(...detectStructuredMismatches(sourceText, noteText));
+  const structuredEvidence = detectStructuredMismatchEvidence(sourceText, noteText);
+  dangerous.push(...structuredEvidence.map((item) => item.finding));
+  dangerousEvidence.push(...structuredEvidence);
 
   const leaks = detectLocalLeaks(noteText);
   const uniqueDangerous = [...new Set(dangerous)];
@@ -314,25 +316,45 @@ function localDimensions({ dangerous, leaks, overlap }) {
 }
 
 function detectStructuredMismatches(source, note) {
+  return detectStructuredMismatchEvidence(source, note).map((item) => item.finding);
+}
+
+function detectStructuredMismatchEvidence(source, note) {
   const findings = [];
-  const sourceAge = extractAge(source);
-  const noteAge = extractAge(note);
-  if (sourceAge && noteAge && Math.abs(sourceAge - noteAge) >= 2) {
-    findings.push(`age differs between source (${sourceAge}) and note (${noteAge}).`);
+  const sourceAge = extractAgeHit(source);
+  const noteAge = extractAgeHit(note);
+  if (sourceAge && noteAge && Math.abs(sourceAge.value - noteAge.value) >= 2) {
+    const finding = `age differs between source (${sourceAge.value}) and note (${noteAge.value}).`;
+    findings.push(structuredFinding(finding, "age mismatch", source, sourceAge.index, note, noteAge.index));
   }
 
-  const sourceSex = extractExplicitSex(source);
-  const noteSex = extractExplicitSex(note);
-  if (sourceSex && noteSex && sourceSex !== noteSex) {
-    findings.push(`sex/gender differs between source (${sourceSex}) and note (${noteSex}).`);
+  const sourceSex = extractExplicitSexHit(source);
+  const noteSex = extractExplicitSexHit(note);
+  if (sourceSex && noteSex && sourceSex.value !== noteSex.value) {
+    const finding = `sex/gender differs between source (${sourceSex.value}) and note (${noteSex.value}).`;
+    findings.push(structuredFinding(finding, "sex/gender mismatch", source, sourceSex.index, note, noteSex.index));
   }
 
-  findings.push(...detectLateralityMismatches(source, note));
-  findings.push(...detectAllergyMismatches(source, note));
+  findings.push(...detectLateralityMismatchEvidence(source, note));
+  findings.push(...detectAllergyMismatchEvidence(source, note));
   return findings;
 }
 
+function structuredFinding(finding, label, source, sourceIndex, note, noteIndex) {
+  return {
+    finding,
+    label,
+    reason: "source contradiction",
+    noteExcerpt: sentenceExcerptAround(note, noteIndex, 72),
+    sourceExcerpt: sentenceExcerptAround(source, sourceIndex, 72),
+  };
+}
+
 function extractAge(text) {
+  return extractAgeHit(text)?.value || null;
+}
+
+function extractAgeHit(text) {
   const patterns = [
     /\b(\d{1,3})\s*[- ]?\s*year[- ]old\b/i,
     /\b(\d{1,3})\s*(?:yo|y\/o)\b/i,
@@ -341,29 +363,48 @@ function extractAge(text) {
   const match = firstMatch(text, patterns);
   if (!match) return null;
   const age = Number(match.match[1]);
-  return age > 0 && age <= 120 ? age : null;
+  return age > 0 && age <= 120 ? { value: age, index: match.match.index, phrase: match.match[0] } : null;
 }
 
 function extractExplicitSex(text) {
+  return extractExplicitSexHit(text)?.value || null;
+}
+
+function extractExplicitSexHit(text) {
   const firstLines = splitSentences(text).slice(0, 4).join(" ");
-  const female = /\b(female|woman|girl|lady)\b/i.test(firstLines);
-  const male = /\b(male|man|boy|gentleman)\b/i.test(firstLines);
-  if (female && !male) return "female";
-  if (male && !female) return "male";
+  const femaleMatch = /\b(female|woman|girl|lady)\b/i.exec(firstLines);
+  const maleMatch = /\b(male|man|boy|gentleman)\b/i.exec(firstLines);
+  if (femaleMatch && !maleMatch) {
+    return { value: "female", index: indexOfSurface(text, femaleMatch[0]), phrase: femaleMatch[0] };
+  }
+  if (maleMatch && !femaleMatch) {
+    return { value: "male", index: indexOfSurface(text, maleMatch[0]), phrase: maleMatch[0] };
+  }
   return null;
 }
 
+function indexOfSurface(text, surface) {
+  const index = String(text || "").toLowerCase().indexOf(String(surface || "").toLowerCase());
+  return index >= 0 ? index : 0;
+}
+
 function detectLateralityMismatches(source, note) {
+  return detectLateralityMismatchEvidence(source, note).map((item) => item.finding);
+}
+
+function detectLateralityMismatchEvidence(source, note) {
   const findings = [];
-  const sourceSides = extractSidePartMap(source);
-  const noteSides = extractSidePartMap(note);
+  const sourceSides = extractSidePartEvidenceMap(source);
+  const noteSides = extractSidePartEvidenceMap(note);
   for (const [part, noteSideSet] of noteSides.entries()) {
     const sourceSideSet = sourceSides.get(part);
     if (!sourceSideSet) continue;
-    for (const noteSide of noteSideSet) {
+    for (const [noteSide, noteHit] of noteSideSet.entries()) {
       const opposite = noteSide === "left" ? "right" : "left";
       if (sourceSideSet.has(opposite) && !sourceSideSet.has(noteSide)) {
-        findings.push(`laterality differs for ${part}: source says ${opposite} ${part}, but note says ${noteSide} ${part}.`);
+        const sourceHit = sourceSideSet.get(opposite);
+        const finding = `laterality differs for ${part}: source says ${opposite} ${part}, but note says ${noteSide} ${part}.`;
+        findings.push(structuredFinding(finding, "laterality mismatch", source, sourceHit.index, note, noteHit.index));
       }
     }
   }
@@ -371,30 +412,52 @@ function detectLateralityMismatches(source, note) {
 }
 
 function extractSidePartMap(text) {
+  const evidenceMap = extractSidePartEvidenceMap(text);
+  const map = new Map();
+  for (const [part, sideHits] of evidenceMap.entries()) {
+    map.set(part, new Set(sideHits.keys()));
+  }
+  return map;
+}
+
+function extractSidePartEvidenceMap(text) {
   const map = new Map();
   for (const match of text.matchAll(SIDE_PART_RE)) {
     const side = match[1].toLowerCase();
     const part = match[2].toLowerCase();
-    if (!map.has(part)) map.set(part, new Set());
-    map.get(part).add(side);
+    if (!map.has(part)) map.set(part, new Map());
+    if (!map.get(part).has(side)) {
+      map.get(part).set(side, { side, part, index: match.index || 0, phrase: match[0] });
+    }
   }
   return map;
 }
 
 function detectAllergyMismatches(source, note) {
+  return detectAllergyMismatchEvidence(source, note).map((item) => item.finding);
+}
+
+function detectAllergyMismatchEvidence(source, note) {
   const findings = [];
   const sourceState = extractAllergyState(source);
   const noteState = extractAllergyState(note);
   if (sourceState.noKnown && noteState.substances.size) {
-    findings.push(`allergy claim appears in the note (${joinTerms(noteState.substances)}), but the source says no known allergies.`);
+    const noteHit = firstSubstanceHit(noteState);
+    const finding = `allergy claim appears in the note (${joinTerms(noteState.substances)}), but the source says no known allergies.`;
+    findings.push(structuredFinding(finding, "allergy mismatch", source, sourceState.noKnownHit.index, note, noteHit.index));
   }
   if (sourceState.substances.size && noteState.noKnown) {
-    findings.push(`note says no known allergies, but the source lists ${joinTerms(sourceState.substances)} allergy.`);
+    const sourceHit = firstSubstanceHit(sourceState);
+    const finding = `note says no known allergies, but the source lists ${joinTerms(sourceState.substances)} allergy.`;
+    findings.push(structuredFinding(finding, "allergy mismatch", source, sourceHit.index, note, noteState.noKnownHit.index));
   }
   if (sourceState.substances.size && noteState.substances.size) {
     for (const noteSubstance of noteState.substances) {
       if (!sourceState.substances.has(noteSubstance)) {
-        findings.push(`allergy claim appears in the note (${noteSubstance}), but the source allergy list only supports ${joinTerms(sourceState.substances)}.`);
+        const noteHit = noteState.substanceHits.get(noteSubstance);
+        const sourceHit = firstSubstanceHit(sourceState);
+        const finding = `allergy claim appears in the note (${noteSubstance}), but the source allergy list only supports ${joinTerms(sourceState.substances)}.`;
+        findings.push(structuredFinding(finding, "allergy mismatch", source, sourceHit.index, note, noteHit.index));
       }
     }
   }
@@ -402,20 +465,48 @@ function detectAllergyMismatches(source, note) {
 }
 
 function extractAllergyState(text) {
+  const noKnownMatch = /\b(nkda|no known (?:drug )?allerg(?:y|ies)|no (?:drug )?allerg(?:y|ies))\b/i.exec(text);
   const state = {
-    noKnown: /\b(nkda|no known (?:drug )?allerg(?:y|ies)|no (?:drug )?allerg(?:y|ies))\b/i.test(text),
+    noKnown: Boolean(noKnownMatch),
+    noKnownHit: noKnownMatch ? { index: noKnownMatch.index, phrase: noKnownMatch[0] } : null,
     substances: new Set(),
+    substanceHits: new Map(),
   };
-  for (const sentence of splitSentences(text)) {
+  for (const { sentence, index } of splitSentenceSpans(text)) {
     const hasAllergyContext = /\ballerg(?:y|ic|ies)\b/i.test(sentence);
     for (const term of ALLERGY_TERMS) {
-      if (term.patterns.some((pattern) => pattern.test(sentence))) {
+      const termMatch = firstMatch(sentence, term.patterns);
+      if (termMatch) {
         const reactionContext = /\b(causes?|rash|hives|anaphylaxis|reaction)\b/i.test(sentence);
-        if (hasAllergyContext || reactionContext) state.substances.add(term.key);
+        if (hasAllergyContext || reactionContext) {
+          state.substances.add(term.key);
+          if (!state.substanceHits.has(term.key)) {
+            state.substanceHits.set(term.key, { index: index + termMatch.match.index, phrase: termMatch.match[0] });
+          }
+        }
       }
     }
   }
   return state;
+}
+
+function splitSentenceSpans(text) {
+  const normalized = normalize(text);
+  const spans = [];
+  const pattern = /[^.!?;]+[.!?;]?/g;
+  for (const match of normalized.matchAll(pattern)) {
+    const raw = match[0] || "";
+    const sentence = normalize(raw);
+    if (!sentence) continue;
+    const leadingOffset = raw.search(/\S/);
+    spans.push({ sentence, index: (match.index || 0) + Math.max(0, leadingOffset) });
+  }
+  return spans;
+}
+
+function firstSubstanceHit(state) {
+  const firstTerm = [...state.substances].sort()[0];
+  return state.substanceHits.get(firstTerm) || { index: 0, phrase: firstTerm || "" };
 }
 
 function joinTerms(terms) {
