@@ -417,10 +417,13 @@ export function buildCurrentRunStatus(args: {
     ? 'Ready for review'
     : status === 'running'
       ? 'Running'
-      : 'Needs credits or second judge';
+      : /free-models?-per-day|free model/i.test(latestError)
+        ? 'Free-model cap hit'
+        : 'Needs credits or second judge';
+  const datasetName = displayDatasetName(args.progress.dataset);
   const blocker = latestError
     ? [
-      `Latest public API retry selected ${records.length} ${datasetLabel(args.progress.dataset)} cases through ${args.baseUrl}.`,
+      `Latest public API retry selected ${records.length} ${datasetName} cases through ${args.baseUrl}.`,
       `${scored}/${records.length} selected cases are scored and ${generated}/${records.length} have generated notes.`,
       blockedIds.length ? `Blocked cases: ${blockedIds.join(', ')}.` : '',
       `Latest blocker: ${latestError}.`,
@@ -480,6 +483,11 @@ export function buildCurrentRunStatus(args: {
       { label: 'Run builder', href: '#run' },
     ],
   };
+}
+
+function displayDatasetName(dataset: string) {
+  const label = datasetLabel(dataset);
+  return label === RANKED_DATASET ? 'PriMock57' : label;
 }
 
 function completeJudgments(record: PublicApiCaseRecord, repeats: number) {

@@ -3,6 +3,19 @@
   "entries": [
     {
       "date": "2026-07-01",
+      "status": "blocked",
+      "title": "The current PriMock57 row has a fresh blocker receipt",
+      "why": "The site kept saying the public board needed current rows, but the current-run card did not make the latest retry concrete enough. A stale or vague blocker makes the project feel like an old leaderboard with excuses.",
+      "proof": "The public API runner retried the first five PriMock57 cases on June 30, 2026 at 22:48 UTC. The result is still 1/57 target cases scored: PM57-d1c01 scored, PM57-d1c02 and PM57-d1c03 have cached generated notes waiting on judge calls, and PM57-d1c04 plus PM57-d1c05 are blocked before generation by OpenRouter's free-model daily cap. The current-run card now shows the latest retry time and a Free-model cap hit status.",
+      "next": "Add OpenRouter credits, use a non-capped provider key through the documented --key-env path, or configure a second judge, then resume the cached run toward at least 30 scored PriMock57 cases.",
+      "links": [
+        { "label": "Current run receipt", "href": "#current-run" },
+        { "label": "Copy resume command", "href": "#current-run" },
+        { "label": "Run builder", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
       "status": "shipped",
       "title": "The first evidence card now points to the real tool",
       "why": "The first screen showed a useful seeded evidence card, but the visible primary action was to copy that canned receipt while the source-note form sat below the fold. A cold visitor could read it as a static demo instead of a usable checker.",

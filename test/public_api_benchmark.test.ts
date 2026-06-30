@@ -173,6 +173,7 @@ describe('public API benchmark helpers', () => {
     });
 
     expect(status.status).toBe('needs-credit-or-second-judge');
+    expect(status.statusLabel).toBe('Free-model cap hit');
     expect(status.selectedCases).toBe(2);
     expect(status.generatedCases).toBe(2);
     expect(status.scoredCases).toBe(1);
@@ -183,6 +184,7 @@ describe('public API benchmark helpers', () => {
       inputFidelity: 3,
     });
     expect(status.blocker).toContain('Blocked cases: PM57-d1c02');
+    expect(status.blocker).toContain('PriMock57 cases');
     expect(status.blocker).toContain('Rate limit exceeded');
     expect(status.unblockAsk).toContain('This is not a model result yet: 1/2 attempted cases');
     expect(status.resumeCommand).toContain('--status-out site/current-run.json');

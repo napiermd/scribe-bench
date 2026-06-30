@@ -609,6 +609,7 @@ function renderCurrentRun(run) {
   setText("current-run-generated", `${generated}/${attempted}`);
   setText("current-run-scored", `${scored}/${target}`);
   setText("current-run-errored", `${errored}/${attempted}`);
+  setText("current-run-last-attempt", lastAttemptText || "--");
   setText(
     "current-run-last-score",
     last.caseId
@@ -658,6 +659,7 @@ function renderCurrentRunError() {
   setText("current-run-generated", "--");
   setText("current-run-scored", "--");
   setText("current-run-errored", "--");
+  setText("current-run-last-attempt", "--");
   setText("current-run-last-score", "--");
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
