@@ -859,6 +859,111 @@ h4 {
   margin: 0 0 1rem;
 }
 
+.current-run-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.48fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid rgba(152, 111, 11, 0.34);
+  background: #fff9e8;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 0 0 1rem;
+}
+
+.current-run-copy {
+  min-width: 0;
+}
+
+.current-run-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.45rem;
+}
+
+.current-run-head .eyebrow {
+  margin: 0.2rem 0 0;
+}
+
+.current-run-copy h3 {
+  font-size: 1.26rem;
+  max-width: 30rem;
+}
+
+.current-run-copy p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.72rem 0 0;
+  font-size: 0.94rem;
+}
+
+.current-run-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.current-run-metrics div {
+  min-width: 0;
+  border: 1px solid rgba(152, 111, 11, 0.2);
+  background: var(--panel);
+  padding: 0.85rem;
+}
+
+.current-run-metrics dt {
+  color: var(--gold);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.current-run-metrics dd {
+  margin: 0.28rem 0 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.32;
+  overflow-wrap: anywhere;
+}
+
+.current-run-detail {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.current-run-detail div {
+  min-width: 0;
+  border-left: 3px solid rgba(152, 111, 11, 0.34);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.8rem 0.9rem;
+}
+
+.current-run-detail h4 {
+  color: var(--gold);
+  font-size: 0.68rem;
+}
+
+.current-run-detail p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.42;
+  margin: 0.36rem 0 0;
+}
+
+.current-run-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.current-run-actions a {
+  font-weight: 850;
+}
+
 .fresh-smoke-copy {
   min-width: 0;
 }
@@ -2243,6 +2348,7 @@ h4 {
   .claim-tool,
   .challenge-tool,
   .evidence-agenda,
+  .current-run-card,
   .fresh-smoke-card,
   .worklog-board,
   .queue-board,
@@ -2264,6 +2370,8 @@ h4 {
   .challenge-output-grid,
   .run-builder-actions,
   .agenda-grid,
+  .current-run-metrics,
+  .current-run-detail,
   .fresh-smoke-metrics,
   .lab-guide,
   .worklog-list article,

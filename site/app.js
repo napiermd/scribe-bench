@@ -308,6 +308,70 @@ function renderFreshSmoke(row) {
   setText("fresh-smoke-next", "Run PriMock57 before saying the system is better.");
 }
 
+function renderCurrentRun(run) {
+  const card = document.getElementById("current-run");
+  if (!card || !run) return;
+  const status = document.getElementById("current-run-status");
+  const last = run.lastScoredCase || {};
+  const target = Number(run.targetCases) || 57;
+  const selected = Number(run.selectedCases) || 0;
+  const generated = Number(run.generatedCases) || 0;
+  const scored = Number(run.scoredCases) || 0;
+  const errored = Number(run.erroredCases) || 0;
+  const links = Array.isArray(run.links) ? run.links : [];
+
+  if (status) {
+    status.textContent = run.statusLabel || "Open";
+    status.className = `queue-status ${currentRunStatusClass(run.status)}`;
+  }
+  setText("current-run-title", run.title || "Current PriMock57 run attempt");
+  setText(
+    "current-run-copy",
+    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${selected || target} selected cases have generated notes. ${run.rawNotesPolicy || "Raw generated notes are not published."}`
+  );
+  setText("current-run-generated", `${generated}/${selected || target}`);
+  setText("current-run-scored", `${scored}/${target}`);
+  setText("current-run-errored", `${errored}/${selected || target}`);
+  setText(
+    "current-run-last-score",
+    last.caseId
+      ? `${last.caseId}: ${last.normalized}/100, fidelity ${last.inputFidelity}/5, dangerous ${last.dangerousFabrications || 0}`
+      : "--"
+  );
+  setText("current-run-blocker", run.blocker || "No blocker recorded.");
+  setText("current-run-next", run.next || "Continue the run and publish only when the evidence threshold is met.");
+
+  const linkTarget = document.getElementById("current-run-links");
+  if (linkTarget) {
+    linkTarget.innerHTML = links
+      .map((link) => `<a href="${escapeHtml(link.href || "#")}"${externalLinkAttrs(link.href)}>${escapeHtml(link.label || "Open")}</a>`)
+      .join("");
+  }
+}
+
+function renderCurrentRunError() {
+  const status = document.getElementById("current-run-status");
+  if (status) {
+    status.textContent = "Unavailable";
+    status.className = "queue-status needed";
+  }
+  setText("current-run-title", "Could not load current run status");
+  setText("current-run-copy", "The public runner still exists in GitHub; the status asset failed to load.");
+  setText("current-run-generated", "--");
+  setText("current-run-scored", "--");
+  setText("current-run-errored", "--");
+  setText("current-run-last-score", "--");
+}
+
+function currentRunStatusClass(status) {
+  return {
+    "needs-credit-or-second-judge": "needed",
+    running: "open",
+    ready: "ready",
+    blocked: "needed",
+  }[String(status || "").toLowerCase()] || "open";
+}
+
 function renderWorkLog(payload) {
   const list = document.getElementById("worklog-list");
   if (!list) return;
@@ -1623,6 +1687,13 @@ async function boot() {
     renderWorkLog(await loadJson("/assets/worklog.json"));
   } catch (err) {
     renderWorkLogError();
+    console.error(err);
+  }
+
+  try {
+    renderCurrentRun(await loadJson("/assets/current-run.json"));
+  } catch (err) {
+    renderCurrentRunError();
     console.error(err);
   }
 }

@@ -423,6 +423,48 @@
           </div>
         </div>
 
+        <div class="current-run-card" id="current-run" aria-labelledby="current-run-title">
+          <div class="current-run-copy">
+            <div class="current-run-head">
+              <span class="queue-status needed" id="current-run-status">Loading</span>
+              <p class="eyebrow">Current row attempt</p>
+            </div>
+            <h3 id="current-run-title">Loading current PriMock57 run status...</h3>
+            <p id="current-run-copy">
+              Fetching the public API run attempt. This status never publishes raw generated notes.
+            </p>
+          </div>
+          <dl class="current-run-metrics" aria-label="Current PriMock57 run status">
+            <div>
+              <dt>Generated</dt>
+              <dd id="current-run-generated">--</dd>
+            </div>
+            <div>
+              <dt>Scored</dt>
+              <dd id="current-run-scored">--</dd>
+            </div>
+            <div>
+              <dt>Errored</dt>
+              <dd id="current-run-errored">--</dd>
+            </div>
+            <div>
+              <dt>Last score</dt>
+              <dd id="current-run-last-score">--</dd>
+            </div>
+          </dl>
+          <div class="current-run-detail">
+            <div>
+              <h4>Blocker</h4>
+              <p id="current-run-blocker">--</p>
+            </div>
+            <div>
+              <h4>Next</h4>
+              <p id="current-run-next">--</p>
+            </div>
+          </div>
+          <div class="current-run-actions" id="current-run-links"></div>
+        </div>
+
         <div class="fresh-smoke-card" aria-labelledby="fresh-smoke-title">
           <div class="fresh-smoke-copy">
             <p class="eyebrow">Fresh public smoke</p>

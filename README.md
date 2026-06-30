@@ -197,6 +197,11 @@ npm run bench:public-api -- \
   --out leaderboard/_public-api-pending.json
 ```
 
+By default, the runner forwards a local `OPENROUTER_API_KEY` or `BASETEN_API_KEY`
+to the public API as the matching temporary provider header. Use `--key-env
+MY_OPENROUTER_KEY` to point at a different environment variable. The key is
+never written to the progress cache or pending artifact.
+
 The progress cache lives under `.scribebench-cache/public-api-runs/` so interrupted
 runs can resume. Do not copy a pending row into `leaderboard/results.json` until
 the run has enough completed PriMock57 cases, no unreviewed errors, declared

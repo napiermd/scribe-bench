@@ -66,6 +66,7 @@ function main() {
 
   copyFile(path.join(root, 'leaderboard/results.json'), path.join(assetsDir, 'results.json'));
   copyFile(path.join(siteDir, 'worklog.json'), path.join(assetsDir, 'worklog.json'));
+  copyFile(path.join(siteDir, 'current-run.json'), path.join(assetsDir, 'current-run.json'));
   fs.writeFileSync(
     path.join(assetsDir, 'demo-cases.json'),
     JSON.stringify(buildDemoCases(), null, 2) + '\n',

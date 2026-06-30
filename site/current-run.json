@@ -1,0 +1,32 @@
+{
+  "updatedAt": "2026-06-30",
+  "title": "Current PriMock57 public API attempt",
+  "status": "needs-credit-or-second-judge",
+  "statusLabel": "Needs credits or second judge",
+  "system": "openrouter-nemotron-3-ultra-public-api",
+  "dataset": "PriMock57",
+  "targetCases": 57,
+  "selectedCases": 3,
+  "generatedCases": 3,
+  "scoredCases": 1,
+  "erroredCases": 2,
+  "repeats": 1,
+  "provider": "openrouter",
+  "generationModel": "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "judgeModel": "nvidia/nemotron-3-ultra-550b-a55b:free",
+  "lastScoredCase": {
+    "caseId": "PM57-d1c01",
+    "normalized": 100,
+    "inputFidelity": 5,
+    "dangerousFabrications": 0,
+    "standardAssumptions": 3
+  },
+  "blocker": "PM57-d1c02 and PM57-d1c03 generated successfully, but judge calls first timed out and then hit OpenRouter's free-model daily cap on retry.",
+  "next": "Add OpenRouter credits, pass a local provider key with --key-env, or configure a faster second judge, then resume the cached run toward at least 30 completed PriMock57 cases before publishing any ranked current row.",
+  "rawNotesPolicy": "Raw generated notes remain in the ignored local progress cache and are not committed.",
+  "links": [
+    { "label": "Runner source", "href": "https://github.com/napiermd/scribe-bench/blob/main/scripts/run_public_api_benchmark.ts" },
+    { "label": "Evidence ledger", "href": "#leaderboard" },
+    { "label": "Run builder", "href": "#run" }
+  ]
+}

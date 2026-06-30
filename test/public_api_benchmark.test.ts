@@ -4,6 +4,7 @@ import {
   assertProgressConfig,
   caseScoreFromPublicApi,
   parseArgs,
+  providerKeyHeaders,
   publicApiDisclosure,
   slugify,
 } from '../scripts/run_public_api_benchmark';
@@ -85,10 +86,22 @@ describe('public API benchmark helpers', () => {
       repeats: 1,
       n: 57,
       nErrored: 0,
+      callerKeyForwarded: true,
     });
 
     expect(disclosure).toContain('Generator and judge are the same model');
     expect(disclosure).toContain('Raw generated notes are not published');
+    expect(disclosure).toContain('caller-supplied provider key was forwarded');
+  });
+
+  it('maps local provider keys to public API headers without exposing values elsewhere', () => {
+    expect(providerKeyHeaders('openrouter', { OPENROUTER_API_KEY: 'test-key' })).toEqual({
+      'x-openrouter-key': 'test-key',
+    });
+    expect(providerKeyHeaders('baseten', { MY_BASETEN_KEY: 'bt-key' }, 'MY_BASETEN_KEY')).toEqual({
+      'x-baseten-key': 'bt-key',
+    });
+    expect(providerKeyHeaders('openrouter', {})).toEqual({});
   });
 
   it('rejects progress files from a different judge configuration', () => {

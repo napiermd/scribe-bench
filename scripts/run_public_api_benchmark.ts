@@ -158,6 +158,7 @@ export function publicApiDisclosure(args: {
   repeats: number;
   n: number;
   nErrored: number;
+  callerKeyForwarded?: boolean;
 }): string {
   const selfJudged = args.generationModel === args.judgeModel;
   const scope = args.nErrored
@@ -166,12 +167,33 @@ export function publicApiDisclosure(args: {
   const selfJudgeText = selfJudged
     ? ' Generator and judge are the same model, so treat this as current public-path evidence, not a judge-robustness claim.'
     : '';
+  const keyText = args.callerKeyForwarded
+    ? ' A caller-supplied provider key was forwarded to the public API headers and was not stored in the progress cache.'
+    : '';
   return [
     `Generated and judged through ${args.baseUrl} using provider=${args.provider}.`,
     `Generation model: ${args.generationModel}. Judge model: ${args.judgeModel}.`,
     `Scope: ${scope}, repeats=${args.repeats}. Raw generated notes are not published.`,
+    keyText.trim(),
     selfJudgeText.trim(),
   ].filter(Boolean).join(' ');
+}
+
+export function providerKeyHeaders(
+  provider: string,
+  env: Record<string, string | undefined> = process.env,
+  explicitEnvName?: string,
+): Record<string, string> {
+  const keyEnvName = explicitEnvName || {
+    openrouter: 'OPENROUTER_API_KEY',
+    baseten: 'BASETEN_API_KEY',
+  }[provider];
+  const headerName = {
+    openrouter: 'x-openrouter-key',
+    baseten: 'x-baseten-key',
+  }[provider];
+  const value = keyEnvName ? env[keyEnvName] : undefined;
+  return headerName && value ? { [headerName]: value } : {};
 }
 
 function floorDims(): NarrativeDimensions {
@@ -238,13 +260,13 @@ function ensureRecord(progress: ProgressFile, caseId: string): PublicApiCaseReco
   return progress.cases[caseId];
 }
 
-async function postJson(url: string, body: unknown, timeoutMs: number) {
+async function postJson(url: string, body: unknown, timeoutMs: number, extraHeaders: Record<string, string> = {}) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), timeoutMs);
   try {
     const response = await fetch(url, {
       method: 'POST',
-      headers: { 'content-type': 'application/json' },
+      headers: { 'content-type': 'application/json', ...extraHeaders },
       body: JSON.stringify(body),
       signal: controller.signal,
     });
@@ -301,6 +323,7 @@ function buildOutput(args: {
   generationModel: string;
   judgeModel: string;
   repeats: number;
+  callerKeyForwarded: boolean;
 }) {
   const claimLevel = args.summary.dataset === 'primock57' && args.summary.n >= 30 ? 'powered' : 'smoke';
   const note = publicApiDisclosure({
@@ -311,6 +334,7 @@ function buildOutput(args: {
     repeats: args.repeats,
     n: args.summary.n,
     nErrored: args.summary.nErrored,
+    callerKeyForwarded: args.callerKeyForwarded,
   });
   return {
     summary: {
@@ -325,6 +349,7 @@ function buildOutput(args: {
       runner: 'scripts/run_public_api_benchmark.ts',
       progressFile: args.progressFile,
       rawNotesPolicy: 'Raw generated notes remain in ignored local progress cache and are not committed.',
+      callerKeyForwarded: args.callerKeyForwarded,
     },
   };
 }
@@ -341,6 +366,8 @@ async function main() {
   const timeoutMs = Math.max(1000, Number(args.timeout || 240000));
   const outPath = args.out || 'leaderboard/_public-api-pending.json';
   const progressFile = progressPath(args, system);
+  const apiHeaders = providerKeyHeaders(provider, process.env, args['key-env']);
+  const callerKeyForwarded = Object.keys(apiHeaders).length > 0;
 
   const cases = selectedCases(loadCases(datasetDir), args);
   const progress = readProgress(progressFile, {
@@ -361,6 +388,7 @@ async function main() {
   console.log(`  generation=${generationModel}`);
   console.log(`  judge=${judgeModel}`);
   console.log(`  repeats=${repeats}`);
+  console.log(`  callerKeyForwarded=${callerKeyForwarded ? 'yes' : 'no'}`);
   console.log(`  progress=${progressFile}\n`);
 
   for (const c of cases) {
@@ -372,7 +400,7 @@ async function main() {
           provider,
           model: generationModel,
           source: c.source,
-        }, timeoutMs);
+        }, timeoutMs, apiHeaders);
         record.note = String(generated.note || '').trim();
         record.generatedModel = String(generated.model || generationModel);
         record.generatedProvider = String(generated.provider || provider);
@@ -395,7 +423,7 @@ async function main() {
           model: judgeModel,
           source: c.source,
           note: record.note,
-        }, timeoutMs);
+        }, timeoutMs, apiHeaders);
         record.judgments.push(assertJudgePayload(judged, repeat));
         writeProgress(progressFile, progress);
         process.stdout.write('ok ');
@@ -422,6 +450,7 @@ async function main() {
     generationModel,
     judgeModel,
     repeats,
+    callerKeyForwarded,
   });
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, JSON.stringify(output, null, 2) + '\n');
