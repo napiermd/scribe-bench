@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-06-30",
+  "updatedAt": "2026-07-01",
   "entries": [
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
+      "title": "Copied receipts use the visitor's local date",
+      "why": "A receipt copied just after midnight in Vietnam could still show the previous UTC date. For a QA artifact or vendor-review packet, a wrong-looking date undermines trust even when the findings are correct.",
+      "proof": "The quick-check receipt now formats its Date line from the browser's local calendar date instead of slicing an ISO UTC timestamp.",
+      "next": "Keep treating copied receipts as evidence artifacts: every field should describe the exact source-note pair, review date, and evidence level a reader is looking at.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Next steps", "href": "#next-steps" },
+        { "label": "Live Lab", "href": "#lab" }
+      ]
+    },
     {
       "date": "2026-06-30",
       "status": "shipped",

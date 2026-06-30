@@ -7,6 +7,12 @@ const fmtCI = (ci, percent = false) => {
   return ` [${ci[0].toFixed(1)}-${ci[1].toFixed(1)}]`;
 };
 const fmtDate = new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const localDateStamp = (date = new Date()) => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 
 const demoFindings = {
   "SYN-001":
@@ -1462,7 +1468,7 @@ function buildQuickReceiptText(result) {
 
   return [
     "ScribeBench source-vs-note receipt",
-    `Date: ${new Date().toISOString().slice(0, 10)}`,
+    `Date: ${localDateStamp()}`,
     "Scope: one note, browser-only local check, not a system certification or clinical clearance",
     `Case: ${caseLabel}`,
     `Finding: ${verdict.title}`,
