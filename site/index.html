@@ -638,74 +638,148 @@
       </section>
 
       <section class="wrap section run-panel" id="run">
-        <div>
+        <div class="run-intro">
           <p class="eyebrow">Use it</p>
-          <h2>Run smoke tests, then a powered benchmark</h2>
+          <h2>Build a public evidence row</h2>
           <p>
-            First generate candidate notes, then score them. The 3-case synthetic set is
-            only a plumbing check. A public leaderboard row should come from the powered
-            PriMock57 run with aggregate scores only.
+            Pick the run you are trying to make, generate or paste candidate notes,
+            then score them with a declared judge. Smoke tests prove the plumbing.
+            Powered PriMock57 runs are the only rows that support public claims.
           </p>
         </div>
-        <div class="run-steps" aria-label="Submission path">
+        <form class="run-builder" id="run-builder" aria-label="Contribution command builder">
+          <div class="field-row run-builder-row">
+            <label class="field">
+              <span>Run type</span>
+              <select id="run-dataset">
+                <option value="primock57">Powered PriMock57 row</option>
+                <option value="synthetic">Synthetic smoke test</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>System label</span>
+              <input id="run-system" type="text" value="openrouter-nemotron-3-ultra" />
+            </label>
+            <label class="field">
+              <span>Candidate file</span>
+              <input id="run-candidate" type="text" value="/tmp/scribebench_candidate_notes.json" />
+            </label>
+          </div>
+
+          <div class="field-row run-builder-row">
+            <label class="field">
+              <span>Generation source</span>
+              <select id="run-generator">
+                <option value="openrouter">OpenRouter generator</option>
+                <option value="baseten">Baseten generator</option>
+                <option value="own">My own scribe pipeline</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Generation model</span>
+              <input id="run-model" type="text" value="nvidia/nemotron-3-ultra-550b-a55b:free" />
+            </label>
+            <label class="field">
+              <span>Repeats</span>
+              <select id="run-repeats">
+                <option value="2">2 repeats</option>
+                <option value="1">1 repeat</option>
+                <option value="3">3 repeats</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="field-row run-builder-row">
+            <label class="field">
+              <span>Judge backend</span>
+              <select id="run-judge-backend">
+                <option value="baseten">Baseten</option>
+                <option value="openrouter">OpenRouter</option>
+                <option value="anthropic">Anthropic API</option>
+                <option value="cli">Claude CLI</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Judge model</span>
+              <input id="run-judge-model" type="text" value="deepseek-ai/DeepSeek-V4-Pro" />
+            </label>
+            <div class="run-builder-actions" aria-label="Copy generated artifacts">
+              <button class="button secondary compact-button" id="copy-candidate-template" type="button">Copy JSON template</button>
+              <button class="button primary compact-button" id="copy-run-command" type="button">Copy run command</button>
+            </div>
+          </div>
+          <p id="run-copy-status" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="run-contract" aria-label="Evidence contract">
           <article>
-            <span>1</span>
-            <h3>Generate notes</h3>
-            <p>Run your scribe over every PriMock57 case and save a JSON array with each case ID and generated note.</p>
+            <strong>Ranked evidence</strong>
+            <p>57 PriMock57 cases, repeats declared, judge declared, aggregate scores only.</p>
           </article>
           <article>
-            <span>2</span>
-            <h3>Score the run</h3>
-            <p>Use a declared judge backend and model. The output summary is what belongs in the public ledger.</p>
+            <strong>Smoke only</strong>
+            <p>Three synthetic cases. Good for demos and plumbing, never a leaderboard claim.</p>
           </article>
           <article>
-            <span>3</span>
-            <h3>Open a PR</h3>
-            <p>Submit aggregate scores, judge details, generation method, and whether the system was tuned to the benchmark.</p>
+            <strong>Do not submit</strong>
+            <p>Closed-model note text, patient data, undeclared tuning, or a row with no judge details.</p>
           </article>
         </div>
-        <div class="command-stack">
-          <article>
-            <h3>Candidate note format</h3>
-            <pre class="code-block"><code>[
+
+        <div class="run-output-grid">
+          <article class="run-output-card">
+            <div class="run-output-head">
+              <div>
+                <p class="eyebrow">Artifact 1</p>
+                <h3>Candidate note JSON</h3>
+              </div>
+            </div>
+            <pre class="code-block"><code id="candidate-template-output">[
   { "caseId": "PM57-d1c01", "note": "HPI: ..." },
   { "caseId": "PM57-d1c02", "note": "HPI: ..." }
 ]</code></pre>
           </article>
-          <article>
-            <h3>Generate candidate notes</h3>
-            <pre class="code-block"><code>export OPENROUTER_API_KEY=...
-
-npx tsx scripts/generate_baseline.ts \
-  --gen openrouter \
-  --model nvidia/nemotron-3-ultra-550b-a55b:free \
-  --dataset data/primock57/cases \
-  --out /tmp/openrouter_primock57_notes.json</code></pre>
-          </article>
-          <article>
-            <h3>Powered leaderboard run</h3>
-            <pre class="code-block"><code>npm install
-
-export SCRIBEBENCH_BACKEND=baseten
-export BASETEN_API_KEY=...
-export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
-
-npx tsx eval/run_benchmark.ts \
-  --dataset data/primock57/cases \
-  --candidate /tmp/openrouter_primock57_notes.json \
-  --system "your-system" \
-  --repeats 2 \
-  --out leaderboard/_pending.json</code></pre>
-          </article>
-          <article>
-            <h3>Smoke test only</h3>
-            <pre class="code-block"><code>npx tsx eval/run_benchmark.ts \
-  --dataset data/synthetic/cases \
-  --candidate data/synthetic/example_candidate.json \
-  --system "example-baseline" \
-  --out leaderboard/_pending.json</code></pre>
+          <article class="run-output-card">
+            <div class="run-output-head">
+              <div>
+                <p class="eyebrow">Artifact 2</p>
+                <h3>Generated command</h3>
+              </div>
+            </div>
+            <pre class="code-block"><code id="run-command-output"></code></pre>
           </article>
         </div>
+
+        <div class="submission-checklist" aria-label="Pull request checklist">
+          <article>
+            <span>1</span>
+            <div>
+              <strong>Generate the notes</strong>
+              <p id="run-generate-summary">Use the generated command or your own pipeline to create a JSON candidate file.</p>
+            </div>
+          </article>
+          <article>
+            <span>2</span>
+            <div>
+              <strong>Score aggregate results</strong>
+              <p>Run the benchmark command. The public ledger stores scores, confidence intervals, judge, and method details.</p>
+            </div>
+          </article>
+          <article>
+            <span>3</span>
+            <div>
+              <strong>Open a PR</strong>
+              <p>Submit aggregate scores, generation method, judge model, repeats, and whether you tuned to the benchmark.</p>
+            </div>
+          </article>
+        </div>
+        <textarea
+          class="copy-fallback"
+          id="run-copy-fallback"
+          readonly
+          hidden
+          aria-label="Generated ScribeBench contribution text"
+        ></textarea>
         <div class="link-row">
           <a href="https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" target="_blank" rel="noreferrer">Submission guide</a>
           <a href="https://github.com/napiermd/scribe-bench/blob/main/docs/model-backends.md" target="_blank" rel="noreferrer">Model backends</a>

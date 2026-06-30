@@ -71,8 +71,10 @@ The Lab opens with that seeded failure already loaded plus a precomputed demo
 verdict, then lets visitors run the live judge, read the fabrication verdict, and
 copy a QA summary before they test their own notes. The public framing is
 deliberately practical: one-note triage in the Lab, system-level evidence through
-PriMock57, and build-in-public updates through GitHub submissions. The Evidence
-section also carries a public
+PriMock57, and build-in-public updates through GitHub submissions. The Run section
+includes a contribution builder that generates the candidate-note JSON shape,
+smoke/powered benchmark command, and PR checklist from the visitor's selected
+dataset, generator, judge, and repeats. The Evidence section also carries a public
 queue for current frontier, open/free, real-workflow, and judge-robustness rows,
 including the proof required and first action for each target. That keeps the
 stale launch baselines framed as a contribution backlog rather than a dead

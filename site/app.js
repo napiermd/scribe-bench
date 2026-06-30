@@ -782,8 +782,176 @@ function setLabStatus(message) {
   if (status) status.textContent = message;
 }
 
+function bindRunBuilder() {
+  const builder = document.getElementById("run-builder");
+  if (!builder) return;
+  const candidateInput = document.getElementById("run-candidate");
+  const repeatsSelect = document.getElementById("run-repeats");
+  candidateInput?.addEventListener("input", () => {
+    candidateInput.dataset.touched = "true";
+  });
+  repeatsSelect?.addEventListener("change", () => {
+    repeatsSelect.dataset.touched = "true";
+  });
+  builder.querySelectorAll("input, select").forEach((control) => {
+    control.addEventListener("input", updateRunBuilder);
+    control.addEventListener("change", updateRunBuilder);
+  });
+  document.getElementById("run-dataset")?.addEventListener("change", syncRunDefaultsForDataset);
+  document.getElementById("copy-candidate-template")?.addEventListener("click", () => copyRunArtifact("candidate"));
+  document.getElementById("copy-run-command")?.addEventListener("click", () => copyRunArtifact("command"));
+  syncRunDefaultsForDataset();
+  updateRunBuilder();
+}
+
+function syncRunDefaultsForDataset() {
+  const dataset = document.getElementById("run-dataset")?.value || "primock57";
+  const candidateInput = document.getElementById("run-candidate");
+  const repeatsSelect = document.getElementById("run-repeats");
+  if (candidateInput && candidateInput.dataset.touched !== "true") {
+    candidateInput.value = dataset === "synthetic" ? "/tmp/scribebench_smoke_notes.json" : "/tmp/scribebench_candidate_notes.json";
+  }
+  if (repeatsSelect && repeatsSelect.dataset.touched !== "true") {
+    repeatsSelect.value = dataset === "synthetic" ? "1" : "2";
+  }
+  updateRunBuilder();
+}
+
+function runBuilderState() {
+  const value = (id, fallback = "") => document.getElementById(id)?.value?.trim() || fallback;
+  const dataset = value("run-dataset", "primock57");
+  return {
+    dataset,
+    datasetPath: dataset === "synthetic" ? "data/synthetic/cases" : "data/primock57/cases",
+    candidatePath: value(
+      "run-candidate",
+      dataset === "synthetic" ? "/tmp/scribebench_smoke_notes.json" : "/tmp/scribebench_candidate_notes.json"
+    ),
+    generator: value("run-generator", "openrouter"),
+    model: value("run-model", "nvidia/nemotron-3-ultra-550b-a55b:free"),
+    system: value("run-system", "openrouter-nemotron-3-ultra"),
+    judgeBackend: value("run-judge-backend", "baseten"),
+    judgeModel: value("run-judge-model", "deepseek-ai/DeepSeek-V4-Pro"),
+    repeats: value("run-repeats", dataset === "synthetic" ? "1" : "2"),
+  };
+}
+
+function updateRunBuilder() {
+  const state = runBuilderState();
+  const candidate = buildCandidateTemplate(state);
+  const command = buildRunCommand(state);
+  const candidateOutput = document.getElementById("candidate-template-output");
+  const commandOutput = document.getElementById("run-command-output");
+  const summary = document.getElementById("run-generate-summary");
+  if (candidateOutput) candidateOutput.textContent = candidate;
+  if (commandOutput) commandOutput.textContent = command;
+  if (summary) {
+    summary.textContent = state.generator === "own"
+      ? `Run your own scribe over ${state.datasetPath}, save candidate notes to ${state.candidatePath}, then score them.`
+      : `Generate candidate notes with ${state.generator}:${state.model}, then score ${state.datasetPath}.`;
+  }
+  setRunCopyStatus("");
+  setRunCopyFallback("");
+}
+
+function buildCandidateTemplate(state = runBuilderState()) {
+  const rows = state.dataset === "synthetic"
+    ? [
+        { caseId: "SYN-001", note: "HPI: ..." },
+        { caseId: "SYN-003", note: "HPI: ..." },
+      ]
+    : [
+        { caseId: "PM57-d1c01", note: "HPI: ..." },
+        { caseId: "PM57-d1c02", note: "HPI: ..." },
+      ];
+  return JSON.stringify(rows, null, 2);
+}
+
+function buildRunCommand(state = runBuilderState()) {
+  const generate = buildGenerateCommand(state);
+  const judgeEnv = judgeEnvLines(state);
+  const outPath = state.dataset === "synthetic" ? "leaderboard/_smoke-pending.json" : "leaderboard/_pending.json";
+  const score = [
+    "npm install",
+    "",
+    ...judgeEnv,
+    "",
+    "npx tsx eval/run_benchmark.ts \\",
+    `  --dataset ${state.datasetPath} \\`,
+    `  --candidate ${state.candidatePath} \\`,
+    `  --system "${state.system}" \\`,
+    `  --repeats ${state.repeats} \\`,
+    `  --out ${outPath}`,
+  ].join("\n");
+  const policy = state.dataset === "synthetic"
+    ? "# Smoke-test output is visible for plumbing, but not ranked."
+    : "# For closed-model outputs, submit aggregate scores only; do not commit raw generated notes.";
+  return [generate, score, policy].join("\n\n");
+}
+
+function buildGenerateCommand(state) {
+  if (state.generator === "own") {
+    return [
+      "# Run your own scribe pipeline over the dataset.",
+      `# Dataset: ${state.datasetPath}`,
+      `# Save candidate notes to: ${state.candidatePath}`,
+      "# Required JSON shape is shown in Artifact 1.",
+    ].join("\n");
+  }
+  const env = state.generator === "baseten" ? "export BASETEN_API_KEY=..." : "export OPENROUTER_API_KEY=...";
+  return [
+    env,
+    "",
+    "npx tsx scripts/generate_baseline.ts \\",
+    `  --gen ${state.generator} \\`,
+    `  --model ${state.model} \\`,
+    `  --dataset ${state.datasetPath} \\`,
+    `  --out ${state.candidatePath}`,
+  ].join("\n");
+}
+
+function judgeEnvLines(state) {
+  const keyLine = {
+    baseten: "export BASETEN_API_KEY=...",
+    openrouter: "export OPENROUTER_API_KEY=...",
+    anthropic: "export ANTHROPIC_API_KEY=...",
+    cli: "# Claude CLI judge uses local OAuth; no API key export required.",
+  }[state.judgeBackend];
+  return [
+    `export SCRIBEBENCH_BACKEND=${state.judgeBackend}`,
+    keyLine,
+    `export SCRIBEBENCH_JUDGE_MODEL=${state.judgeModel}`,
+  ];
+}
+
+async function copyRunArtifact(kind) {
+  const state = runBuilderState();
+  const text = kind === "candidate" ? buildCandidateTemplate(state) : buildRunCommand(state);
+  try {
+    await copyText(text);
+    setRunCopyFallback("");
+    setRunCopyStatus(kind === "candidate" ? "Candidate template copied." : "Run command copied.");
+  } catch (_) {
+    setRunCopyFallback(text);
+    setRunCopyStatus("Clipboard unavailable. Text shown below.");
+  }
+}
+
+function setRunCopyStatus(message) {
+  const status = document.getElementById("run-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setRunCopyFallback(text) {
+  const fallback = document.getElementById("run-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
+}
+
 async function boot() {
   bindLab();
+  bindRunBuilder();
   await loadLabModels();
   try {
     const [resultsPayload, casesPayload, metadata] = await Promise.all([

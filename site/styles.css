@@ -1373,19 +1373,109 @@ h4 {
   color: var(--muted);
 }
 
+.run-intro {
+  min-width: 0;
+}
+
+.run-contract {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.run-contract article {
+  border-left: 3px solid var(--line-strong);
+  background: var(--panel-soft);
+  padding: 0.8rem 0.85rem;
+  min-width: 0;
+}
+
+.run-contract strong {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.run-contract p {
+  margin: 0.42rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.38;
+}
+
+.run-builder,
+.run-output-grid,
+.submission-checklist,
 .run-steps {
   grid-column: 1 / -1;
+}
+
+.run-builder {
+  display: grid;
+  gap: 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 1rem;
+}
+
+.field-row.run-builder-row {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.run-builder-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  align-items: end;
+}
+
+#run-copy-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: -0.2rem 0 0;
+}
+
+.run-output-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 0.72fr) minmax(0, 1fr);
+  gap: 12px;
+}
+
+.run-output-card {
+  min-width: 0;
+}
+
+.run-output-head {
+  margin: 0 0 0.55rem;
+}
+
+.run-output-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.run-output-head h3 {
+  font-size: 1rem;
+}
+
+.submission-checklist,
+.run-steps {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
+.submission-checklist article,
 .run-steps article {
   border: 1px solid var(--line);
   background: var(--panel-soft);
   padding: 0.9rem;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr);
+  gap: 0.75rem;
 }
 
+.submission-checklist span,
 .run-steps span {
   display: inline-grid;
   place-items: center;
@@ -1396,13 +1486,19 @@ h4 {
   color: var(--accent-strong);
   font-family: var(--mono);
   font-weight: 900;
-  margin-bottom: 0.7rem;
 }
 
+.submission-checklist strong {
+  display: block;
+  line-height: 1.25;
+}
+
+.submission-checklist p,
 .run-steps h3 {
   font-size: 1rem;
 }
 
+.submission-checklist p,
 .run-steps p {
   margin: 0.45rem 0 0;
   font-size: 0.92rem;
@@ -1504,6 +1600,10 @@ h4 {
   .job-grid,
   .ledger-grid,
   .run-steps,
+  .run-contract,
+  .run-output-grid,
+  .submission-checklist,
+  .run-builder-actions,
   .agenda-grid,
   .lab-guide,
   .queue-list article,
@@ -1511,6 +1611,7 @@ h4 {
   .workflow-strip,
   .field-row,
   .field-row.lab-model-row,
+  .field-row.run-builder-row,
   .lab-textareas,
   .comparison-grid {
     grid-template-columns: 1fr;
@@ -1522,6 +1623,14 @@ h4 {
 
   .lab-results {
     order: -1;
+  }
+
+  .run-builder-actions .button {
+    width: 100%;
+  }
+
+  .field-row.run-builder-row .run-builder-actions {
+    grid-column: 1;
   }
 
   .quick-paths article,
