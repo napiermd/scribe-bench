@@ -1484,6 +1484,10 @@ function bindQuickCheck() {
   document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
   document.getElementById("copy-quick-smoke-packet")?.addEventListener("click", copyQuickSmokePacket);
   document.getElementById("copy-public-evidence-card")?.addEventListener("click", copyPublicEvidenceCard);
+  document.getElementById("quick-start-own-note")?.addEventListener("click", startOwnQuickCheck);
+  document.querySelectorAll("[data-quick-start-own]").forEach((link) => {
+    link.addEventListener("click", startOwnQuickCheck);
+  });
 }
 
 function bindPublicActionKit() {
@@ -1533,6 +1537,24 @@ function populateQuickCheck(c, { run = false } = {}) {
   note.dataset.generatedModel = "bundled example candidate";
   setQuickStatus(run ? `${c.id} loaded and checked for invented care.` : `${c.id} loaded.`, run ? "review" : "");
   return run ? runQuickLocalReceipt() : null;
+}
+
+function startOwnQuickCheck(event) {
+  event?.preventDefault?.();
+  const source = document.getElementById("quick-source");
+  const note = document.getElementById("quick-note");
+  if (!source || !note) return;
+  source.value = "";
+  note.value = "";
+  delete source.dataset.caseId;
+  delete source.dataset.caseType;
+  delete note.dataset.generatedModel;
+  resetQuickResult();
+  resetQuickArtifacts();
+  setQuickStatus("Paste your source encounter and generated note, then run the browser check.", "");
+  window.history.pushState(null, "", "#quick-check-form");
+  scrollToAnchorTarget(document.getElementById("quick-check-form") || source, { behavior: "smooth" });
+  window.setTimeout(() => source.focus({ preventScroll: true }), 250);
 }
 
 function runQuickLocalReceipt(event) {
@@ -1652,6 +1674,19 @@ function resetQuickResult() {
   setQuickStatus("Ready to check this source-note pair in the browser.", "");
 }
 
+function resetQuickArtifacts() {
+  lastPublicEvidenceCard = null;
+  lastSmokeResult = null;
+  const evidenceCard = document.getElementById("public-evidence-card");
+  if (evidenceCard) evidenceCard.hidden = true;
+  const smokeArtifact = document.getElementById("quick-smoke-artifact");
+  if (smokeArtifact) smokeArtifact.hidden = true;
+  setPublicEvidenceCardCopyStatus("");
+  setPublicEvidenceCardFallback("");
+  setQuickSmokeCopyStatus("");
+  setQuickSmokeCopyFallback("");
+}
+
 function resetQuickAfterManualEdit() {
   const source = document.getElementById("quick-source");
   const note = document.getElementById("quick-note");
@@ -1661,6 +1696,7 @@ function resetQuickAfterManualEdit() {
   }
   if (note) delete note.dataset.generatedModel;
   resetQuickResult();
+  resetQuickArtifacts();
 }
 
 function setQuickStatus(message, tone = "") {
