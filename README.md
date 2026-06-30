@@ -6,6 +6,15 @@
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
+## Who this is for
+
+- **Clinical QA reviewers** checking one AI-scribe note against the source encounter.
+- **Buyers and operators** turning vendor or pilot claims into concrete evidence asks.
+- **AI-scribe builders** finding unsupported-care failures before a fluent note becomes a promise.
+- **Research contributors** adding current, scores-only aggregate rows instead of treating old baselines as a buying guide.
+
+It is **not** a patient app, billing tool, clinical-clearance engine, or current-model winner board.
+
 ## Start here
 
 | If you want to... | Go here | What you get |

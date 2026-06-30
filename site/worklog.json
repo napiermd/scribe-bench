@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Audience fit is now explicit",
+      "why": "The site showed useful tools, but visitors still had to infer whether ScribeBench was for reviewers, buyers, builders, researchers, or the general public. That ambiguity made the artifact easier to dismiss as a vague benchmark page.",
+      "proof": "Added a Who this is for section with four concrete audiences, what each person brings, what they leave with, and a Not for boundary. The README now carries the same audience framing before the start-here table.",
+      "next": "Keep the first public path tied to a named visitor and a concrete output, especially when adding new evidence rows.",
+      "links": [
+        { "label": "Who this is for", "href": "#who-uses-this" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Add evidence", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Research context now points to the live preprint",
       "why": "The public site said ScribeBench was a reproducibility artifact, but visitors could not reach the actual closed-loop clinical documentation QA paper from the artifact itself. That made the project feel weaker and less grounded than the NapierMD clinical-AI story.",
       "proof": "Added the medRxiv preprint link and DOI to the README and methodology, added a research-context card to the Why this exists section, and surfaced the preprint from the site header area and footer.",
