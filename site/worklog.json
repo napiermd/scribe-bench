@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Mobile first-screen clarity",
+      "why": "The mobile first viewport opened on a form before explaining who ScribeBench is for or why the visitor should care.",
+      "proof": "Added a compact For/Does/Why strip to the first screen and removed the mobile rule that promoted the quick-check form above the intro and task router.",
+      "next": "Keep reducing dense benchmark language so the site feels like a useful public QA tool before it feels like a repo artifact.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Repo map", "href": "#repo-map" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Run builder presets",
       "why": "The Run section still opened as a dense benchmark form. Visitors needed to pick the job first, then see the command details.",
       "proof": "Added presets for a current powered row, quick smoke test, real workflow row, and second-judge pass. Each preset updates the selected-run plan, form fields, candidate JSON, generated command, and active state.",

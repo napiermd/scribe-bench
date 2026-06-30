@@ -2951,10 +2951,6 @@ h4 {
     scroll-margin-top: 156px;
   }
 
-  .quick-check-panel {
-    order: -1;
-  }
-
   .quick-check-form .field textarea {
     height: 112px;
     min-height: 112px;

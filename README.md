@@ -74,7 +74,15 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 ## Public website
 
 This repo builds a static public ScribeBench site for Vercel, currently live at
-`https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
+`https://scribe-bench.vercel.app`.
+
+The first screen now states the product plainly:
+
+- **For:** clinical AI buyers, builders, and reviewers with a source encounter plus an AI-written note.
+- **Does:** returns a receipt for unsupported care, contradictions, template leaks, and the next proof level.
+- **Why:** demos can sound safe while inventing care; public claims need aggregate evidence.
+
+The site gives non-repo visitors a walk-up
 experience: a working first-screen source-vs-note checker, an evidence
 ladder, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
@@ -82,7 +90,8 @@ snapshot, synthetic demo case viewer, methodology summary, live generate-and-jud
 lab, and run-it-yourself submission path. The homepage now answers the product
 question directly: it is for clinical AI buyers, builders, and reviewers who have
 a source encounter plus an AI-written note and want to know whether the note
-invented care. The first screen now gives visitors a task router for four concrete
+invented care. On mobile, that explanation stays before the form instead of opening
+with inputs first. The first screen now gives visitors a task router for four concrete
 jobs: check one note, evaluate a vendor claim, debug a scribe pipeline, or add a
 public evidence row. The note path runs the seeded SYN-003 receipt in place instead
 of sending visitors into benchmark machinery. The first screen also includes a
