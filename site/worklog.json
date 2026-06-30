@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "First screen puts the checker before the router",
+      "why": "The live receipt path worked, but the first screen still asked visitors, especially on mobile, to read a role router before reaching the actual source-vs-note checker. That made the site feel more like benchmark explanation than a tool.",
+      "proof": "The purpose copy is now a compact give/get/use strip. The working checker comes before the visitor-path router in document order, so mobile visitors reach the usable receipt first while desktop keeps the router as supporting context beside the live checker.",
+      "next": "Keep pushing explanatory benchmark machinery behind the first useful action: paste a source and note, get an inspectable receipt, then choose the evidence path.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Next jobs", "href": "#main" },
+        { "label": "Live Lab", "href": "#lab" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Quick receipts can escalate into the Lab",
       "why": "The first-screen receipt could show a useful issue, but using that exact source-note pair in the Lab still required re-pasting or reloading a demo. The post-receipt path felt like a static explanation instead of a workflow.",
       "proof": "Quick-check results now include an Open in Lab with this pair action. It copies the checked source and note into the Lab, preserves seeded-versus-pasted metadata, reruns the local receipt there, and leaves the live judge as the next escalation.",

@@ -51,54 +51,23 @@
             <p class="eyebrow">After-the-demo clinical AI evidence</p>
             <h1>Did the AI scribe invent care?</h1>
             <p class="lede">
-              Paste the source encounter and the AI-written note. ScribeBench checks whether
-              the note added care, workups, demographics, allergies, or template junk that
-              the source does not support. Choose your job below or run the seeded example.
+              Paste the source encounter and the AI-written note. ScribeBench points to
+              the exact places where the note changes facts, invents workups, or leaks
+              template junk the source does not support.
             </p>
 
             <div class="purpose-line" aria-label="Who ScribeBench is for and why it exists">
-              <p>
-                <strong>For:</strong> clinical AI buyers, builders, reviewers, and public commenters.
-                <strong>Do:</strong> get a source-vs-note receipt, challenge a vendor claim, or publish aggregate evidence.
-                <strong>Point:</strong> catch invented care before anyone repeats "safe," "hallucination-free," or "best model."
-              </p>
-            </div>
-
-            <div class="start-router" aria-label="Choose a ScribeBench starting point">
-              <div class="start-router-tabs" role="group" aria-label="Visitor paths">
-                <button class="active" type="button" data-start-route="note" aria-pressed="true">I have one note</button>
-                <button type="button" data-start-route="buyer" aria-pressed="false">I am evaluating a vendor</button>
-                <button type="button" data-start-route="builder" aria-pressed="false">I am building a scribe</button>
-                <button type="button" data-start-route="contributor" aria-pressed="false">I want to add evidence</button>
+              <div>
+                <span>Give it</span>
+                <strong>Source encounter + AI-written note.</strong>
               </div>
-              <div class="start-router-panel">
-                <div class="start-router-copy">
-                  <p class="eyebrow" id="start-route-kicker">Fastest useful path</p>
-                  <h2 id="start-route-title">Paste source plus note. Check for invented care.</h2>
-                  <p id="start-route-copy">
-                    Start with one encounter and one generated note. ScribeBench checks
-                    whether the note stayed faithful, invented unsupported care, leaked
-                    template junk, and what claim that result can actually support.
-                  </p>
-                </div>
-                <dl class="start-route-steps">
-                  <div>
-                    <dt>Bring</dt>
-                    <dd id="start-route-input">Source encounter and generated note.</dd>
-                  </div>
-                  <div>
-                    <dt>Do</dt>
-                    <dd id="start-route-action">Run the browser check instantly, then use the live judge if you need model-backed scoring.</dd>
-                  </div>
-                  <div>
-                    <dt>Leave with</dt>
-                    <dd id="start-route-output">A copyable QA receipt and a clear next proof step.</dd>
-                  </div>
-                </dl>
-                <div class="start-route-actions">
-                  <a class="button primary compact-button" id="start-route-primary" href="#quick-check">Check this note</a>
-                  <a class="button secondary compact-button" id="start-route-secondary" href="#demo">See the seeded catch</a>
-                </div>
+              <div>
+                <span>Get back</span>
+                <strong>Source-note issues with the note and source excerpts.</strong>
+              </div>
+              <div>
+                <span>Use it for</span>
+                <strong>Review, vendor claims, or aggregate evidence.</strong>
               </div>
             </div>
           </div>
@@ -159,6 +128,52 @@
               ></textarea>
             </div>
           </section>
+
+          <div class="start-router" aria-label="Choose a ScribeBench starting point">
+            <div class="start-router-head">
+              <p class="eyebrow">Choose the next job</p>
+              <h2>What are you trying to prove?</h2>
+              <p>
+                Start with the note receipt. Then use the path that matches the review,
+                claim, or evidence row you need next.
+              </p>
+            </div>
+            <div class="start-router-tabs" role="group" aria-label="Visitor paths">
+              <button class="active" type="button" data-start-route="note" aria-pressed="true">I have one note</button>
+              <button type="button" data-start-route="buyer" aria-pressed="false">I am evaluating a vendor</button>
+              <button type="button" data-start-route="builder" aria-pressed="false">I am building a scribe</button>
+              <button type="button" data-start-route="contributor" aria-pressed="false">I want to add evidence</button>
+            </div>
+            <div class="start-router-panel">
+              <div class="start-router-copy">
+                <p class="eyebrow" id="start-route-kicker">Fastest useful path</p>
+                <h2 id="start-route-title">Paste source plus note. Check for invented care.</h2>
+                <p id="start-route-copy">
+                  Start with one encounter and one generated note. ScribeBench checks
+                  whether the note stayed faithful, invented unsupported care, leaked
+                  template junk, and what claim that result can actually support.
+                </p>
+              </div>
+              <dl class="start-route-steps">
+                <div>
+                  <dt>Bring</dt>
+                  <dd id="start-route-input">Source encounter and generated note.</dd>
+                </div>
+                <div>
+                  <dt>Do</dt>
+                  <dd id="start-route-action">Run the browser check instantly, then use the live judge if you need model-backed scoring.</dd>
+                </div>
+                <div>
+                  <dt>Leave with</dt>
+                  <dd id="start-route-output">A copyable QA receipt and a clear next proof step.</dd>
+                </div>
+              </dl>
+              <div class="start-route-actions">
+                <a class="button primary compact-button" id="start-route-primary" href="#quick-check">Check this note</a>
+                <a class="button secondary compact-button" id="start-route-secondary" href="#demo">See the seeded catch</a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

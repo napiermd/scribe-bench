@@ -1166,7 +1166,8 @@ function bindStartRouter() {
     const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
     if (activeRoute === "note") {
       event.preventDefault();
-      document.getElementById("quick-check")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const quickCheck = document.getElementById("quick-check");
+      if (quickCheck) scrollToAnchorTarget(quickCheck, { behavior: "smooth" });
       document.getElementById("quick-source")?.focus({ preventScroll: true });
       setQuickStatus("Paste your source and generated note, or keep the seeded failure and check it again.");
     }
@@ -1181,6 +1182,40 @@ function setRouteLink(id, link) {
   target.setAttribute("href", link.href);
 }
 
+function stickyHeaderOffset() {
+  const topbar = document.querySelector(".topbar");
+  const height = topbar?.getBoundingClientRect().height || 0;
+  return Math.ceil(height + 12);
+}
+
+function scrollToAnchorTarget(target, { behavior = "smooth" } = {}) {
+  const absoluteTop = window.scrollY + target.getBoundingClientRect().top;
+  const top = Math.max(0, absoluteTop - stickyHeaderOffset());
+  window.scrollTo({ top, behavior });
+}
+
+function bindAnchorScrolling() {
+  document.addEventListener("click", (event) => {
+    if (event.defaultPrevented) return;
+    const targetEl = event.target instanceof Element ? event.target : null;
+    const link = targetEl?.closest('a[href^="#"]');
+    if (!link) return;
+    const href = link.getAttribute("href");
+    if (!href || href === "#") return;
+    let id = href.slice(1);
+    try {
+      id = decodeURIComponent(id);
+    } catch (_) {
+      return;
+    }
+    const target = document.getElementById(id);
+    if (!target) return;
+    event.preventDefault();
+    window.history.pushState(null, "", href);
+    scrollToAnchorTarget(target, { behavior: "smooth" });
+  });
+}
+
 function realignCurrentHash() {
   if (!window.location.hash) return;
   let id = window.location.hash.slice(1);
@@ -1193,7 +1228,7 @@ function realignCurrentHash() {
   if (!target) return;
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
-      target.scrollIntoView({ block: "start" });
+      scrollToAnchorTarget(target, { behavior: "auto" });
     });
   });
 }
@@ -1378,7 +1413,8 @@ function sendQuickPairToLab() {
   setLabStatus("Loaded this checked pair from the first-screen receipt. Run live judge if you need model-backed scoring.");
   setQuickCopyStatus("Opened in Lab.");
   if (window.location.hash !== "#lab") window.history.replaceState(null, "", "#lab");
-  document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  const lab = document.getElementById("lab");
+  if (lab) scrollToAnchorTarget(lab, { behavior: "smooth" });
   document.getElementById("run-lab")?.focus({ preventScroll: true });
   return labResult;
 }
@@ -2666,6 +2702,7 @@ function setRunCopyFallback(text) {
 }
 
 async function boot() {
+  bindAnchorScrolling();
   bindStartRouter();
   bindQuickCheck();
   bindCurrentRunCommand();

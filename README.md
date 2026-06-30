@@ -88,6 +88,7 @@ The first screen now states the product through concrete visitor jobs:
 - **Escalate the same pair:** a quick-check result can now open the exact source and note in the Lab, preserving pasted-vs-seeded metadata and rerunning the local receipt before any live judge call.
 - **Start without waiting on models:** the seeded no-key check loads from static demo data before model-list/API calls, so first-time visitors see the useful receipt path first.
 - **Keep receipts honest:** editing either quick-check text box clears seeded-case metadata, so copied receipts for pasted examples no longer claim to be `SYN-003`.
+- **Use before explaining:** the first screen now puts the working checker ahead of the role router on mobile, and desktop treats the router as supporting context beside the live receipt instead of the main event.
 
 The site gives non-repo visitors a walk-up
 experience: a job-oriented first screen, a working source-vs-note checker, an evidence

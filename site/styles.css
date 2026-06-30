@@ -33,6 +33,10 @@ section[id] {
   scroll-margin-top: 86px;
 }
 
+#main {
+  scroll-margin-top: 86px;
+}
+
 body {
   margin: 0;
   background: var(--bg);
@@ -154,9 +158,9 @@ button {
 
 .summary-grid {
   display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr);
-  gap: 28px;
-  align-items: stretch;
+  grid-template-columns: minmax(0, 0.72fr) minmax(500px, 1.28fr);
+  gap: 18px 28px;
+  align-items: start;
 }
 
 .intro-panel,
@@ -169,6 +173,8 @@ button {
 }
 
 .intro-panel {
+  grid-column: 1;
+  grid-row: 1;
   padding: clamp(1.35rem, 4vw, 2.25rem);
 }
 
@@ -305,25 +311,33 @@ h4 {
 }
 
 .purpose-line {
+  display: grid;
+  gap: 0.54rem;
+  border: 1px solid rgba(15, 118, 110, 0.24);
   border-left: 4px solid var(--accent);
-  background: var(--panel-soft);
+  background: #eef8f5;
   margin: 1rem 0 0;
-  padding: 0.78rem 0.92rem;
+  padding: 0.78rem 0.86rem;
 }
 
-.purpose-line p {
-  color: var(--muted);
-  font-size: 0.93rem;
-  line-height: 1.42;
-  margin: 0;
+.purpose-line div {
+  min-width: 0;
+  display: grid;
+  gap: 0.14rem;
 }
 
-.purpose-line strong {
+.purpose-line span {
   color: var(--accent-strong);
   font-size: 0.78rem;
   font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.purpose-line strong {
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.24;
 }
 
 .thesis-strip {
@@ -423,9 +437,32 @@ h4 {
 }
 
 .start-router {
-  margin: 1rem 0 0;
+  grid-column: 1;
+  grid-row: 2;
+  margin: 0;
   border: 1px solid var(--line);
   background: var(--panel-soft);
+}
+
+.start-router-head {
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 0.95rem 0.82rem;
+}
+
+.start-router-head .eyebrow {
+  margin-bottom: 0.42rem;
+}
+
+.start-router-head h2 {
+  font-size: 1.2rem;
+  line-height: 1.16;
+}
+
+.start-router-head p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0.48rem 0 0;
 }
 
 .start-router-tabs {
@@ -594,6 +631,8 @@ h4 {
 }
 
 .quick-check-panel {
+  grid-column: 2;
+  grid-row: 1 / span 2;
   display: grid;
   align-content: start;
   gap: 1rem;
@@ -3331,6 +3370,10 @@ h4 {
     scroll-margin-top: 156px;
   }
 
+  #main {
+    scroll-margin-top: 156px;
+  }
+
   .quick-check-panel {
     scroll-margin-top: 156px;
   }
@@ -3419,6 +3462,13 @@ h4 {
   .case-receipt-metrics,
   .comparison-grid {
     grid-template-columns: 1fr;
+  }
+
+  .intro-panel,
+  .quick-check-panel,
+  .start-router {
+    grid-column: 1;
+    grid-row: auto;
   }
 
   .instant-receipt-lane .button,
