@@ -17,6 +17,16 @@
  *   # OpenAI (needs OPENAI_API_KEY):
  *   tsx scripts/generate_baseline.ts --gen openai --model gpt-4o \
  *     --dataset data/synthetic/cases --out /tmp/gpt_notes.json
+ *
+ *   # OpenRouter (needs OPENROUTER_API_KEY):
+ *   tsx scripts/generate_baseline.ts --gen openrouter \
+ *     --model nvidia/nemotron-3-ultra-550b-a55b:free \
+ *     --dataset data/synthetic/cases --out /tmp/openrouter_notes.json
+ *
+ *   # Baseten Model APIs (needs BASETEN_API_KEY):
+ *   tsx scripts/generate_baseline.ts --gen baseten \
+ *     --model deepseek-ai/DeepSeek-V4-Pro \
+ *     --dataset data/synthetic/cases --out /tmp/baseten_notes.json
  */
 
 import * as fs from 'fs';
@@ -24,6 +34,38 @@ import * as path from 'path';
 import { execSync } from 'child_process';
 
 const SCRIBE_SYSTEM = `You are a clinical scribe. Write a complete, professional clinical note from the encounter transcript below. Use standard clinical structure (HPI; physical exam if present in the encounter; assessment and plan). Capture what the clinician said and did. Do NOT invent findings, labs, vitals, diagnoses, or workups the encounter does not support. Output only the note text.`;
+type ChatGeneratorConfig = {
+  name: string;
+  endpoint: string;
+  apiKeyEnv: string;
+  defaultModel: string;
+  extraHeaders?: Record<string, string>;
+};
+
+const CHAT_GENERATORS: Record<string, ChatGeneratorConfig> = {
+  openai: {
+    name: 'openai',
+    endpoint: 'https://api.openai.com/v1/chat/completions',
+    apiKeyEnv: 'OPENAI_API_KEY',
+    defaultModel: 'gpt-4o',
+  },
+  openrouter: {
+    name: 'openrouter',
+    endpoint: 'https://openrouter.ai/api/v1/chat/completions',
+    apiKeyEnv: 'OPENROUTER_API_KEY',
+    defaultModel: 'nvidia/nemotron-3-ultra-550b-a55b:free',
+    extraHeaders: {
+      'http-referer': 'https://scribe-bench.vercel.app',
+      'x-openrouter-title': 'ScribeBench Candidate Generation',
+    },
+  },
+  baseten: {
+    name: 'baseten',
+    endpoint: 'https://inference.baseten.co/v1/chat/completions',
+    apiKeyEnv: 'BASETEN_API_KEY',
+    defaultModel: 'deepseek-ai/DeepSeek-V4-Pro',
+  },
+};
 
 function parseArgs(argv: string[]): Record<string, string> {
   const out: Record<string, string> = {};
@@ -43,6 +85,7 @@ function shellEscape(s: string): string {
 }
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
+const fileSafe = (value: string) => value.replace(/[^a-z0-9_.-]+/gi, '-').replace(/^-|-$/g, '');
 
 async function genClaude(model: string, source: string, maxRetries = 4): Promise<string> {
   const prompt = `${SCRIBE_SYSTEM}\n\n---\n\nEncounter transcript:\n\n${source}\n\nWrite the clinical note.`;
@@ -50,7 +93,7 @@ async function genClaude(model: string, source: string, maxRetries = 4): Promise
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       const res = execSync(
-        `claude -p ${shellEscape(prompt)} --model ${model} --output-format json --max-turns 1 --allowedTools ""`,
+        `claude -p ${shellEscape(prompt)} --model ${shellEscape(model)} --output-format json --max-turns 1 --allowedTools ""`,
         { timeout: 300_000, maxBuffer: 10 * 1024 * 1024, encoding: 'utf-8', shell: '/bin/bash' },
       );
       const parsed = JSON.parse(res);
@@ -66,27 +109,44 @@ async function genClaude(model: string, source: string, maxRetries = 4): Promise
   throw new Error(`claude gen failed after ${maxRetries} attempts: ${lastErr}`);
 }
 
-async function genOpenAI(model: string, source: string, maxRetries = 4): Promise<string> {
-  const key = process.env.OPENAI_API_KEY;
-  if (!key) throw new Error('OPENAI_API_KEY not set');
+async function genChatCompletion(config: ChatGeneratorConfig, model: string, source: string, maxRetries = 4): Promise<string> {
+  const key = process.env[config.apiKeyEnv];
+  if (!key) throw new Error(`${config.apiKeyEnv} not set`);
   let lastErr = '';
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
-      const res = await fetch('https://api.openai.com/v1/chat/completions', {
+      const res = await fetch(config.endpoint, {
         method: 'POST',
-        headers: { 'content-type': 'application/json', authorization: `Bearer ${key}` },
+        headers: {
+          'content-type': 'application/json',
+          authorization: `Bearer ${key}`,
+          ...(config.extraHeaders || {}),
+        },
         body: JSON.stringify({
           model,
+          temperature: 0.3,
+          max_tokens: 2200,
           messages: [
             { role: 'system', content: SCRIBE_SYSTEM },
             { role: 'user', content: `Encounter transcript:\n\n${source}\n\nWrite the clinical note.` },
           ],
-          temperature: 0.3,
         }),
       });
-      if (!res.ok) throw new Error(`OpenAI HTTP ${res.status}: ${(await res.text()).slice(0, 160)}`);
-      const data: any = await res.json();
-      const note = data.choices?.[0]?.message?.content || '';
+      const raw = await res.text();
+      let data: any = {};
+      try {
+        data = raw ? JSON.parse(raw) : {};
+      } catch (_) {
+        data = { error: { message: raw.slice(0, 300) } };
+      }
+      if (!res.ok) {
+        const detail = data?.error?.message || data?.message || JSON.stringify(data).slice(0, 300);
+        throw new Error(`${config.name} HTTP ${res.status}: ${detail}`);
+      }
+      const content = data?.choices?.[0]?.message?.content || data?.choices?.[0]?.text || '';
+      const note = Array.isArray(content)
+        ? content.map((part: any) => part?.text || '').join('')
+        : String(content || '');
       if (!note) throw new Error('empty completion');
       return note;
     } catch (e: any) {
@@ -94,22 +154,29 @@ async function genOpenAI(model: string, source: string, maxRetries = 4): Promise
       if (attempt < maxRetries) await sleep(2000 * 2 ** (attempt - 1));
     }
   }
-  throw new Error(`openai gen failed after ${maxRetries} attempts: ${lastErr}`);
+  throw new Error(`${config.name} gen failed after ${maxRetries} attempts: ${lastErr}`);
 }
 
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const gen = (args.gen || 'claude').toLowerCase();
-  const model = args.model || (gen === 'openai' ? 'gpt-4o' : 'sonnet');
+  const supported = new Set(['claude', ...Object.keys(CHAT_GENERATORS)]);
+  if (!supported.has(gen)) {
+    console.error(`Unsupported --gen "${gen}". Use one of: ${Array.from(supported).join(', ')}`);
+    process.exit(1);
+  }
+  const model = args.model || CHAT_GENERATORS[gen]?.defaultModel || 'sonnet';
   const datasetDir = args.dataset || 'data/synthetic/cases';
-  const outPath = args.out || `/tmp/baseline_${gen}_${model}.json`;
+  const outPath = args.out || `/tmp/baseline_${gen}_${fileSafe(model)}.json`;
 
   const cases = loadCases(datasetDir);
   console.log(`Generating ${cases.length} notes with ${gen}:${model} from ${datasetDir}`);
 
   const notes: { caseId: string; note: string }[] = [];
   for (const c of cases) {
-    const note = gen === 'openai' ? await genOpenAI(model, c.source) : await genClaude(model, c.source);
+    const note = gen === 'claude'
+      ? await genClaude(model, c.source)
+      : await genChatCompletion(CHAT_GENERATORS[gen] || CHAT_GENERATORS.openai, model, c.source);
     notes.push({ caseId: c.id, note });
     console.log(`  ${c.id}: ${note.length} chars`);
   }

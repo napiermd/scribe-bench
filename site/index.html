@@ -427,8 +427,9 @@
           <p class="eyebrow">Use it</p>
           <h2>Run smoke tests, then a powered benchmark</h2>
           <p>
-            The 3-case synthetic set is only a plumbing check. A public leaderboard
-            row should come from the powered PriMock57 run with aggregate scores only.
+            First generate candidate notes, then score them. The 3-case synthetic set is
+            only a plumbing check. A public leaderboard row should come from the powered
+            PriMock57 run with aggregate scores only.
           </p>
         </div>
         <div class="run-steps" aria-label="Submission path">
@@ -457,6 +458,16 @@
 ]</code></pre>
           </article>
           <article>
+            <h3>Generate candidate notes</h3>
+            <pre class="code-block"><code>export OPENROUTER_API_KEY=...
+
+npx tsx scripts/generate_baseline.ts \
+  --gen openrouter \
+  --model nvidia/nemotron-3-ultra-550b-a55b:free \
+  --dataset data/primock57/cases \
+  --out /tmp/openrouter_primock57_notes.json</code></pre>
+          </article>
+          <article>
             <h3>Powered leaderboard run</h3>
             <pre class="code-block"><code>npm install
 
@@ -466,7 +477,7 @@ export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
 
 npx tsx eval/run_benchmark.ts \
   --dataset data/primock57/cases \
-  --candidate your_primock57_notes.json \
+  --candidate /tmp/openrouter_primock57_notes.json \
   --system "your-system" \
   --repeats 2 \
   --out leaderboard/_pending.json</code></pre>

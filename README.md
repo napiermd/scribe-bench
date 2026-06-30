@@ -97,7 +97,16 @@ The fabrication judge draws a line most metrics miss: **registering care the cli
 ```bash
 npm install
 
-# Pick a judge backend:
+# First generate candidate notes with the system under test.
+# This example uses an OpenRouter-hosted model; replace it with your own scribe.
+export OPENROUTER_API_KEY=...
+npx tsx scripts/generate_baseline.ts \
+  --gen openrouter \
+  --model nvidia/nemotron-3-ultra-550b-a55b:free \
+  --dataset data/primock57/cases \
+  --out /tmp/openrouter_primock57_notes.json
+
+# Then score those notes with a separate judge backend:
 #   anthropic  — needs ANTHROPIC_API_KEY
 #   cli        — uses the `claude` CLI over OAuth (Max/Pro plan, no key)
 #   baseten    — OpenAI-compatible Baseten Model APIs, needs BASETEN_API_KEY
@@ -109,8 +118,8 @@ export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
 # Powered run for a public leaderboard claim:
 npx tsx eval/run_benchmark.ts \
   --dataset data/primock57/cases \
-  --candidate your_primock57_notes.json \
-  --system "your-system" \
+  --candidate /tmp/openrouter_primock57_notes.json \
+  --system "openrouter-nemotron-3-ultra" \
   --repeats 2 \
   --out leaderboard/_pending.json
 
