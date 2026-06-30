@@ -131,6 +131,23 @@
               Seeded fall case loaded. Check it now, or replace either box with
               your own source and AI note.
             </p>
+            <div class="quick-proof-modes" aria-label="ScribeBench proof modes">
+              <a href="#quick-check">
+                <span>No-key receipt</span>
+                <strong>Review one pasted note</strong>
+                <small>Browser-only source-vs-note QA.</small>
+              </a>
+              <a href="#lab">
+                <span>Current smoke</span>
+                <strong>Generate and judge a fresh note</strong>
+                <small>OpenRouter free models, smoke only.</small>
+              </a>
+              <a href="#run">
+                <span>Powered row</span>
+                <strong>Publish only after enough cases</strong>
+                <small>Aggregate PriMock57 or real-workflow evidence.</small>
+              </a>
+            </div>
             <form class="quick-check-form" id="quick-check-form">
               <label class="field">
                 <span>Source encounter</span>
@@ -143,9 +160,19 @@
               <div class="quick-check-actions">
                 <button class="button primary" id="quick-run-local" type="submit">Check note now</button>
                 <button class="button secondary" id="quick-load-seeded" type="button">Reload seeded failure</button>
+                <button
+                  class="button secondary"
+                  id="run-live-smoke-top"
+                  type="button"
+                  data-default-label="Run current-model smoke"
+                  data-running-label="Running smoke check..."
+                >
+                  Run current-model smoke
+                </button>
                 <a class="button secondary" href="#lab">Open full Lab</a>
               </div>
               <p id="quick-check-status" role="status" aria-live="polite">Loading the seeded fall case...</p>
+              <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
             </form>
             <div class="quick-result" id="quick-result" hidden>
               <div class="quick-result-head">

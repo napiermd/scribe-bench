@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First checker now exposes the current-smoke path",
+      "why": "The page could run a current OpenRouter smoke check from the Lab, but the first screen still looked like only a local receipt tool. That made visitors work too hard to understand how no-key QA, current smoke, and powered evidence rows relate.",
+      "proof": "The first-screen checker now has a compact proof-mode strip for no-key receipt, current-model smoke, and powered row, plus a Run current-model smoke button wired to the existing Lab smoke path. The README Start here table now names the current free-model smoke job directly.",
+      "next": "Keep the first-screen actions aligned with evidence levels: one note for QA, smoke for plumbing, powered rows for public comparison.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First screen now answers what can be used today",
       "why": "The hero had a live proof trail, but leading with the latest shipped change made the artifact feel self-referential. The stronger public answer is what a visitor can use today, what remains unproven, and where the current row is blocked.",
       "proof": "The first screen now labels the top proof card Today's answer and says ScribeBench is useful for one-note QA but not a current winner board. It keeps the current PriMock57 gap and evidence boundary above the fold while the detailed worklog stays lower on the page.",

@@ -772,6 +772,46 @@ h4 {
   font-size: 0.92rem;
 }
 
+.quick-proof-modes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.quick-proof-modes a {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.62rem 0.72rem;
+  text-decoration: none;
+}
+
+.quick-proof-modes a:last-child {
+  border-right: 0;
+}
+
+.quick-proof-modes span {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-proof-modes strong {
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.2;
+}
+
+.quick-proof-modes small {
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.28;
+}
+
 .local-badge {
   display: inline-flex;
   align-items: center;
@@ -815,6 +855,11 @@ h4 {
   font-size: 0.86rem;
   font-weight: 750;
   margin: 0;
+}
+
+#live-smoke-status {
+  grid-column: 1 / -1;
+  margin-top: -0.2rem;
 }
 
 #quick-check-status[data-tone="ok"] {
@@ -3921,6 +3966,7 @@ h4 {
   .worklog-list article,
   .queue-list article,
   .quick-paths,
+  .quick-proof-modes,
   .start-router-panel,
   .start-route-steps,
   .thesis-strip,
@@ -4021,6 +4067,7 @@ h4 {
   }
 
   .quick-paths article,
+  .quick-proof-modes a,
   .thesis-strip div,
   .evidence-ladder div {
     border-right: 0;
@@ -4036,6 +4083,7 @@ h4 {
   }
 
   .quick-paths article:last-child,
+  .quick-proof-modes a:last-child,
   .thesis-strip div:last-child,
   .evidence-ladder div:last-child {
     border-bottom: 0;
@@ -4127,7 +4175,16 @@ h4 {
   }
 
   .quick-check-form {
+    order: 1;
     gap: 0.6rem;
+  }
+
+  .quick-proof-modes {
+    order: 2;
+  }
+
+  .quick-result {
+    order: 3;
   }
 
   .quick-check-form .field textarea {

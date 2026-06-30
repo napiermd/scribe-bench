@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 80](https://img.shields.io/badge/tests-80%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 81](https://img.shields.io/badge/tests-81%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -20,6 +20,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 | If you want to... | Go here | What you get |
 |-------------------|---------|--------------|
 | Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Try a current free-model smoke | [Live Lab](https://scribe-bench.vercel.app/#lab) | A configured OpenRouter free-model path that can generate and judge the seeded case. Smoke only; not a ranked result. |
 | See what is usable now | [Today's answer](https://scribe-bench.vercel.app/#main) | What one-note receipts can support today, what the current PriMock57 row is missing, and why old rows are not a current winner board. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
 | Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
@@ -94,12 +95,13 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`.
 
-Use the website for three jobs:
+Use the website for five jobs:
 
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. No API key required.
-2. **Read today's answer.** The first screen now says what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
-3. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
-4. **Share or publish evidence.** Use the public action kit for copyable QA/vendor/current-row language, then use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
+2. **Try a current-model smoke.** Use the Lab's configured OpenRouter free-model path to generate and judge the seeded case. Treat it as plumbing evidence, not a ranked result.
+3. **Read today's answer.** The first screen says what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
+4. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
+5. **Share or publish evidence.** Use the public action kit for copyable QA/vendor/current-row language, then use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
 The site is not the scribe product, not a patient app, not clinical clearance,
 and not a current model buying guide. The historical launch rows prove the harness
