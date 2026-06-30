@@ -69,9 +69,10 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
 experience: a decision-oriented homepage, role-based entry points, an evidence
-ledger, a powered PriMock57 leaderboard, a separate not-ranked synthetic smoke-test
-table, benchmark snapshot, synthetic demo case viewer, methodology summary, live
-generate-and-judge lab, and run-it-yourself submission path. The homepage shows
+ledger, a powered PriMock57 leaderboard, a public claim checker, a separate
+not-ranked synthetic smoke-test table, benchmark snapshot, synthetic demo case
+viewer, methodology summary, live generate-and-judge lab, and run-it-yourself
+submission path. The homepage shows
 the seeded CT/syncope fabrication catch before asking visitors to click deeper,
 then gives first-screen paths to run a current free-model smoke check, check
 one note, publish aggregate evidence for a scribe system, or evaluate whether a
@@ -83,8 +84,10 @@ read the fabrication verdict, copy a short evidence packet that names the scope,
 models, finding, and next proof step, then copy a fuller QA summary before they
 test their own notes. The public framing is
 deliberately practical: one-note triage in the Lab, system-level evidence through
-PriMock57, and build-in-public updates through GitHub submissions. The Run section
-includes a contribution builder that generates the candidate-note JSON shape,
+PriMock57, and build-in-public updates through GitHub submissions. The Claim
+checker turns vague public/vendor statements such as "hallucination-free" or
+"best current model" into a required evidence level and a copyable public ask.
+The Run section includes a contribution builder that generates the candidate-note JSON shape,
 smoke/powered benchmark command, and PR checklist from the visitor's selected
 dataset, generator, judge, and repeats. The Evidence section also carries a public
 work log (`/assets/worklog.json`) plus a queue for current frontier, open/free,

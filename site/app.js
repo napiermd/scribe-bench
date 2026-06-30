@@ -55,6 +55,69 @@ const dimensionLabels = {
   inputFidelity: "Input fidelity",
 };
 
+const claimGuides = {
+  "vendor-zero": {
+    status: "Needs proof",
+    statusClass: "needed",
+    title: "Do not accept hallucination-free as a slogan.",
+    summary:
+      "ScribeBench treats this as a safety claim. A demo or a polished note is not enough; the claim needs measured unsupported-care rates on a declared dataset.",
+    required:
+      "A powered run with case count, dataset, generator, judge, repeats, dangerous-fabrication rate, confidence interval, and tuning disclosure.",
+    support:
+      "The Lab can expose one-note failures and the leaderboard can host aggregate scores. Current smoke rows only prove the path works.",
+    nextAction:
+      "Ask for a PriMock57 or real-workflow aggregate row before repeating the claim.",
+    ask:
+      "Can you share aggregate ScribeBench-style evidence for this hallucination-free claim: dataset, n, generator, judge, repeats, dangerous-fabrication rate with CI, leak rate, and whether the system was tuned to the benchmark?",
+  },
+  "one-note": {
+    status: "Triage only",
+    statusClass: "open",
+    title: "One note can be checked, not certified.",
+    summary:
+      "ScribeBench can compare a source encounter with a generated note and return a concrete QA verdict. That verdict is useful triage, not a final clinical sign-off.",
+    required:
+      "The source encounter, the generated note, a Lab verdict, flagged unsupported items, leak scan, and human clinical review for final use.",
+    support:
+      "The Lab already supports this path and produces a copyable evidence packet.",
+    nextAction:
+      "Paste the source and note in the Lab, run the judge, then review any flagged claims manually.",
+    ask:
+      "Can you provide the source encounter and generated note so we can run a ScribeBench one-note triage check for unsupported clinical claims and leaks?",
+  },
+  "system-better": {
+    status: "Benchmark claim",
+    statusClass: "valuable",
+    title: "Better needs the same cases, judge, and rules.",
+    summary:
+      "A system comparison only means something if both systems were scored on the same dataset under the same evidence contract.",
+    required:
+      "Same dataset, same candidate-note policy, same judge or a declared judge-robustness pass, repeats, confidence intervals, and aggregate-only publication for closed outputs.",
+    support:
+      "The powered PriMock57 path is the intended public comparison surface. Smoke rows should not be used to crown a system.",
+    nextAction:
+      "Run both systems through the powered harness or submit a scores-only row with method details.",
+    ask:
+      "Can you share the comparable aggregate row: same dataset, n, repeats, judge model, dangerous-fabrication rate with CI, narrative mean, leak rate, and generation method for each system?",
+  },
+  "current-ranking": {
+    status: "Not proven",
+    statusClass: "needed",
+    title: "The current public board is not a buying guide yet.",
+    summary:
+      "ScribeBench has historical powered launch baselines plus fresh smoke evidence. A current ranking needs new powered rows for the models people actually use now.",
+    required:
+      "Current model or vendor-system rows scored on PriMock57 or a declared real-workflow dataset, with repeats, judge, date, and confidence intervals.",
+    support:
+      "The site can show freshness, stale baselines, smoke rows, and the public queue. It should not claim a current winner until powered rows exist.",
+    nextAction:
+      "Use the Run section to create a current powered row, then update the board.",
+    ask:
+      "Can you add a current powered ScribeBench row before calling this a current ranking: model date, dataset, n, repeats, judge, dangerous-fabrication rate with CI, and method disclosure?",
+  },
+};
+
 const seededDemoResults = {
   "SYN-003": {
     dimensions: {
@@ -345,6 +408,87 @@ function renderCase(c) {
   const isSeeded = c.id === "SYN-003";
   status.textContent = isSeeded ? "Seeded fabrication" : "Control case";
   status.classList.toggle("danger", isSeeded);
+}
+
+function bindClaimChecker() {
+  const form = document.getElementById("claim-form");
+  if (!form) return;
+  form.addEventListener("submit", (event) => event.preventDefault());
+  document.getElementById("claim-type")?.addEventListener("change", renderClaimCheck);
+  document.getElementById("claim-text")?.addEventListener("input", renderClaimCheck);
+  document.getElementById("copy-claim-ask")?.addEventListener("click", copyClaimAsk);
+  renderClaimCheck();
+}
+
+function selectedClaimGuide() {
+  const type = document.getElementById("claim-type")?.value || "vendor-zero";
+  return claimGuides[type] || claimGuides["vendor-zero"];
+}
+
+function currentClaimText() {
+  return document.getElementById("claim-text")?.value.trim() || "";
+}
+
+function renderClaimCheck() {
+  const guide = selectedClaimGuide();
+  const claim = currentClaimText();
+  const status = document.getElementById("claim-status");
+  if (status) {
+    status.textContent = guide.status;
+    status.className = `queue-status ${guide.statusClass}`;
+  }
+  setText("claim-title", guide.title);
+  setText("claim-summary", claim ? `For "${shortClaim(claim)}": ${guide.summary}` : guide.summary);
+  setText("claim-required", guide.required);
+  setText("claim-support", guide.support);
+  setText("claim-next-action", guide.nextAction);
+  setText("claim-public-ask", buildClaimAsk(guide, claim));
+  setClaimCopyStatus("");
+  setClaimCopyFallback("");
+}
+
+function shortClaim(value) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  return text.length > 140 ? `${text.slice(0, 137)}...` : text;
+}
+
+function buildClaimAsk(guide = selectedClaimGuide(), claim = currentClaimText()) {
+  const claimLine = claim ? `Claim: "${claim}"` : "Claim: [paste the exact public or vendor claim here]";
+  return [
+    "ScribeBench evidence ask",
+    claimLine,
+    `Current status: ${guide.status}`,
+    "",
+    guide.ask,
+    "",
+    `Why: ${guide.summary}`,
+    `Next step: ${guide.nextAction}`,
+    "Reference: https://scribe-bench.vercel.app/#claim-check",
+  ].join("\n");
+}
+
+async function copyClaimAsk() {
+  const text = buildClaimAsk();
+  try {
+    await copyText(text);
+    setClaimCopyFallback("");
+    setClaimCopyStatus("Public ask copied.");
+  } catch (_) {
+    setClaimCopyFallback(text);
+    setClaimCopyStatus("Clipboard unavailable. Public ask shown below.");
+  }
+}
+
+function setClaimCopyStatus(message) {
+  const status = document.getElementById("claim-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setClaimCopyFallback(text) {
+  const fallback = document.getElementById("claim-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
 }
 
 function escapeHtml(value) {
@@ -1282,6 +1426,7 @@ function setRunCopyFallback(text) {
 }
 
 async function boot() {
+  bindClaimChecker();
   bindLab();
   bindRunBuilder();
   await loadLabModels();

@@ -32,6 +32,7 @@
         </a>
         <nav class="nav" aria-label="Primary navigation">
           <a href="#purpose">Start here</a>
+          <a href="#claim-check">Claim check</a>
           <a href="#leaderboard">Evidence</a>
           <a href="#lab">Lab</a>
           <a href="#demo">Demo case</a>
@@ -74,7 +75,7 @@
                 <span>I am evaluating claims</span>
                 <strong>Separate demo from proof</strong>
                 <p>Compare the seeded catch, powered rows, and current evidence queue.</p>
-                <a href="#leaderboard">Read the evidence</a>
+                <a href="#claim-check">Check a claim</a>
               </article>
             </div>
             <div class="live-smoke-lane" aria-label="Run a current free-model smoke check">
@@ -100,7 +101,7 @@
             <div class="actions">
               <a class="button secondary" href="#lab">Paste your own note</a>
               <a class="button secondary" href="#demo">Inspect seeded failure</a>
-              <a class="button secondary" href="#evidence-queue">See evidence queue</a>
+              <a class="button secondary" href="#claim-check">Check a public claim</a>
             </div>
           </div>
 
@@ -200,6 +201,83 @@
             <p class="job-output"><strong>You leave with:</strong> a public row that can update the stale launch baselines.</p>
             <a href="#run">See the submission path</a>
           </article>
+        </div>
+      </section>
+
+      <section class="wrap section claim-section" id="claim-check">
+        <div class="section-head split-head">
+          <div>
+            <p class="eyebrow">Claim checker</p>
+            <h2>Turn a vague AI-scribe claim into an evidence ask.</h2>
+            <p>
+              Paste a claim you want to challenge, choose the kind of claim, and ScribeBench
+              will tell you what the claim can support now, what proof is missing, and what
+              to ask for publicly.
+            </p>
+          </div>
+          <a class="text-link" href="#leaderboard">See the evidence ledger</a>
+        </div>
+
+        <div class="claim-tool" aria-label="ScribeBench claim checker">
+          <form class="claim-form" id="claim-form">
+            <div class="field-row claim-row">
+              <label class="field">
+                <span>Claim type</span>
+                <select id="claim-type">
+                  <option value="vendor-zero">No hallucinations / hallucination-free</option>
+                  <option value="one-note">This note is safe to trust</option>
+                  <option value="system-better">This scribe is better than another</option>
+                  <option value="current-ranking">This leaderboard proves the best current model</option>
+                </select>
+              </label>
+              <button class="button secondary compact-button" id="copy-claim-ask" type="button">Copy public ask</button>
+            </div>
+            <label class="field">
+              <span>Claim text</span>
+              <textarea
+                id="claim-text"
+                rows="8"
+                placeholder="Example: Our AI scribe is hallucination-free and ready for clinical deployment."
+              ></textarea>
+            </label>
+            <p id="claim-copy-status" role="status" aria-live="polite"></p>
+            <textarea
+              class="copy-fallback"
+              id="claim-copy-fallback"
+              readonly
+              hidden
+              aria-label="Generated ScribeBench public claim ask"
+            ></textarea>
+          </form>
+
+          <aside class="claim-output" aria-live="polite">
+            <div class="claim-output-head">
+              <span class="queue-status needed" id="claim-status">Needs proof</span>
+              <div>
+                <p class="eyebrow">ScribeBench answer</p>
+                <h3 id="claim-title">A claim needs a declared evidence level.</h3>
+              </div>
+            </div>
+            <p id="claim-summary"></p>
+            <dl class="claim-output-grid">
+              <div>
+                <dt>What would count</dt>
+                <dd id="claim-required">--</dd>
+              </div>
+              <div>
+                <dt>What ScribeBench can do now</dt>
+                <dd id="claim-support">--</dd>
+              </div>
+              <div>
+                <dt>Next action</dt>
+                <dd id="claim-next-action">--</dd>
+              </div>
+            </dl>
+            <div class="claim-ask-preview">
+              <h4>Copyable public ask</h4>
+              <p id="claim-public-ask"></p>
+            </div>
+          </aside>
         </div>
       </section>
 

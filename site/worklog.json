@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Public claim checker",
+      "why": "A visitor can paste a vague AI-scribe claim, choose what kind of claim it is, and leave with a concrete evidence requirement plus a copyable public ask.",
+      "proof": "Added the Claim checker section to the public site with live claim-type switching and clipboard/fallback copy behavior for one-note, hallucination-free, system-comparison, and current-ranking claims.",
+      "next": "Use the claim checker to route public discussion into either the Lab evidence packet or a powered PriMock57 submission.",
+      "links": [
+        { "label": "Check a claim", "href": "#claim-check" },
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Fresh OpenRouter smoke row",
       "why": "The public Vercel site generated and judged all three bundled synthetic cases with current OpenRouter free models, so the board now has fresh evidence instead of only launch-era baselines.",
       "proof": "Added openrouter-nemotron-3-ultra-live-smoke to the visible smoke table: n=3, nErrored=0, repeats=1, 0/3 dangerous fabrications flagged. The production judge JSON-repair path was exercised on SYN-003.",
