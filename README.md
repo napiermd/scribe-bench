@@ -64,7 +64,7 @@ JSON-repair path was exercised on `SYN-003`, which is exactly the kind of
 operational fragility the public Lab should expose before anyone claims a
 system-level result.
 
-† `SYN-003` carries a deliberate seeded fabrication. The claude-sonnet 33% is a **real** catch — on `SYN-003` it fabricated "arrival via EMS" when the source says the daughter drove the patient in. At n=3 these CIs are wide on purpose; the PriMock57 table above is the substantive board.
+† `SYN-003` carries a deliberate seeded fabrication. The claude-sonnet 33% is a **real** catch — on `SYN-003` it fabricated "arrival via EMS" when the source says the daughter brought the patient in. At n=3 these CIs are wide on purpose; the PriMock57 table above is the substantive board.
 </details>
 
 Submit a real system to take the top spot — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
@@ -130,8 +130,10 @@ plain-language verdict and next step, not just a raw score, and can copy either
 a short public evidence packet or a detailed QA summary for review notes and
 public discussion. The Lab also has a browser-only local receipt that needs no
 API key or network call; it conservatively catches explicit contradictions,
-unsupported common workups, and deterministic template leaks so a visitor can get
-an immediate triage receipt even when free hosted models are slow or capped. It can use a
+unsupported common workups, transport mismatches, age/sex mismatches,
+left/right body-part mismatches, allergy contradictions, and deterministic
+template leaks so a visitor can get an immediate triage receipt even when free
+hosted models are slow or capped. It can use a
 Vercel `OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key
 pasted into the browser for that session. Baseten's OpenAI-compatible Model APIs
 are wired as an optional provider and become available when `BASETEN_API_KEY` is

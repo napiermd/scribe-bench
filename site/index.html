@@ -116,7 +116,8 @@
                 <h2>Run the seeded catch entirely in your browser.</h2>
                 <p>
                   One click loads SYN-003 and creates a local receipt for the invented head CT,
-                  syncope workup, and EMS-arrival mismatch. No API key, quota, or network judge.
+                  syncope workup, age/sex, laterality, allergy, and leak checks. No API key,
+                  quota, or network judge.
                 </p>
                 <span id="instant-receipt-status" role="status" aria-live="polite">Ready: no provider key needed.</span>
               </div>
@@ -179,7 +180,7 @@
               <dl class="receipt-check">
                 <div>
                   <dt>Source</dt>
-                  <dd>Mechanical rug trip, no head strike, no loss of consciousness, daughter drove her in.</dd>
+                  <dd>Mechanical rug trip, no head strike, no loss of consciousness, daughter brought her in.</dd>
                 </div>
                 <div>
                   <dt>Note claim</dt>
@@ -234,8 +235,8 @@
             <h3>A source-vs-note receipt for invented care.</h3>
             <p>
               Run SYN-003 or paste your own source and note. The browser-only receipt flags
-              explicit contradictions, unsupported workups, transport mismatches, and leaks
-              without an API key.
+              explicit contradictions, unsupported workups, transport mismatches, demographic
+              mismatches, laterality/allergy contradictions, and leaks without an API key.
             </p>
             <div class="status-actions">
               <button class="button primary compact-button" id="copy-public-status" type="button">Copy public status</button>
@@ -808,8 +809,9 @@
             <p>
               The seeded failure case opens with a precomputed demo verdict so the failure
               mode is visible immediately: a note invents a head CT and syncope workup that
-              the source rules out. Run the local receipt for no-key browser triage, re-score
-              with the selected live judge, or replace the text with your own source and
+              the source rules out. Run the local receipt for no-key browser triage across
+              common contradictions, demographics, laterality, allergies, and leaks; re-score
+              with the selected live judge; or replace the text with your own source and
               candidate note. This is one-note triage, not leaderboard evidence.
             </p>
           </div>

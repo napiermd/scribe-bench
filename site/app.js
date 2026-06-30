@@ -14,7 +14,7 @@ const demoFindings = {
   "SYN-002":
     "This case shows ordinary fidelity rather than drama: diabetes follow-up, adherence barrier, A1c trend, foot exam, SGLT2 start, diabetes education, and vaccine documentation all come from the source.",
   "SYN-003":
-    "This candidate intentionally invents a head CT and a syncope workup. The source says the daughter drove the patient in after a mechanical rug trip and explicitly says there was no loss of consciousness or head strike.",
+    "This candidate intentionally invents a head CT and a syncope workup. The source says the daughter brought the patient in after a mechanical rug trip and explicitly says there was no loss of consciousness or head strike.",
 };
 
 const RANKED_DATASET = "primock57";

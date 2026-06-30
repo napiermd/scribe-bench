@@ -3,6 +3,19 @@
   "entries": [
     {
       "date": "2026-06-30",
+      "status": "shipped",
+      "title": "Structured no-key receipt checks",
+      "why": "Provider quotas still block the first current powered PriMock57 row, so the public site should become more useful even before a visitor supplies a key or credits.",
+      "proof": "Expanded the browser-only local receipt to catch high-confidence age mismatches, sex/gender mismatches, left-right body-part mismatches, and allergy contradictions alongside the existing contradiction, workup, transport, and leak checks. Added focused tests for both catches and non-catches, and updated the site copy to name the no-key checks plainly.",
+      "next": "Keep the local receipt as instant triage while using the current-run card to recruit a non-capped powered PriMock57 run.",
+      "links": [
+        { "label": "Run instant receipt", "href": "#lab" },
+        { "label": "Public status", "href": "#public-status" },
+        { "label": "Current run status", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
       "status": "open",
       "title": "Current row blocker made actionable",
       "why": "The strongest remaining objection is evidence freshness. A failed current PriMock57 retry should become a public contribution path, not an invisible local error.",

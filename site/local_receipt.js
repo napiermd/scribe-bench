@@ -29,7 +29,13 @@ const CLAIM_GROUPS = [
     label: "EMS or ambulance arrival",
     note: [/\bEMS\b/, /\bambulance\b/i, /\bparamedic/i],
     support: [/\bEMS\b/, /\bambulance\b/i, /\bparamedic/i],
-    contradiction: [/\bdaughter\s+drove\b/i, /\bdrove\s+(her|him|them)\s+in\b/i, /\bprivate\s+vehicle\b/i, /\bwalk(ed)?\s+in\b/i],
+    contradiction: [
+      /\bdaughter\s+drove\b/i,
+      /\bdrove\s+(her|him|them)\s+in\b/i,
+      /\bbrought\s+in\s+by\s+(her\s+|his\s+|their\s+)?(daughter|son|family|spouse|wife|husband|friend)\b/i,
+      /\bprivate\s+vehicle\b/i,
+      /\bwalk(ed)?\s+in\b/i,
+    ],
   },
   {
     label: "fever",
@@ -69,6 +75,20 @@ const WORKUP_GROUPS = [
   { label: "head injury workup", pattern: /\b(head\s+injury|trauma)\s+workup\b/i, support: [/\b(head\s+injury|head\s+strike|head\s+trauma)\b/i] },
 ];
 
+const SIDE_PART_RE = /\b(left|right)\s+(hip|knee|ankle|foot|wrist|hand|shoulder|elbow|arm|leg|eye|ear)\b/gi;
+
+const ALLERGY_TERMS = [
+  { key: "penicillin", patterns: [/\bpenicillin\b/i, /\bpcn\b/i] },
+  { key: "sulfa", patterns: [/\bsulfa\b/i] },
+  { key: "latex", patterns: [/\blatex\b/i] },
+  { key: "contrast", patterns: [/\bcontrast\b/i] },
+  { key: "morphine", patterns: [/\bmorphine\b/i] },
+  { key: "codeine", patterns: [/\bcodeine\b/i] },
+  { key: "aspirin", patterns: [/\baspirin\b/i] },
+  { key: "ibuprofen", patterns: [/\bibuprofen\b/i] },
+  { key: "shellfish", patterns: [/\bshellfish\b/i] },
+];
+
 function normalize(text) {
   return String(text || "").replace(/\s+/g, " ").trim();
 }
@@ -92,7 +112,10 @@ function hasAny(text, patterns) {
 function noteHasPositive(text, patterns) {
   const sentences = splitSentences(text);
   for (const sentence of sentences) {
-    if (hasAny(sentence, patterns) && !hasLocalNegation(sentence)) return true;
+    for (const pattern of patterns) {
+      const match = pattern.exec(sentence);
+      if (match && !hasLocalNegation(sentence, match.index)) return true;
+    }
   }
   return false;
 }
@@ -104,8 +127,9 @@ function splitSentences(text) {
     .filter(Boolean);
 }
 
-function hasLocalNegation(sentence) {
-  return /\b(no|not|denies|denied|without|negative\s+for|free\s+of)\b/i.test(sentence);
+function hasLocalNegation(sentence, claimIndex = sentence.length) {
+  const beforeClaim = sentence.slice(Math.max(0, claimIndex - 64), claimIndex);
+  return /\b(no|not|denies|denied|without|negative\s+for|free\s+of)\b/i.test(beforeClaim);
 }
 
 export function detectLocalLeaks(note) {
@@ -167,6 +191,8 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  dangerous.push(...detectStructuredMismatches(sourceText, noteText));
+
   const leaks = detectLocalLeaks(noteText);
   const uniqueDangerous = [...new Set(dangerous)];
   const overlap = sourceNoteOverlap(sourceText, noteText);
@@ -174,10 +200,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported clinical claim${uniqueDangerous.length === 1 ? "" : "s"}. It is conservative triage, not a substitute for the live judge.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -215,6 +241,115 @@ function localDimensions({ dangerous, leaks, overlap }) {
     physicianReadability: dangerous || leaks ? 3 : 4,
     inputFidelity: fidelity,
   };
+}
+
+function detectStructuredMismatches(source, note) {
+  const findings = [];
+  const sourceAge = extractAge(source);
+  const noteAge = extractAge(note);
+  if (sourceAge && noteAge && Math.abs(sourceAge - noteAge) >= 2) {
+    findings.push(`age differs between source (${sourceAge}) and note (${noteAge}).`);
+  }
+
+  const sourceSex = extractExplicitSex(source);
+  const noteSex = extractExplicitSex(note);
+  if (sourceSex && noteSex && sourceSex !== noteSex) {
+    findings.push(`sex/gender differs between source (${sourceSex}) and note (${noteSex}).`);
+  }
+
+  findings.push(...detectLateralityMismatches(source, note));
+  findings.push(...detectAllergyMismatches(source, note));
+  return findings;
+}
+
+function extractAge(text) {
+  const patterns = [
+    /\b(\d{1,3})\s*[- ]?\s*year[- ]old\b/i,
+    /\b(\d{1,3})\s*(?:yo|y\/o)\b/i,
+    /\bage[:\s]+(\d{1,3})\b/i,
+  ];
+  const match = firstMatch(text, patterns);
+  if (!match) return null;
+  const age = Number(match.match[1]);
+  return age > 0 && age <= 120 ? age : null;
+}
+
+function extractExplicitSex(text) {
+  const firstLines = splitSentences(text).slice(0, 4).join(" ");
+  const female = /\b(female|woman|girl|lady)\b/i.test(firstLines);
+  const male = /\b(male|man|boy|gentleman)\b/i.test(firstLines);
+  if (female && !male) return "female";
+  if (male && !female) return "male";
+  return null;
+}
+
+function detectLateralityMismatches(source, note) {
+  const findings = [];
+  const sourceSides = extractSidePartMap(source);
+  const noteSides = extractSidePartMap(note);
+  for (const [part, noteSideSet] of noteSides.entries()) {
+    const sourceSideSet = sourceSides.get(part);
+    if (!sourceSideSet) continue;
+    for (const noteSide of noteSideSet) {
+      const opposite = noteSide === "left" ? "right" : "left";
+      if (sourceSideSet.has(opposite) && !sourceSideSet.has(noteSide)) {
+        findings.push(`laterality differs for ${part}: source says ${opposite} ${part}, but note says ${noteSide} ${part}.`);
+      }
+    }
+  }
+  return findings;
+}
+
+function extractSidePartMap(text) {
+  const map = new Map();
+  for (const match of text.matchAll(SIDE_PART_RE)) {
+    const side = match[1].toLowerCase();
+    const part = match[2].toLowerCase();
+    if (!map.has(part)) map.set(part, new Set());
+    map.get(part).add(side);
+  }
+  return map;
+}
+
+function detectAllergyMismatches(source, note) {
+  const findings = [];
+  const sourceState = extractAllergyState(source);
+  const noteState = extractAllergyState(note);
+  if (sourceState.noKnown && noteState.substances.size) {
+    findings.push(`allergy claim appears in the note (${joinTerms(noteState.substances)}), but the source says no known allergies.`);
+  }
+  if (sourceState.substances.size && noteState.noKnown) {
+    findings.push(`note says no known allergies, but the source lists ${joinTerms(sourceState.substances)} allergy.`);
+  }
+  if (sourceState.substances.size && noteState.substances.size) {
+    for (const noteSubstance of noteState.substances) {
+      if (!sourceState.substances.has(noteSubstance)) {
+        findings.push(`allergy claim appears in the note (${noteSubstance}), but the source allergy list only supports ${joinTerms(sourceState.substances)}.`);
+      }
+    }
+  }
+  return findings;
+}
+
+function extractAllergyState(text) {
+  const state = {
+    noKnown: /\b(nkda|no known (?:drug )?allerg(?:y|ies)|no (?:drug )?allerg(?:y|ies))\b/i.test(text),
+    substances: new Set(),
+  };
+  for (const sentence of splitSentences(text)) {
+    const hasAllergyContext = /\ballerg(?:y|ic|ies)\b/i.test(sentence);
+    for (const term of ALLERGY_TERMS) {
+      if (term.patterns.some((pattern) => pattern.test(sentence))) {
+        const reactionContext = /\b(causes?|rash|hives|anaphylaxis|reaction)\b/i.test(sentence);
+        if (hasAllergyContext || reactionContext) state.substances.add(term.key);
+      }
+    }
+  }
+  return state;
+}
+
+function joinTerms(terms) {
+  return [...terms].sort().join(", ");
 }
 
 function sourceNoteOverlap(source, note) {
