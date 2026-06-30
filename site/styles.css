@@ -709,6 +709,19 @@ h4 {
   color: var(--accent-strong);
 }
 
+.result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 1rem;
+}
+
+#lab-copy-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
 .dimension-list {
   display: grid;
   gap: 0.5rem;

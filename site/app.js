@@ -55,6 +55,7 @@ const dimensionLabels = {
 };
 
 let syntheticCases = [];
+let lastLabResult = null;
 
 function byRank(a, b) {
   return (
@@ -197,6 +198,7 @@ function bindLab() {
   document.getElementById("load-seeded-lab")?.addEventListener("click", () => populateLab(syntheticCases[2] || syntheticCases[0]));
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
+  document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
   const providerSelect = document.getElementById("lab-provider");
   if (providerSelect) {
     providerSelect.dataset.previousProvider = providerSelect.value;
@@ -212,10 +214,13 @@ function bindLab() {
     const note = document.getElementById("lab-note");
     note.value = "";
     delete note.dataset.generatedModel;
+    resetLabResult();
     setLabStatus("");
   });
+  document.getElementById("lab-source")?.addEventListener("input", resetLabResult);
   document.getElementById("lab-note")?.addEventListener("input", (event) => {
     delete event.currentTarget.dataset.generatedModel;
+    resetLabResult();
   });
   document.getElementById("lab-form")?.addEventListener("submit", runLabJudge);
 
@@ -242,6 +247,7 @@ async function generateCandidateNote() {
   const runButton = document.getElementById("run-lab");
   generateButton.disabled = true;
   runButton.disabled = true;
+  resetLabResult();
   setLabStatus("Generating candidate note...");
   const slowNotice = window.setTimeout(() => {
     setLabStatus(providerConfigs[provider].slowNotice);
@@ -336,6 +342,7 @@ function populateLab(c) {
   const note = document.getElementById("lab-note");
   note.value = c.candidateNote || "";
   delete note.dataset.generatedModel;
+  resetLabResult();
   setLabStatus(`Loaded ${c.id}.`);
 }
 
@@ -375,6 +382,8 @@ async function runLabJudge(event) {
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Judge failed (${response.status})`);
     payload.generatedModel = document.getElementById("lab-note").dataset.generatedModel || "";
+    payload.sourceChars = source.length;
+    payload.noteChars = note.length;
     renderLabResult(payload);
     setLabStatus("Done.");
   } catch (error) {
@@ -386,8 +395,10 @@ async function runLabJudge(event) {
 }
 
 function renderLabResult(result) {
+  lastLabResult = result;
   document.getElementById("lab-empty").hidden = true;
   document.getElementById("lab-output").hidden = false;
+  setCopyStatus("");
   document.getElementById("lab-score").textContent = `${result.normalized ?? "--"}/100`;
   document.getElementById("lab-danger").textContent = String(result.fabrication?.dangerous?.length ?? 0);
   renderLabVerdict(result);
@@ -415,6 +426,15 @@ function renderLabResult(result) {
   const usage = result.usage ? ` Tokens: ${result.usage.total_tokens || "unknown"}.` : "";
   const provider = result.provider ? ` Provider: ${result.provider}.` : "";
   document.getElementById("lab-meta").textContent = `${generated}Judge: ${result.model || "unknown"}.${provider} Rubric: ${result.rubric || "site-lab"}.${usage}`;
+}
+
+function resetLabResult() {
+  lastLabResult = null;
+  const empty = document.getElementById("lab-empty");
+  const output = document.getElementById("lab-output");
+  if (empty) empty.hidden = false;
+  if (output) output.hidden = true;
+  setCopyStatus("");
 }
 
 function renderLabVerdict(result) {
@@ -461,6 +481,103 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized }) {
     copy: `The judge found no unsupported clinical claims and scored input fidelity at ${fidelity || "--"}/5.`,
     action: "This is one note, not a leaderboard claim. For a system-level answer, run the powered PriMock57 path.",
   };
+}
+
+async function copyLabSummary() {
+  if (!lastLabResult) {
+    setCopyStatus("Run the judge first.");
+    return;
+  }
+  const text = buildLabSummary(lastLabResult);
+  try {
+    await copyText(text);
+    setCopyStatus("Summary copied.");
+  } catch (_) {
+    setCopyStatus("Copy failed.");
+  }
+}
+
+function buildLabSummary(result) {
+  const dangerous = cleanStringArray(result.fabrication?.dangerous);
+  const standard = cleanStringArray(result.fabrication?.standard);
+  const leaks = cleanStringArray((result.leaks || []).map(formatLeakHit));
+  const fidelityValue = Number(result.dimensions?.inputFidelity);
+  const fidelity = Number.isFinite(fidelityValue) ? fidelityValue : 0;
+  const fidelityDisplay = Number.isFinite(fidelityValue) ? fidelityValue : "--";
+  const normalized = Number(result.normalized);
+  const dangerousCount = dangerous.length;
+  const leakCount = leaks.length;
+  const verdict = labVerdict({
+    dangerousCount,
+    leakCount,
+    fidelity,
+    normalized: Number.isFinite(normalized) ? normalized : 0,
+  });
+  const lines = [
+    "ScribeBench lab result",
+    `Verdict: ${verdict.title}`,
+    `Narrative score: ${result.normalized ?? "--"}/100`,
+    `Input fidelity: ${fidelityDisplay}/5`,
+    `Dangerous fabrications: ${dangerousCount}`,
+    `Leaks: ${leakCount}`,
+    result.generatedModel ? `Generator: ${result.generatedModel}` : "",
+    `Judge: ${result.model || "unknown"}`,
+    result.provider ? `Provider: ${result.provider}` : "",
+    result.rubric ? `Rubric: ${result.rubric}` : "",
+    result.sourceChars ? `Source length: ${result.sourceChars} chars` : "",
+    result.noteChars ? `Note length: ${result.noteChars} chars` : "",
+    "",
+    verdict.copy,
+    verdict.action,
+    "",
+    "Dangerous items:",
+    ...(dangerous.length ? dangerous.map((item) => `- ${item}`) : ["- None flagged."]),
+    "",
+    "Standard / accepted items:",
+    ...(standard.length ? standard.map((item) => `- ${item}`) : ["- None listed."]),
+    "",
+    "Leak scan:",
+    ...(leaks.length ? leaks.map((item) => `- ${item}`) : ["- No deterministic leaks."]),
+    "",
+    "Reasoning:",
+    result.reasoning || "No reasoning returned.",
+  ];
+  return lines.filter((line, index, arr) => line || arr[index - 1]).join("\n").trim();
+}
+
+function cleanStringArray(value) {
+  return Array.isArray(value)
+    ? value.map((item) => String(item).trim()).filter(Boolean)
+    : [];
+}
+
+function formatLeakHit(hit) {
+  if (!hit) return "";
+  if (typeof hit === "string") return hit;
+  const marker = hit.marker ? `${hit.marker}: ` : "";
+  return `${marker}${hit.excerpt || hit.surface || ""}`;
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.appendChild(textarea);
+  textarea.select();
+  const copied = document.execCommand("copy");
+  textarea.remove();
+  if (!copied) throw new Error("Copy command failed.");
+}
+
+function setCopyStatus(message) {
+  const status = document.getElementById("lab-copy-status");
+  if (status) status.textContent = message;
 }
 
 function selectedProvider() {
