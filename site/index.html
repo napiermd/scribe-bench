@@ -397,38 +397,14 @@
             <p class="eyebrow">Live lab</p>
             <h2>Generate and judge a clinical note</h2>
             <p>
-              The seeded failure case is loaded by default: a note invents a head CT and
-              syncope workup that the source rules out. Run the judge first, then replace
-              the text with your own source and candidate note. This is one-note triage,
-              not leaderboard evidence. Public rows use fixed datasets, repeats, and
-              aggregate confidence intervals.
+              The seeded failure case opens with a precomputed demo verdict so the failure
+              mode is visible immediately: a note invents a head CT and syncope workup that
+              the source rules out. Run the live judge to re-score it with the selected model,
+              or replace the text with your own source and candidate note. This is one-note
+              triage, not leaderboard evidence.
             </p>
           </div>
           <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
-        </div>
-
-        <div class="lab-guide" aria-label="Live lab quick path">
-          <article>
-            <span>1</span>
-            <div>
-              <strong>Start with the seeded failure</strong>
-              <p>SYN-003 is already loaded so the first visit has a real unsupported claim to inspect.</p>
-            </div>
-          </article>
-          <article>
-            <span>2</span>
-            <div>
-              <strong>Run the live judge</strong>
-              <p>The judge separates note quality from invented care, leaks, and source fidelity.</p>
-            </div>
-          </article>
-          <article>
-            <span>3</span>
-            <div>
-              <strong>Copy the QA summary</strong>
-              <p>Use the result as a shareable triage note, then rerun with your own scribe output.</p>
-            </div>
-          </article>
         </div>
 
         <div class="lab-shell">
@@ -479,6 +455,7 @@
             <div class="lab-actions">
               <button class="button secondary" id="generate-note" type="button">Generate candidate note</button>
               <button class="button primary" id="run-lab" type="submit">Run live judge</button>
+              <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
             </div>
@@ -503,7 +480,7 @@
             <div class="lab-output" id="lab-output" hidden>
               <div class="result-hero">
                 <div>
-                  <p class="eyebrow">Result</p>
+                  <p class="eyebrow" id="lab-result-label">Result</p>
                   <strong id="lab-score">--</strong>
                   <span>Narrative</span>
                 </div>
@@ -525,6 +502,13 @@
                 <button class="button secondary compact-button" id="copy-lab-summary" type="button">Copy summary</button>
                 <span id="lab-copy-status" role="status" aria-live="polite"></span>
               </div>
+              <textarea
+                class="copy-fallback"
+                id="lab-summary-fallback"
+                readonly
+                hidden
+                aria-label="ScribeBench QA summary"
+              ></textarea>
 
               <div class="dimension-list" id="lab-dimensions"></div>
 
@@ -551,6 +535,30 @@
               <p class="lab-meta" id="lab-meta"></p>
             </div>
           </aside>
+        </div>
+
+        <div class="lab-guide" aria-label="Live lab quick path">
+          <article>
+            <span>1</span>
+            <div>
+              <strong>Start with the seeded failure</strong>
+              <p>SYN-003 is already loaded so the first visit has a real unsupported claim to inspect.</p>
+            </div>
+          </article>
+          <article>
+            <span>2</span>
+            <div>
+              <strong>Read the seeded verdict</strong>
+              <p>The first result is precomputed so you can see the head CT and syncope workup catch immediately.</p>
+            </div>
+          </article>
+          <article>
+            <span>3</span>
+            <div>
+              <strong>Re-score or copy the summary</strong>
+              <p>Run the live judge for model-backed scoring, or copy the demo summary before testing your own note.</p>
+            </div>
+          </article>
         </div>
       </section>
 

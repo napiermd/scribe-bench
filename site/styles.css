@@ -56,6 +56,10 @@ button {
   font: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .skip-link {
   position: absolute;
   left: 1rem;
@@ -863,7 +867,7 @@ h4 {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
-  margin: 0 0 1rem;
+  margin: 1rem 0 0;
 }
 
 .lab-guide article {
@@ -1104,6 +1108,21 @@ h4 {
 #lab-copy-status {
   color: var(--muted);
   font-size: 0.86rem;
+}
+
+.copy-fallback {
+  width: 100%;
+  min-height: 180px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel-soft);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+  padding: 0.75rem;
+  resize: vertical;
 }
 
 .dimension-list {
@@ -1499,6 +1518,10 @@ h4 {
 
   .case-list {
     position: static;
+  }
+
+  .lab-results {
+    order: -1;
   }
 
   .quick-paths article,

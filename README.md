@@ -67,11 +67,12 @@ generate-and-judge lab, and run-it-yourself submission path. The homepage shows
 the seeded CT/syncope fabrication catch before asking visitors to click deeper,
 then gives three first-screen paths: check one note, publish aggregate evidence
 for a scribe system, or evaluate whether a public claim is backed by proof.
-The Lab opens with that seeded failure already loaded, then walks visitors through
-running the judge, reading the fabrication verdict, and copying a QA summary before
-they test their own notes. The public framing is deliberately practical: one-note
-triage in the Lab, system-level evidence through PriMock57, and build-in-public
-updates through GitHub submissions. The Evidence section also carries a public
+The Lab opens with that seeded failure already loaded plus a precomputed demo
+verdict, then lets visitors run the live judge, read the fabrication verdict, and
+copy a QA summary before they test their own notes. The public framing is
+deliberately practical: one-note triage in the Lab, system-level evidence through
+PriMock57, and build-in-public updates through GitHub submissions. The Evidence
+section also carries a public
 queue for current frontier, open/free, real-workflow, and judge-robustness rows,
 including the proof required and first action for each target. That keeps the
 stale launch baselines framed as a contribution backlog rather than a dead

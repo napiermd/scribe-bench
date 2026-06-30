@@ -55,6 +55,37 @@ const dimensionLabels = {
   inputFidelity: "Input fidelity",
 };
 
+const seededDemoResults = {
+  "SYN-003": {
+    dimensions: {
+      storyCohesion: 4,
+      clinicalCompleteness: 3,
+      naturalFlow: 4,
+      absenceOfArtifacts: 5,
+      physicianReadability: 4,
+      inputFidelity: 2,
+    },
+    total: 22,
+    normalized: 67,
+    fabrication: {
+      dangerous: [
+        "Invented CT head without contrast and a negative intracranial hemorrhage result; the source says no head strike or loss of consciousness and does not mention head imaging.",
+        "Invented syncope as a possible cause of the fall plus orthostatic vitals, telemetry monitoring, and TSH workup; the source describes a mechanical rug trip.",
+      ],
+      standard: [
+        "Orthopedics consult, surgical fixation plan, NPO after midnight, pain control, DVT prophylaxis, holding lisinopril, and calcium/vitamin D continuation are supported by the source.",
+      ],
+    },
+    leaks: [],
+    reasoning:
+      "The note is readable and carries forward the hip-fracture plan, but it adds clinically meaningful events and workup that are not in the source. The head CT result would reassure a reader about an evaluation that never occurred. The syncope workup also changes the causal story from a mechanical fall to possible medical syncope.",
+    model: "seeded-demo",
+    provider: "static-demo",
+    rubric: "site-demo-v1",
+    demoResult: true,
+  },
+};
+
 let syntheticCases = [];
 let lastLabResult = null;
 
@@ -171,10 +202,11 @@ function renderCases(cases) {
   syntheticCases = cases;
   const buttons = document.getElementById("case-buttons");
   buttons.innerHTML = "";
+  const defaultCase = seededCase();
 
-  cases.forEach((c, idx) => {
+  cases.forEach((c) => {
     const button = document.createElement("button");
-    button.className = `case-button${idx === 2 ? " active" : ""}`;
+    button.className = `case-button${c.id === defaultCase?.id ? " active" : ""}`;
     button.type = "button";
     button.innerHTML = `
       <strong>${escapeHtml(c.id)}</strong>
@@ -188,8 +220,10 @@ function renderCases(cases) {
     buttons.appendChild(button);
   });
 
-  renderCase(cases[2] || cases[0]);
-  populateLab(cases[2] || cases[0]);
+  if (defaultCase) {
+    renderCase(defaultCase);
+    populateLab(defaultCase);
+  }
 }
 
 function renderCase(c) {
@@ -215,10 +249,11 @@ function escapeHtml(value) {
 }
 
 function bindLab() {
-  const loadSeededLab = () => populateLab(syntheticCases[2] || syntheticCases[0]);
+  const loadSeededLab = () => populateLab(seededCase());
   document.getElementById("load-seeded-lab")?.addEventListener("click", loadSeededLab);
   document.getElementById("lab-empty-load-demo")?.addEventListener("click", loadSeededLab);
   document.getElementById("lab-empty-run")?.addEventListener("click", () => document.getElementById("lab-form")?.requestSubmit());
+  document.getElementById("show-seeded-verdict")?.addEventListener("click", loadSeededLab);
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
   document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
@@ -360,19 +395,46 @@ function modelSelects() {
     .filter(Boolean);
 }
 
+function seededCase() {
+  return syntheticCases.find((c) => c.id === "SYN-003") || syntheticCases[2] || syntheticCases[0];
+}
+
 function populateLab(c) {
   if (!c) return;
   document.getElementById("lab-source").value = c.source || "";
   const note = document.getElementById("lab-note");
   note.value = c.candidateNote || "";
   delete note.dataset.generatedModel;
+  const seededResult = buildSeededLabResult(c);
+  if (seededResult) {
+    renderLabResult(seededResult);
+    setLabStatus(`Loaded ${c.id} with the seeded demo verdict. Run live judge to re-score with the selected model.`);
+    return;
+  }
   resetLabResult();
   setLabEmptyState(
-    "Seeded demo ready",
-    `${c.id} is loaded with a known unsupported head CT and syncope-workup pattern. Run the judge to see what gets flagged.`,
+    "Case ready",
+    `${c.id} is loaded. Run the live judge to review fabrication, fidelity, leaks, and narrative quality.`,
     "Use this first, then replace the text with your own source and note."
   );
   setLabStatus(`Loaded ${c.id}.`);
+}
+
+function buildSeededLabResult(c) {
+  const result = seededDemoResults[c?.id];
+  if (!result) return null;
+  return {
+    ...result,
+    dimensions: { ...result.dimensions },
+    fabrication: {
+      dangerous: [...result.fabrication.dangerous],
+      standard: [...result.fabrication.standard],
+    },
+    leaks: [...result.leaks],
+    generatedModel: "bundled example candidate",
+    sourceChars: String(c.source || "").length,
+    noteChars: String(c.candidateNote || "").length,
+  };
 }
 
 async function runLabJudge(event) {
@@ -434,6 +496,9 @@ function renderLabResult(result) {
   document.getElementById("lab-empty").hidden = true;
   document.getElementById("lab-output").hidden = false;
   setCopyStatus("");
+  setSummaryFallback("");
+  const label = document.getElementById("lab-result-label");
+  if (label) label.textContent = result.demoResult ? "Seeded demo result" : "Result";
   document.getElementById("lab-score").textContent = `${result.normalized ?? "--"}/100`;
   document.getElementById("lab-danger").textContent = String(result.fabrication?.dangerous?.length ?? 0);
   renderLabVerdict(result);
@@ -460,17 +525,21 @@ function renderLabResult(result) {
   const generated = result.generatedModel ? `Generated: ${result.generatedModel}. ` : "";
   const usage = result.usage ? ` Tokens: ${result.usage.total_tokens || "unknown"}.` : "";
   const provider = result.provider ? ` Provider: ${result.provider}.` : "";
-  document.getElementById("lab-meta").textContent = `${generated}Judge: ${result.model || "unknown"}.${provider} Rubric: ${result.rubric || "site-lab"}.${usage}`;
+  const demo = result.demoResult ? "Demo result: precomputed from bundled SYN-003; run live judge to re-score. " : "";
+  document.getElementById("lab-meta").textContent = `${demo}${generated}Judge: ${result.model || "unknown"}.${provider} Rubric: ${result.rubric || "site-lab"}.${usage}`;
 }
 
 function resetLabResult() {
   lastLabResult = null;
   const empty = document.getElementById("lab-empty");
   const output = document.getElementById("lab-output");
+  const label = document.getElementById("lab-result-label");
   if (empty) empty.hidden = false;
   if (output) output.hidden = true;
+  if (label) label.textContent = "Result";
   updateLabEmptyForInputs();
   setCopyStatus("");
+  setSummaryFallback("");
 }
 
 function setLabEmptyState(title, copy, detail = "") {
@@ -565,9 +634,11 @@ async function copyLabSummary() {
   const text = buildLabSummary(lastLabResult);
   try {
     await copyText(text);
+    setSummaryFallback("");
     setCopyStatus("Summary copied.");
   } catch (_) {
-    setCopyStatus("Copy failed.");
+    setSummaryFallback(text);
+    setCopyStatus("Clipboard unavailable. Summary shown below.");
   }
 }
 
@@ -589,6 +660,7 @@ function buildLabSummary(result) {
   });
   const lines = [
     "ScribeBench lab result",
+    result.demoResult ? "Result type: seeded static demo verdict" : "",
     `Verdict: ${verdict.title}`,
     `Narrative score: ${result.normalized ?? "--"}/100`,
     `Input fidelity: ${fidelityDisplay}/5`,
@@ -652,6 +724,13 @@ async function copyText(text) {
 function setCopyStatus(message) {
   const status = document.getElementById("lab-copy-status");
   if (status) status.textContent = message;
+}
+
+function setSummaryFallback(text) {
+  const fallback = document.getElementById("lab-summary-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
 }
 
 function selectedProvider() {
