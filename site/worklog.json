@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "After-receipt action path",
+      "why": "The first-screen checker made the site useful, but the next scroll still felt like a status report. Visitors needed to know what to do with a receipt.",
+      "proof": "Replaced the old status and who-it-is-for explanation blocks with an after-receipt action map: review a flagged note, escalate a clean triage result to the Lab, challenge vendor claims, or build a powered aggregate row. Added a copyable first-screen receipt that carries scope, findings, flagged items, and next proof step without copying raw encounter text.",
+      "next": "Keep tightening the public path around real visitor jobs: note review, claim challenge, model-backed QA, and aggregate evidence submissions.",
+      "links": [
+        { "label": "Next steps", "href": "#next-steps" },
+        { "label": "Check one note", "href": "#main" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "First-screen note checker",
       "why": "The public site still felt too much like a benchmark brochure. A visitor should understand the point by checking a note immediately, not by decoding PriMock57, smoke rows, and challenge language first.",
       "proof": "Replaced the right-side receipt preview with a working browser-only source-vs-note checker, preloaded and scored the seeded SYN-003 fall case on first load, simplified the hero into who/what/not-proven statements, and shifted the visual tone toward a quieter clinical QA tool.",
@@ -23,7 +36,7 @@
       "next": "Keep the local receipt as instant triage while using the current-run card to recruit a non-capped powered PriMock57 run.",
       "links": [
         { "label": "Run instant receipt", "href": "#lab" },
-        { "label": "Public status", "href": "#public-status" },
+        { "label": "Next steps", "href": "#next-steps" },
         { "label": "Current run status", "href": "#current-run" }
       ]
     },
@@ -48,7 +61,7 @@
       "proof": "Added a top-level public status section with useful-today, evidence-now, not-proven-yet, and next-proof cards plus a copyable public status receipt. Simplified the top navigation so Status, Evidence, Lab, and Run it are easier to find.",
       "next": "Use the status receipt as the public project spine, then finish a current powered PriMock57 row so the site can move from useful triage to stronger system-level evidence.",
       "links": [
-        { "label": "Public status", "href": "#public-status" },
+        { "label": "Next steps", "href": "#next-steps" },
         { "label": "Run Lab", "href": "#lab" },
         { "label": "Evidence ledger", "href": "#leaderboard" }
       ]

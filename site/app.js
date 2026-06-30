@@ -191,22 +191,6 @@ const challengePlans = {
   },
 };
 
-const publicStatusReceipt = [
-  "ScribeBench public status (updated June 30, 2026)",
-  "",
-  "Useful today: paste a source encounter plus generated clinical note, or run the seeded SYN-003 demo, and get a source-vs-note QA receipt for unsupported care, template leaks, and the next evidence step.",
-  "",
-  "Evidence today: historical n=57 PriMock57 launch baselines from June 2, 2026; a fresh n=3 OpenRouter synthetic smoke row from June 30, 2026; and a public PriMock57 API runner that generated three current-model notes and scored one before free-model judge limits blocked the rest.",
-  "",
-  "Not proven yet: ScribeBench does not currently crown the best current model, certify a vendor system, approve clinical use, or turn one note into a system-level claim.",
-  "",
-  "Next proof: add OpenRouter credits or configure a faster second judge, copy the resume command from the Evidence card, and publish aggregate-only scores after at least 30 scored cases with declared model, judge, repeats, date, and confidence intervals.",
-  "",
-  "Start here: https://scribe-bench.vercel.app/",
-  "Evidence ledger: https://scribe-bench.vercel.app/#leaderboard",
-  "Run builder: https://scribe-bench.vercel.app/#run",
-].join("\n");
-
 const startRoutes = {
   note: {
     kicker: "Fastest useful path",
@@ -286,6 +270,7 @@ const seededDemoResults = {
 };
 
 let syntheticCases = [];
+let lastQuickResult = null;
 let lastLabResult = null;
 
 function byRank(a, b) {
@@ -829,33 +814,6 @@ function setChallengeCopyFallback(text) {
   fallback.hidden = !text;
 }
 
-function bindPublicStatus() {
-  document.getElementById("copy-public-status")?.addEventListener("click", copyPublicStatus);
-}
-
-async function copyPublicStatus() {
-  try {
-    await copyText(publicStatusReceipt);
-    setPublicStatusCopyFallback("");
-    setPublicStatusCopyStatus("Public status receipt copied.");
-  } catch (_) {
-    setPublicStatusCopyFallback(publicStatusReceipt);
-    setPublicStatusCopyStatus("Clipboard unavailable. Status receipt shown below.");
-  }
-}
-
-function setPublicStatusCopyStatus(message) {
-  const status = document.getElementById("public-status-copy-status");
-  if (status) status.textContent = message;
-}
-
-function setPublicStatusCopyFallback(text) {
-  const fallback = document.getElementById("public-status-copy-fallback");
-  if (!fallback) return;
-  fallback.value = text;
-  fallback.hidden = !text;
-}
-
 function bindStartRouter() {
   const buttons = [...document.querySelectorAll("[data-start-route]")];
   if (!buttons.length) return;
@@ -904,6 +862,7 @@ function bindQuickCheck() {
   document.getElementById("quick-load-seeded")?.addEventListener("click", () => populateQuickCheck(seededCase(), { run: true }));
   document.getElementById("quick-source")?.addEventListener("input", resetQuickResult);
   document.getElementById("quick-note")?.addEventListener("input", resetQuickResult);
+  document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
 }
 
 function populateQuickCheck(c, { run = false } = {}) {
@@ -957,6 +916,9 @@ function runQuickLocalReceipt(event) {
 function renderQuickResult(result) {
   const panel = document.getElementById("quick-result");
   if (!panel) return;
+  lastQuickResult = result;
+  setQuickCopyStatus("");
+  setQuickCopyFallback("");
   panel.hidden = false;
   const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
   const leakCount = result.leaks?.filter(Boolean).length || 0;
@@ -988,8 +950,11 @@ function renderQuickResult(result) {
 }
 
 function resetQuickResult() {
+  lastQuickResult = null;
   const panel = document.getElementById("quick-result");
   if (panel) panel.hidden = true;
+  setQuickCopyStatus("");
+  setQuickCopyFallback("");
   setQuickStatus("Ready to run a browser-only receipt.", "");
 }
 
@@ -998,6 +963,66 @@ function setQuickStatus(message, tone = "") {
   if (!status) return;
   status.textContent = message;
   status.dataset.tone = tone;
+}
+
+async function copyQuickReceipt() {
+  if (!lastQuickResult) {
+    setQuickCopyStatus("Run the receipt first.");
+    return;
+  }
+  const text = buildQuickReceiptText(lastQuickResult);
+  try {
+    await copyText(text);
+    setQuickCopyFallback("");
+    setQuickCopyStatus("Receipt copied.");
+  } catch (_) {
+    setQuickCopyFallback(text);
+    setQuickCopyStatus("Clipboard unavailable. Receipt shown below.");
+  }
+}
+
+function buildQuickReceiptText(result) {
+  const dangerous = result.fabrication?.dangerous?.filter(Boolean) || [];
+  const leaks = (result.leaks || []).filter(Boolean).map((hit) => `${hit.marker}: ${hit.excerpt}`);
+  const dangerousCount = dangerous.length;
+  const leakCount = leaks.length;
+  const fidelity = Number(result.dimensions?.inputFidelity || 0);
+  const normalized = Number(result.normalized || 0);
+  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
+  const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
+  const flaggedItems = dangerousCount
+    ? dangerous
+    : leakCount
+      ? leaks
+      : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak flagged by the browser receipt."];
+
+  return [
+    "ScribeBench source-vs-note receipt",
+    `Date: ${new Date().toISOString().slice(0, 10)}`,
+    "Scope: one note, browser-only local check, not a system certification or clinical clearance",
+    `Case: ${caseLabel}`,
+    `Finding: ${verdict.title}`,
+    `Summary: ${verdict.copy}`,
+    "",
+    "Flagged items:",
+    ...flaggedItems.map((item) => `- ${item}`),
+    "",
+    `Next proof step: ${verdict.action}`,
+    "",
+    "Reference: https://scribe-bench.vercel.app/",
+  ].join("\n");
+}
+
+function setQuickCopyStatus(message) {
+  const status = document.getElementById("quick-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setQuickCopyFallback(text) {
+  const fallback = document.getElementById("quick-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
 }
 
 function escapeHtml(value) {
@@ -2029,7 +2054,6 @@ function setRunCopyFallback(text) {
 async function boot() {
   bindStartRouter();
   bindQuickCheck();
-  bindPublicStatus();
   bindCurrentRunCommand();
   bindClaimChecker();
   bindChallengePlanner();

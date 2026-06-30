@@ -696,6 +696,20 @@ h4 {
   margin-top: 0.28rem;
 }
 
+.quick-result-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
+#quick-copy-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
 .actions,
 .link-row {
   display: flex;
@@ -766,88 +780,70 @@ h4 {
   font-size: 0.92rem;
 }
 
-.status-section {
+.after-receipt-section {
   padding-top: 48px;
 }
 
-.status-deck {
+.after-receipt-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 1.18fr) repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.status-card {
+.after-receipt-card {
   display: grid;
   align-content: start;
   gap: 0.72rem;
   min-width: 0;
-  min-height: 230px;
+  min-height: 244px;
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: var(--shadow);
   padding: 1rem;
 }
 
-.status-card-primary {
+.after-receipt-primary {
   border-color: rgba(15, 118, 110, 0.3);
   background: #eef8f5;
 }
 
-.status-card h3 {
+.after-receipt-card h3 {
   font-size: 1.16rem;
   max-width: 30rem;
 }
 
-.status-card p {
+.after-receipt-card p {
   color: var(--muted);
   font-size: 0.93rem;
   margin: 0;
 }
 
-.status-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.7rem;
+.after-receipt-card a {
+  align-self: end;
+  font-weight: 850;
   margin-top: 0.2rem;
 }
 
-#public-status-copy-status {
-  color: var(--muted);
-  font-size: 0.86rem;
-  font-weight: 750;
-}
-
-.purpose-section {
-  padding-top: 48px;
-}
-
-.job-grid {
+.evidence-ladder {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-.workflow-strip {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: var(--shadow);
-  margin: 0 0 12px;
+  margin-top: 12px;
 }
 
-.workflow-strip div {
+.evidence-ladder div {
   min-width: 0;
   padding: 0.95rem 1rem;
   border-right: 1px solid var(--line);
 }
 
-.workflow-strip div:last-child {
+.evidence-ladder div:last-child {
   border-right: 0;
 }
 
-.workflow-strip span {
+.evidence-ladder span {
   display: block;
   color: var(--accent-strong);
   font-size: 0.72rem;
@@ -857,48 +853,16 @@ h4 {
   margin-bottom: 0.28rem;
 }
 
-.workflow-strip strong {
+.evidence-ladder strong {
   display: block;
   line-height: 1.28;
 }
 
-.job-grid article {
-  display: grid;
-  align-content: start;
-  gap: 0.6rem;
-  border: 1px solid var(--line);
-  background: var(--panel);
-  padding: 1rem;
-  box-shadow: var(--shadow);
-  min-height: 245px;
-}
-
-.job-number {
-  display: inline-flex;
-  width: fit-content;
-  color: var(--accent-strong);
-  font-family: var(--mono);
-  font-size: 0.82rem;
-  font-weight: 900;
-}
-
-.job-grid p {
+.evidence-ladder p {
   color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.4;
   margin: 0;
-}
-
-.job-grid .job-output {
-  color: var(--ink);
-}
-
-.job-output strong {
-  color: var(--accent-strong);
-}
-
-.job-grid a {
-  align-self: end;
-  font-weight: 850;
-  margin-top: 0.25rem;
 }
 
 .claim-section {
@@ -2783,8 +2747,8 @@ h4 {
   }
 
   .method-cards,
-  .status-deck,
-  .job-grid,
+  .after-receipt-grid,
+  .evidence-ladder,
   .ledger-grid,
   .run-steps,
   .run-contract,
@@ -2809,7 +2773,6 @@ h4 {
   .quick-check-form,
   .instant-receipt-lane,
   .live-smoke-lane,
-  .workflow-strip,
   .field-row,
   .field-row.claim-row,
   .field-row.challenge-row,
@@ -2823,7 +2786,7 @@ h4 {
   .instant-receipt-lane .button,
   .live-smoke-lane .button,
   .quick-check-actions .button,
-  .status-actions .button,
+  .quick-result-actions .button,
   .current-run-command-actions .button,
   .start-route-actions .button,
   .split-actions,
@@ -2831,7 +2794,7 @@ h4 {
     width: 100%;
   }
 
-  .status-card-primary {
+  .after-receipt-primary {
     grid-column: span 1;
   }
 
@@ -2853,14 +2816,14 @@ h4 {
 
   .quick-paths article,
   .thesis-strip div,
-  .workflow-strip div {
+  .evidence-ladder div {
     border-right: 0;
     border-bottom: 1px solid var(--line);
     padding-left: 0;
     padding-right: 0;
   }
 
-  .workflow-strip div,
+  .evidence-ladder div,
   .thesis-strip div {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -2868,7 +2831,7 @@ h4 {
 
   .quick-paths article:last-child,
   .thesis-strip div:last-child,
-  .workflow-strip div:last-child {
+  .evidence-ladder div:last-child {
     border-bottom: 0;
   }
 

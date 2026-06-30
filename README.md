@@ -76,25 +76,27 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
 experience: a working first-screen source-vs-note checker, an evidence
-ledger, a public status receipt, a powered PriMock57 leaderboard, a public claim checker, a current-model
+ladder, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
 snapshot, synthetic demo case viewer, methodology summary, live generate-and-judge
 lab, and run-it-yourself submission path. The homepage now answers the product
 question directly: it is for clinical AI buyers, builders, and reviewers who have
 a source encounter plus an AI-written note and want to know whether the note
 invented care. The first screen includes a no-key browser checker with the seeded
-SYN-003 fall case loaded and scored, plus pasteable source and note fields for a
-visitor's own example. Buyers and clinical leaders can turn vendor claims into an
+SYN-003 fall case loaded and scored, pasteable source and note fields for a
+visitor's own example, and a copyable receipt that carries findings and next proof
+steps without copying raw encounter text. The next section turns that receipt into
+an action path: review a flagged note, escalate a clean triage result to the Lab,
+challenge a vendor claim, or publish an aggregate powered row before making a
+system-level claim. Buyers and clinical leaders can turn vendor claims into an
 evidence ask; builders can use the Lab for live model-backed scoring; contributors
 can add the missing current powered rows. The Lab opens with that seeded failure
 already loaded plus a precomputed demo verdict, and can also run an OpenRouter smoke
 flow that generates a fresh candidate note, judges it, and leaves the visitor with
-a verdict. The public status receipt spells out what ScribeBench is useful for today,
-what it does not prove yet, and the next powered PriMock57 proof step in copyable
-form. Visitors can also run the live judge,
-read the fabrication verdict, copy a short evidence packet that names the scope,
-models, finding, and next proof step, then copy a fuller QA summary before they
-test their own notes. The judge path requests JSON-object responses where supported
+a verdict. Visitors can also run the live judge, read the fabrication verdict, copy
+a short evidence packet that names the scope, models, finding, and next proof step,
+then copy a fuller QA summary before they test their own notes. The judge path
+requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing
 closed; the live API also has a compact plain-text fallback for models that keep
 mangling JSON. The public framing is
