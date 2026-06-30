@@ -65,6 +65,32 @@ export default async function handler(req, res) {
   const prompt = buildJudgePrompt(source, note);
 
   try {
+    const judged = await callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt });
+    const { payload, raw, parsed, repairAttempted } = judged;
+    const normalized = normalizeJudgeResult(parsed);
+    const result = {
+      ...normalized,
+      leaks,
+      model: payload.model || model,
+      provider,
+      usage: payload.usage || null,
+      rubric: 'site-lab-v1',
+      repairAttempted,
+    };
+    if (process.env.SCRIBEBENCH_DEBUG_RAW === '1') result.raw = raw;
+    return res.status(200).json(result);
+  } catch (error) {
+    return res.status(error.status || 500).json({
+      error: error.message || 'Judge failed.',
+      provider: error.provider || provider,
+    });
+  }
+}
+
+async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }) {
+  let parseError;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const repairAttempted = attempt > 0;
     const response = await fetch(providerConfig.endpoint, {
       method: 'POST',
       headers: {
@@ -74,10 +100,10 @@ export default async function handler(req, res) {
       },
       body: JSON.stringify({
         model,
-        temperature: 0.1,
+        temperature: repairAttempted ? 0 : 0.1,
         max_tokens: 1500,
         messages: [
-          { role: 'system', content: ScribeBenchSystemPrompt },
+          { role: 'system', content: repairAttempted ? repairSystemPrompt(parseError) : ScribeBenchSystemPrompt },
           { role: 'user', content: prompt },
         ],
       }),
@@ -85,28 +111,29 @@ export default async function handler(req, res) {
 
     const payload = await response.json();
     if (!response.ok) {
-      return res.status(response.status).json({
-        error: payload.error?.message || payload.message || `${providerConfig.title} HTTP ${response.status}`,
-        provider,
-      });
+      const message = payload.error?.message || payload.message || `${providerConfig.title} HTTP ${response.status}`;
+      const error = new Error(message);
+      error.status = response.status;
+      error.provider = providerConfig.title;
+      throw error;
     }
 
     const raw = payload.choices?.[0]?.message?.content || '';
-    const parsed = extractJsonObject(raw);
-    const normalized = normalizeJudgeResult(parsed);
-    const result = {
-      ...normalized,
-      leaks,
-      model: payload.model || model,
-      provider,
-      usage: payload.usage || null,
-      rubric: 'site-lab-v1',
-    };
-    if (process.env.SCRIBEBENCH_DEBUG_RAW === '1') result.raw = raw;
-    return res.status(200).json(result);
-  } catch (error) {
-    return res.status(500).json({ error: error.message || 'Judge failed.' });
+    try {
+      return { payload, raw, parsed: extractJsonObject(raw), repairAttempted };
+    } catch (error) {
+      parseError = error;
+    }
   }
+
+  throw parseError || new Error('Judge did not return parseable JSON.');
+}
+
+function repairSystemPrompt(parseError) {
+  return `${ScribeBenchSystemPrompt}
+
+CRITICAL: Your previous response could not be parsed as JSON (${parseError?.message || 'parse error'}).
+Return one valid JSON object only. Do not include markdown, comments, bullet text, trailing commas, or prose outside the object.`;
 }
 
 function normalizeProvider(value) {
