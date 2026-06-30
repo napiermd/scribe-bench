@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First screen answers who, what, and why public",
+      "why": "The site had become useful as a one-note checker, but the public-facing point still took too much inference. A skeptical visitor needed an immediate answer to who this is for, what they can do, and why anyone should care about the public evidence trail.",
+      "proof": "The first-screen purpose strip now says ScribeBench is for clinical AI buyers, builders, and reviewers; it names the three jobs as checking one note, challenging a claim, or adding evidence; and it frames the public point as receipts and current rows for safe-or-best AI-scribe claims. The top nav now calls the contribution path Add row instead of the vaguer Run it, and direct hash links land without native smooth-scroll drift.",
+      "next": "Keep the first viewport ruthless: a visitor should know the audience, action, and public artifact before reading benchmark detail.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Run docs now start with the actual system under test",
       "why": "The site separated smoke tests from publishable evidence, but the README and backend docs still opened with provider-generated free-model examples. That made the project look like a toy model leaderboard instead of a harness for scoring real scribe output.",
       "proof": "The Quickstart now begins with a bundled synthetic smoke test, then the powered path asks for candidate notes from the actual current system under test. Provider generation is documented as an optional helper, and the Run builder's serious presets no longer default robustness work to a free-model judge.",
