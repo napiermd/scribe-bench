@@ -127,6 +127,9 @@ source/note gallery.
 The Evidence section now frames the old GPT-4o/launch Claude rows as a historical
 baseline board with scored dates and current-row actions, so visitors do not read
 stale launch baselines as today's model ranking.
+The first-screen route for "I have one note" now lands on the browser-only checker
+instead of the full Lab or a surprise seeded-demo action, keeping the fastest path
+aligned with the visitor's actual job.
 The judge path
 requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing

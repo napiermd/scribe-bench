@@ -232,9 +232,9 @@ const startRoutes = {
     copy:
       "Start with one encounter and one generated note. ScribeBench checks whether the note stayed faithful, invented unsupported care, leaked template junk, and what claim that result can actually support.",
     input: "Source encounter and generated note.",
-    action: "Run the local receipt instantly, then use the live judge if you need model-backed scoring.",
+    action: "Use the first-screen checker for an instant browser receipt, then open the Lab only if you need model-backed scoring.",
     output: "A copyable QA receipt and a clear next proof step.",
-    primary: { label: "Run instant receipt", href: "#lab" },
+    primary: { label: "Use first-screen checker", href: "#quick-check" },
     secondary: { label: "See the seeded catch", href: "#demo" },
   },
   buyer: {
@@ -1138,13 +1138,9 @@ function bindStartRouter() {
     const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
     if (activeRoute === "note") {
       event.preventDefault();
-      const c = seededCase();
-      if (!c) {
-        setQuickStatus("Demo cases are still loading. Try again in a moment.", "review");
-        return;
-      }
-      populateQuickCheck(c, { run: true });
-      document.getElementById("quick-result")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      document.getElementById("quick-check")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      document.getElementById("quick-source")?.focus({ preventScroll: true });
+      setQuickStatus("Paste your source and generated note, or keep the seeded failure and run it again.");
     }
   });
   selectRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
