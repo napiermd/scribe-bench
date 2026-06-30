@@ -1676,6 +1676,86 @@ h4 {
   padding-top: 54px;
 }
 
+.repo-system-loop {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.35fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.repo-loop-summary,
+.repo-loop-steps {
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
+  min-width: 0;
+}
+
+.repo-loop-summary {
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  padding: 1rem;
+}
+
+.repo-loop-summary h3 {
+  font-size: 1.24rem;
+}
+
+.repo-loop-summary p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.42;
+  margin: 0;
+}
+
+.repo-loop-steps {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.repo-loop-steps li {
+  display: grid;
+  align-content: start;
+  gap: 0.34rem;
+  min-width: 0;
+  border-right: 1px solid rgba(15, 118, 110, 0.2);
+  padding: 1rem;
+}
+
+.repo-loop-steps li:last-child {
+  border-right: 0;
+}
+
+.repo-loop-steps span {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--accent-strong);
+  font-size: 0.78rem;
+  font-weight: 900;
+}
+
+.repo-loop-steps strong {
+  color: var(--ink);
+  font-size: 0.92rem;
+  line-height: 1.24;
+}
+
+.repo-loop-steps p {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.34;
+  margin: 0;
+}
+
 .repo-map-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.12fr) repeat(2, minmax(0, 1fr));
@@ -4103,6 +4183,7 @@ h4 {
   .evidence-decision,
   .evidence-digest,
   .freshness-receipt,
+  .repo-system-loop,
   .evidence-agenda,
   .historical-baseline-head,
   .public-action-kit,
@@ -4123,6 +4204,7 @@ h4 {
   .after-receipt-grid,
   .origin-grid,
   .repo-map-grid,
+  .repo-loop-steps,
   .evidence-ladder,
   .public-action-grid,
   .evidence-decision-list,
@@ -4181,6 +4263,15 @@ h4 {
 
   .quick-check-panel {
     order: 1;
+  }
+
+  .repo-loop-steps li {
+    border-right: 0;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.2);
+  }
+
+  .repo-loop-steps li:last-child {
+    border-bottom: 0;
   }
 
   .intro-panel {

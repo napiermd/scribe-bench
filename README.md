@@ -6,6 +6,8 @@
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
+The system loop is simple: **one note becomes a public evidence card; many notes become a scores-only public row.** The repo contains the walk-up website, model-backed Lab APIs, TypeScript evaluator, public cases, and evidence ledger needed to make that loop reproducible.
+
 ## Who this is for
 
 - **Clinical QA reviewers** checking one AI-scribe note against the source encounter.

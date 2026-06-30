@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The repo map now shows the evidence system loop",
+      "why": "The What it is section listed website, APIs, evaluator, data, and ledger pieces, but a cold visitor still had to infer how those pieces became a useful public workflow.",
+      "proof": "The repo map now opens with the loop: one source-note check becomes a public evidence card, and many checked notes become a scores-only public row. The README now uses the same one-note-to-card, many-notes-to-row framing.",
+      "next": "Keep making every section answer what the visitor can do, what artifact they leave with, and what claim that artifact can support.",
+      "links": [
+        { "label": "What it is", "href": "#repo-map" },
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Add public row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The public evidence card now appears before the detailed receipt",
       "why": "The first screen promised evidence, but after a note check the visitor still saw the long QA receipt before the shareable card. That made the useful leave-behind feel secondary.",
       "proof": "The first result artifact after a note check is now the Public evidence card: what happened, evidence level, boundary, next public ask, and copy-ready text. The detailed source-note receipt follows underneath for review.",
