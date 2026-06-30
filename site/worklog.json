@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Shared links now show the actual product",
+      "why": "The site claimed a large social card but shipped no image metadata. A public build-in-public artifact needs to look intentional when linked from NapierMD, GitHub, Slack, or social posts, not like a bare static page.",
+      "proof": "The site now publishes an Open Graph and Twitter image using the real first-screen checker screenshot, with alt text and static build copying so Vercel serves the image at /og-image.jpg.",
+      "next": "Keep public packaging aligned with the product itself: shared previews should show the working checker and receipt, not generic branding.",
+      "links": [
+        { "label": "Live site", "href": "https://scribe-bench.vercel.app" },
+        { "label": "Share image", "href": "/og-image.jpg" },
+        { "label": "Check one note", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First screen now leads with visitor outputs",
       "why": "Fresh production screenshots showed the page was useful, but visitors still had to infer the actual public artifact from benchmark language. That made the project easier to dismiss as a vague leaderboard instead of a tool people can use.",
       "proof": "The first screen now states the three takeaways directly: a source-vs-note QA receipt, a copyable public evidence ask for vendor claims, or a current aggregate row plan. The seeded checker copy also names the unsupported head CT and syncope workup so the first visit shows the point immediately. On mobile, the working no-key checker now appears before the explanatory rail.",

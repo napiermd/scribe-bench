@@ -60,7 +60,7 @@ function main() {
   fs.rmSync(distDir, { recursive: true, force: true });
   fs.mkdirSync(assetsDir, { recursive: true });
 
-  for (const file of ['index.html', 'styles.css', 'app.js', 'local_receipt.js']) {
+  for (const file of ['index.html', 'styles.css', 'app.js', 'local_receipt.js', 'og-image.jpg']) {
     copyFile(path.join(siteDir, file), path.join(distDir, file));
   }
 
