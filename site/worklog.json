@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "README now explains the repo instead of narrating every change",
+      "why": "The public site was getting clearer, but the GitHub README still read like a running changelog. That made the repo feel more confusing and more AI-generated than the actual product warranted.",
+      "proof": "The Public website section is now a concise orientation: three visitor jobs, explicit non-goals, and a repo map covering the site, local receipt, live API, eval engine, data, and evidence ledger.",
+      "next": "Keep the README as the stable map and leave iteration detail in the worklog, not in product copy.",
+      "links": [
+        { "label": "GitHub README", "href": "https://github.com/napiermd/scribe-bench#public-website" },
+        { "label": "What it is", "href": "#repo-map" },
+        { "label": "Work log", "href": "#worklog" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Receipts now state what the result can prove",
       "why": "The first-screen checker could catch source-note issues, but a visitor still had to infer what that single receipt meant for a vendor review, public claim, or system-level benchmark. That gap made the site feel more like a clever demo than a usable public evidence artifact.",
       "proof": "Quick-check results now include can-support, cannot-support, and use-next fields. The copied receipt carries the same evidence meaning, so a pasted QA artifact separates one-note review from leaderboard claims and clinical clearance.",

@@ -76,112 +76,26 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`.
 
-The first screen now states the product through concrete visitor jobs:
+Use the website for three jobs:
 
-- **Know who it is for:** clinical AI buyers, builders, reviewers, and public commenters with a source encounter plus an AI-written note.
-- **Know the output:** a copyable receipt that names the source-note issues, what the note claimed, what the source supports, and what proof is still missing.
-- **Know the boundary:** ScribeBench is not the scribe product, not a patient app, and not a current model popularity board.
-- **Check one note:** paste the source encounter plus AI note and catch source-note issues like the seeded CT/syncope workup, demographic changes, side changes, and allergy contradictions.
-- **Challenge a claim:** turn "hallucination-free" language into an evidence ask with dataset, n, judge, repeats, and rates.
-- **Publish evidence:** use aggregate PriMock57 or real-workflow scores for system claims while keeping raw closed-model notes out.
-- **Inspect the proof:** flagged browser-check and demo receipt items now show note and source excerpts, including demographic, laterality, and allergy contradictions, so the receipt reads like evidence instead of a black-box verdict.
-- **Escalate the same pair:** a quick-check result can now open the exact source and note in the Lab, preserving pasted-vs-seeded metadata and rerunning the local receipt before any live judge call.
-- **Start without waiting on models:** the seeded no-key check loads from static demo data before model-list/API calls, so first-time visitors see the useful receipt path first.
-- **Keep receipts honest:** editing either quick-check text box clears seeded-case metadata, so copied receipts for pasted examples no longer claim to be `SYN-003`.
-- **Use before explaining:** the first screen now puts the working checker ahead of the role router on mobile, and desktop treats the router as supporting context beside the live receipt instead of the main event.
-- **Date receipts locally:** copied quick-check receipts use the visitor's local calendar date instead of a UTC ISO slice, so near-midnight QA artifacts do not look stale.
-- **State the evidence boundary:** quick-check results and copied receipts now say what the one-note artifact can support, what it cannot support, and what proof step comes next.
+1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. No API key required.
+2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
+3. **Publish evidence.** Use the run builder and leaderboard submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
-The site gives non-repo visitors a walk-up
-experience: a job-oriented first screen, a working source-vs-note checker, an evidence
-ladder, a NapierMD context section that explains why the project exists after
-the demo, a powered PriMock57 leaderboard, a public claim checker, a current-model
-challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
-snapshot, synthetic demo case receipt viewer, methodology summary, live generate-and-judge
-lab, and run-it-yourself submission path. The homepage now answers the product
-question directly: it is for clinical AI buyers, builders, and reviewers who have
-a source encounter plus an AI-written note and want to know whether the note
-invented care. On mobile, that explanation stays before the form instead of opening
-with inputs first. The first screen now gives visitors a task router for four concrete
-jobs: check one note, evaluate a vendor claim, debug a scribe pipeline, or add a
-public evidence row. The note path runs the seeded SYN-003 receipt in place instead
-of sending visitors into benchmark machinery. The first screen also includes a
-no-key browser checker with the seeded fall case loaded and scored, pasteable
-source and note fields for a visitor's own example, and a copyable receipt that
-carries findings, note/source evidence excerpts, and next proof steps without copying
-raw encounter text into the public ledger. Structured mismatches such as age, sex/gender,
-left-vs-right body part, and NKDA-vs-listed-allergy contradictions carry the same
-inspectable proof as unsupported clinical-workup flags, and the receipt language now
-calls them source-note issues instead of squeezing every flag into "dangerous fabrication"
-jargon. A result can be opened directly in the Lab with the same source and note,
-so the visitor can escalate from no-key triage to model-backed scoring without
-re-pasting. The next
-section turns that receipt into
-an action path: review a flagged note, escalate a clean triage result to the Lab,
-challenge a vendor claim, or publish an aggregate powered row before making a
-system-level claim. The Why section ties ScribeBench back to the NapierMD clinical
-AI lane: this is not the scribe product, it is the public pressure test for whether
-the signed note stays true to the source. The Evidence section now opens with what the evidence can prove
-today: historical powered launch baselines, fresh smoke and one-note QA checks,
-and the still-missing current powered rows. It now starts with a decision matrix
-that maps common visitor intents to what they can honestly claim, the current proof
-available, and the next click. It also includes a data-backed reader
-digest before the tables so visitors see the best historical row, worst historical
-failure signal, freshest smoke row, and next public action before they encounter
-old GPT-4o/launch-model names. The public Repo map section explains how the project pieces
-fit together: the Vercel checker, model-backed APIs, TypeScript eval engine,
-synthetic and PriMock57 case data, scores-only evidence ledger, and GitHub
-submission path. Buyers and clinical leaders can turn common vendor claims
-such as "hallucination-free," "safe note," "better scribe," or "best current model"
-into a copyable evidence ask without starting from a blank textarea; builders can
-use the Lab for live model-backed scoring; contributors can add the missing current
-powered rows. The Lab is now source-first: visitors see the seeded failure, paste
-or replace the source encounter and candidate note, run the instant no-key receipt,
-then escalate to a live judge or generated candidate only when the one-note result
-deserves it. Model/provider/key controls sit behind a settings disclosure instead
-of leading the workflow. The Lab can still run an OpenRouter smoke flow that
-generates a fresh candidate note, judges it, and leaves the visitor with a verdict.
-Visitors can copy a short evidence packet that names the scope, models, finding,
-and next proof step, then copy a fuller QA summary before they test their own notes.
-The synthetic demo section now runs the same browser-only receipt on each bundled
-case, so the examples show what the checker catches instead of acting as a passive
-source/note gallery.
-The Evidence section now frames the old GPT-4o/launch Claude rows as a historical
-baseline board with scored dates and current-row actions, so visitors do not read
-stale launch baselines as today's model ranking.
-The first-screen route for "I have one note" now lands on the browser-only checker
-instead of the full Lab or a surprise seeded-demo action, keeping the fastest path
-aligned with the visitor's actual job.
-The primary first-screen language now says the visitor is checking a note for
-invented care, with the QA receipt framed as the output rather than the job
-itself. The same wording carries into the Lab so the no-API-key browser check and
-model-backed judge feel like one workflow instead of separate benchmark gadgets.
-The judge path
-requests JSON-object responses where supported
-and repairs common malformed JSON responses from free/current models before failing
-closed; the live API also has a compact plain-text fallback for models that keep
-mangling JSON. The public framing is
-deliberately practical: one-note triage in the Lab, system-level evidence through
-PriMock57, and build-in-public updates through GitHub submissions. The Claim
-checker turns vague public/vendor statements such as "hallucination-free" or
-"best current model" into a required evidence level and a copyable public ask.
-The Current-model challenge planner turns the stale-leaderboard objection into
-a proof-run picker with one-click plans for current hosted models, open/free
-candidates, real scribe workflows, or second-judge robustness checks.
-The Run section includes task-first presets for a current powered row, quick
-smoke test, real workflow row, or second-judge pass, plus a contribution builder
-that generates the candidate-note JSON shape, smoke/powered benchmark command,
-and PR checklist from the visitor's selected dataset, generator, judge, and
-repeats. The current powered-row preset now defaults to the actual current system
-under test and a candidate-note file produced by the visitor's own pipeline, while
-OpenRouter/free-model defaults stay in the smoke-test lane unless someone completes
-a declared powered run. The Evidence section also carries a public
-work log (`/assets/worklog.json`) plus a queue for current frontier, open/free,
-real-workflow, and judge-robustness rows, including the proof required and first
-action for each target. The current-run card includes the latest blocked PriMock57
-public-API attempt plus a copyable resume command for anyone with a non-capped
-provider key or credits. That keeps the stale launch baselines framed as an active
-contribution backlog rather than a dead leaderboard.
+The site is not the scribe product, not a patient app, not clinical clearance,
+and not a current model buying guide. The historical launch rows prove the harness
+and failure gradient; current claims need new powered rows.
+
+What the repo contains:
+
+| Piece | Files | Purpose |
+|-------|-------|---------|
+| Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, Lab, and run builder. |
+| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
+| Live API | `api/generate.js`, `api/judge.js`, `api/models.js` | Optional model-backed generation and judging for the Lab through OpenRouter or Baseten-compatible APIs. |
+| Eval engine | `eval/` | TypeScript harness for narrative quality, input fidelity, dangerous fabrication, leak checks, repeats, and bootstrap intervals. |
+| Data | `data/synthetic/`, `data/primock57/` | Synthetic demos plus 57 public PriMock57 consults. No real patient data. |
+| Evidence ledger | `leaderboard/results.json`, `site/current-run.json`, `site/worklog.json` | Scores-only public rows, current-run status, and build-in-public changelog. |
 
 ```bash
 npm run build
@@ -189,22 +103,7 @@ npm run preview
 ```
 
 Source lives in [`site/`](site/). The build script copies the static app into
-`dist/` and publishes bounded JSON from the existing benchmark artifacts.
-The live Lab starts with source encounter and candidate note fields, then makes
-the browser-only local receipt the primary action. That receipt needs no API key
-or network call; it conservatively catches explicit contradictions, unsupported
-common workups, transport mismatches, age/sex mismatches, left/right body-part
-mismatches, allergy contradictions, and deterministic template leaks so a visitor
-can get immediate triage even when free hosted models are slow or capped. The Lab
-can also generate a candidate note from the source encounter, then judge that note
-in the same browser flow with a separate judge model. It returns a plain-language
-verdict and next step, not just a raw score, and can copy either a short public
-evidence packet or a detailed QA summary for review notes and public discussion.
-It can use a
-Vercel `OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key
-pasted into the browser for that session. Baseten's OpenAI-compatible Model APIs
-are wired as an optional provider and become available when `BASETEN_API_KEY` is
-configured on Vercel or supplied temporarily in the lab.
+`dist/` and publishes bounded JSON from the benchmark artifacts.
 
 ---
 
