@@ -522,16 +522,49 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Evidence ledger</p>
-            <h2>Ranked evidence now, current-model gaps next.</h2>
+            <h2>What can this evidence prove today?</h2>
             <p>
-              The ranked table currently contains n=57 PriMock57 launch baselines from
-              June 2, 2026. Treat them as proof that the harness works and as historical
-              evidence of the failure gradient, not as a buying guide. The public work now
-              is to add current production and open-model rows through powered PriMock57 runs.
+              Short answer: it can expose one-note problems and show historical failure
+              rates from the launch baselines. It cannot crown today's best AI scribe yet.
+              Use the cards below to decide what a result can support before you make a claim.
             </p>
           </div>
           <a class="text-link" href="/assets/results.json">Raw results JSON</a>
         </div>
+
+        <div class="ledger-grid ledger-readout" aria-label="What ScribeBench evidence can prove today">
+          <article>
+            <strong>Can support</strong>
+            <h3>Historical powered baseline</h3>
+            <p>
+              Four launch rows scored all 57 PriMock57 consults with declared repeats and
+              judge. They prove the harness works and show the failure gradient.
+            </p>
+          </article>
+          <article>
+            <strong>Can show</strong>
+            <h3>Fresh smoke and one-note checks</h3>
+            <p>
+              The Lab and smoke rows prove the public path can catch unsupported care and
+              run current models. They are useful QA receipts, not rankings.
+            </p>
+          </article>
+          <article>
+            <strong>Cannot claim yet</strong>
+            <h3>Best current AI scribe</h3>
+            <p>
+              Current model, vendor, and real-workflow claims need new powered rows with
+              aggregate scores, judge, repeats, date, and tuning disclosure.
+            </p>
+          </article>
+        </div>
+        <div class="notice-band">
+          <strong>No current-model crown yet:</strong>
+          old GPT-4o and launch Claude rows stay visible as historical baselines because
+          deleting them would hide evidence. They should be beaten, replaced, and contextualized
+          by new powered runs.
+        </div>
+
         <div class="evidence-agenda" aria-labelledby="evidence-agenda-title">
           <div class="agenda-copy">
             <p class="eyebrow">Open evidence agenda</p>
@@ -758,29 +791,6 @@
           </div>
         </div>
 
-        <div class="ledger-grid" aria-label="Evidence status">
-          <article>
-            <strong>Ranked</strong>
-            <h3>Powered PriMock57 rows</h3>
-            <p>57 public consults, repeats declared, judge declared, aggregate scores only. These can support a public benchmark claim.</p>
-          </article>
-          <article>
-            <strong>Visible, not ranked</strong>
-            <h3>Synthetic smoke tests</h3>
-            <p>Three bundled cases that prove the scoring path and demo behavior. Useful for plumbing, too small for claims.</p>
-          </article>
-          <article>
-            <strong>Missing on purpose</strong>
-            <h3>Current model runs</h3>
-            <p>The next worthwhile work is adding current frontier, open-weight, and vendor-system rows without mixing them into old baselines.</p>
-          </article>
-        </div>
-        <div class="notice-band">
-          <strong>No current-model crown yet:</strong>
-          the old GPT-4o and launch Claude rows stay visible as historical baselines because
-          deleting them would hide evidence. They should be beaten, replaced, and contextualized
-          by new powered runs.
-        </div>
         <div class="leaderboard-shell">
           <table class="leaderboard-table">
             <thead>

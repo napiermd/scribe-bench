@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Evidence trust readout",
+      "why": "The Evidence section opened with agenda machinery before answering what the rows can prove today.",
+      "proof": "Moved the ranked/smoke/missing explanation to the top of the Evidence section and rewrote it as a plain readout: what can support a claim, what only shows smoke evidence, and what cannot be claimed yet.",
+      "next": "Keep tightening the Lab and Evidence sections so a visitor can move from one-note QA to aggregate proof without reading the whole repo.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Run builder", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Mobile first-screen clarity",
       "why": "The mobile first viewport opened on a form before explaining who ScribeBench is for or why the visitor should care.",
       "proof": "Added a compact For/Does/Why strip to the first screen and removed the mobile rule that promoted the quick-check form above the intro and task router.",

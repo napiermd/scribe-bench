@@ -101,7 +101,9 @@ carries findings and next proof steps without copying raw encounter text. The ne
 section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a
-system-level claim. The public Repo map section explains how the project pieces
+system-level claim. The Evidence section now opens with what the evidence can prove
+today: historical powered launch baselines, fresh smoke and one-note QA checks,
+and the still-missing current powered rows. The public Repo map section explains how the project pieces
 fit together: the Vercel checker, model-backed APIs, TypeScript eval engine,
 synthetic and PriMock57 case data, scores-only evidence ledger, and GitHub
 submission path. Buyers and clinical leaders can turn common vendor claims
