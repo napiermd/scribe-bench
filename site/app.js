@@ -379,6 +379,7 @@ const seededDemoResults = {
 };
 
 let syntheticCases = [];
+let selectedDemoCase = null;
 let lastQuickResult = null;
 let lastLabResult = null;
 
@@ -783,20 +784,73 @@ function renderCases(cases) {
     populateLab(defaultCase);
     populateQuickCheck(defaultCase, { run: true });
   }
+  document.getElementById("case-load-lab")?.addEventListener("click", () => {
+    if (!selectedDemoCase) return;
+    populateLab(selectedDemoCase);
+    document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+  document.getElementById("case-load-quick")?.addEventListener("click", () => {
+    if (!selectedDemoCase) return;
+    populateQuickCheck(selectedDemoCase, { run: true });
+    document.getElementById("main")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 
 function renderCase(c) {
+  selectedDemoCase = c;
   const tagText = (c.tags || []).join(" / ") || c.provenance || "demo";
   document.getElementById("case-tags").textContent = tagText;
   document.getElementById("case-title").textContent = c.id;
   document.getElementById("source-text").textContent = c.source;
   document.getElementById("candidate-text").textContent = c.candidateNote || "No candidate note found.";
   document.getElementById("case-finding").textContent = demoFindings[c.id] || "Compare the source encounter to the generated note.";
+  renderCaseReceipt(c);
 
   const status = document.getElementById("case-status");
   const isSeeded = c.id === "SYN-003";
   status.textContent = isSeeded ? "Seeded fabrication" : "Control case";
   status.classList.toggle("danger", isSeeded);
+}
+
+function renderCaseReceipt(c) {
+  const result = buildLocalReceipt(c?.source || "", c?.candidateNote || "", {
+    generatedModel: "bundled example candidate",
+    caseId: c?.id || "",
+    caseType: c?.provenance || "synthetic",
+  });
+  const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
+  const leakCount = result.leaks?.filter(Boolean).length || 0;
+  const verdict = labVerdict({
+    dangerousCount,
+    leakCount,
+    fidelity: Number(result.dimensions?.inputFidelity || 0),
+    normalized: Number(result.normalized || 0),
+    localResult: true,
+  });
+  const status = document.getElementById("case-receipt-status");
+  if (status) {
+    status.textContent = dangerousCount ? "Review" : leakCount ? "Leak" : "Clean triage";
+    status.className = `queue-status ${dangerousCount ? "needed" : leakCount ? "open" : "ready"}`;
+  }
+  setText("case-receipt-title", verdict.title);
+  setText("case-receipt-score", `${result.normalized}/100`);
+  setText("case-receipt-flagged", String(dangerousCount));
+  setText("case-receipt-leaks", String(leakCount));
+  setText("case-receipt-next", verdict.action);
+
+  const list = document.getElementById("case-receipt-list");
+  if (!list) return;
+  const items = dangerousCount
+    ? result.fabrication.dangerous
+    : leakCount
+      ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
+      : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak was found by the browser receipt."];
+  list.innerHTML = "";
+  for (const item of items.filter(Boolean)) {
+    const li = document.createElement("li");
+    li.textContent = item;
+    list.appendChild(li);
+  }
 }
 
 function bindClaimChecker() {
@@ -1138,7 +1192,7 @@ function populateQuickCheck(c, { run = false } = {}) {
   source.dataset.caseType = c.provenance || "synthetic";
   note.value = c.candidateNote || "";
   note.dataset.generatedModel = "bundled example candidate";
-  setQuickStatus(run ? "Seeded fall case loaded and checked." : "Seeded fall case loaded.", run ? "danger" : "");
+  setQuickStatus(run ? `${c.id} loaded and checked.` : `${c.id} loaded.`, run ? "review" : "");
   return run ? runQuickLocalReceipt() : null;
 }
 

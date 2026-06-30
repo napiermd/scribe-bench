@@ -1132,11 +1132,11 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Walk-up demo</p>
-            <h2>Inspect what the benchmark catches</h2>
+            <h2>See the source-vs-note receipt on real examples</h2>
             <p>
-              The demo uses the bundled synthetic candidate. The important moment is not the
-              score; it is seeing a fluent note invent a head CT and syncope workup even though
-              the source rules both out.
+              The bundled synthetic cases show the product mechanic without an API key:
+              compare the source with the candidate note, then read the browser receipt
+              for unsupported care, leaks, and the next proof step.
             </p>
           </div>
         </div>
@@ -1154,6 +1154,36 @@
               </div>
               <span class="pill" id="case-status">Demo</span>
             </div>
+
+            <article class="case-receipt-panel" id="case-receipt" aria-live="polite">
+              <div class="case-receipt-head">
+                <div>
+                  <p class="eyebrow">Browser receipt</p>
+                  <h4 id="case-receipt-title">Loading receipt...</h4>
+                </div>
+                <span class="queue-status open" id="case-receipt-status">Checking</span>
+              </div>
+              <dl class="case-receipt-metrics" aria-label="Selected demo local receipt metrics">
+                <div>
+                  <dt>Score</dt>
+                  <dd id="case-receipt-score">--</dd>
+                </div>
+                <div>
+                  <dt>Flagged</dt>
+                  <dd id="case-receipt-flagged">--</dd>
+                </div>
+                <div>
+                  <dt>Leaks</dt>
+                  <dd id="case-receipt-leaks">--</dd>
+                </div>
+              </dl>
+              <ul id="case-receipt-list"></ul>
+              <p id="case-receipt-next"></p>
+              <div class="case-receipt-actions">
+                <button class="button secondary compact-button" id="case-load-lab" type="button">Open this case in Lab</button>
+                <button class="button secondary compact-button" id="case-load-quick" type="button">Load in first checker</button>
+              </div>
+            </article>
 
             <div class="comparison-grid">
               <article class="doc-pane">

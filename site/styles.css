@@ -2701,6 +2701,85 @@ h4 {
   color: var(--muted);
 }
 
+.case-receipt-panel {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 0.9rem;
+  margin-top: 12px;
+}
+
+.case-receipt-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+}
+
+.case-receipt-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.case-receipt-head h4 {
+  font-size: 1.08rem;
+}
+
+.case-receipt-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin: 0.85rem 0;
+}
+
+.case-receipt-metrics div {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 0.75rem;
+}
+
+.case-receipt-metrics dt {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.case-receipt-metrics dd {
+  margin: 0.22rem 0 0;
+  color: var(--ink);
+  font-size: 1.28rem;
+  font-weight: 850;
+}
+
+#case-receipt-list {
+  display: grid;
+  gap: 0.48rem;
+  margin: 0.7rem 0 0;
+  padding-left: 1.1rem;
+}
+
+#case-receipt-list li {
+  color: var(--muted);
+}
+
+#case-receipt-list li::marker {
+  color: var(--danger);
+}
+
+#case-receipt-next {
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  margin: 0.85rem 0 0;
+  padding-top: 0.85rem;
+}
+
+.case-receipt-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 0.85rem;
+}
+
 .method-grid {
   display: grid;
   grid-template-columns: 0.75fr 1.25fr;
@@ -3124,6 +3203,7 @@ h4 {
   .field-row.lab-model-row,
   .field-row.run-builder-row,
   .lab-textareas,
+  .case-receipt-metrics,
   .comparison-grid {
     grid-template-columns: 1fr;
   }
@@ -3133,6 +3213,7 @@ h4 {
   .quick-check-actions .button,
   .quick-result-actions .button,
   .current-run-command-actions .button,
+  .case-receipt-actions .button,
   .start-route-actions .button,
   .split-actions,
   .split-actions .button {

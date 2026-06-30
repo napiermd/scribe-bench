@@ -86,7 +86,7 @@ The site gives non-repo visitors a walk-up
 experience: a working first-screen source-vs-note checker, an evidence
 ladder, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
-snapshot, synthetic demo case viewer, methodology summary, live generate-and-judge
+snapshot, synthetic demo case receipt viewer, methodology summary, live generate-and-judge
 lab, and run-it-yourself submission path. The homepage now answers the product
 question directly: it is for clinical AI buyers, builders, and reviewers who have
 a source encounter plus an AI-written note and want to know whether the note
@@ -121,6 +121,9 @@ of leading the workflow. The Lab can still run an OpenRouter smoke flow that
 generates a fresh candidate note, judges it, and leaves the visitor with a verdict.
 Visitors can copy a short evidence packet that names the scope, models, finding,
 and next proof step, then copy a fuller QA summary before they test their own notes.
+The synthetic demo section now runs the same browser-only receipt on each bundled
+case, so the examples show what the checker catches instead of acting as a passive
+source/note gallery.
 The judge path
 requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing

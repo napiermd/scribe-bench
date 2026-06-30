@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Demo case receipts",
+      "why": "The synthetic demo still behaved like a passive source/note gallery even though the product promise is a receipt for unsupported care.",
+      "proof": "Added a browser-only receipt panel to the demo case viewer. Selecting a bundled case now shows score, flagged unsupported items, leaks, next proof step, and actions to load the same case in the Lab or first-screen checker.",
+      "next": "Keep replacing passive explanation with receipt-producing workflows so every section answers what the visitor can do.",
+      "links": [
+        { "label": "Demo cases", "href": "#demo" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Check one note", "href": "#main" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Evidence reader digest",
       "why": "The Evidence section explained its caveats, but the actual rows still looked like a stale model leaderboard, especially on mobile.",
       "proof": "Added a data-backed digest before the tables: best historical powered row, worst historical dangerous-fabrication signal, freshest smoke row, and the next public action needed before any current-system claim.",
