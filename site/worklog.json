@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "First-screen task router restored",
+      "why": "The site still had the right product logic hidden in JavaScript, but the homepage showed static explanation instead of asking visitors what job they were trying to do.",
+      "proof": "Added the visible Start Here route chooser for one-note reviewers, vendor evaluators, scribe builders, and evidence contributors. The one-note primary action now runs the browser-only seeded receipt in the first-screen checker instead of jumping away to the Lab.",
+      "next": "Keep collapsing the deeper Evidence and Run sections into the same job-first language so every page answers what a visitor brings, does, and leaves with.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#main" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Proof-run picker",
       "why": "The current-model challenge still felt like a tiny benchmark form. Visitors needed to see the actual proof runs they could ask for or contribute.",
       "proof": "Added one-click proof-run presets for updating a current hosted model row, trying an open/free model, scoring a real scribe workflow, and checking judge robustness. Each preset sets the run target and system label, updates the proof explanation, and keeps the copyable run plan. The target and system fields now use the full form width instead of a cramped three-column row.",

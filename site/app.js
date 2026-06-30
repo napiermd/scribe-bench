@@ -953,7 +953,13 @@ function bindStartRouter() {
     const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
     if (activeRoute === "note") {
       event.preventDefault();
-      runSeededLocalReceipt();
+      const c = seededCase();
+      if (!c) {
+        setQuickStatus("Demo cases are still loading. Try again in a moment.", "review");
+        return;
+      }
+      populateQuickCheck(c, { run: true });
+      document.getElementById("quick-result")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
     }
   });
   selectRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");

@@ -82,10 +82,14 @@ snapshot, synthetic demo case viewer, methodology summary, live generate-and-jud
 lab, and run-it-yourself submission path. The homepage now answers the product
 question directly: it is for clinical AI buyers, builders, and reviewers who have
 a source encounter plus an AI-written note and want to know whether the note
-invented care. The first screen includes a no-key browser checker with the seeded
-SYN-003 fall case loaded and scored, pasteable source and note fields for a
-visitor's own example, and a copyable receipt that carries findings and next proof
-steps without copying raw encounter text. The next section turns that receipt into
+invented care. The first screen now gives visitors a task router for four concrete
+jobs: check one note, evaluate a vendor claim, debug a scribe pipeline, or add a
+public evidence row. The note path runs the seeded SYN-003 receipt in place instead
+of sending visitors into benchmark machinery. The first screen also includes a
+no-key browser checker with the seeded fall case loaded and scored, pasteable
+source and note fields for a visitor's own example, and a copyable receipt that
+carries findings and next proof steps without copying raw encounter text. The next
+section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a
 system-level claim. Buyers and clinical leaders can turn common vendor claims

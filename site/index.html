@@ -52,40 +52,44 @@
             <p class="lede">
               Paste the source encounter and the AI-written note. ScribeBench checks whether
               the note added care, workups, demographics, allergies, or template junk that
-              the source does not support.
+              the source does not support. Choose your job below or run the seeded example.
             </p>
-            <div class="product-answer" aria-label="What ScribeBench is for">
-              <article>
-                <span>Who it is for</span>
-                <strong>Clinical AI buyers, builders, reviewers</strong>
-                <p>Anyone with a source encounter and a generated note who wants a fast fidelity check.</p>
-              </article>
-              <article>
-                <span>What it does today</span>
-                <strong>One-note invented-care triage</strong>
-                <p>The browser receipt flags obvious unsupported claims without a provider key.</p>
-              </article>
-              <article>
-                <span>What it does not prove</span>
-                <strong>No vendor crown from one note</strong>
-                <p>System claims still need aggregate PriMock57 or real-workflow rows.</p>
-              </article>
-            </div>
-            <div class="proof-path" aria-label="ScribeBench proof levels">
-              <div>
-                <span>1</span>
-                <strong>Check one note</strong>
-                <p>Catch obvious inventions now.</p>
+
+            <div class="start-router" aria-label="Choose a ScribeBench starting point">
+              <div class="start-router-tabs" role="group" aria-label="Visitor paths">
+                <button class="active" type="button" data-start-route="note" aria-pressed="true">I have one note</button>
+                <button type="button" data-start-route="buyer" aria-pressed="false">I am evaluating a vendor</button>
+                <button type="button" data-start-route="builder" aria-pressed="false">I am building a scribe</button>
+                <button type="button" data-start-route="contributor" aria-pressed="false">I want to add evidence</button>
               </div>
-              <div>
-                <span>2</span>
-                <strong>Copy the receipt</strong>
-                <p>Name the source, claim, and next proof step.</p>
-              </div>
-              <div>
-                <span>3</span>
-                <strong>Run a row</strong>
-                <p>Use aggregate cases before making public system claims.</p>
+              <div class="start-router-panel">
+                <div class="start-router-copy">
+                  <p class="eyebrow" id="start-route-kicker">Fastest useful path</p>
+                  <h2 id="start-route-title">Paste source plus note. Get a receipt.</h2>
+                  <p id="start-route-copy">
+                    Start with one encounter and one generated note. ScribeBench checks
+                    whether the note stayed faithful, invented unsupported care, leaked
+                    template junk, and what claim that result can actually support.
+                  </p>
+                </div>
+                <dl class="start-route-steps">
+                  <div>
+                    <dt>Bring</dt>
+                    <dd id="start-route-input">Source encounter and generated note.</dd>
+                  </div>
+                  <div>
+                    <dt>Do</dt>
+                    <dd id="start-route-action">Run the local receipt instantly, then use the live judge if you need model-backed scoring.</dd>
+                  </div>
+                  <div>
+                    <dt>Leave with</dt>
+                    <dd id="start-route-output">A copyable QA receipt and a clear next proof step.</dd>
+                  </div>
+                </dl>
+                <div class="start-route-actions">
+                  <a class="button primary compact-button" id="start-route-primary" href="#lab">Run instant receipt</a>
+                  <a class="button secondary compact-button" id="start-route-secondary" href="#demo">See the seeded catch</a>
+                </div>
               </div>
             </div>
           </div>
