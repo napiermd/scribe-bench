@@ -1185,7 +1185,8 @@ function setRouteLink(id, link) {
 function stickyHeaderOffset() {
   const topbar = document.querySelector(".topbar");
   const height = topbar?.getBoundingClientRect().height || 0;
-  return Math.ceil(height + 12);
+  const buffer = window.matchMedia("(max-width: 920px)").matches ? 40 : 12;
+  return Math.ceil(height + buffer);
 }
 
 function scrollToAnchorTarget(target, { behavior = "smooth" } = {}) {
@@ -1226,11 +1227,13 @@ function realignCurrentHash() {
   }
   const target = document.getElementById(id);
   if (!target) return;
+  const align = () => scrollToAnchorTarget(target, { behavior: "auto" });
   window.requestAnimationFrame(() => {
     window.requestAnimationFrame(() => {
-      scrollToAnchorTarget(target, { behavior: "auto" });
+      align();
     });
   });
+  window.setTimeout(align, 160);
 }
 
 function bindQuickCheck() {
