@@ -228,13 +228,13 @@ const challengePresets = {
 const startRoutes = {
   note: {
     kicker: "Fastest useful path",
-    title: "Paste source plus note. Get a receipt.",
+    title: "Paste source plus note. Check for invented care.",
     copy:
       "Start with one encounter and one generated note. ScribeBench checks whether the note stayed faithful, invented unsupported care, leaked template junk, and what claim that result can actually support.",
     input: "Source encounter and generated note.",
-    action: "Use the first-screen checker for an instant browser receipt, then open the Lab only if you need model-backed scoring.",
+    action: "Use the first-screen browser check instantly, then open the Lab only if you need model-backed scoring.",
     output: "A copyable QA receipt and a clear next proof step.",
-    primary: { label: "Use first-screen checker", href: "#quick-check" },
+    primary: { label: "Check this note", href: "#quick-check" },
     secondary: { label: "See the seeded catch", href: "#demo" },
   },
   buyer: {
@@ -1140,7 +1140,7 @@ function bindStartRouter() {
       event.preventDefault();
       document.getElementById("quick-check")?.scrollIntoView({ behavior: "smooth", block: "start" });
       document.getElementById("quick-source")?.focus({ preventScroll: true });
-      setQuickStatus("Paste your source and generated note, or keep the seeded failure and run it again.");
+      setQuickStatus("Paste your source and generated note, or keep the seeded failure and check it again.");
     }
   });
   selectRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
@@ -1190,7 +1190,7 @@ function populateQuickCheck(c, { run = false } = {}) {
   source.dataset.caseType = c.provenance || "synthetic";
   note.value = c.candidateNote || "";
   note.dataset.generatedModel = "bundled example candidate";
-  setQuickStatus(run ? `${c.id} loaded and checked.` : `${c.id} loaded.`, run ? "review" : "");
+  setQuickStatus(run ? `${c.id} loaded and checked for invented care.` : `${c.id} loaded.`, run ? "review" : "");
   return run ? runQuickLocalReceipt() : null;
 }
 
@@ -1222,7 +1222,7 @@ function runQuickLocalReceipt(event) {
       ? `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} flagged.`
       : leakCount
         ? `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} flagged.`
-        : "No obvious unsupported item flagged by the browser receipt.",
+        : "No obvious unsupported item flagged by the browser check.",
     tone
   );
   return result;
@@ -1270,7 +1270,7 @@ function resetQuickResult() {
   if (panel) panel.hidden = true;
   setQuickCopyStatus("");
   setQuickCopyFallback("");
-  setQuickStatus("Ready to run a browser-only receipt.", "");
+  setQuickStatus("Ready to check this source-note pair in the browser.", "");
 }
 
 function setQuickStatus(message, tone = "") {
@@ -1282,7 +1282,7 @@ function setQuickStatus(message, tone = "") {
 
 async function copyQuickReceipt() {
   if (!lastQuickResult) {
-    setQuickCopyStatus("Run the receipt first.");
+    setQuickCopyStatus("Check the note first.");
     return;
   }
   const text = buildQuickReceiptText(lastQuickResult);

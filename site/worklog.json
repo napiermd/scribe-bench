@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Plain-language note check",
+      "why": "The first screen was functionally useful, but it still made the visitor decode 'no-key receipt' and 'first-screen checker' before understanding the job.",
+      "proof": "Changed the primary route, checker title, button labels, status text, and Lab copy to say the visitor is checking a note for invented care; the receipt is now framed as the copyable output.",
+      "next": "Keep replacing benchmark-internal wording with the words a buyer, builder, or reviewer would use while preserving the reproducible evidence path.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Start here", "href": "#main" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "First-screen route cleanup",
       "why": "The 'I have one note' path promised an instant receipt but its primary action pointed at the full Lab and the click handler loaded the seeded demo instead of preserving the user's own note-checking job.",
       "proof": "Added a direct #quick-check anchor, changed the route CTA to the first-screen checker, and made the click focus the source field without overwriting inputs.",

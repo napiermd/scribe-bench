@@ -130,6 +130,10 @@ stale launch baselines as today's model ranking.
 The first-screen route for "I have one note" now lands on the browser-only checker
 instead of the full Lab or a surprise seeded-demo action, keeping the fastest path
 aligned with the visitor's actual job.
+The primary first-screen language now says the visitor is checking a note for
+invented care, with the QA receipt framed as the output rather than the job
+itself. The same wording carries into the Lab so the no-API-key browser check and
+model-backed judge feel like one workflow instead of separate benchmark gadgets.
 The judge path
 requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing

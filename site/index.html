@@ -6,13 +6,13 @@
     <title>ScribeBench | AI scribe source-vs-note QA</title>
     <meta
       name="description"
-      content="ScribeBench is a public QA receipt generator for clinical documentation AI: live note checks, source fidelity review, leak detection, and dangerous fabrication evidence."
+      content="ScribeBench checks a source encounter against an AI-written clinical note and returns a copyable QA receipt for invented care, contradictions, leaks, and evidence gaps."
     />
     <meta property="og:title" content="ScribeBench" />
     <meta property="og:url" content="https://scribe-bench.vercel.app/" />
     <meta
       property="og:description"
-      content="A public QA receipt for testing whether generated clinical notes invented care."
+      content="Check whether an AI-written clinical note invented care the source encounter does not support."
     />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -62,7 +62,7 @@
               </div>
               <div>
                 <span>Does</span>
-                <strong>Returns a receipt for unsupported care, contradictions, template leaks, and the next proof level.</strong>
+                <strong>Checks source against note, then gives a receipt for unsupported care, contradictions, leaks, and next proof.</strong>
               </div>
               <div>
                 <span>Why</span>
@@ -80,7 +80,7 @@
               <div class="start-router-panel">
                 <div class="start-router-copy">
                   <p class="eyebrow" id="start-route-kicker">Fastest useful path</p>
-                  <h2 id="start-route-title">Paste source plus note. Get a receipt.</h2>
+                  <h2 id="start-route-title">Paste source plus note. Check for invented care.</h2>
                   <p id="start-route-copy">
                     Start with one encounter and one generated note. ScribeBench checks
                     whether the note stayed faithful, invented unsupported care, leaked
@@ -94,7 +94,7 @@
                   </div>
                   <div>
                     <dt>Do</dt>
-                    <dd id="start-route-action">Run the local receipt instantly, then use the live judge if you need model-backed scoring.</dd>
+                    <dd id="start-route-action">Run the browser check instantly, then use the live judge if you need model-backed scoring.</dd>
                   </div>
                   <div>
                     <dt>Leave with</dt>
@@ -102,7 +102,7 @@
                   </div>
                 </dl>
                 <div class="start-route-actions">
-                  <a class="button primary compact-button" id="start-route-primary" href="#quick-check">Use first-screen checker</a>
+                  <a class="button primary compact-button" id="start-route-primary" href="#quick-check">Check this note</a>
                   <a class="button secondary compact-button" id="start-route-secondary" href="#demo">See the seeded catch</a>
                 </div>
               </div>
@@ -113,25 +113,28 @@
             <div class="quick-check-head">
               <div>
                 <p class="eyebrow">Check one note now</p>
-                <h2 id="quick-check-title">Run a no-key receipt.</h2>
+                <h2 id="quick-check-title">Check this note for invented care.</h2>
               </div>
-              <span class="local-badge">Browser only</span>
+              <span class="local-badge">No API key</span>
             </div>
+            <p class="quick-check-help">
+              The seeded example is already scored. Replace either box with your own source and AI note.
+            </p>
             <form class="quick-check-form" id="quick-check-form">
               <label class="field">
                 <span>Source encounter</span>
-                <textarea id="quick-source" rows="7" placeholder="Paste transcript, source note, or encounter summary."></textarea>
+                <textarea id="quick-source" rows="7" placeholder="Paste the transcript, source note, or encounter summary the AI note should match."></textarea>
               </label>
               <label class="field">
                 <span>Generated note</span>
-                <textarea id="quick-note" rows="7" placeholder="Paste the AI-scribe note to check."></textarea>
+                <textarea id="quick-note" rows="7" placeholder="Paste the AI-scribe note you want to check against the source."></textarea>
               </label>
               <div class="quick-check-actions">
-                <button class="button primary" id="quick-run-local" type="submit">Run no-key receipt</button>
-                <button class="button secondary" id="quick-load-seeded" type="button">Load seeded failure</button>
+                <button class="button primary" id="quick-run-local" type="submit">Check note now</button>
+                <button class="button secondary" id="quick-load-seeded" type="button">Reload seeded failure</button>
                 <a class="button secondary" href="#lab">Open full Lab</a>
               </div>
-              <p id="quick-check-status" role="status" aria-live="polite">Paste your own note, or load the seeded fall case.</p>
+              <p id="quick-check-status" role="status" aria-live="polite">Seeded fall case loaded. Paste your own source and note anytime.</p>
             </form>
             <div class="quick-result" id="quick-result" hidden>
               <div class="quick-result-head">
@@ -167,7 +170,7 @@
       <section class="wrap section after-receipt-section" id="next-steps">
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">After the receipt</p>
+            <p class="eyebrow">After the note check</p>
             <h2>Use the result. Do not just admire the score.</h2>
             <p>
               ScribeBench is for the moment after an AI-scribe note or vendor claim looks
@@ -906,8 +909,8 @@
             <p class="eyebrow">Live lab</p>
             <h2>Check one note, then decide whether it needs a bigger run</h2>
             <p>
-              Bring a source encounter and an AI-written note. Start with the no-key local
-              receipt for fast triage, then use the live judge when you want a model-backed
+              Bring a source encounter and an AI-written note. Start with the no-API-key
+              browser check for fast triage, then use the live judge when you want a model-backed
               verdict or generate a fresh candidate from the same source. The seeded failure
               is loaded so the first visit shows the point immediately: fluent notes can
               invent care the source rules out. One note is triage, not leaderboard evidence.
@@ -938,8 +941,8 @@
           <article>
             <span>2</span>
             <div>
-              <strong>Run the instant receipt</strong>
-              <p>Get no-key browser triage for contradictions, invented workups, demographics, laterality, allergies, and leaks.</p>
+              <strong>Run the browser check</strong>
+              <p>Catch obvious contradictions, invented workups, demographic mismatches, allergy conflicts, and leaks.</p>
             </div>
           </article>
           <article>
@@ -965,7 +968,7 @@
             </div>
 
             <div class="lab-actions">
-              <button class="button primary" id="run-local-receipt" type="button">Run local receipt</button>
+              <button class="button primary" id="run-local-receipt" type="button">Check note locally</button>
               <button class="button secondary" id="run-lab" type="submit">Run live judge</button>
               <button class="button secondary" id="generate-note" type="button">Generate candidate note</button>
               <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
@@ -1024,7 +1027,7 @@
                 Edit either text area anytime; stale results clear automatically.
               </p>
               <div class="lab-empty-actions">
-                <button class="button primary compact-button" id="lab-empty-local" type="button">Run local receipt</button>
+                <button class="button primary compact-button" id="lab-empty-local" type="button">Check note locally</button>
                 <button class="button secondary compact-button" id="lab-empty-run" type="button">Run live judge</button>
                 <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
               </div>
