@@ -1052,10 +1052,6 @@ h4 {
   gap: 0.6rem;
 }
 
-.button.mobile-edit-note-action {
-  display: none;
-}
-
 #public-evidence-card-copy-status {
   color: var(--muted);
   font-size: 0.86rem;
@@ -4382,10 +4378,6 @@ h4 {
   .quick-smoke-actions,
   .public-evidence-card-actions {
     justify-content: stretch;
-  }
-
-  .button.mobile-edit-note-action {
-    display: inline-flex;
   }
 
   .start-router-tabs {

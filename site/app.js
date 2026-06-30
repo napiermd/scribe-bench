@@ -1466,6 +1466,8 @@ function realignCurrentHash() {
     });
   });
   window.setTimeout(align, 160);
+  window.setTimeout(align, 500);
+  window.setTimeout(align, 1000);
 }
 
 function bindQuickCheck() {

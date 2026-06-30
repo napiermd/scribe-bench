@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first evidence card now points to the real tool",
+      "why": "The first screen showed a useful seeded evidence card, but the visible primary action was to copy that canned receipt while the source-note form sat below the fold. A cold visitor could read it as a static demo instead of a usable checker.",
+      "proof": "The first visitor path now anchors directly to the source-note form, the helper copy says the seeded case is only there to show the artifact, the Public evidence card starts with Check your own note before secondary share actions, and delayed hash realignment keeps deep links landing on the form after the seeded result expands.",
+      "next": "Keep making the first viewport answer what a visitor can do with their own note before adding more explanatory sections.",
+      "links": [
+        { "label": "Check your own note", "href": "#quick-check-form" },
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Who this is for", "href": "#who-uses-this" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The evidence card order now matches the document order",
       "why": "The mobile screen showed the Public evidence card before the source-note form, but CSS ordering left the form earlier in the DOM. Keyboard and assistive-technology users could hit the edit form before the artifact the screen visually emphasized.",
       "proof": "The Public evidence card now lives before the quick-check form in the markup, and the mobile CSS order overrides for the card/form sequence were removed. The result-first path is now visual order and document order.",
