@@ -215,7 +215,10 @@ function escapeHtml(value) {
 }
 
 function bindLab() {
-  document.getElementById("load-seeded-lab")?.addEventListener("click", () => populateLab(syntheticCases[2] || syntheticCases[0]));
+  const loadSeededLab = () => populateLab(syntheticCases[2] || syntheticCases[0]);
+  document.getElementById("load-seeded-lab")?.addEventListener("click", loadSeededLab);
+  document.getElementById("lab-empty-load-demo")?.addEventListener("click", loadSeededLab);
+  document.getElementById("lab-empty-run")?.addEventListener("click", () => document.getElementById("lab-form")?.requestSubmit());
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
   document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
@@ -286,6 +289,7 @@ async function generateCandidateNote() {
     const note = document.getElementById("lab-note");
     note.value = payload.note || "";
     note.dataset.generatedModel = payload.model || model;
+    updateLabEmptyForInputs();
     const usage = payload.usage?.total_tokens ? ` Tokens: ${payload.usage.total_tokens}.` : "";
     setLabStatus(`Generated candidate with ${payload.model || model}. Run the judge next.${usage}`);
   } catch (error) {
@@ -363,6 +367,11 @@ function populateLab(c) {
   note.value = c.candidateNote || "";
   delete note.dataset.generatedModel;
   resetLabResult();
+  setLabEmptyState(
+    "Seeded demo ready",
+    `${c.id} is loaded with a known unsupported head CT and syncope-workup pattern. Run the judge to see what gets flagged.`,
+    "Use this first, then replace the text with your own source and note."
+  );
   setLabStatus(`Loaded ${c.id}.`);
 }
 
@@ -386,6 +395,11 @@ async function runLabJudge(event) {
 
   const runButton = document.getElementById("run-lab");
   runButton.disabled = true;
+  setLabEmptyState(
+    "Judge running",
+    "The live judge is reviewing the source and candidate note for fabrication, fidelity, leaks, and narrative quality.",
+    "Free hosted models can be slow on full notes."
+  );
   setLabStatus("Running judge...");
   const slowNotice = window.setTimeout(() => {
     setLabStatus(providerConfigs[provider].slowNotice);
@@ -408,6 +422,7 @@ async function runLabJudge(event) {
     setLabStatus("Done.");
   } catch (error) {
     setLabStatus(error.message || "Judge failed.");
+    updateLabEmptyForInputs();
   } finally {
     window.clearTimeout(slowNotice);
     runButton.disabled = false;
@@ -454,7 +469,46 @@ function resetLabResult() {
   const output = document.getElementById("lab-output");
   if (empty) empty.hidden = false;
   if (output) output.hidden = true;
+  updateLabEmptyForInputs();
   setCopyStatus("");
+}
+
+function setLabEmptyState(title, copy, detail = "") {
+  const titleEl = document.getElementById("lab-empty-title");
+  const copyEl = document.getElementById("lab-empty-copy");
+  const detailEl = document.getElementById("lab-empty-detail");
+  if (titleEl) titleEl.textContent = title;
+  if (copyEl) copyEl.textContent = copy;
+  if (detailEl) {
+    detailEl.textContent = detail;
+    detailEl.hidden = !detail;
+  }
+}
+
+function updateLabEmptyForInputs() {
+  const source = document.getElementById("lab-source")?.value.trim() || "";
+  const note = document.getElementById("lab-note")?.value.trim() || "";
+  if (!source && !note) {
+    setLabEmptyState(
+      "Waiting for a note",
+      "Paste a source encounter and candidate note, or load the seeded demo.",
+      "The judge needs both sides before it can review fabrication and source fidelity."
+    );
+    return;
+  }
+  if (source && note) {
+    setLabEmptyState(
+      "Ready to judge",
+      "Run the live judge to get a verdict, flagged unsupported claims, leak scan, and copyable QA summary.",
+      "Edit either text area anytime; stale results clear automatically."
+    );
+    return;
+  }
+  setLabEmptyState(
+    "One side missing",
+    "The judge needs both the source encounter and the candidate note.",
+    "Paste the missing text or load the seeded demo."
+  );
 }
 
 function renderLabVerdict(result) {

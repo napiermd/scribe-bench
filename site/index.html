@@ -302,14 +302,38 @@
             <p class="eyebrow">Live lab</p>
             <h2>Generate and judge a clinical note</h2>
             <p>
-              Paste a source encounter, generate a candidate clinical note with the selected
-              generation model, then judge that note with a separate judge model for narrative
-              quality, fidelity, fabrications, and leaks. You can also paste your own generated
-              note. This is a useful triage tool, not leaderboard evidence. Public rows use
-              fixed datasets, repeats, and aggregate confidence intervals.
+              The seeded failure case is loaded by default: a note invents a head CT and
+              syncope workup that the source rules out. Run the judge first, then replace
+              the text with your own source and candidate note. This is one-note triage,
+              not leaderboard evidence. Public rows use fixed datasets, repeats, and
+              aggregate confidence intervals.
             </p>
           </div>
           <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
+        </div>
+
+        <div class="lab-guide" aria-label="Live lab quick path">
+          <article>
+            <span>1</span>
+            <div>
+              <strong>Start with the seeded failure</strong>
+              <p>SYN-003 is already loaded so the first visit has a real unsupported claim to inspect.</p>
+            </div>
+          </article>
+          <article>
+            <span>2</span>
+            <div>
+              <strong>Run the live judge</strong>
+              <p>The judge separates note quality from invented care, leaks, and source fidelity.</p>
+            </div>
+          </article>
+          <article>
+            <span>3</span>
+            <div>
+              <strong>Copy the QA summary</strong>
+              <p>Use the result as a shareable triage note, then rerun with your own scribe output.</p>
+            </div>
+          </article>
         </div>
 
         <div class="lab-shell">
@@ -367,13 +391,18 @@
 
           <aside class="lab-results" aria-live="polite">
             <div class="lab-empty" id="lab-empty">
-              <h3>Waiting for a note</h3>
-              <p>
-                Generate a candidate note or paste one, then run the judge. The result will
-                separate the generator from the judge and show a normalized narrative score,
-                six dimensions, dangerous fabrication items, standard items, deterministic
-                leaks, and model usage.
+              <p class="eyebrow">Next step</p>
+              <h3 id="lab-empty-title">Seeded demo ready</h3>
+              <p id="lab-empty-copy">
+                Run the judge to see whether it catches the invented head CT and syncope workup.
               </p>
+              <p id="lab-empty-detail">
+                Edit either text area anytime; stale results clear automatically.
+              </p>
+              <div class="lab-empty-actions">
+                <button class="button primary compact-button" id="lab-empty-run" type="button">Run live judge</button>
+                <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
+              </div>
             </div>
 
             <div class="lab-output" id="lab-output" hidden>
