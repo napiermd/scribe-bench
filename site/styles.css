@@ -227,6 +227,10 @@ h4 {
   font-size: clamp(1.05rem, 2vw, 1.28rem);
 }
 
+.mobile-proof {
+  display: none;
+}
+
 .answer-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -690,7 +694,7 @@ h4 {
   font-weight: 850;
 }
 
-.visual-card {
+.caught-card {
   margin-top: 1rem;
   border: 1px solid var(--line);
   background: #10221f;
@@ -699,37 +703,52 @@ h4 {
   min-height: 210px;
 }
 
-.proof-list {
-  display: grid;
-  gap: 0.9rem;
+.caught-card .eyebrow {
+  color: #8bd3c9;
 }
 
-.proof-list div {
-  display: grid;
-  gap: 0.25rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid rgba(238, 248, 245, 0.16);
-}
-
-.proof-list div:last-child {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-.proof-list strong,
-.proof-list span {
-  display: block;
-}
-
-.proof-list strong {
+.caught-card h3 {
   color: white;
-  font-size: 0.95rem;
+  font-size: 1.18rem;
+  max-width: 20rem;
 }
 
-.proof-list span {
+.claim-check {
+  display: grid;
+  gap: 0.72rem;
+  margin: 1rem 0 0;
+}
+
+.claim-check div {
+  border-top: 1px solid rgba(238, 248, 245, 0.16);
+  padding-top: 0.72rem;
+}
+
+.claim-check dt {
+  color: #8bd3c9;
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.claim-check dd {
+  margin: 0.18rem 0 0;
   color: rgba(238, 248, 245, 0.72);
   font-size: 0.84rem;
   line-height: 1.45;
+}
+
+.claim-check strong {
+  color: white;
+}
+
+.caught-card a {
+  display: inline-flex;
+  margin-top: 1rem;
+  color: white;
+  font-weight: 850;
+  text-decoration-color: rgba(139, 211, 201, 0.7);
 }
 
 .leaderboard-shell {
@@ -1412,6 +1431,20 @@ h4 {
 @media (max-width: 920px) {
   .queue-board {
     scroll-margin-top: 156px;
+  }
+
+  .mobile-proof {
+    display: block;
+    border-left: 3px solid var(--accent);
+    background: var(--accent-soft);
+    color: var(--ink);
+    margin: 1rem 0 0;
+    padding: 0.72rem 0.85rem;
+    font-size: 0.94rem;
+  }
+
+  .mobile-proof strong {
+    color: var(--accent-strong);
   }
 
   .topbar-inner,

@@ -53,6 +53,10 @@
               encounter and candidate note for a fast verdict, inspect the seeded failure case,
               or run PriMock57 to publish evidence that other people can audit.
             </p>
+            <p class="mobile-proof">
+              <strong>Example catch:</strong> source says no head strike or loss of consciousness;
+              the note invents a head CT and syncope workup.
+            </p>
             <div class="actions">
               <a class="button primary" href="#lab">Run a note check</a>
               <a class="button secondary" href="#demo">Inspect seeded failure</a>
@@ -99,21 +103,24 @@
                 <dd>Scores only</dd>
               </div>
             </dl>
-            <div class="visual-card" aria-label="How to use ScribeBench">
-              <div class="proof-list">
+            <div class="caught-card" aria-label="Seeded fabrication example">
+              <p class="eyebrow">Example catch</p>
+              <h3>It flags a note that invented a head CT.</h3>
+              <dl class="claim-check">
                 <div>
-                  <strong>One-note triage</strong>
-                  <span>Use the Lab to catch unsupported findings, workups, diagnoses, and leaks before a note gets trusted.</span>
+                  <dt>Source says</dt>
+                  <dd>Mechanical rug trip, no head strike, no loss of consciousness, daughter drove her in.</dd>
                 </div>
                 <div>
-                  <strong>System-level evidence</strong>
-                  <span>Use PriMock57 for claims. The old launch rows stay visible as baselines, not as a current buying guide.</span>
+                  <dt>Note invented</dt>
+                  <dd>Negative head CT and syncope workup.</dd>
                 </div>
                 <div>
-                  <strong>Build in public</strong>
-                  <span>Submit aggregate scores and methodology through GitHub so the result is reproducible.</span>
+                  <dt>Output</dt>
+                  <dd><strong>Dangerous fabrication:</strong> review before trusting the note.</dd>
                 </div>
-              </div>
+              </dl>
+              <a href="#demo">Inspect SYN-003</a>
             </div>
           </section>
         </div>

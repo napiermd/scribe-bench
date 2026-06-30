@@ -63,15 +63,17 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 experience: a decision-oriented homepage, role-based entry points, an evidence
 ledger, a powered PriMock57 leaderboard, a separate not-ranked synthetic smoke-test
 table, benchmark snapshot, synthetic demo case viewer, methodology summary, live
-generate-and-judge lab, and run-it-yourself submission path. The Lab opens with a
-seeded failure already loaded, then walks visitors through running the judge,
-reading the fabrication verdict, and copying a QA summary before they test their
-own notes. The public framing is deliberately practical: one-note triage in the
-Lab, system-level evidence through PriMock57, and build-in-public updates through
-GitHub submissions. The Evidence section also carries a public queue for current
-frontier, open/free, real-workflow, and judge-robustness rows, including the proof
-required and first action for each target. That keeps the stale launch baselines
-framed as a contribution backlog rather than a dead leaderboard.
+generate-and-judge lab, and run-it-yourself submission path. The homepage shows
+the seeded CT/syncope fabrication catch before asking visitors to click deeper.
+The Lab opens with that seeded failure already loaded, then walks visitors through
+running the judge, reading the fabrication verdict, and copying a QA summary before
+they test their own notes. The public framing is deliberately practical: one-note
+triage in the Lab, system-level evidence through PriMock57, and build-in-public
+updates through GitHub submissions. The Evidence section also carries a public
+queue for current frontier, open/free, real-workflow, and judge-robustness rows,
+including the proof required and first action for each target. That keeps the
+stale launch baselines framed as a contribution backlog rather than a dead
+leaderboard.
 
 ```bash
 npm run build
