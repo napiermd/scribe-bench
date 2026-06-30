@@ -19,7 +19,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 
 | If you want to... | Go here | What you get |
 |-------------------|---------|--------------|
-| Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
 | Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A reader digest separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Add a citable public row | [Add row](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |

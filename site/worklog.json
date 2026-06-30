@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First receipt now shows the copy-ready QA packet",
+      "why": "The checker could produce a useful source-vs-note receipt, but the artifact was mostly hidden behind the copy button. Visitors still had to trust that copying would give them something usable.",
+      "proof": "The first-screen checker now renders the copy-ready ScribeBench QA packet on-screen, including scope, case, finding, evidence meaning, flagged issues, next proof step, and reference URL. The README start-here table now promises a copy-ready QA packet instead of a vague receipt.",
+      "next": "Keep improving the actual takeaways people can paste into QA, vendor review, or a public evidence thread.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Who this is for", "href": "#who-uses-this" },
+        { "label": "README", "href": "https://github.com/napiermd/scribe-bench#start-here" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Audience fit is now explicit",
       "why": "The site showed useful tools, but visitors still had to infer whether ScribeBench was for reviewers, buyers, builders, researchers, or the general public. That ambiguity made the artifact easier to dismiss as a vague benchmark page.",
       "proof": "Added a Who this is for section with four concrete audiences, what each person brings, what they leave with, and a Not for boundary. The README now carries the same audience framing before the start-here table.",

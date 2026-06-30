@@ -1348,12 +1348,14 @@ function renderQuickResult(result) {
     }
   }
   setText("quick-result-next", verdict.action);
+  setText("quick-receipt-preview-output", buildQuickReceiptText(result));
 }
 
 function resetQuickResult() {
   lastQuickResult = null;
   const panel = document.getElementById("quick-result");
   if (panel) panel.hidden = true;
+  setText("quick-receipt-preview-output", "");
   setQuickCopyStatus("");
   setQuickCopyFallback("");
   setQuickStatus("Ready to check this source-note pair in the browser.", "");
@@ -1386,10 +1388,10 @@ async function copyQuickReceipt() {
   try {
     await copyText(text);
     setQuickCopyFallback("");
-    setQuickCopyStatus("Receipt copied.");
+    setQuickCopyStatus("QA packet copied.");
   } catch (_) {
     setQuickCopyFallback(text);
-    setQuickCopyStatus("Clipboard unavailable. Receipt shown below.");
+    setQuickCopyStatus("Clipboard unavailable. QA packet shown below.");
   }
 }
 

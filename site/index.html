@@ -152,8 +152,15 @@
                 <strong>Next proof step</strong>
                 <p id="quick-result-next">--</p>
               </div>
+              <div class="quick-receipt-preview" aria-label="Copy-ready ScribeBench QA packet">
+                <div class="quick-receipt-preview-head">
+                  <strong>Copy-ready QA packet</strong>
+                  <span>Visible before copy</span>
+                </div>
+                <pre class="code-block"><code id="quick-receipt-preview-output"></code></pre>
+              </div>
               <div class="quick-result-actions">
-                <button class="button primary compact-button" id="quick-copy-receipt" type="button">Copy receipt</button>
+                <button class="button primary compact-button" id="quick-copy-receipt" type="button">Copy QA packet</button>
                 <button class="button secondary compact-button" id="quick-send-lab" type="button">Open in Lab with this pair</button>
                 <a class="button secondary compact-button" href="#next-steps">Next steps</a>
                 <span id="quick-copy-status" role="status" aria-live="polite"></span>
@@ -163,7 +170,7 @@
                 id="quick-copy-fallback"
                 readonly
                 hidden
-                aria-label="ScribeBench source-vs-note receipt"
+                aria-label="ScribeBench source-vs-note QA packet"
               ></textarea>
             </div>
           </section>
