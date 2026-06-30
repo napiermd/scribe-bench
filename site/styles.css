@@ -292,6 +292,55 @@ h4 {
   font-weight: 850;
 }
 
+.live-smoke-lane {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: center;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  margin: 1rem 0 0;
+  padding: 0.9rem 0;
+}
+
+.live-smoke-lane .eyebrow {
+  margin-bottom: 0.42rem;
+}
+
+.live-smoke-lane h2 {
+  font-family: var(--sans);
+  font-size: 1.12rem;
+  line-height: 1.2;
+}
+
+.live-smoke-lane p {
+  max-width: 42rem;
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0.42rem 0 0;
+}
+
+#live-smoke-status {
+  display: inline-flex;
+  width: fit-content;
+  margin-top: 0.62rem;
+  color: var(--muted);
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+
+#live-smoke-status[data-tone="ok"] {
+  color: var(--accent-strong);
+}
+
+#live-smoke-status[data-tone="review"] {
+  color: var(--gold);
+}
+
+#live-smoke-status[data-tone="danger"] {
+  color: var(--danger);
+}
+
 .actions,
 .link-row {
   display: flex;
@@ -1191,6 +1240,13 @@ h4 {
   align-items: start;
 }
 
+.split-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.7rem;
+}
+
 .case-workspace {
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
@@ -1608,6 +1664,7 @@ h4 {
   .lab-guide,
   .queue-list article,
   .quick-paths,
+  .live-smoke-lane,
   .workflow-strip,
   .field-row,
   .field-row.lab-model-row,
@@ -1615,6 +1672,12 @@ h4 {
   .lab-textareas,
   .comparison-grid {
     grid-template-columns: 1fr;
+  }
+
+  .live-smoke-lane .button,
+  .split-actions,
+  .split-actions .button {
+    width: 100%;
   }
 
   .case-list {

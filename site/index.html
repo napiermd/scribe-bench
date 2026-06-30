@@ -77,8 +77,28 @@
                 <a href="#leaderboard">Read the evidence</a>
               </article>
             </div>
+            <div class="live-smoke-lane" aria-label="Run a current free-model smoke check">
+              <div>
+                <p class="eyebrow">Live free-model smoke check</p>
+                <h2>Try the current OpenRouter path against the seeded fall case.</h2>
+                <p>
+                  One click loads SYN-003, generates a fresh candidate note with the configured
+                  free model, runs the judge, and shows whether unsupported care was invented.
+                </p>
+                <span id="live-smoke-status" role="status" aria-live="polite">Ready when the model list loads.</span>
+              </div>
+              <button
+                class="button primary"
+                id="run-live-smoke-top"
+                type="button"
+                data-default-label="Run current-model smoke"
+                data-running-label="Running smoke check..."
+              >
+                Run current-model smoke
+              </button>
+            </div>
             <div class="actions">
-              <a class="button primary" href="#lab">Run a note check</a>
+              <a class="button secondary" href="#lab">Paste your own note</a>
               <a class="button secondary" href="#demo">Inspect seeded failure</a>
               <a class="button secondary" href="#evidence-queue">See evidence queue</a>
             </div>
@@ -395,7 +415,7 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Live lab</p>
-            <h2>Generate and judge a clinical note</h2>
+            <h2>Generate and judge a current-model note</h2>
             <p>
               The seeded failure case opens with a precomputed demo verdict so the failure
               mode is visible immediately: a note invents a head CT and syncope workup that
@@ -404,7 +424,18 @@
               triage, not leaderboard evidence.
             </p>
           </div>
-          <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
+          <div class="split-actions">
+            <button
+              class="button primary compact-button"
+              id="run-live-smoke-lab"
+              type="button"
+              data-default-label="Run current-model smoke"
+              data-running-label="Running smoke check..."
+            >
+              Run current-model smoke
+            </button>
+            <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
+          </div>
         </div>
 
         <div class="lab-shell">

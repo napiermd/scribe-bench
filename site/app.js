@@ -256,6 +256,7 @@ function bindLab() {
   document.getElementById("show-seeded-verdict")?.addEventListener("click", loadSeededLab);
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
+  liveSmokeButtons().forEach((button) => button.addEventListener("click", runLiveSmokeCheck));
   document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
   const providerSelect = document.getElementById("lab-provider");
   if (providerSelect) {
@@ -283,6 +284,7 @@ function bindLab() {
   document.getElementById("lab-form")?.addEventListener("submit", runLabJudge);
 
   syncProviderUi();
+  setLiveSmokeStatus("Loading current free-model list...");
 }
 
 async function generateCandidateNote() {
@@ -293,11 +295,11 @@ async function generateCandidateNote() {
 
   if (!source) {
     setLabStatus("Source encounter is required before generation.");
-    return;
+    return null;
   }
   if (!model) {
     setLabStatus("Choose a generation model before generating a note.");
-    return;
+    return null;
   }
   if (key) sessionStorage.setItem(providerConfigs[provider].keyStorage, key);
 
@@ -327,8 +329,10 @@ async function generateCandidateNote() {
     updateLabEmptyForInputs();
     const usage = payload.usage?.total_tokens ? ` Tokens: ${payload.usage.total_tokens}.` : "";
     setLabStatus(`Generated candidate with ${payload.model || model}. Run the judge next.${usage}`);
+    return payload;
   } catch (error) {
     setLabStatus(error.message || "Candidate generation failed.");
+    return null;
   } finally {
     window.clearTimeout(slowNotice);
     generateButton.disabled = false;
@@ -347,10 +351,12 @@ async function loadLabModels(force = false) {
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Models failed (${response.status})`);
     renderModelOptions(payload.models || config.defaultModels);
+    updateLiveSmokeReadiness(payload.models || config.defaultModels, payload.configured);
     if (payload.warning) setLabStatus(payload.warning);
     else if (force) setLabStatus(`${config.label} model list refreshed.`);
   } catch (_) {
     renderModelOptions(config.defaultModels);
+    updateLiveSmokeReadiness(config.defaultModels, false);
     if (force) setLabStatus(`Could not reach ${config.label} model list; using fallback models.`);
   }
 }
@@ -420,6 +426,21 @@ function populateLab(c) {
   setLabStatus(`Loaded ${c.id}.`);
 }
 
+function populateLabForLiveSmoke(c) {
+  if (!c) return;
+  document.getElementById("lab-source").value = c.source || "";
+  const note = document.getElementById("lab-note");
+  note.value = "";
+  delete note.dataset.generatedModel;
+  resetLabResult();
+  setLabEmptyState(
+    "Ready for a live smoke check",
+    `${c.id} is loaded. ScribeBench will generate a fresh note with the selected free model, then judge it against the source.`,
+    "This is a one-note smoke check, not a ranked leaderboard row."
+  );
+  setLabStatus(`Loaded ${c.id}. Generating with the selected model next.`);
+}
+
 function buildSeededLabResult(c) {
   const result = seededDemoResults[c?.id];
   if (!result) return null;
@@ -438,7 +459,7 @@ function buildSeededLabResult(c) {
 }
 
 async function runLabJudge(event) {
-  event.preventDefault();
+  event?.preventDefault?.();
   const source = document.getElementById("lab-source").value.trim();
   const note = document.getElementById("lab-note").value.trim();
   const model = document.getElementById("lab-judge-model").value;
@@ -447,11 +468,11 @@ async function runLabJudge(event) {
 
   if (!source || !note) {
     setLabStatus("Source and note are required.");
-    return;
+    return null;
   }
   if (!model) {
     setLabStatus("Choose a judge model before running the judge.");
-    return;
+    return null;
   }
   if (key) sessionStorage.setItem(providerConfigs[provider].keyStorage, key);
 
@@ -482,12 +503,55 @@ async function runLabJudge(event) {
     payload.noteChars = note.length;
     renderLabResult(payload);
     setLabStatus("Done.");
+    return payload;
   } catch (error) {
     setLabStatus(error.message || "Judge failed.");
     updateLabEmptyForInputs();
+    return null;
   } finally {
     window.clearTimeout(slowNotice);
     runButton.disabled = false;
+  }
+}
+
+async function runLiveSmokeCheck() {
+  const c = seededCase();
+  if (!c) {
+    setLiveSmokeStatus("Demo cases are still loading. Try again in a moment.", "review");
+    return;
+  }
+  setLiveSmokeBusy(true);
+  setLiveSmokeStatus("Running: loading SYN-003 and refreshing current free models...");
+  document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  try {
+    const providerSelect = document.getElementById("lab-provider");
+    if (providerSelect) {
+      cacheProviderKey(providerSelect.dataset.previousProvider || providerSelect.value);
+      providerSelect.value = "openrouter";
+      providerSelect.dataset.previousProvider = "openrouter";
+      syncProviderUi();
+    }
+    await loadLabModels(false);
+    populateLabForLiveSmoke(c);
+    setLiveSmokeStatus("Running: generating a fresh candidate note...");
+    const generated = await generateCandidateNote();
+    if (!generated) {
+      setLiveSmokeStatus("Generation did not finish. Check the Lab status for the exact error.", "review");
+      return;
+    }
+    setLiveSmokeStatus("Running: judging the generated note for unsupported care...");
+    const judged = await runLabJudge();
+    if (!judged) {
+      setLiveSmokeStatus("Judge did not finish. Check the Lab status for the exact error.", "review");
+      return;
+    }
+    const dangerCount = judged.fabrication?.dangerous?.length || 0;
+    const label = dangerCount
+      ? `Complete: ${dangerCount} unsupported clinical item${dangerCount === 1 ? "" : "s"} flagged.`
+      : "Complete: no dangerous fabrication flagged in this one-note smoke check.";
+    setLiveSmokeStatus(label, dangerCount ? "danger" : "ok");
+  } finally {
+    setLiveSmokeBusy(false);
   }
 }
 
@@ -780,6 +844,39 @@ function renderList(id, items, emptyText) {
 function setLabStatus(message) {
   const status = document.getElementById("lab-status");
   if (status) status.textContent = message;
+}
+
+function liveSmokeButtons() {
+  return ["run-live-smoke-top", "run-live-smoke-lab"]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+}
+
+function setLiveSmokeBusy(isBusy) {
+  liveSmokeButtons().forEach((button) => {
+    button.disabled = isBusy;
+    const fallback = button.dataset.defaultLabel || "Run current-model smoke";
+    button.textContent = isBusy ? (button.dataset.runningLabel || fallback) : fallback;
+  });
+}
+
+function setLiveSmokeStatus(message, tone = "") {
+  const status = document.getElementById("live-smoke-status");
+  if (!status) return;
+  status.textContent = message;
+  status.dataset.tone = tone;
+}
+
+function updateLiveSmokeReadiness(models, configured) {
+  if (selectedProvider() !== "openrouter") return;
+  const usable = Array.isArray(models) && models.length > 0;
+  if (configured && usable) {
+    setLiveSmokeStatus(`Ready: ${models.length} current free model${models.length === 1 ? "" : "s"} available.`, "ok");
+  } else if (usable) {
+    setLiveSmokeStatus("Model list loaded. Paste a temporary key if generation asks for one.", "review");
+  } else {
+    setLiveSmokeStatus("Model list unavailable. Refresh models or paste a temporary OpenRouter key.", "review");
+  }
 }
 
 function bindRunBuilder() {
