@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The evidence card order now matches the document order",
+      "why": "The mobile screen showed the Public evidence card before the source-note form, but CSS ordering left the form earlier in the DOM. Keyboard and assistive-technology users could hit the edit form before the artifact the screen visually emphasized.",
+      "proof": "The Public evidence card now lives before the quick-check form in the markup, and the mobile CSS order overrides for the card/form sequence were removed. The result-first path is now visual order and document order.",
+      "next": "Keep checking that responsive layout changes do not create a separate hidden reading order.",
+      "links": [
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Edit source / note", "href": "#quick-check-form" },
+        { "label": "Accessibility note", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Mobile now shows the evidence card before the edit form",
       "why": "The mobile first screen finally explained the point, but it still forced visitors through source and note textareas before showing the useful public artifact. That made ScribeBench feel like a form demo instead of an evidence tool.",
       "proof": "On small screens the Public evidence card now appears before the source-note form when a seeded result is available, with a mobile-only Edit source / note action for people who want to test their own pair.",
