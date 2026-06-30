@@ -322,6 +322,24 @@
 
         <div class="challenge-tool" aria-label="Current-model ScribeBench challenge planner">
           <form class="challenge-form" id="challenge-form">
+            <div class="challenge-presets" aria-label="Common proof runs">
+              <button class="challenge-preset" type="button" data-challenge-preset="frontier-powered">
+                <span>Update model row</span>
+                <small>Current hosted model</small>
+              </button>
+              <button class="challenge-preset" type="button" data-challenge-preset="open-free">
+                <span>Try open/free</span>
+                <small>Smoke first, power later</small>
+              </button>
+              <button class="challenge-preset" type="button" data-challenge-preset="real-workflow">
+                <span>Score real workflow</span>
+                <small>Actual scribe output</small>
+              </button>
+              <button class="challenge-preset" type="button" data-challenge-preset="judge-robustness">
+                <span>Check the judge</span>
+                <small>Second scoring pass</small>
+              </button>
+            </div>
             <div class="field-row challenge-row">
               <label class="field">
                 <span>Run target</span>
@@ -336,9 +354,11 @@
                 <span>System label</span>
                 <input id="challenge-system" type="text" value="current-frontier-scribe" />
               </label>
-              <button class="button secondary compact-button" id="copy-challenge-plan" type="button">Copy run plan</button>
             </div>
-            <p id="challenge-copy-status" role="status" aria-live="polite"></p>
+            <div class="challenge-actions">
+              <button class="button secondary compact-button" id="copy-challenge-plan" type="button">Copy run plan</button>
+              <p id="challenge-copy-status" role="status" aria-live="polite"></p>
+            </div>
             <textarea
               class="copy-fallback"
               id="challenge-copy-fallback"

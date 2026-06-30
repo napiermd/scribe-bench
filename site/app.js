@@ -210,6 +210,21 @@ const challengePlans = {
   },
 };
 
+const challengePresets = {
+  "frontier-powered": {
+    target: "frontier-powered",
+  },
+  "open-free": {
+    target: "open-free",
+  },
+  "real-workflow": {
+    target: "real-workflow",
+  },
+  "judge-robustness": {
+    target: "judge-robustness",
+  },
+};
+
 const startRoutes = {
   note: {
     kicker: "Fastest useful path",
@@ -781,14 +796,52 @@ function bindChallengePlanner() {
   form.addEventListener("submit", (event) => event.preventDefault());
   const target = document.getElementById("challenge-target");
   const system = document.getElementById("challenge-system");
+  document.querySelectorAll("[data-challenge-preset]").forEach((button) => {
+    button.addEventListener("click", () => applyChallengePreset(button.dataset.challengePreset || "frontier-powered"));
+  });
   target?.addEventListener("change", () => {
     syncChallengeSystemDefault();
+    setActiveChallengePreset(matchingChallengePresetKey());
     renderChallengePlan();
   });
-  system?.addEventListener("input", renderChallengePlan);
+  system?.addEventListener("input", () => {
+    setActiveChallengePreset(matchingChallengePresetKey());
+    renderChallengePlan();
+  });
   document.getElementById("copy-challenge-plan")?.addEventListener("click", copyChallengePlan);
   syncChallengeSystemDefault();
+  setActiveChallengePreset(matchingChallengePresetKey() || "frontier-powered");
   renderChallengePlan();
+}
+
+function applyChallengePreset(key) {
+  const preset = challengePresets[key] || challengePresets["frontier-powered"];
+  const target = document.getElementById("challenge-target");
+  const system = document.getElementById("challenge-system");
+  if (target) target.value = preset.target;
+  const plan = selectedChallengePlan();
+  if (system) {
+    system.value = plan.defaultSystem;
+    system.dataset.defaultValue = plan.defaultSystem;
+  }
+  setActiveChallengePreset(preset.target);
+  renderChallengePlan();
+}
+
+function matchingChallengePresetKey() {
+  const target = document.getElementById("challenge-target")?.value || "";
+  const system = document.getElementById("challenge-system")?.value.trim() || "";
+  const plan = challengePlans[target];
+  if (!plan || system !== plan.defaultSystem) return "";
+  return challengePresets[target] ? target : "";
+}
+
+function setActiveChallengePreset(key) {
+  document.querySelectorAll("[data-challenge-preset]").forEach((button) => {
+    const active = Boolean(key) && button.dataset.challengePreset === key;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
 }
 
 function selectedChallengePlan() {

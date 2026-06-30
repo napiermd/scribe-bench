@@ -107,8 +107,8 @@ PriMock57, and build-in-public updates through GitHub submissions. The Claim
 checker turns vague public/vendor statements such as "hallucination-free" or
 "best current model" into a required evidence level and a copyable public ask.
 The Current-model challenge planner turns the stale-leaderboard objection into
-a copyable run plan for current hosted models, open/free candidates, real scribe
-workflows, or second-judge robustness checks.
+a proof-run picker with one-click plans for current hosted models, open/free
+candidates, real scribe workflows, or second-judge robustness checks.
 The Run section includes a contribution builder that generates the candidate-note JSON shape,
 smoke/powered benchmark command, and PR checklist from the visitor's selected
 dataset, generator, judge, and repeats. The Evidence section also carries a public

@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Proof-run picker",
+      "why": "The current-model challenge still felt like a tiny benchmark form. Visitors needed to see the actual proof runs they could ask for or contribute.",
+      "proof": "Added one-click proof-run presets for updating a current hosted model row, trying an open/free model, scoring a real scribe workflow, and checking judge robustness. Each preset sets the run target and system label, updates the proof explanation, and keeps the copyable run plan. The target and system fields now use the full form width instead of a cramped three-column row.",
+      "next": "Keep moving the deeper Evidence and Run sections from benchmark machinery toward task-first workflows with clear outputs.",
+      "links": [
+        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Claim checker presets",
       "why": "The claim checker was useful but still opened like an empty form. Visitors should not have to invent the first vendor claim before the tool shows its point.",
       "proof": "Added one-click presets for hallucination-free, safe-note, better-scribe, and best-current-model claims. Each preset fills the claim type and exact claim text, updates the ScribeBench answer, and leaves a copyable public evidence ask. The claim type control now has the full form width instead of truncating the default option.",
