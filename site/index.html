@@ -383,6 +383,55 @@
             <p>ScribeBench is evidence for review. It does not approve a note for care.</p>
           </div>
         </div>
+
+        <div class="public-action-kit" id="public-action-kit" aria-labelledby="public-action-kit-title">
+          <div class="public-action-copy">
+            <p class="eyebrow">Public action kit</p>
+            <h3 id="public-action-kit-title">Leave with something you can use in public.</h3>
+            <p>
+              The point is not to browse a benchmark page. Copy the artifact that matches
+              the moment: QA review, vendor claim, or the next evidence row.
+            </p>
+          </div>
+          <div class="public-action-grid">
+            <article data-public-artifact="qa">
+              <span class="queue-status needed">QA review</span>
+              <h4>When a note changed the source</h4>
+              <p>Use this in an internal QA ticket, vendor review, or build-in-public note.</p>
+              <pre class="code-block"><code>ScribeBench found a source-note issue in one AI-scribe note.
+Finding: unsupported care or contradicted source detail.
+Use next: review against the source before trusting the note.
+Boundary: one-note QA, not a system ranking.</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy="qa">Copy QA post</button>
+            </article>
+            <article data-public-artifact="claim">
+              <span class="queue-status valuable">Claim ask</span>
+              <h4>When someone says "hallucination-free"</h4>
+              <p>Use this when a sales deck, demo, or public post makes a safety claim.</p>
+              <pre class="code-block"><code>Can you share evidence behind this AI-scribe claim?
+Needed: dataset, n, generator, judge, repeats, dangerous-fab rate with CI, leak rate, and tuning disclosure.
+Until then: unproven claim, not a clinical safety result.</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy="claim">Copy claim ask</button>
+            </article>
+            <article data-public-artifact="row">
+              <span class="queue-status ready">Evidence row</span>
+              <h4>When old rows are not enough</h4>
+              <p>Use this to ask for the row that would make the project useful now.</p>
+              <pre class="code-block"><code>Next useful artifact: a current powered ScribeBench row.
+Needed: 57 PriMock57 or declared real-workflow cases, system/date, judge, repeats, aggregate scores only.
+Smoke tests are welcome, but they do not crown a model.</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy="row">Copy row ask</button>
+            </article>
+          </div>
+          <p class="public-action-status" id="public-action-status" role="status" aria-live="polite"></p>
+          <textarea
+            class="copy-fallback"
+            id="public-action-fallback"
+            readonly
+            hidden
+            aria-label="Copied ScribeBench public action artifact"
+          ></textarea>
+        </div>
       </section>
 
       <section class="wrap section origin-section" id="why-this-exists">

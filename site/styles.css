@@ -1166,6 +1166,78 @@ h4 {
   margin: 0;
 }
 
+.public-action-kit {
+  display: grid;
+  grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  margin-top: 12px;
+  padding: 1rem;
+}
+
+.public-action-copy {
+  min-width: 0;
+  align-self: start;
+}
+
+.public-action-copy h3 {
+  font-size: 1.24rem;
+  max-width: 21rem;
+}
+
+.public-action-copy p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.7rem 0 0;
+}
+
+.public-action-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.public-action-grid article {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 0.85rem;
+}
+
+.public-action-grid h4 {
+  font-size: 1rem;
+}
+
+.public-action-grid p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin: 0;
+}
+
+.public-action-grid .code-block {
+  max-height: 224px;
+  overflow: auto;
+  font-size: 0.76rem;
+  padding: 0.75rem;
+}
+
+.public-action-status {
+  grid-column: 2;
+  min-height: 1.2rem;
+  color: var(--accent-strong);
+  font-size: 0.86rem;
+  font-weight: 800;
+  margin: 0;
+}
+
+#public-action-fallback {
+  grid-column: 2;
+}
+
 .origin-section {
   padding-top: 54px;
 }
@@ -3651,6 +3723,7 @@ h4 {
   .freshness-receipt,
   .evidence-agenda,
   .historical-baseline-head,
+  .public-action-kit,
   .current-run-card,
   .fresh-smoke-card,
   .worklog-board,
@@ -3669,6 +3742,7 @@ h4 {
   .origin-grid,
   .repo-map-grid,
   .evidence-ladder,
+  .public-action-grid,
   .evidence-decision-list,
   .freshness-receipt-grid,
   .run-steps,
@@ -3705,6 +3779,11 @@ h4 {
   .case-receipt-metrics,
   .comparison-grid {
     grid-template-columns: 1fr;
+  }
+
+  .public-action-status,
+  #public-action-fallback {
+    grid-column: 1;
   }
 
   .intro-panel,

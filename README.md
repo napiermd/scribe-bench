@@ -22,6 +22,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 | Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
 | Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
+| Share what ScribeBench found | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a QA post, vendor evidence ask, or current-row request. |
 | Add a citable public row | [Add row](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
 
 The public website is not a consumer app, a patient app, clinical clearance, or
@@ -96,7 +97,7 @@ Use the website for three jobs:
 
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
-3. **Publish evidence.** Use the run builder and leaderboard submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
+3. **Share or publish evidence.** Use the public action kit for copyable QA/vendor/current-row language, then use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
 The site is not the scribe product, not a patient app, not clinical clearance,
 and not a current model buying guide. The historical launch rows prove the harness

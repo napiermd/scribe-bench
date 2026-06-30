@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Visitors now get a public action kit",
+      "why": "ScribeBench had useful receipts, claim asks, and run plans, but visitors still had to assemble the public-facing language themselves. That made the site feel more like a tool drawer than a build-in-public artifact.",
+      "proof": "Added a Public action kit after the evidence ladder with copyable language for a QA post, a vendor evidence ask, and a current-row request. The README now links directly to the kit from Start here.",
+      "next": "Keep making every public path end in a thing someone can paste into QA, vendor review, GitHub, or a public evidence thread.",
+      "links": [
+        { "label": "Public action kit", "href": "#public-action-kit" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Evidence rows now carry a freshness receipt",
       "why": "The site repeatedly warned that old launch rows are not a current leaderboard, but the evidence table still looked enough like a ranking that visitors could miss the point. That made the old-model criticism too easy to repeat.",
       "proof": "Added a freshness receipt above the evidence rows that separates historical launch baselines, the current-row gap, smoke-test plumbing evidence, and the exact next powered PriMock57 artifact needed. The README evidence section now says evidence ledger, not current leaderboard.",
