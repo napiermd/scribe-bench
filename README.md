@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 62](https://img.shields.io/badge/tests-62%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 66](https://img.shields.io/badge/tests-66%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -30,6 +30,13 @@ Rank powered PriMock57 runs by **dangerous-fabrication rate** (lower is better),
 > **Data policy:** the leaderboard stores **aggregate scores only** — never raw model-generated note text. Full candidate notes are published only for open-weight models or your own runs. This respects provider output terms (publishing closed-model outputs as a redistributable dataset is not something we do). The bundled dataset is CC-BY synthetic + PriMock57 only.
 
 The current ranked rows are **historical launch baselines from June 2, 2026**. They prove the powered PriMock57 path and show the failure gradient, but they are not a current buying guide. The next public work is to add current production, frontier, open-weight, and vendor-system rows as powered PriMock57 runs.
+
+On June 30, 2026, the production Vercel site also passed a live current-model
+PriMock57 smoke test: PM57-d1c01 was generated and judged through the public
+OpenRouter path with `nvidia/nemotron-3-ultra-550b-a55b:free`, returning a
+parseable score of `normalized=100`, `inputFidelity=5`, zero dangerous
+fabrications, and zero leaks. That is a plumbing proof, not a ranked claim; a
+full public row still needs all 57 cases with declared repeats.
 
 | System | Dataset | n | Narrative ↑ (95% CI) | Fidelity ↑ | Dangerous-fab ↓ (95% CI) | Leak ↓ | Judge |
 |--------|---------|---|----------------------|-----------|--------------------------|--------|-------|

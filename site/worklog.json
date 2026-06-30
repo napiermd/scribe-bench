@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Live PriMock57 smoke passed",
+      "why": "The public site needed proof that the current-model path is more than static copy: a visitor should be able to generate and judge a realistic PriMock57 encounter through production.",
+      "proof": "Production Vercel generated PM57-d1c01 with nvidia/nemotron-3-ultra-550b-a55b:free and judged the note through the public /api/judge endpoint with the same current OpenRouter free model. The smoke result returned normalized=100, inputFidelity=5, 0 dangerous fabrications, 0 leaks, and 3 standard/non-dangerous assumptions.",
+      "next": "Run the full PriMock57 set with repeats and publish only aggregate scores once the row has enough cases to support a system-level claim.",
+      "links": [
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Harder judge JSON repair",
       "why": "The first PriMock57 current-row probe generated a note successfully but the OpenRouter judge returned malformed JSON, blocking a current powered evidence run.",
       "proof": "Added JSON-object mode for OpenRouter judging, a third API repair attempt with prior-output context, parser repair for raw control characters inside strings plus trailing commas, and a plain-text compact fallback when models keep mangling JSON. A follow-up PM57 reference-note probe showed nvidia/nemotron-3-ultra-550b-a55b:free returns a parseable judge result while the previous Super judge path still failed on the generated PM57 note.",
