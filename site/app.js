@@ -141,19 +141,19 @@ const claimPresets = {
 
 const challengePlans = {
   "frontier-powered": {
-    label: "Current hosted frontier model",
+    label: "Current system under test",
     status: "Needed now",
     statusClass: "needed",
-    defaultSystem: "current-frontier-scribe",
+    defaultSystem: "current-system-under-test",
     title: "A powered current row makes the board useful again.",
     run:
-      "Generate notes for all 57 PriMock57 cases with a current hosted model, then score the same candidate file with a declared judge and 2 repeats.",
+      "Run the actual current model, vendor system, or scribe pipeline across all 57 PriMock57 cases, then score the same candidate file with a declared judge and 2 repeats.",
     publish:
       "Publish aggregate scores only: dangerous-fabrication rate with CI, narrative mean with CI, fidelity mean, leak rate, model/date, judge, prompt policy, and tuning disclosure.",
     why:
       "This directly answers the old-model criticism. It turns the page from historical baselines into a current comparison surface.",
     evidence:
-      "n=57 PriMock57, repeats=2, current generation model, declared judge, aggregate-only row, no closed raw notes.",
+      "n=57 PriMock57, repeats=2, current system/date declared, judge declared, aggregate-only row, no closed raw notes.",
     next:
       "Use the Run section to create the candidate-note JSON and benchmark command, then open a GitHub PR with the aggregate row.",
   },
@@ -277,18 +277,18 @@ const runPresets = {
     status: "Publishable",
     statusClass: "ready",
     title: "Current powered row",
-    bring: "A current hosted model or scribe pipeline and notes for every PriMock57 case.",
-    run: "Generate candidate notes for all 57 PriMock57 cases, then score them with a declared judge and 2 repeats.",
-    submit: "Publish aggregate scores only: dangerous-fabrication rate, narrative mean, fidelity, leak rate, judge, date, and tuning disclosure.",
+    bring: "Candidate notes from the actual current model, vendor system, or scribe pipeline you want to discuss.",
+    run: "Run that system over all 57 PriMock57 cases outside ScribeBench, save candidate-note JSON, then score it with a declared judge and 2 repeats.",
+    submit: "Publish aggregate scores only: dangerous-fabrication rate, narrative mean, fidelity, leak rate, system date, judge, repeats, and tuning disclosure.",
     fields: {
       dataset: "primock57",
-      system: "current-frontier-scribe",
-      candidatePath: "/tmp/current_frontier_primock57_notes.json",
-      generator: "openrouter",
-      model: "nvidia/nemotron-3-ultra-550b-a55b:free",
+      system: "current-system-under-test",
+      candidatePath: "/tmp/current_system_primock57_notes.json",
+      generator: "own",
+      model: "current-production-scribe-or-frontier-model",
       repeats: "2",
       judgeBackend: "baseten",
-      judgeModel: "deepseek-ai/DeepSeek-V4-Pro",
+      judgeModel: "declared-strong-judge-model",
     },
   },
   "quick-smoke": {
@@ -2350,11 +2350,11 @@ function runBuilderState() {
       "run-candidate",
       dataset === "synthetic" ? "/tmp/scribebench_smoke_notes.json" : "/tmp/scribebench_candidate_notes.json"
     ),
-    generator: value("run-generator", "openrouter"),
-    model: value("run-model", "nvidia/nemotron-3-ultra-550b-a55b:free"),
-    system: value("run-system", "openrouter-nemotron-3-ultra"),
+    generator: value("run-generator", "own"),
+    model: value("run-model", "current-production-scribe-or-frontier-model"),
+    system: value("run-system", "current-system-under-test"),
     judgeBackend: value("run-judge-backend", "baseten"),
-    judgeModel: value("run-judge-model", "deepseek-ai/DeepSeek-V4-Pro"),
+    judgeModel: value("run-judge-model", "declared-strong-judge-model"),
     repeats: value("run-repeats", dataset === "synthetic" ? "1" : "2"),
   };
 }

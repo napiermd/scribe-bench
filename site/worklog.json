@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Powered row defaults made serious",
+      "why": "The Run builder asked visitors to create a current powered row but prefilled an OpenRouter free model, making the serious evidence path look like another cheap smoke demo.",
+      "proof": "Changed the current powered-row preset and current challenge planner to start with the actual system under test, a visitor-produced candidate-note file, and a declared strong judge. OpenRouter/free-model defaults now stay in the smoke-test preset.",
+      "next": "Keep separating quick plumbing demos from publishable evidence so the public site does not confuse a smoke path with a market claim.",
+      "links": [
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Evidence decision matrix",
       "why": "The Evidence section still felt like a pile of benchmark readouts before a visitor understood what any row could support.",
       "proof": "Replaced the opening caveat cards with a decision matrix for one-note checks, historical rows, current-ranking claims, and vendor claims. The matrix now pulls live powered-row count, smoke status, and current-run progress from the public assets.",

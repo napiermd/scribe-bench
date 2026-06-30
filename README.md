@@ -152,7 +152,10 @@ The Run section includes task-first presets for a current powered row, quick
 smoke test, real workflow row, or second-judge pass, plus a contribution builder
 that generates the candidate-note JSON shape, smoke/powered benchmark command,
 and PR checklist from the visitor's selected dataset, generator, judge, and
-repeats. The Evidence section also carries a public
+repeats. The current powered-row preset now defaults to the actual current system
+under test and a candidate-note file produced by the visitor's own pipeline, while
+OpenRouter/free-model defaults stay in the smoke-test lane unless someone completes
+a declared powered run. The Evidence section also carries a public
 work log (`/assets/worklog.json`) plus a queue for current frontier, open/free,
 real-workflow, and judge-robustness rows, including the proof required and first
 action for each target. The current-run card includes the latest blocked PriMock57

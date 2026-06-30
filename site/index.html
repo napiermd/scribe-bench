@@ -447,8 +447,8 @@
           <form class="challenge-form" id="challenge-form">
             <div class="challenge-presets" aria-label="Common proof runs">
               <button class="challenge-preset" type="button" data-challenge-preset="frontier-powered">
-                <span>Update model row</span>
-                <small>Current hosted model</small>
+                <span>Update current row</span>
+                <small>Actual system under test</small>
               </button>
               <button class="challenge-preset" type="button" data-challenge-preset="open-free">
                 <span>Try open/free</span>
@@ -467,7 +467,7 @@
               <label class="field">
                 <span>Run target</span>
                 <select id="challenge-target">
-                  <option value="frontier-powered">Current hosted frontier model</option>
+                  <option value="frontier-powered">Current system under test</option>
                   <option value="open-free">Open/free model candidate</option>
                   <option value="real-workflow">Real scribe workflow</option>
                   <option value="judge-robustness">Second-judge robustness pass</option>
@@ -475,7 +475,7 @@
               </label>
               <label class="field">
                 <span>System label</span>
-                <input id="challenge-system" type="text" value="current-frontier-scribe" />
+                <input id="challenge-system" type="text" value="current-system-under-test" />
               </label>
             </div>
             <div class="challenge-actions">
@@ -1314,14 +1314,14 @@
           <h2>Pick the run you can actually finish</h2>
           <p>
             Start from a preset, then copy the exact JSON shape or benchmark command.
-            Smoke tests prove the plumbing. Powered PriMock57 or real-workflow runs
-            are the rows that support public claims.
+            Powered rows start with the actual current system under test. Free-model smoke
+            tests prove the plumbing; they do not support public ranking claims.
           </p>
         </div>
 
         <aside class="run-plan-card" aria-live="polite">
           <div class="run-plan-head">
-            <span class="queue-status needed" id="run-plan-status">Publishable</span>
+            <span class="queue-status ready" id="run-plan-status">Publishable</span>
             <div>
               <p class="eyebrow">Selected run</p>
               <h3 id="run-plan-title">Current powered row</h3>
@@ -1330,7 +1330,7 @@
           <dl class="run-plan-grid">
             <div>
               <dt>Bring</dt>
-              <dd id="run-plan-bring">A current generator and a candidate-note file.</dd>
+              <dd id="run-plan-bring">Candidate notes from the actual current system under test.</dd>
             </div>
             <div>
               <dt>Run</dt>
@@ -1373,11 +1373,11 @@
             </label>
             <label class="field">
               <span>System label</span>
-              <input id="run-system" type="text" value="openrouter-nemotron-3-ultra" />
+              <input id="run-system" type="text" value="current-system-under-test" />
             </label>
             <label class="field">
               <span>Candidate file</span>
-              <input id="run-candidate" type="text" value="/tmp/scribebench_candidate_notes.json" />
+              <input id="run-candidate" type="text" value="/tmp/current_system_primock57_notes.json" />
             </label>
           </div>
 
@@ -1387,12 +1387,12 @@
               <select id="run-generator">
                 <option value="openrouter">OpenRouter generator</option>
                 <option value="baseten">Baseten generator</option>
-                <option value="own">My own scribe pipeline</option>
+                <option value="own" selected>My own scribe pipeline</option>
               </select>
             </label>
             <label class="field">
               <span>Generation model</span>
-              <input id="run-model" type="text" value="nvidia/nemotron-3-ultra-550b-a55b:free" />
+              <input id="run-model" type="text" value="current-production-scribe-or-frontier-model" />
             </label>
             <label class="field">
               <span>Repeats</span>
@@ -1416,7 +1416,7 @@
             </label>
             <label class="field">
               <span>Judge model</span>
-              <input id="run-judge-model" type="text" value="deepseek-ai/DeepSeek-V4-Pro" />
+              <input id="run-judge-model" type="text" value="declared-strong-judge-model" />
             </label>
             <div class="run-builder-actions" aria-label="Copy generated artifacts">
               <button class="button secondary compact-button" id="copy-candidate-template" type="button">Copy JSON template</button>
@@ -1433,7 +1433,7 @@
           </article>
           <article>
             <strong>Smoke only</strong>
-            <p>Three synthetic cases. Good for demos and plumbing, never a leaderboard claim.</p>
+            <p>Three synthetic cases or free-model experiments. Good for demos and plumbing, never a leaderboard claim.</p>
           </article>
           <article>
             <strong>Do not submit</strong>
