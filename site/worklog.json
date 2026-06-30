@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First screen now shows the actual receipt shape before abstraction",
+      "why": "The site had become useful, but the opening still leaned on explanatory promise language. A skeptical visitor needed to see the concrete source-vs-note catch immediately, not infer it from role cards.",
+      "proof": "The hero now opens with the seeded ScribeBench catch: the AI note invents a negative head CT and syncope workup while the source says mechanical rug trip, no head strike, and no loss of consciousness. The page names the output as two reviewable source-note issues plus a copyable QA packet before the visitor reaches the detailed receipt.",
+      "next": "Keep reducing abstract benchmark copy in favor of visible artifacts: source, note, finding, evidence boundary, and next public action.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Public action kit", "href": "#public-action-kit" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Public API retries now update the current-run receipt automatically",
       "why": "The current-row blocker is the most important evidence gap. Before this, a retry could update the ignored cache and pending artifact while the public status card still needed manual JSON editing.",
       "proof": "The public API benchmark runner now builds the same current-run status object the website renders, writes site/current-run.json for PriMock57 attempts, includes selected/generated/scored/errored counts, blocked case ids, latest blocker text, last scored case, and a copyable resume command. Focused tests cover the partial-run blocker receipt.",

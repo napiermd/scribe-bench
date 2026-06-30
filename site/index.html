@@ -68,30 +68,33 @@
         <div class="wrap summary-grid">
           <div class="intro-panel">
             <p class="eyebrow">Public clinical AI QA</p>
-            <h1>Find invented care before it becomes a claim.</h1>
+            <h1>Paste a source and AI note. See what changed.</h1>
 
-            <div class="product-answer" aria-label="What visitors can do with ScribeBench">
-              <article>
-                <span>Check a note</span>
-                <strong>Paste source plus AI note. Leave with a QA receipt.</strong>
-                <p>It names unsupported care, contradictions, leaks, and what the result can and cannot prove.</p>
-              </article>
-              <article>
-                <span>Challenge a claim</span>
-                <strong>Turn "hallucination-free" into a public evidence ask.</strong>
-                <p>Copy the dataset, n, judge, repeats, rate, and disclosure request the claim requires.</p>
-              </article>
-              <article>
-                <span>Add evidence</span>
-                <strong>Replace stale model rows with a current aggregate row plan.</strong>
-                <p>Use the run builder and scores-only submission path without publishing raw closed-model notes.</p>
-              </article>
+            <div class="receipt-specimen" aria-label="Example ScribeBench receipt">
+              <div class="receipt-specimen-head">
+                <span class="queue-status needed">Seeded catch</span>
+                <strong>The first loaded case shows the point immediately.</strong>
+              </div>
+              <dl>
+                <div>
+                  <dt>AI note says</dt>
+                  <dd>CT head was negative; syncope workup started.</dd>
+                </div>
+                <div>
+                  <dt>Source says</dt>
+                  <dd>Mechanical rug trip; no head strike, no loss of consciousness.</dd>
+                </div>
+                <div>
+                  <dt>You get</dt>
+                  <dd>Two reviewable source-note issues plus a copyable QA packet.</dd>
+                </div>
+              </dl>
             </div>
 
             <p class="lede">
-              The point is not another cute leaderboard. It is a public way to show
-              exactly where a fluent clinical note changed the source, and what proof
-              a bigger safety or "best model" claim still needs.
+              ScribeBench is a public source-vs-note checker and evidence ledger for
+              AI-scribe claims. One note gives a QA receipt; many notes give aggregate
+              evidence. Old rows stay historical until current runs replace them.
             </p>
 
             <div class="hero-proof-trail" aria-labelledby="hero-proof-trail-title">
@@ -125,8 +128,7 @@
               <span class="local-badge">No API key</span>
             </div>
             <p class="quick-check-help">
-              The seeded example loads automatically and shows the artifact: a receipt
-              for an unsupported head CT and syncope workup. Replace either box with
+              Seeded fall case loaded. Check it now, or replace either box with
               your own source and AI note.
             </p>
             <form class="quick-check-form" id="quick-check-form">
