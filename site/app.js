@@ -192,6 +192,7 @@ function escapeHtml(value) {
 function bindLab() {
   document.getElementById("load-seeded-lab")?.addEventListener("click", () => populateLab(syntheticCases[2] || syntheticCases[0]));
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
+  document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
   const providerSelect = document.getElementById("lab-provider");
   if (providerSelect) {
     providerSelect.dataset.previousProvider = providerSelect.value;
@@ -210,6 +211,53 @@ function bindLab() {
   document.getElementById("lab-form")?.addEventListener("submit", runLabJudge);
 
   syncProviderUi();
+}
+
+async function generateCandidateNote() {
+  const source = document.getElementById("lab-source").value.trim();
+  const model = document.getElementById("lab-model").value;
+  const provider = selectedProvider();
+  const key = document.getElementById("lab-key").value.trim();
+
+  if (!source) {
+    setLabStatus("Source encounter is required before generation.");
+    return;
+  }
+  if (!model) {
+    setLabStatus("Choose a model before generating a note.");
+    return;
+  }
+  if (key) sessionStorage.setItem(providerConfigs[provider].keyStorage, key);
+
+  const generateButton = document.getElementById("generate-note");
+  const runButton = document.getElementById("run-lab");
+  generateButton.disabled = true;
+  runButton.disabled = true;
+  setLabStatus("Generating candidate note...");
+  const slowNotice = window.setTimeout(() => {
+    setLabStatus(providerConfigs[provider].slowNotice);
+  }, 8000);
+
+  try {
+    const headers = { "content-type": "application/json" };
+    if (key) headers[providerConfigs[provider].keyHeader] = key;
+    const response = await fetch("/api/generate", {
+      method: "POST",
+      headers,
+      body: JSON.stringify({ source, model, provider }),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw new Error(payload.error || `Generation failed (${response.status})`);
+    document.getElementById("lab-note").value = payload.note || "";
+    const usage = payload.usage?.total_tokens ? ` Tokens: ${payload.usage.total_tokens}.` : "";
+    setLabStatus(`Generated candidate with ${payload.model || model}. Run the judge next.${usage}`);
+  } catch (error) {
+    setLabStatus(error.message || "Candidate generation failed.");
+  } finally {
+    window.clearTimeout(slowNotice);
+    generateButton.disabled = false;
+    runButton.disabled = false;
+  }
 }
 
 async function loadLabModels(force = false) {

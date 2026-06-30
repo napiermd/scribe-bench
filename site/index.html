@@ -51,7 +51,7 @@
             <p class="lede">
               ScribeBench is a public workbench for testing generated clinical notes against
               the encounter they came from. Start with the seeded failure case, try the live
-              single-note lab, then run PriMock57 to publish a real powered row.
+              generate-and-judge lab, then run PriMock57 to publish a real powered row.
             </p>
             <div class="actions">
               <a class="button primary" href="#demo">Inspect seeded failure</a>
@@ -126,7 +126,7 @@
           <article>
             <span class="job-number">02</span>
             <h3>Test your pipeline</h3>
-            <p>Paste one source and note into the lab for a quick check, then run the repo on PriMock57 before making any public claim.</p>
+            <p>Generate a candidate note in the lab, or paste one from your own scribe, then run the repo on PriMock57 before making any public claim.</p>
             <a href="#lab">Run the live lab</a>
           </article>
           <article>
@@ -237,12 +237,13 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Live lab</p>
-            <h2>Score a note against a source encounter</h2>
+            <h2>Generate and judge a clinical note</h2>
             <p>
-              Paste a source encounter and generated note, choose a provider/model, and run
-              a fast ScribeBench-style check for narrative quality, fidelity, fabrications, and leaks.
-              This is a useful triage tool, not leaderboard evidence. Public rows use fixed
-              datasets, repeats, and aggregate confidence intervals.
+              Paste a source encounter, generate a candidate clinical note with the selected
+              provider, then judge that note for narrative quality, fidelity, fabrications, and
+              leaks. You can also paste your own generated note. This is a useful triage tool,
+              not leaderboard evidence. Public rows use fixed datasets, repeats, and aggregate
+              confidence intervals.
             </p>
           </div>
           <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
@@ -281,15 +282,16 @@
             <div class="lab-textareas">
               <label class="field">
                 <span>Source encounter</span>
-                <textarea id="lab-source" rows="14"></textarea>
+                <textarea id="lab-source" rows="14" placeholder="Paste an encounter transcript, consult note source, or load the seeded demo."></textarea>
               </label>
               <label class="field">
-                <span>Generated note</span>
-                <textarea id="lab-note" rows="14"></textarea>
+                <span>Candidate note</span>
+                <textarea id="lab-note" rows="14" placeholder="Generate a candidate from the source, or paste a note from your own scribe."></textarea>
               </label>
             </div>
 
             <div class="lab-actions">
+              <button class="button secondary" id="generate-note" type="button">Generate candidate note</button>
               <button class="button primary" id="run-lab" type="submit">Run live judge</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
@@ -300,8 +302,9 @@
             <div class="lab-empty" id="lab-empty">
               <h3>Waiting for a note</h3>
               <p>
-                The result will show a normalized narrative score, six dimensions,
-                dangerous fabrication items, standard items, deterministic leaks, and model usage.
+                Generate a candidate note or paste one, then run the judge. The result will show
+                a normalized narrative score, six dimensions, dangerous fabrication items,
+                standard items, deterministic leaks, and model usage.
               </p>
             </div>
 

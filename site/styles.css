@@ -253,6 +253,11 @@ h4 {
   background: var(--panel-soft);
 }
 
+.button:disabled {
+  cursor: wait;
+  opacity: 0.58;
+}
+
 .compact-button {
   width: auto;
   min-height: 38px;
@@ -615,6 +620,7 @@ h4 {
 }
 
 #lab-status {
+  flex: 1 1 220px;
   color: var(--muted);
   font-size: 0.9rem;
 }

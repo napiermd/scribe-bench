@@ -10,7 +10,7 @@ The public website is not a consumer app or a model popularity contest. It gives
 visitors three concrete paths:
 
 1. **Evaluate an AI scribe:** inspect a seeded failure case and see why fluent notes can still be unsafe.
-2. **Test a pipeline:** paste one source encounter and generated note into the live lab for a quick triage check.
+2. **Test a pipeline:** generate a candidate note in the live lab, or paste one from your own scribe, then run a quick triage check.
 3. **Add evidence:** generate PriMock57 notes, run the harness, and submit aggregate powered scores.
 
 Hallucination-and-omission scoring for clinical notes is not new — [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu established it. ScribeBench adds two things they don't:
@@ -62,8 +62,8 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
 experience: role-based entry points, an evidence ledger, a powered PriMock57
 leaderboard, a separate not-ranked synthetic smoke-test table, benchmark snapshot,
-synthetic demo case viewer, methodology summary, live lab, and run-it-yourself
-submission path.
+synthetic demo case viewer, methodology summary, live generate-and-judge lab,
+and run-it-yourself submission path.
 
 ```bash
 npm run build
@@ -72,10 +72,12 @@ npm run preview
 
 Source lives in [`site/`](site/). The build script copies the static app into
 `dist/` and publishes bounded JSON from the existing benchmark artifacts.
-The live Lab can use a Vercel `OPENROUTER_API_KEY` environment variable, or a
-temporary OpenRouter key pasted into the browser for that session. Baseten's
-OpenAI-compatible Model APIs are wired as an optional provider and become available
-when `BASETEN_API_KEY` is configured on Vercel or supplied temporarily in the lab.
+The live Lab can generate a candidate note from the source encounter, then judge
+that note in the same browser flow. It can use a Vercel `OPENROUTER_API_KEY`
+environment variable, or a temporary OpenRouter key pasted into the browser for
+that session. Baseten's OpenAI-compatible Model APIs are wired as an optional
+provider and become available when `BASETEN_API_KEY` is configured on Vercel or
+supplied temporarily in the lab.
 
 ---
 
