@@ -6,14 +6,21 @@
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
-The public website is not a consumer app or a model popularity contest. It gives
-visitors three concrete paths:
+## Start here
 
-1. **Evaluate an AI scribe:** inspect a seeded failure case and see why fluent notes can still be unsafe.
-2. **Test a pipeline:** generate a candidate note in the live lab, or paste one from your own scribe, then run a quick triage check.
-3. **Add evidence:** generate PriMock57 notes, run the harness, and submit aggregate powered scores.
+| If you want to... | Go here | What you get |
+|-------------------|---------|--------------|
+| Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
+| Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A reader digest separating one-note proof, historical rows, smoke tests, and current-model gaps. |
+| Add a citable public row | [Add row](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
 
-Hallucination-and-omission scoring for clinical notes is not new — [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu established it. ScribeBench adds two things they don't:
+The public website is not a consumer app, a patient app, clinical clearance, or
+a current model buying guide. The existing rows are launch baselines and smoke
+checks; current claims need new powered rows.
+
+Under the hood, ScribeBench adds two things to prior clinical-note evaluation work
+such as [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu:
 
 1. **A fabrication tier that distinguishes *registering delivered care* from *inventing what didn't happen*.** An ambient scribe's job is to register care the clinician actually delivered — a critical-care-time attestation, a placement statement captured from the encounter. That is the product working, not a hallucination. Other taxonomies flag it as one. ScribeBench tiers it as STANDARD and reserves DANGEROUS for content asserting something that *did not happen*. See [`docs/fabrication-taxonomy.md`](docs/fabrication-taxonomy.md).
 

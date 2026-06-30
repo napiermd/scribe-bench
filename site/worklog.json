@@ -4,9 +4,22 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "README now starts with live jobs",
+      "why": "The GitHub repo still opened with benchmark positioning and methodology before a visitor saw the live site link or the practical jobs. That made the repo entry point feel more academic than useful.",
+      "proof": "The README now adds a Start here table immediately after the project summary, with direct links to the live checker, claim checker, evidence ledger, and Add row flow, plus the output each path gives the visitor.",
+      "next": "Keep GitHub and the website aligned: every entry point should show the practical job before the methodology.",
+      "links": [
+        { "label": "GitHub README", "href": "https://github.com/napiermd/scribe-bench#start-here" },
+        { "label": "Live checker", "href": "#quick-check" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Add row now explains the public evidence package first",
       "why": "The navigation said Add row, but the target section still opened like a developer command builder. That made the public contribution path feel more technical than it needed to and left non-coders guessing what a row actually publishes.",
-      "proof": "The Add row section now leads with a citeable-row promise and a three-part contract: what goes public, what stays private, and when to submit. The command builder remains below that contract, and related links now use Add row / add evidence wording instead of Build row.",
+      "proof": "The Add row section now leads with a citable-row promise and a three-part contract: what goes public, what stays private, and when to submit. The command builder remains below that contract, and related links now use Add row / add evidence wording instead of Build row.",
       "next": "Keep the contribution path framed around the public artifact first, then the command needed to create it.",
       "links": [
         { "label": "Add row", "href": "#run" },
