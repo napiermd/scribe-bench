@@ -6,6 +6,7 @@ dist/
 .env
 .env.*
 leaderboard/_pending.json
+leaderboard/_*-pending.json
 # Content-addressed judge-result cache (ET3) — local only
 .scribebench-cache/
 # PriMock57 is fetched, not vendored (git-LFS audio is large)

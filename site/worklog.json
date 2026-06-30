@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Resumable public API PriMock57 runner",
+      "why": "The site should not stop at one-note receipts. It needs a concrete path from the public Vercel lab to current aggregate PriMock57 evidence without committing raw generated notes.",
+      "proof": "Added scripts/run_public_api_benchmark.ts with ignored progress caching, fail-closed incomplete-case handling, configuration mismatch guards, aggregate-only pending output, and tests. A production slice generated and judged PM57-d1c01 through https://scribe-bench.vercel.app; PM57-d1c02 and PM57-d1c03 generated but judge calls first timed out, then hit OpenRouter's free-model daily cap on retry. The errored cases stayed excluded instead of being counted clean.",
+      "next": "Add OpenRouter credits or configure a faster second judge, then resume the cached run toward at least 30 completed PriMock57 cases before publishing any ranked current row.",
+      "links": [
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "GitHub runner", "href": "https://github.com/napiermd/scribe-bench/blob/main/scripts/run_public_api_benchmark.ts" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Receipt-first homepage framing",
       "why": "The public site needed to answer the first-minute question more directly: what does a visitor do here, who is it for, and what do they leave with?",
       "proof": "Reworked the hero around the after-the-demo clinical AI use case, added a first-screen ScribeBench receipt preview for SYN-003, clarified that visitors leave with a quotable QA receipt, and aligned the NapierMD footer link to the live clinical-AI work section.",

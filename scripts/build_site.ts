@@ -82,7 +82,7 @@ function main() {
         countJsonFiles(path.join(root, 'data/primock57/cases')),
     },
     github: 'https://github.com/napiermd/scribe-bench',
-    napierMd: 'https://napiermd.me/clinical-ai',
+    napierMd: 'https://napiermd.me/work#clinical-ai',
   };
   fs.writeFileSync(path.join(assetsDir, 'metadata.json'), JSON.stringify(metadata, null, 2) + '\n');
 

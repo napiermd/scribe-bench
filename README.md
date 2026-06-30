@@ -182,6 +182,29 @@ npx tsx eval/run_benchmark.ts \
 
 The example candidate deliberately seeds one fabrication (case `SYN-003` invents a head CT and a syncope workup the source rules out) so you can see the fabrication judge fire. It is useful for plumbing and demos, not for ranking systems.
 
+### Current public-API run path
+
+When the live Vercel site has provider keys configured, you can build a current
+PriMock57 evidence row through the same public APIs visitors use. This keeps raw
+generated notes in the ignored local cache and writes an aggregate pending file:
+
+```bash
+npm run bench:public-api -- \
+  --base-url https://scribe-bench.vercel.app \
+  --dataset data/primock57/cases \
+  --system openrouter-nemotron-3-ultra-public-api \
+  --repeats 1 \
+  --out leaderboard/_public-api-pending.json
+```
+
+The progress cache lives under `.scribebench-cache/public-api-runs/` so interrupted
+runs can resume. Do not copy a pending row into `leaderboard/results.json` until
+the run has enough completed PriMock57 cases, no unreviewed errors, declared
+model/judge details, and the self-judge/second-judge limitation is disclosed.
+Free OpenRouter models can be slow and quota-limited; when a judge call times out
+or hits the daily cap, the runner records the case as errored/excluded and can
+resume once credits or another judge backend are available.
+
 ## Datasets
 
 - **`data/synthetic/cases/`** — 3 fully synthetic encounters (ED, clinic, inpatient). Ships in-repo; the runnable quickstart set.
