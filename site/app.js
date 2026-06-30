@@ -520,6 +520,12 @@ function renderEvidenceFreshness(results) {
       ? `${formatScoredAt(latestSmoke.scoredAt)} smoke row, n=${Number(latestSmoke.n) || "--"} synthetic cases. Good enough to prove the public path works; not enough to compare systems.`
       : "No smoke row is published yet; run the Lab smoke path before graduating a candidate to PriMock57."
   );
+  setText(
+    "hero-evidence-boundary",
+    latestPowered
+      ? `${ranked.length} historical powered row${ranked.length === 1 ? "" : "s"}; latest ${formatScoredAt(latestPowered.scoredAt)}. Cite the failure gradient, not a current winner.`
+      : "One-note receipts are live now. Current-model claims still need powered aggregate rows."
+  );
   renderFreshSmoke(latestSmoke);
 }
 
@@ -601,6 +607,10 @@ function renderCurrentRun(run) {
     "decision-current-proof",
     `${scored}/${target} current PriMock57 cases scored; publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
   );
+  setText(
+    "hero-current-gap",
+    `${scored}/${target} current PriMock57 cases scored; publishable at ${minimumPublishable}+ with declared judge, repeats, date, and exclusions.`
+  );
   setElementHtml(
     "decision-current-action",
     scored >= minimumPublishable
@@ -636,6 +646,7 @@ function renderCurrentRunError() {
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
   setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
+  setText("hero-current-gap", "Current-run status did not load. Do not use the old rows as a current ranking.");
   setElementHtml("decision-current-action", `<a href="#run">Add a fresh powered row</a>`);
   const commandCard = document.getElementById("current-run-command-card");
   if (commandCard) commandCard.hidden = true;
@@ -686,6 +697,7 @@ function renderWorkLog(payload) {
   list.innerHTML = "";
 
   if (!entries.length) {
+    setText("hero-latest-ship", "No public work-log entry is published yet.");
     list.innerHTML = `
       <article>
         <span class="queue-status needed">Missing</span>
@@ -695,6 +707,12 @@ function renderWorkLog(payload) {
     `;
     return;
   }
+
+  const latest = entries[0];
+  setText(
+    "hero-latest-ship",
+    `${formatScoredAt(latest.date || payload.updatedAt || "")}: ${compactText(latest.title || "latest public change", 86)}`
+  );
 
   entries.slice(0, 4).forEach((entry) => {
     const links = Array.isArray(entry.links) ? entry.links : [];
@@ -726,6 +744,7 @@ function renderWorkLog(payload) {
 
 function renderWorkLogError() {
   const list = document.getElementById("worklog-list");
+  setText("hero-latest-ship", "The public work-log asset did not load.");
   if (!list) return;
   list.innerHTML = `
     <article>
@@ -752,6 +771,11 @@ function externalLinkAttrs(href = "") {
 function formatScoredAt(value) {
   const date = new Date(`${value}T00:00:00Z`);
   return Number.isNaN(date.getTime()) ? value : fmtDate.format(date);
+}
+
+function compactText(value, max = 140) {
+  const text = String(value || "").replace(/\s+/g, " ").trim();
+  return text.length > max ? `${text.slice(0, Math.max(0, max - 3))}...` : text;
 }
 
 function rankedRows(results) {

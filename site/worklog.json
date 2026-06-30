@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First screen now shows the live proof trail",
+      "why": "ScribeBench explained the workflow, but the public build-in-public signal still lived farther down the page. A skeptical visitor could miss what changed recently, what is still missing, and what can honestly be cited.",
+      "proof": "Added a first-screen Live proof trail that reads the latest worklog entry, current PriMock57 row status, and evidence boundary from the same public JSON assets as the detailed ledger. The README Start here table now names that entry point.",
+      "next": "Keep the first screen alive: every major public change should update the proof trail, not just the lower worklog.",
+      "links": [
+        { "label": "Live proof trail", "href": "#main" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Public work log", "href": "#worklog" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Visitors now get a public action kit",
       "why": "ScribeBench had useful receipts, claim asks, and run plans, but visitors still had to assemble the public-facing language themselves. That made the site feel more like a tool drawer than a build-in-public artifact.",
       "proof": "Added a Public action kit after the evidence ladder with copyable language for a QA post, a vendor evidence ask, and a current-row request. The README now links directly to the kit from Start here.",
