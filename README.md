@@ -84,7 +84,8 @@ read the fabrication verdict, copy a short evidence packet that names the scope,
 models, finding, and next proof step, then copy a fuller QA summary before they
 test their own notes. The judge path requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing
-closed. The public framing is
+closed; the live API also has a compact plain-text fallback for models that keep
+mangling JSON. The public framing is
 deliberately practical: one-note triage in the Lab, system-level evidence through
 PriMock57, and build-in-public updates through GitHub submissions. The Claim
 checker turns vague public/vendor statements such as "hallucination-free" or

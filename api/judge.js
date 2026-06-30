@@ -66,7 +66,13 @@ export default async function handler(req, res) {
   const prompt = buildJudgePrompt(source, note);
 
   try {
-    const judged = await callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt });
+    let judged;
+    try {
+      judged = await callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt });
+    } catch (error) {
+      if (!error.parseFailure) throw error;
+      judged = await callCompactJudgeFallback({ providerConfig, apiKey, model, prompt });
+    }
     const { payload, raw, parsed, repairAttempted } = judged;
     const normalized = normalizeJudgeResult(parsed);
     const result = {
@@ -77,6 +83,7 @@ export default async function handler(req, res) {
       usage: payload.usage || null,
       rubric: 'site-lab-v1',
       repairAttempted,
+      compactFallback: Boolean(judged.compactFallback),
     };
     if (process.env.SCRIBEBENCH_DEBUG_RAW === '1') result.raw = raw;
     return res.status(200).json(result);
@@ -130,7 +137,62 @@ async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }
     }
   }
 
-  throw parseError || new Error('Judge did not return parseable JSON.');
+  const error = parseError || new Error('Judge did not return parseable JSON.');
+  error.parseFailure = true;
+  throw error;
+}
+
+async function callCompactJudgeFallback({ providerConfig, apiKey, model, prompt }) {
+  const response = await fetch(providerConfig.endpoint, {
+    method: 'POST',
+    headers: {
+      authorization: `Bearer ${apiKey}`,
+      'content-type': 'application/json',
+      ...providerConfig.extraHeaders,
+    },
+    body: JSON.stringify({
+      model,
+      temperature: 0,
+      max_tokens: 1200,
+      messages: [
+        { role: 'system', content: compactFallbackSystemPrompt() },
+        { role: 'user', content: prompt },
+      ],
+    }),
+  });
+
+  const payload = await response.json();
+  if (!response.ok) {
+    const message = payload.error?.message || payload.message || `${providerConfig.title} HTTP ${response.status}`;
+    const error = new Error(message);
+    error.status = response.status;
+    error.provider = providerConfig.title;
+    throw error;
+  }
+
+  const raw = payload.choices?.[0]?.message?.content || '';
+  return {
+    payload,
+    raw,
+    parsed: parseCompactJudgeText(raw),
+    repairAttempted: true,
+    compactFallback: true,
+  };
+}
+
+function compactFallbackSystemPrompt() {
+  return `You are a clinical documentation auditor. Score the generated clinical note against the source encounter.
+
+Return exactly this plain-text format, with no markdown and no JSON:
+SCORES: storyCohesion=1; clinicalCompleteness=1; naturalFlow=1; absenceOfArtifacts=1; physicianReadability=1; inputFidelity=1
+DANGEROUS: none
+STANDARD: none
+REASONING: 1-3 concise sentences.
+
+Use scores from 1 to 5.
+Dangerous means unsupported clinical content that changes what the reader believes happened: invented history, labs, vitals, findings, diagnoses, workups, orders, or contradictory plans.
+Standard means conventional charting content that does not change the clinical picture.
+Separate multiple DANGEROUS or STANDARD items with " | ".`;
 }
 
 function repairSystemPrompt(parseError, raw) {
@@ -200,6 +262,50 @@ function normalizeJudgeResult(parsed) {
     },
     reasoning: String(parsed?.reasoning || '').trim(),
   };
+}
+
+export function parseCompactJudgeText(text) {
+  const raw = String(text || '').trim();
+  const dimensions = {
+    storyCohesion: compactScore(raw, ['storyCohesion', 'story']),
+    clinicalCompleteness: compactScore(raw, ['clinicalCompleteness', 'completeness', 'clinical']),
+    naturalFlow: compactScore(raw, ['naturalFlow', 'flow']),
+    absenceOfArtifacts: compactScore(raw, ['absenceOfArtifacts', 'artifacts']),
+    physicianReadability: compactScore(raw, ['physicianReadability', 'readability']),
+    inputFidelity: compactScore(raw, ['inputFidelity', 'fidelity']),
+  };
+
+  return {
+    dimensions,
+    fabrication: {
+      dangerous: compactItems(raw, 'DANGEROUS'),
+      standard: compactItems(raw, 'STANDARD'),
+    },
+    reasoning: compactSection(raw, 'REASONING') || 'Compact fallback returned no reasoning.',
+  };
+}
+
+function compactScore(text, labels) {
+  for (const label of labels) {
+    const pattern = new RegExp(`${label}\\s*[:=]\\s*([1-5])`, 'i');
+    const match = text.match(pattern);
+    if (match) return Number(match[1]);
+  }
+  throw new Error(`Compact judge response missing score for ${labels[0]}.`);
+}
+
+function compactItems(text, label) {
+  const section = compactSection(text, label);
+  if (!section || /^none\.?$/i.test(section)) return [];
+  return section
+    .split(/\s+\|\s+|;\s*/)
+    .map((item) => item.replace(/^[-*]\s*/, '').trim())
+    .filter((item) => item && !/^none\.?$/i.test(item));
+}
+
+function compactSection(text, label) {
+  const pattern = new RegExp(`${label}\\s*:\\s*([\\s\\S]*?)(?=\\n\\s*(?:SCORES|DANGEROUS|STANDARD|REASONING)\\s*:|$)`, 'i');
+  return (text.match(pattern)?.[1] || '').trim();
 }
 
 function clampScore(value) {
