@@ -21,7 +21,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 |-------------------|---------|--------------|
 | Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
-| Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A reader digest separating one-note proof, historical rows, smoke tests, and current-model gaps. |
+| Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Add a citable public row | [Add row](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
 
 The public website is not a consumer app, a patient app, clinical clearance, or
@@ -39,9 +39,9 @@ such as [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu:
 
 ---
 
-## Evidence ledger and leaderboard
+## Evidence ledger, not a current leaderboard
 
-Rank powered PriMock57 runs by **dangerous-fabrication rate** (lower is better), then **narrative mean** (higher is better). Submit your system via PR — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
+The historical table orders powered PriMock57 runs by **dangerous-fabrication rate** (lower is better), then **narrative mean** (higher is better), so the failure gradient is visible. It is not a current buying guide. Submit a current system via PR — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
 
 > **Data policy:** the leaderboard stores **aggregate scores only** — never raw model-generated note text. Full candidate notes are published only for open-weight models or your own runs. This respects provider output terms (publishing closed-model outputs as a redistributable dataset is not something we do). The bundled dataset is CC-BY synthetic + PriMock57 only.
 
@@ -83,7 +83,7 @@ system-level result.
 † `SYN-003` carries a deliberate seeded fabrication. The claude-sonnet 33% is a **real** catch — on `SYN-003` it fabricated "arrival via EMS" when the source says the daughter brought the patient in. At n=3 these CIs are wide on purpose; the PriMock57 table above is the substantive board.
 </details>
 
-Submit a real system to take the top spot — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
+Submit a current system to replace the launch baselines with evidence people can actually cite — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
 
 Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marked `claimLevel: "smoke"` are visible for transparency but are not ranked.
 

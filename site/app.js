@@ -488,6 +488,12 @@ function renderEvidenceFreshness(results) {
       : "no powered rows yet";
   }
   setText(
+    "freshness-powered-age",
+    latestPowered
+      ? `${ranked.length} powered launch baseline row${ranked.length === 1 ? "" : "s"}; latest scored ${formatScoredAt(latestPowered.scoredAt)}. Cite as historical failure-gradient evidence, not as today's model ranking.`
+      : "No powered PriMock57 baseline is available yet."
+  );
+  setText(
     "decision-history-proof",
     latestPowered
       ? `${ranked.length} powered launch row${ranked.length === 1 ? "" : "s"}; latest scored ${formatScoredAt(latestPowered.scoredAt)}. Historical baseline, not a current buying guide.`
@@ -507,6 +513,12 @@ function renderEvidenceFreshness(results) {
     latestSmoke
       ? `Latest smoke row: ${formatScoredAt(latestSmoke.scoredAt)}, n=${Number(latestSmoke.n) || "--"} synthetic cases. Useful plumbing proof, not a ranking.`
       : "No smoke row is published yet; start with the Lab or one-note checker."
+  );
+  setText(
+    "freshness-smoke-lane",
+    latestSmoke
+      ? `${formatScoredAt(latestSmoke.scoredAt)} smoke row, n=${Number(latestSmoke.n) || "--"} synthetic cases. Good enough to prove the public path works; not enough to compare systems.`
+      : "No smoke row is published yet; run the Lab smoke path before graduating a candidate to PriMock57."
   );
   renderFreshSmoke(latestSmoke);
 }
@@ -564,6 +576,14 @@ function renderCurrentRun(run) {
     "current-run-copy",
     `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${selected || target} selected cases have generated notes. ${run.rawNotesPolicy || "Raw generated notes are not published."}`
   );
+  setText(
+    "freshness-current-gap",
+    `${scored}/${target} current PriMock57 cases scored; publishable threshold is ${minimumPublishable}+ scored cases with declared system, date, judge, repeats, and exclusions.`
+  );
+  setText(
+    "freshness-next-row",
+    `Resume ${run.system || "the current system"} to at least ${minimumPublishable} scored PriMock57 cases, preferably all ${target}, then publish aggregate scores only.`
+  );
   setText("current-run-generated", `${generated}/${selected || target}`);
   setText("current-run-scored", `${scored}/${target}`);
   setText("current-run-errored", `${errored}/${selected || target}`);
@@ -614,6 +634,8 @@ function renderCurrentRunError() {
   setText("current-run-errored", "--");
   setText("current-run-last-score", "--");
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
+  setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
+  setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
   setElementHtml("decision-current-action", `<a href="#run">Add a fresh powered row</a>`);
   const commandCard = document.getElementById("current-run-command-card");
   if (commandCard) commandCard.hidden = true;

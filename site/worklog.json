@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Evidence rows now carry a freshness receipt",
+      "why": "The site repeatedly warned that old launch rows are not a current leaderboard, but the evidence table still looked enough like a ranking that visitors could miss the point. That made the old-model criticism too easy to repeat.",
+      "proof": "Added a freshness receipt above the evidence rows that separates historical launch baselines, the current-row gap, smoke-test plumbing evidence, and the exact next powered PriMock57 artifact needed. The README evidence section now says evidence ledger, not current leaderboard.",
+      "next": "Use the freshness receipt as the default public answer whenever someone asks whether ScribeBench proves today's best AI scribe.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Submission guide", "href": "https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First receipt now shows the copy-ready QA packet",
       "why": "The checker could produce a useful source-vs-note receipt, but the artifact was mostly hidden behind the copy button. Visitors still had to trust that copying would give them something usable.",
       "proof": "The first-screen checker now renders the copy-ready ScribeBench QA packet on-screen, including scope, case, finding, evidence meaning, flagged issues, next proof step, and reference URL. The README start-here table now promises a copy-ready QA packet instead of a vague receipt.",

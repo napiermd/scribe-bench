@@ -1701,6 +1701,57 @@ h4 {
   line-height: 1.25;
 }
 
+.freshness-receipt {
+  display: grid;
+  grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid rgba(152, 111, 11, 0.32);
+  background: #fff9e8;
+  box-shadow: var(--shadow);
+  margin: 1rem 0;
+  padding: 1rem;
+}
+
+.freshness-receipt-copy {
+  min-width: 0;
+  align-self: start;
+}
+
+.freshness-receipt-copy h3 {
+  font-size: 1.24rem;
+  max-width: 19rem;
+}
+
+.freshness-receipt-copy p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.7rem 0 0;
+}
+
+.freshness-receipt-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.freshness-receipt-grid article {
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: #ffffff;
+  padding: 0.85rem;
+}
+
+.freshness-receipt-grid h3 {
+  font-size: 0.98rem;
+  margin: 0.6rem 0 0;
+}
+
+.freshness-receipt-grid p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.42;
+  margin: 0.52rem 0 0;
+}
+
 .evidence-agenda {
   display: grid;
   grid-template-columns: minmax(0, 0.58fr) minmax(0, 1fr);
@@ -3597,6 +3648,7 @@ h4 {
   .challenge-tool,
   .evidence-decision,
   .evidence-digest,
+  .freshness-receipt,
   .evidence-agenda,
   .historical-baseline-head,
   .current-run-card,
@@ -3618,6 +3670,7 @@ h4 {
   .repo-map-grid,
   .evidence-ladder,
   .evidence-decision-list,
+  .freshness-receipt-grid,
   .run-steps,
   .run-contract,
   .run-output-grid,
