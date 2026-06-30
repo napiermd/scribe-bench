@@ -119,7 +119,7 @@ async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }
       }),
     });
 
-    const payload = await response.json();
+    const payload = await readProviderPayload(response, providerConfig.title);
     if (!response.ok) {
       const message = payload.error?.message || payload.message || `${providerConfig.title} HTTP ${response.status}`;
       const error = new Error(message);
@@ -143,41 +143,50 @@ async function callJudgeWithJsonRepair({ providerConfig, apiKey, model, prompt }
 }
 
 async function callCompactJudgeFallback({ providerConfig, apiKey, model, prompt }) {
-  const response = await fetch(providerConfig.endpoint, {
-    method: 'POST',
-    headers: {
-      authorization: `Bearer ${apiKey}`,
-      'content-type': 'application/json',
-      ...providerConfig.extraHeaders,
-    },
-    body: JSON.stringify({
-      model,
-      temperature: 0,
-      max_tokens: 1200,
-      messages: [
-        { role: 'system', content: compactFallbackSystemPrompt() },
-        { role: 'user', content: prompt },
-      ],
-    }),
-  });
+  let lastError;
+  for (let attempt = 0; attempt < 2; attempt++) {
+    const response = await fetch(providerConfig.endpoint, {
+      method: 'POST',
+      headers: {
+        authorization: `Bearer ${apiKey}`,
+        'content-type': 'application/json',
+        ...providerConfig.extraHeaders,
+      },
+      body: JSON.stringify({
+        model,
+        temperature: 0,
+        max_tokens: 1200,
+        messages: [
+          { role: 'system', content: compactFallbackSystemPrompt() },
+          { role: 'user', content: prompt },
+        ],
+      }),
+    });
 
-  const payload = await response.json();
-  if (!response.ok) {
-    const message = payload.error?.message || payload.message || `${providerConfig.title} HTTP ${response.status}`;
-    const error = new Error(message);
-    error.status = response.status;
-    error.provider = providerConfig.title;
-    throw error;
+    const payload = await readProviderPayload(response, providerConfig.title);
+    if (!response.ok) {
+      const message = payload.error?.message || payload.message || `${providerConfig.title} HTTP ${response.status}`;
+      const error = new Error(message);
+      error.status = response.status;
+      error.provider = providerConfig.title;
+      throw error;
+    }
+
+    const raw = payload.choices?.[0]?.message?.content || '';
+    try {
+      return {
+        payload,
+        raw,
+        parsed: parseCompactJudgeText(raw),
+        repairAttempted: true,
+        compactFallback: true,
+      };
+    } catch (error) {
+      lastError = error;
+    }
   }
 
-  const raw = payload.choices?.[0]?.message?.content || '';
-  return {
-    payload,
-    raw,
-    parsed: parseCompactJudgeText(raw),
-    repairAttempted: true,
-    compactFallback: true,
-  };
+  throw lastError || new Error('Compact judge fallback did not return parseable text.');
 }
 
 function compactFallbackSystemPrompt() {
@@ -210,6 +219,20 @@ function normalizeProvider(value) {
 
 function firstHeader(value) {
   return Array.isArray(value) ? value[0] : value;
+}
+
+async function readProviderPayload(response, providerTitle) {
+  const raw = await response.text();
+  if (!raw) return {};
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    return {
+      error: {
+        message: `${providerTitle} returned a non-JSON response: ${raw.slice(0, 300)}`,
+      },
+    };
+  }
 }
 
 const ScribeBenchSystemPrompt = `You are a clinical documentation auditor. Score the generated clinical note against the source encounter.
