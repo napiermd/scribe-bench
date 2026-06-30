@@ -873,6 +873,65 @@ h4 {
   margin: 0;
 }
 
+.origin-section {
+  padding-top: 54px;
+}
+
+.origin-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.28fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.origin-card {
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.origin-primary {
+  border-color: rgba(15, 118, 110, 0.32);
+  background: #eef8f5;
+}
+
+.origin-card h3 {
+  font-size: 1.18rem;
+  max-width: 34rem;
+}
+
+.origin-card p {
+  color: var(--muted);
+  font-size: 0.94rem;
+  margin: 0;
+}
+
+.origin-card span:not(.queue-status) {
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.origin-card strong {
+  display: block;
+  font-size: 0.96rem;
+  line-height: 1.28;
+}
+
+.origin-card a {
+  align-self: end;
+  color: var(--accent-strong);
+  font-size: 0.9rem;
+  font-weight: 850;
+  margin-top: 0.2rem;
+}
+
 .repo-map-section {
   padding-top: 54px;
 }
@@ -3253,6 +3312,7 @@ h4 {
 
   .method-cards,
   .after-receipt-grid,
+  .origin-grid,
   .repo-map-grid,
   .evidence-ladder,
   .evidence-decision-list,

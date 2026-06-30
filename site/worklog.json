@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "NapierMD context made visible",
+      "why": "ScribeBench still felt too detached from the broader NapierMD build-in-public story, with the clinical-AI provenance hidden in the footer.",
+      "proof": "Added a Why this exists section that ties the benchmark to NapierMD's after-the-demo clinical AI lane: ScribeBench is not the scribe product, it is the public pressure test for whether a signed note stays true to the source.",
+      "next": "Keep connecting each public artifact to the real visitor question it answers: can this note or system be trusted, cited, or compared?",
+      "links": [
+        { "label": "Why this exists", "href": "#why-this-exists" },
+        { "label": "NapierMD clinical AI", "href": "https://napiermd.me/work#clinical-ai" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "First screen turned into visitor jobs",
       "why": "The top of the site still read partly like positioning copy, so a first-time visitor had to assemble what the repo was for from several later sections.",
       "proof": "Replaced the abstract For/Does/Why strip with three concrete jobs: check one note, challenge a claim, or publish aggregate evidence. The first screen now names the seeded CT/syncope catch and separates one-note QA from system-level proof.",

@@ -84,7 +84,8 @@ The first screen now states the product through concrete visitor jobs:
 
 The site gives non-repo visitors a walk-up
 experience: a job-oriented first screen, a working source-vs-note checker, an evidence
-ladder, a powered PriMock57 leaderboard, a public claim checker, a current-model
+ladder, a NapierMD context section that explains why the project exists after
+the demo, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
 snapshot, synthetic demo case receipt viewer, methodology summary, live generate-and-judge
 lab, and run-it-yourself submission path. The homepage now answers the product
@@ -101,7 +102,9 @@ carries findings and next proof steps without copying raw encounter text. The ne
 section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a
-system-level claim. The Evidence section now opens with what the evidence can prove
+system-level claim. The Why section ties ScribeBench back to the NapierMD clinical
+AI lane: this is not the scribe product, it is the public pressure test for whether
+the signed note stays true to the source. The Evidence section now opens with what the evidence can prove
 today: historical powered launch baselines, fresh smoke and one-note QA checks,
 and the still-missing current powered rows. It now starts with a decision matrix
 that maps common visitor intents to what they can honestly claim, the current proof
