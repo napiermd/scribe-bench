@@ -68,12 +68,11 @@ async function loadJson(path) {
 
 function renderSnapshot(results, metadata) {
   const ranked = rankedRows(results);
-  const systems = new Set(ranked.map((r) => r.system)).size;
   const inferredCases = Math.max(...ranked.map((r) => Number(r.n) || 0), 0);
   const cases = (metadata.caseCounts?.primock57 ?? inferredCases) || "--";
   const metrics = document.querySelectorAll("#snapshot-metrics dd");
   metrics[0].textContent = String(cases);
-  metrics[1].textContent = String(systems);
+  metrics[1].textContent = String(ranked.length);
 }
 
 function renderLeaderboard(results) {

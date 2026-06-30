@@ -2,14 +2,16 @@
 
 ![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 62](https://img.shields.io/badge/tests-62%20passing-brightgreen)
 
-**A fidelity benchmark for clinical documentation AI.**
+**A public workbench for finding invented care in AI-generated clinical notes.**
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
-The public website is not a consumer app or a model popularity contest. It is the
-public face of the evaluation harness: inspect the claim, see what dangerous
-fabrication looks like, run a single-note lab check, and find the powered
-PriMock57 command needed to submit a current model.
+The public website is not a consumer app or a model popularity contest. It gives
+visitors three concrete paths:
+
+1. **Evaluate an AI scribe:** inspect a seeded failure case and see why fluent notes can still be unsafe.
+2. **Test a pipeline:** paste one source encounter and generated note into the live lab for a quick triage check.
+3. **Add evidence:** generate PriMock57 notes, run the harness, and submit aggregate powered scores.
 
 Hallucination-and-omission scoring for clinical notes is not new — [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu established it. ScribeBench adds two things they don't:
 
@@ -21,11 +23,13 @@ Hallucination-and-omission scoring for clinical notes is not new — [ACI-Bench]
 
 ---
 
-## Leaderboard
+## Evidence ledger and leaderboard
 
 Rank powered PriMock57 runs by **dangerous-fabrication rate** (lower is better), then **narrative mean** (higher is better). Submit your system via PR — see [`leaderboard/SUBMISSION.md`](leaderboard/SUBMISSION.md).
 
 > **Data policy:** the leaderboard stores **aggregate scores only** — never raw model-generated note text. Full candidate notes are published only for open-weight models or your own runs. This respects provider output terms (publishing closed-model outputs as a redistributable dataset is not something we do). The bundled dataset is CC-BY synthetic + PriMock57 only.
+
+The current ranked rows are **historical launch baselines from June 2, 2026**. They prove the powered PriMock57 path and show the failure gradient, but they are not a current buying guide. The next public work is to add current production, frontier, open-weight, and vendor-system rows as powered PriMock57 runs.
 
 | System | Dataset | n | Narrative ↑ (95% CI) | Fidelity ↑ | Dangerous-fab ↓ (95% CI) | Leak ↓ | Judge |
 |--------|---------|---|----------------------|-----------|--------------------------|--------|-------|
@@ -54,11 +58,12 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 
 ## Public website
 
-This repo now builds a static public ScribeBench site for Vercel, currently live
-at `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up experience:
-a powered PriMock57 leaderboard, a separate not-ranked synthetic smoke-test table,
-benchmark snapshot, synthetic demo case viewer, methodology summary, live lab,
-and run-it-yourself instructions.
+This repo builds a static public ScribeBench site for Vercel, currently live at
+`https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
+experience: role-based entry points, an evidence ledger, a powered PriMock57
+leaderboard, a separate not-ranked synthetic smoke-test table, benchmark snapshot,
+synthetic demo case viewer, methodology summary, live lab, and run-it-yourself
+submission path.
 
 ```bash
 npm run build

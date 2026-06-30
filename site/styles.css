@@ -87,6 +87,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 1.5rem;
+  min-width: 0;
 }
 
 .brand {
@@ -131,6 +132,7 @@ button {
   color: var(--muted);
   font-size: 0.92rem;
   flex-wrap: wrap;
+  min-width: 0;
 }
 
 .nav a {
@@ -155,6 +157,7 @@ button {
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: var(--shadow);
+  min-width: 0;
 }
 
 .intro-panel {
@@ -289,22 +292,73 @@ h4 {
   padding-top: 48px;
 }
 
-.purpose-grid {
+.job-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
 }
 
-.purpose-grid article {
-  border-top: 3px solid var(--accent);
+.job-grid article {
+  display: grid;
+  align-content: start;
+  gap: 0.6rem;
+  border: 1px solid var(--line);
   background: var(--panel);
   padding: 1rem;
   box-shadow: var(--shadow);
+  min-height: 245px;
 }
 
-.purpose-grid p {
+.job-number {
+  display: inline-flex;
+  width: fit-content;
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.job-grid p {
   color: var(--muted);
-  margin-bottom: 0;
+  margin: 0;
+}
+
+.job-grid a {
+  align-self: end;
+  font-weight: 850;
+  margin-top: 0.25rem;
+}
+
+.ledger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 1rem;
+}
+
+.ledger-grid article {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 1rem;
+}
+
+.ledger-grid strong {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.74rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.45rem;
+}
+
+.ledger-grid h3 {
+  font-size: 1.08rem;
+}
+
+.ledger-grid p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0.55rem 0 0;
 }
 
 .notice-band {
@@ -851,6 +905,41 @@ h4 {
   color: var(--muted);
 }
 
+.run-steps {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.run-steps article {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 0.9rem;
+}
+
+.run-steps span {
+  display: inline-grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  color: var(--accent-strong);
+  font-family: var(--mono);
+  font-weight: 900;
+  margin-bottom: 0.7rem;
+}
+
+.run-steps h3 {
+  font-size: 1rem;
+}
+
+.run-steps p {
+  margin: 0.45rem 0 0;
+  font-size: 0.92rem;
+}
+
 .command-stack {
   display: grid;
   gap: 12px;
@@ -924,7 +1013,9 @@ h4 {
   }
 
   .method-cards,
-  .purpose-grid,
+  .job-grid,
+  .ledger-grid,
+  .run-steps,
   .field-row,
   .field-row.lab-model-row,
   .lab-textareas,
@@ -945,6 +1036,7 @@ h4 {
   .nav {
     justify-content: flex-start;
     gap: 0.75rem;
+    width: 100%;
   }
 
   .brand {

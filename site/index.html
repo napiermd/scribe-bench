@@ -31,8 +31,8 @@
           </span>
         </a>
         <nav class="nav" aria-label="Primary navigation">
-          <a href="#purpose">Purpose</a>
-          <a href="#leaderboard">Leaderboard</a>
+          <a href="#purpose">Use cases</a>
+          <a href="#leaderboard">Evidence</a>
           <a href="#lab">Lab</a>
           <a href="#demo">Demo case</a>
           <a href="#method">Method</a>
@@ -46,25 +46,25 @@
       <section class="summary-band">
         <div class="wrap summary-grid">
           <div class="intro-panel">
-            <p class="eyebrow">Released June 2026</p>
-            <h1>A public audit bench for AI scribe fidelity.</h1>
+            <p class="eyebrow">Build-in-public clinical AI benchmark</p>
+            <h1>Find out if an AI scribe invented care.</h1>
             <p class="lede">
-              ScribeBench exists to answer one practical question: did the generated note
-              preserve the source encounter, or did it invent care that never happened?
-              Clinicians can inspect failure modes; builders can run the harness and submit
-              powered rows.
+              ScribeBench is a public workbench for testing generated clinical notes against
+              the encounter they came from. Start with the seeded failure case, try the live
+              single-note lab, then run PriMock57 to publish a real powered row.
             </p>
             <div class="actions">
-              <a class="button primary" href="#leaderboard">View leaderboard</a>
-              <a class="button secondary" href="#lab">Score a note</a>
+              <a class="button primary" href="#demo">Inspect seeded failure</a>
+              <a class="button secondary" href="#lab">Run note check</a>
+              <a class="button secondary" href="#run">Submit powered row</a>
             </div>
           </div>
 
           <section class="scoreboard" aria-labelledby="scoreboard-title">
             <div class="section-head compact">
               <div>
-                <p class="eyebrow">Current public artifact</p>
-                <h2 id="scoreboard-title">Benchmark snapshot</h2>
+                <p class="eyebrow">Current public evidence</p>
+                <h2 id="scoreboard-title">What is proven so far</h2>
               </div>
             </div>
             <dl class="metric-grid" id="snapshot-metrics">
@@ -73,12 +73,12 @@
                 <dd>--</dd>
               </div>
               <div>
-                <dt>Ranked systems</dt>
+                <dt>Powered rows</dt>
                 <dd>--</dd>
               </div>
               <div>
                 <dt>Primary metric</dt>
-                <dd>Dangerous fab</dd>
+                <dd>Invented care</dd>
               </div>
               <div>
                 <dt>Data policy</dt>
@@ -106,28 +106,34 @@
       <section class="wrap section purpose-section" id="purpose">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Why this exists</p>
-            <h2>Not a consumer app. Not a model popularity contest.</h2>
+            <p class="eyebrow">What visitors can do</p>
+            <h2>Three practical jobs, one benchmark.</h2>
             <p>
-              The website is the public face of an evaluation harness for clinical AI scribes.
-              A visitor should be able to see the benchmark claim, inspect what a dangerous
-              fabrication looks like, run a single-note lab check, and find the exact command
-              for a real PriMock57 benchmark run.
+              This is not a consumer documentation product and it is not trying to crown a
+              favorite model from stale launch rows. It is a public testing surface for a
+              specific question: did the generated note preserve the clinical encounter, or
+              did it invent something that changes care?
             </p>
           </div>
         </div>
-        <div class="purpose-grid">
+        <div class="job-grid">
           <article>
-            <h3>For clinicians and buyers</h3>
-            <p>See why fluent notes are not enough: unsupported CTs, diagnoses, orders, and workups can look polished while changing care.</p>
+            <span class="job-number">01</span>
+            <h3>Evaluate an AI scribe</h3>
+            <p>Use the demo and evidence table to see why polished notes can still be unsafe when they invent CTs, diagnoses, orders, or workups.</p>
+            <a href="#demo">Start with the seeded failure</a>
           </article>
           <article>
-            <h3>For builders</h3>
-            <p>Run the scoring harness on your generated notes, then submit aggregate scores without publishing closed-model note text.</p>
+            <span class="job-number">02</span>
+            <h3>Test your pipeline</h3>
+            <p>Paste one source and note into the lab for a quick check, then run the repo on PriMock57 before making any public claim.</p>
+            <a href="#lab">Run the live lab</a>
           </article>
           <article>
-            <h3>For the public record</h3>
-            <p>Separate real powered runs from smoke tests, state the judge model, and make every leaderboard row auditable.</p>
+            <span class="job-number">03</span>
+            <h3>Add current evidence</h3>
+            <p>Generate notes for the public PriMock57 cases, score them with a declared judge, and submit aggregate results through GitHub.</p>
+            <a href="#run">See the submission path</a>
           </article>
         </div>
       </section>
@@ -135,22 +141,39 @@
       <section class="wrap section" id="leaderboard">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Launch baselines</p>
-            <h2>PriMock57 powered rows, not a current market ranking</h2>
+            <p class="eyebrow">Evidence ledger</p>
+            <h2>Ranked evidence now, current-model gaps next.</h2>
             <p>
-              These n=57 rows prove the benchmark path and show the failure gradient from
-              the launch baselines. They are not meant to claim that GPT-4o, GPT-4.1, or
-              older Claude rows are the models people should use today. Current-model rows
-              should be added through powered PriMock57 runs using the backend commands below.
+              The ranked table currently contains n=57 PriMock57 launch baselines from
+              June 2, 2026. Treat them as proof that the harness works and as historical
+              evidence of the failure gradient, not as a buying guide. The public work now
+              is to add current production and open-model rows through powered PriMock57 runs.
             </p>
           </div>
           <a class="text-link" href="/assets/results.json">Raw results JSON</a>
         </div>
+        <div class="ledger-grid" aria-label="Evidence status">
+          <article>
+            <strong>Ranked</strong>
+            <h3>Powered PriMock57 rows</h3>
+            <p>57 public consults, repeats declared, judge declared, aggregate scores only. These can support a public benchmark claim.</p>
+          </article>
+          <article>
+            <strong>Visible, not ranked</strong>
+            <h3>Synthetic smoke tests</h3>
+            <p>Three bundled cases that prove the scoring path and demo behavior. Useful for plumbing, too small for claims.</p>
+          </article>
+          <article>
+            <strong>Missing on purpose</strong>
+            <h3>Current model runs</h3>
+            <p>The next worthwhile work is adding current frontier, open-weight, and vendor-system rows without mixing them into old baselines.</p>
+          </article>
+        </div>
         <div class="notice-band">
-          <strong>What visitors should do here:</strong>
-          inspect the ranked powered rows as historical baselines, use the demo to understand
-          dangerous fabrication, then run or submit a current model on PriMock57. The site is
-          useful only when smoke tests, launch baselines, and current powered rows stay separate.
+          <strong>No current-model crown yet:</strong>
+          the old GPT-4o and launch Claude rows stay visible as historical baselines because
+          deleting them would hide evidence. They should be beaten, replaced, and contextualized
+          by new powered runs.
         </div>
         <div class="leaderboard-shell">
           <table class="leaderboard-table">
@@ -218,8 +241,8 @@
             <p>
               Paste a source encounter and generated note, choose a provider/model, and run
               a fast ScribeBench-style check for narrative quality, fidelity, fabrications, and leaks.
-              The lab is exploratory and single-pass; leaderboard rows use fixed datasets,
-              repeats, and aggregate confidence intervals.
+              This is a useful triage tool, not leaderboard evidence. Public rows use fixed
+              datasets, repeats, and aggregate confidence intervals.
             </p>
           </div>
           <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
@@ -330,8 +353,9 @@
             <p class="eyebrow">Walk-up demo</p>
             <h2>Inspect what the benchmark catches</h2>
             <p>
-              The demo uses the bundled synthetic candidate. One case intentionally inserts
-              a false head CT and syncope workup so the fabrication judge has something to find.
+              The demo uses the bundled synthetic candidate. The important moment is not the
+              score; it is seeing a fluent note invent a head CT and syncope workup even though
+              the source rules both out.
             </p>
           </div>
         </div>
@@ -407,7 +431,31 @@
             row should come from the powered PriMock57 run with aggregate scores only.
           </p>
         </div>
+        <div class="run-steps" aria-label="Submission path">
+          <article>
+            <span>1</span>
+            <h3>Generate notes</h3>
+            <p>Run your scribe over every PriMock57 case and save a JSON array with each case ID and generated note.</p>
+          </article>
+          <article>
+            <span>2</span>
+            <h3>Score the run</h3>
+            <p>Use a declared judge backend and model. The output summary is what belongs in the public ledger.</p>
+          </article>
+          <article>
+            <span>3</span>
+            <h3>Open a PR</h3>
+            <p>Submit aggregate scores, judge details, generation method, and whether the system was tuned to the benchmark.</p>
+          </article>
+        </div>
         <div class="command-stack">
+          <article>
+            <h3>Candidate note format</h3>
+            <pre class="code-block"><code>[
+  { "caseId": "PM57-d1c01", "note": "HPI: ..." },
+  { "caseId": "PM57-d1c02", "note": "HPI: ..." }
+]</code></pre>
+          </article>
           <article>
             <h3>Powered leaderboard run</h3>
             <pre class="code-block"><code>npm install
