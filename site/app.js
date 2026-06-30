@@ -1,3 +1,5 @@
+import { runLocalReceipt as buildLocalReceipt } from "./local_receipt.js";
+
 const fmtPercent = (value) => `${(value * 100).toFixed(value === 0 ? 0 : 1)}%`;
 const fmtCI = (ci, percent = false) => {
   if (!Array.isArray(ci) || ci.length !== 2) return "";
@@ -817,9 +819,11 @@ function bindLab() {
   document.getElementById("load-seeded-lab")?.addEventListener("click", loadSeededLab);
   document.getElementById("lab-empty-load-demo")?.addEventListener("click", loadSeededLab);
   document.getElementById("lab-empty-run")?.addEventListener("click", () => document.getElementById("lab-form")?.requestSubmit());
+  document.getElementById("lab-empty-local")?.addEventListener("click", runLocalReceipt);
   document.getElementById("show-seeded-verdict")?.addEventListener("click", loadSeededLab);
   document.getElementById("refresh-models")?.addEventListener("click", () => loadLabModels(true));
   document.getElementById("generate-note")?.addEventListener("click", generateCandidateNote);
+  document.getElementById("run-local-receipt")?.addEventListener("click", runLocalReceipt);
   liveSmokeButtons().forEach((button) => button.addEventListener("click", runLiveSmokeCheck));
   document.getElementById("copy-evidence-packet")?.addEventListener("click", copyEvidencePacket);
   document.getElementById("copy-lab-summary")?.addEventListener("click", copyLabSummary);
@@ -1094,6 +1098,31 @@ async function runLabJudge(event) {
   }
 }
 
+function runLocalReceipt(event) {
+  event?.preventDefault?.();
+  const sourceEl = document.getElementById("lab-source");
+  const noteEl = document.getElementById("lab-note");
+  const source = sourceEl.value.trim();
+  const note = noteEl.value.trim();
+
+  if (!source || !note) {
+    setLabStatus("Source and note are required for the local receipt.");
+    updateLabEmptyForInputs();
+    return null;
+  }
+
+  const result = buildLocalReceipt(source, note, {
+    generatedModel: noteEl.dataset.generatedModel || "",
+    caseId: sourceEl.dataset.caseId || "",
+    caseType: sourceEl.dataset.caseType || "",
+    sourceChars: source.length,
+    noteChars: note.length,
+  });
+  renderLabResult(result);
+  setLabStatus("Local receipt complete. No API key or network call used.");
+  return result;
+}
+
 async function runLiveSmokeCheck() {
   const c = seededCase();
   if (!c) {
@@ -1227,8 +1256,8 @@ function updateLabEmptyForInputs() {
   if (source && note) {
     setLabEmptyState(
       "Ready to judge",
-      "Run the live judge to get a verdict, flagged unsupported claims, leak scan, and copyable QA summary.",
-      "Edit either text area anytime; stale results clear automatically."
+      "Run the local receipt for an instant no-key triage result, or run the live judge for model-backed scoring.",
+      "Both paths return flagged unsupported claims, leak scan, and a copyable QA summary."
     );
     return;
   }
@@ -1244,7 +1273,7 @@ function renderLabVerdict(result) {
   const leakCount = result.leaks?.filter(Boolean).length || 0;
   const fidelity = Number(result.dimensions?.inputFidelity || 0);
   const normalized = Number(result.normalized || 0);
-  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized });
+  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
   const card = document.getElementById("lab-verdict-card");
   card.className = `verdict-card ${verdict.tone}`;
   document.getElementById("lab-verdict-title").textContent = verdict.title;
@@ -1252,12 +1281,12 @@ function renderLabVerdict(result) {
   document.getElementById("lab-verdict-action").textContent = verdict.action;
 }
 
-function labVerdict({ dangerousCount, leakCount, fidelity, normalized }) {
+function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult = false }) {
   if (dangerousCount > 0) {
     return {
       tone: "danger",
       title: "Do not trust this note without review",
-      copy: `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} changed what the reader would believe happened.`,
+      copy: `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} ${localResult ? "looked unsupported in the browser-only receipt" : "changed what the reader would believe happened"}.`,
       action: "Compare each flagged item against the source. A system with this pattern needs a powered benchmark run before any public claim.",
     };
   }
@@ -1273,14 +1302,16 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized }) {
     return {
       tone: "review",
       title: "No dangerous fabrication flagged, but quality is not strong",
-      copy: `The judge scored narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
+      copy: `${localResult ? "The browser-only receipt estimated" : "The judge scored"} narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
       action: "Use this as a triage signal, then inspect the note manually or run a larger benchmark before comparing systems.",
     };
   }
   return {
     tone: "ok",
     title: "No dangerous fabrication flagged in this sample",
-    copy: `The judge found no unsupported clinical claims and scored input fidelity at ${fidelity || "--"}/5.`,
+    copy: localResult
+      ? `The browser-only receipt found no obvious unsupported clinical claims and estimated input fidelity at ${fidelity || "--"}/5.`
+      : `The judge found no unsupported clinical claims and scored input fidelity at ${fidelity || "--"}/5.`,
     action: "This is one note, not a leaderboard claim. For a system-level answer, run the powered PriMock57 path.",
   };
 }
@@ -1297,10 +1328,13 @@ function labEvidencePacket(result) {
     leakCount: leaks.length,
     fidelity: Number.isFinite(fidelityValue) ? fidelityValue : 0,
     normalized: Number.isFinite(normalized) ? normalized : 0,
+    localResult: Boolean(result.localResult),
   });
   const scope = result.demoResult
     ? "Static demo"
-    : result.caseId?.startsWith("SYN")
+    : result.localResult
+      ? "Local receipt"
+      : result.caseId?.startsWith("SYN")
       ? "Live smoke"
       : "One-note triage";
   const tone = dangerous.length ? "danger" : leaks.length || Number(normalized) < 70 ? "review" : "ok";
@@ -1308,7 +1342,9 @@ function labEvidencePacket(result) {
     ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}`
     : "Custom pasted source";
   const generator = result.generatedModel || (result.demoResult ? "bundled example candidate" : "pasted candidate note");
-  const judge = `${result.model || "unknown"}${result.provider ? ` via ${result.provider}` : ""}`;
+  const judge = result.localResult
+    ? "browser-only local receipt"
+    : `${result.model || "unknown"}${result.provider ? ` via ${result.provider}` : ""}`;
   const nextStep = result.caseId?.startsWith("SYN") || result.demoResult
     ? "Treat as smoke evidence; run PriMock57 before making a system claim."
     : "Use as QA triage; run a powered benchmark before comparing systems.";
@@ -1378,17 +1414,19 @@ function buildLabSummary(result) {
     leakCount,
     fidelity,
     normalized: Number.isFinite(normalized) ? normalized : 0,
+    localResult: Boolean(result.localResult),
   });
   const lines = [
     "ScribeBench lab result",
     result.demoResult ? "Result type: seeded static demo verdict" : "",
+    result.localResult ? "Result type: browser-only local receipt (no API call; conservative triage)" : "",
     `Verdict: ${verdict.title}`,
     `Narrative score: ${result.normalized ?? "--"}/100`,
     `Input fidelity: ${fidelityDisplay}/5`,
     `Dangerous fabrications: ${dangerousCount}`,
     `Leaks: ${leakCount}`,
     result.generatedModel ? `Generator: ${result.generatedModel}` : "",
-    `Judge: ${result.model || "unknown"}`,
+    `Judge: ${result.localResult ? "browser-only local receipt" : result.model || "unknown"}`,
     result.provider ? `Provider: ${result.provider}` : "",
     result.rubric ? `Rubric: ${result.rubric}` : "",
     result.sourceChars ? `Source length: ${result.sourceChars} chars` : "",

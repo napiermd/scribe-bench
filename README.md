@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 73](https://img.shields.io/badge/tests-73%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 76](https://img.shields.io/badge/tests-76%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -123,7 +123,10 @@ The live Lab can generate a candidate note from the source encounter, then judge
 that note in the same browser flow with a separate judge model. It returns a
 plain-language verdict and next step, not just a raw score, and can copy either
 a short public evidence packet or a detailed QA summary for review notes and
-public discussion. It can use a
+public discussion. The Lab also has a browser-only local receipt that needs no
+API key or network call; it conservatively catches explicit contradictions,
+unsupported common workups, and deterministic template leaks so a visitor can get
+an immediate triage receipt even when free hosted models are slow or capped. It can use a
 Vercel `OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key
 pasted into the browser for that session. Baseten's OpenAI-compatible Model APIs
 are wired as an optional provider and become available when `BASETEN_API_KEY` is

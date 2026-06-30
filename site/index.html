@@ -704,9 +704,9 @@
             <p>
               The seeded failure case opens with a precomputed demo verdict so the failure
               mode is visible immediately: a note invents a head CT and syncope workup that
-              the source rules out. Run the live judge to re-score it with the selected model,
-              or replace the text with your own source and candidate note. This is one-note
-              triage, not leaderboard evidence.
+              the source rules out. Run the local receipt for no-key browser triage, re-score
+              with the selected live judge, or replace the text with your own source and
+              candidate note. This is one-note triage, not leaderboard evidence.
             </p>
           </div>
           <div class="split-actions">
@@ -770,6 +770,7 @@
 
             <div class="lab-actions">
               <button class="button secondary" id="generate-note" type="button">Generate candidate note</button>
+              <button class="button secondary" id="run-local-receipt" type="button">Run local receipt</button>
               <button class="button primary" id="run-lab" type="submit">Run live judge</button>
               <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
@@ -788,7 +789,8 @@
                 Edit either text area anytime; stale results clear automatically.
               </p>
               <div class="lab-empty-actions">
-                <button class="button primary compact-button" id="lab-empty-run" type="button">Run live judge</button>
+                <button class="button primary compact-button" id="lab-empty-local" type="button">Run local receipt</button>
+                <button class="button secondary compact-button" id="lab-empty-run" type="button">Run live judge</button>
                 <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
               </div>
             </div>

@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "No-key local receipt path",
+      "why": "A public usefulness loop cannot depend entirely on free hosted models behaving. Visitors need a meaningful first receipt even when provider keys, quotas, or latency get in the way.",
+      "proof": "Added a browser-only local receipt module, Lab controls, tests, and static build wiring. The local path catches explicit source contradictions, unsupported common workups such as head CT or syncope workup, EMS arrival mismatches, and deterministic template leaks without sending text to any API.",
+      "next": "Use the local receipt as the instant front door, then keep the live judge and powered PriMock57 paths as stronger evidence levels.",
+      "links": [
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Start here", "href": "#main" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "First-visit product router",
       "why": "The site still asked new visitors to understand the benchmark before it told them what job they could do. That made the public project feel abstract and easy to dismiss as AI-benchmark theater.",
       "proof": "Replaced the static first-screen quick paths with a role-based Start Here router for one-note reviewers, buyers or clinical leaders, scribe builders, and evidence contributors. Each route now states what the visitor brings, what they do, what they leave with, and the next click.",

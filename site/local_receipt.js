@@ -1,0 +1,237 @@
+const LEAK_TOKENS = [
+  "icd10cm",
+  "cms:",
+  "codingClinicRef",
+  "defensibilityValue",
+  "source: \"",
+  "system_prompt",
+  "<|",
+  "|>",
+];
+
+const PLACEHOLDER_RE = /\*\([^)\n]{1,60}\)\*/g;
+const PLACEHOLDER_THRESHOLD = 2;
+
+const CLAIM_GROUPS = [
+  {
+    label: "head CT or head imaging",
+    note: [/\b(head|brain|cranial)\s+(ct|scan)\b/i, /\bct\s+(head|brain)\b/i],
+    support: [/\b(head|brain|cranial)\s+(ct|scan)\b/i, /\bct\s+(head|brain)\b/i],
+    contradiction: [/\bno\s+head\s+(strike|injury|trauma)\b/i, /\bdid\s+not\s+(hit|strike)\s+(her\s+|his\s+|their\s+)?head\b/i],
+  },
+  {
+    label: "syncope or loss-of-consciousness workup",
+    note: [/\bsyncope\b/i, /\bsyncopal\b/i, /\bloss\s+of\s+consciousness\b/i, /\bLOC\b/, /\bpassed\s+out\b/i],
+    support: [/\bsyncope\b/i, /\bsyncopal\b/i, /\bloss\s+of\s+consciousness\b/i, /\bLOC\b/, /\bpassed\s+out\b/i],
+    contradiction: [/\bno\s+loss\s+of\s+consciousness\b/i, /\bdid\s+not\s+lose\s+consciousness\b/i, /\bden(y|ies|ied)\s+.*\bloss\s+of\s+consciousness\b/i, /\bno\s+syncope\b/i],
+  },
+  {
+    label: "EMS or ambulance arrival",
+    note: [/\bEMS\b/, /\bambulance\b/i, /\bparamedic/i],
+    support: [/\bEMS\b/, /\bambulance\b/i, /\bparamedic/i],
+    contradiction: [/\bdaughter\s+drove\b/i, /\bdrove\s+(her|him|them)\s+in\b/i, /\bprivate\s+vehicle\b/i, /\bwalk(ed)?\s+in\b/i],
+  },
+  {
+    label: "fever",
+    note: [/\bfever\b/i, /\bfebrile\b/i, /\btemperature\s+(of\s+)?10[01]\b/i],
+    support: [/\bfever\b/i, /\bfebrile\b/i, /\btemperature\s+(of\s+)?10[01]\b/i],
+    contradiction: [/\bno\s+fever\b/i, /\bafebrile\b/i, /\bden(y|ies|ied)\s+.*\bfever\b/i],
+  },
+  {
+    label: "chest pain",
+    note: [/\bchest\s+pain\b/i, /\bsubsternal\b/i],
+    support: [/\bchest\s+pain\b/i, /\bsubsternal\b/i],
+    contradiction: [/\bno\s+chest\s+pain\b/i, /\bden(y|ies|ied)\s+.*\bchest\s+pain\b/i],
+  },
+  {
+    label: "shortness of breath",
+    note: [/\bshort(ness)?\s+of\s+breath\b/i, /\bdyspnea\b/i, /\bSOB\b/],
+    support: [/\bshort(ness)?\s+of\s+breath\b/i, /\bdyspnea\b/i, /\bSOB\b/],
+    contradiction: [/\bno\s+short(ness)?\s+of\s+breath\b/i, /\bden(y|ies|ied)\s+.*\b(shortness\s+of\s+breath|dyspnea|SOB)\b/i],
+  },
+  {
+    label: "dysuria or urinary infection symptoms",
+    note: [/\bdysuria\b/i, /\burinary\s+tract\s+infection\b/i, /\bUTI\b/],
+    support: [/\bdysuria\b/i, /\burinary\s+tract\s+infection\b/i, /\bUTI\b/],
+    contradiction: [/\bno\s+dysuria\b/i, /\bden(y|ies|ied)\s+.*\bdysuria\b/i, /\bno\s+urinary\s+symptoms\b/i],
+  },
+  {
+    label: "anticoagulant or blood-thinner use",
+    note: [/\banticoagul/i, /\bblood\s+thinner/i, /\bwarfarin\b/i, /\beliquis\b/i, /\bxarelto\b/i],
+    support: [/\banticoagul/i, /\bblood\s+thinner/i, /\bwarfarin\b/i, /\beliquis\b/i, /\bxarelto\b/i],
+    contradiction: [/\bno\s+(anticoagulants?|blood\s+thinners?)\b/i, /\bnot\s+on\s+(anticoagulants?|blood\s+thinners?)\b/i],
+  },
+];
+
+const WORKUP_GROUPS = [
+  { label: "syncope workup", pattern: /\bsyncope\s+workup\b/i, support: [/\bsyncope\b/i, /\bloss\s+of\s+consciousness\b/i] },
+  { label: "cardiac workup", pattern: /\b(cardiac|acs)\s+workup\b/i, support: [/\b(chest\s+pain|troponin|ecg|ekg|acs|cardiac)\b/i] },
+  { label: "head injury workup", pattern: /\b(head\s+injury|trauma)\s+workup\b/i, support: [/\b(head\s+injury|head\s+strike|head\s+trauma)\b/i] },
+];
+
+function normalize(text) {
+  return String(text || "").replace(/\s+/g, " ").trim();
+}
+
+function excerptAround(text, index, span = 56) {
+  return normalize(text.slice(Math.max(0, index - span), index + span));
+}
+
+function firstMatch(text, patterns) {
+  for (const pattern of patterns) {
+    const match = pattern.exec(text);
+    if (match) return { match, pattern };
+  }
+  return null;
+}
+
+function hasAny(text, patterns) {
+  return Boolean(firstMatch(text, patterns));
+}
+
+function noteHasPositive(text, patterns) {
+  const sentences = splitSentences(text);
+  for (const sentence of sentences) {
+    if (hasAny(sentence, patterns) && !hasLocalNegation(sentence)) return true;
+  }
+  return false;
+}
+
+function splitSentences(text) {
+  return normalize(text)
+    .split(/(?<=[.!?])\s+|\n+/)
+    .map((sentence) => sentence.trim())
+    .filter(Boolean);
+}
+
+function hasLocalNegation(sentence) {
+  return /\b(no|not|denies|denied|without|negative\s+for|free\s+of)\b/i.test(sentence);
+}
+
+export function detectLocalLeaks(note) {
+  const text = String(note || "");
+  const hits = [];
+  for (const token of LEAK_TOKENS) {
+    const index = text.indexOf(token);
+    if (index >= 0) hits.push({ surface: "note", marker: token, excerpt: excerptAround(text, index) });
+  }
+  const placeholders = text.match(PLACEHOLDER_RE);
+  if (placeholders && placeholders.length >= PLACEHOLDER_THRESHOLD) {
+    const index = text.indexOf(placeholders[0]);
+    hits.push({
+      surface: "note",
+      marker: `raw-template-placeholders x${placeholders.length}`,
+      excerpt: excerptAround(text, index),
+    });
+  }
+  return hits;
+}
+
+export function runLocalReceipt(source, note, metadata = {}) {
+  const sourceText = normalize(source);
+  const noteText = normalize(note);
+  if (!sourceText || !noteText) {
+    return {
+      normalized: 0,
+      dimensions: floorDimensions(),
+      fabrication: { dangerous: [], standard: [] },
+      leaks: detectLocalLeaks(noteText),
+      reasoning: "Local receipt needs both source and candidate note.",
+      model: "browser-local-receipt",
+      provider: "local",
+      rubric: "local-receipt-v1",
+      localResult: true,
+      ...metadata,
+    };
+  }
+
+  const dangerous = [];
+  const standard = [];
+  for (const group of CLAIM_GROUPS) {
+    const noteMatch = noteHasPositive(noteText, group.note);
+    if (!noteMatch) continue;
+    const sourceSupports = hasAny(sourceText, group.support);
+    const sourceContradicts = hasAny(sourceText, group.contradiction);
+    if (sourceContradicts || !sourceSupports) {
+      dangerous.push(
+        sourceContradicts
+          ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+          : `${group.label} appears in the note, but the source does not visibly support it.`
+      );
+    }
+  }
+
+  for (const group of WORKUP_GROUPS) {
+    if (group.pattern.test(noteText) && !hasAny(sourceText, group.support)) {
+      dangerous.push(`${group.label} appears in the note, but the source does not support that workup.`);
+    }
+  }
+
+  const leaks = detectLocalLeaks(noteText);
+  const uniqueDangerous = [...new Set(dangerous)];
+  const overlap = sourceNoteOverlap(sourceText, noteText);
+  const dimensions = localDimensions({ dangerous: uniqueDangerous.length, standard: standard.length, leaks: leaks.length, overlap });
+  const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
+  const normalizedScore = Math.round(((total - 6) / 24) * 100);
+  const reasoning = uniqueDangerous.length
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported clinical claim${uniqueDangerous.length === 1 ? "" : "s"}. It is conservative triage, not a substitute for the live judge.`
+    : leaks.length
+      ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
+      : "Browser-only receipt found no obvious unsupported clinical claim or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+
+  return {
+    normalized: Math.max(0, Math.min(100, normalizedScore)),
+    dimensions,
+    fabrication: { dangerous: uniqueDangerous, standard },
+    leaks,
+    reasoning,
+    model: "browser-local-receipt",
+    provider: "local",
+    rubric: "local-receipt-v1",
+    localResult: true,
+    ...metadata,
+  };
+}
+
+function floorDimensions() {
+  return {
+    storyCohesion: 1,
+    clinicalCompleteness: 1,
+    naturalFlow: 1,
+    absenceOfArtifacts: 1,
+    physicianReadability: 1,
+    inputFidelity: 1,
+  };
+}
+
+function localDimensions({ dangerous, leaks, overlap }) {
+  const fidelity = dangerous ? 2 : overlap < 0.12 ? 3 : 4;
+  const artifacts = leaks ? 2 : dangerous ? 3 : 4;
+  return {
+    storyCohesion: 3,
+    clinicalCompleteness: dangerous ? 3 : 4,
+    naturalFlow: 3,
+    absenceOfArtifacts: artifacts,
+    physicianReadability: dangerous || leaks ? 3 : 4,
+    inputFidelity: fidelity,
+  };
+}
+
+function sourceNoteOverlap(source, note) {
+  const sourceTerms = new Set(contentWords(source));
+  const noteTerms = contentWords(note);
+  if (!sourceTerms.size || !noteTerms.length) return 0;
+  const overlap = noteTerms.filter((word) => sourceTerms.has(word)).length;
+  return overlap / noteTerms.length;
+}
+
+function contentWords(text) {
+  const stop = new Set([
+    "the", "and", "with", "that", "this", "from", "were", "was", "are", "for", "not", "has", "had",
+    "patient", "note", "source", "she", "her", "his", "him", "they", "them", "you", "but", "all",
+  ]);
+  return normalize(text)
+    .toLowerCase()
+    .match(/[a-z][a-z0-9-]{2,}/g)
+    ?.filter((word) => !stop.has(word)) || [];
+}
