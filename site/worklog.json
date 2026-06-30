@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Outputs now converge into one public evidence card",
+      "why": "The site had useful receipt, smoke, and claim-copy actions, but they still felt like separate widgets. A visitor needed one obvious public artifact to leave with.",
+      "proof": "One-note receipts, completed current-smoke packets, and claim asks can now create the same Public evidence card. The card states what happened, the evidence level, the boundary, the next public ask, and exposes one copy-ready block.",
+      "next": "Keep using the public evidence card as the default leave-behind, then reserve powered rows for aggregate claims.",
+      "links": [
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Add powered row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Current smoke now leaves a first-screen packet",
       "why": "The first screen exposed the current-model smoke button, but clicking it still sent visitors into the Lab to understand what happened. That made the live-model path feel like plumbing rather than a public artifact.",
       "proof": "The first-screen smoke action now shows a Current smoke packet with running, blocked, and complete states. A completed smoke summarizes the case, generator, judge, evidence boundary, and copyable packet while the detailed Lab result remains one click away.",

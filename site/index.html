@@ -278,6 +278,53 @@
                 aria-label="ScribeBench source-vs-note QA packet"
               ></textarea>
             </div>
+            <div class="public-evidence-card" id="public-evidence-card" hidden aria-live="polite">
+              <div class="public-evidence-card-head">
+                <span class="queue-status open" id="public-evidence-card-status">Evidence card</span>
+                <div>
+                  <p class="eyebrow">Public evidence card</p>
+                  <h3 id="public-evidence-card-title">Create a public artifact from this result</h3>
+                </div>
+              </div>
+              <p id="public-evidence-card-summary">
+                Check a note, run current smoke, or challenge a claim to create one concise public card.
+              </p>
+              <dl class="public-evidence-card-grid" aria-label="ScribeBench public evidence card">
+                <div>
+                  <dt>What happened</dt>
+                  <dd id="public-evidence-card-happened">--</dd>
+                </div>
+                <div>
+                  <dt>Evidence level</dt>
+                  <dd id="public-evidence-card-level">--</dd>
+                </div>
+                <div>
+                  <dt>Boundary</dt>
+                  <dd id="public-evidence-card-boundary">--</dd>
+                </div>
+                <div>
+                  <dt>Next public ask</dt>
+                  <dd id="public-evidence-card-next">--</dd>
+                </div>
+              </dl>
+              <div class="public-evidence-card-preview">
+                <strong>Copy-ready card</strong>
+                <pre class="code-block"><code id="public-evidence-card-output"></code></pre>
+              </div>
+              <div class="public-evidence-card-actions">
+                <button class="button primary compact-button" id="copy-public-evidence-card" type="button">Copy evidence card</button>
+                <a class="button secondary compact-button" href="#claim-check">Challenge claim</a>
+                <a class="button secondary compact-button" href="#run">Add powered row</a>
+                <span id="public-evidence-card-copy-status" role="status" aria-live="polite"></span>
+              </div>
+              <textarea
+                class="copy-fallback"
+                id="public-evidence-card-copy-fallback"
+                readonly
+                hidden
+                aria-label="ScribeBench public evidence card copy"
+              ></textarea>
+            </div>
           </section>
 
           <div class="start-router" aria-label="Choose a ScribeBench starting point">
@@ -734,6 +781,7 @@ Smoke tests are welcome, but they do not crown a model.</code></pre>
             </label>
             <div class="claim-actions">
               <button class="button secondary compact-button" id="copy-claim-ask" type="button">Copy public ask</button>
+              <button class="button secondary compact-button" id="claim-send-card" type="button">Make evidence card</button>
               <p id="claim-copy-status" role="status" aria-live="polite"></p>
             </div>
             <textarea

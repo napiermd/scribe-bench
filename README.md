@@ -23,6 +23,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 | Try a current free-model smoke | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A first-screen smoke packet from the configured OpenRouter free-model path. Smoke only; not a ranked result. |
 | See what is usable now | [Today's answer](https://scribe-bench.vercel.app/#main) | What one-note receipts can support today, what the current PriMock57 row is missing, and why old rows are not a current winner board. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
+| Share one public artifact | [Public evidence card](https://scribe-bench.vercel.app/#quick-check) | A single copy-ready card created from a note receipt, current smoke packet, or claim ask. |
 | Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Share what ScribeBench found | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a QA post, vendor evidence ask, or current-row request. |
 | Add a citable public row | [Add row](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
@@ -101,7 +102,8 @@ Use the website for five jobs:
 2. **Try a current-model smoke.** Use the first-screen smoke action to generate and judge the seeded case with the configured OpenRouter free-model path. Treat the packet as plumbing evidence, not a ranked result.
 3. **Read today's answer.** The first screen says what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
-5. **Share or publish evidence.** Use the public action kit for copyable QA/vendor/current-row language, then use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
+5. **Share one public card.** Convert a note receipt, current smoke packet, or claim ask into one copy-ready evidence card with what happened, evidence level, boundary, and next public ask.
+6. **Publish aggregate evidence.** Use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
 The site is not the scribe product, not a patient app, not clinical clearance,
 and not a current model buying guide. The historical launch rows prove the harness

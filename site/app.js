@@ -398,6 +398,7 @@ let selectedDemoCase = null;
 let lastQuickResult = null;
 let lastLabResult = null;
 let lastSmokeResult = null;
+let lastPublicEvidenceCard = null;
 
 function byRank(a, b) {
   return (
@@ -960,6 +961,7 @@ function bindClaimChecker() {
     renderClaimCheck();
   });
   document.getElementById("copy-claim-ask")?.addEventListener("click", copyClaimAsk);
+  document.getElementById("claim-send-card")?.addEventListener("click", sendClaimToPublicCard);
   if (!currentClaimText()) applyClaimPreset("vendor-zero");
   else {
     setActiveClaimPreset(matchingClaimPresetKey());
@@ -1057,6 +1059,177 @@ function setClaimCopyStatus(message) {
 
 function setClaimCopyFallback(text) {
   const fallback = document.getElementById("claim-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
+}
+
+function sendClaimToPublicCard() {
+  const guide = selectedClaimGuide();
+  const claim = currentClaimText();
+  renderPublicEvidenceCard(publicEvidenceCardFromClaim(guide, claim), { scroll: true });
+  setClaimCopyStatus("Public evidence card ready.");
+}
+
+function publicEvidenceCardFromClaim(guide, claim) {
+  const claimLine = claim ? `"${shortClaim(claim)}"` : "the pasted AI-scribe claim";
+  return {
+    status: guide.status,
+    statusClass: guide.statusClass,
+    title: "Claim evidence card",
+    summary: `For ${claimLine}, ScribeBench turns the claim into the evidence level it would actually require.`,
+    happened: claim ? `Claim checked: ${shortClaim(claim)}` : "Claim checked from the selected preset.",
+    level: guide.status,
+    boundary: "This is an evidence ask, not proof that the claim is true or false.",
+    next: guide.nextAction,
+    reference: "https://scribe-bench.vercel.app/#claim-check",
+    copyText: [
+      "ScribeBench public evidence card",
+      `Date: ${localDateStamp()}`,
+      "Type: claim evidence ask",
+      claim ? `Claim: ${claim}` : "Claim: [paste exact claim]",
+      `Status: ${guide.status}`,
+      "",
+      `What happened: ${guide.summary}`,
+      `Evidence level needed: ${guide.required}`,
+      `Boundary: This is an evidence ask, not a clinical safety result.`,
+      `Next public ask: ${guide.ask}`,
+      "",
+      "Reference: https://scribe-bench.vercel.app/#claim-check",
+    ].join("\n"),
+  };
+}
+
+function publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueTypes = "" } = {}) {
+  const dangerousCount = cleanStringArray(result?.fabrication?.dangerous).length;
+  const leakCount = cleanStringArray((result?.leaks || []).map(formatLeakHit)).length;
+  const status = dangerousCount ? "QA finding" : leakCount ? "Leak finding" : "Clean triage";
+  const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-note pair";
+  const issueText = dangerousCount
+    ? receiptIssueSentence(result)
+    : leakCount
+      ? `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} flagged.`
+      : "No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged.";
+  const fallbackMeaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes });
+  const effectiveMeaning = meaning || fallbackMeaning;
+  const title = dangerousCount ? "One-note QA evidence card" : "One-note triage evidence card";
+  return {
+    status,
+    statusClass: dangerousCount ? "needed" : leakCount ? "open" : "ready",
+    title,
+    summary: verdict?.copy || issueText,
+    happened: `${caseLabel}: ${issueText}`,
+    level: "One note, browser-only receipt",
+    boundary: effectiveMeaning.cannotSupport,
+    next: effectiveMeaning.useNext,
+    reference: "https://scribe-bench.vercel.app/#quick-check",
+    copyText: [
+      "ScribeBench public evidence card",
+      `Date: ${localDateStamp()}`,
+      "Type: one-note QA receipt",
+      `Case: ${caseLabel}`,
+      `Status: ${status}`,
+      "",
+      `What happened: ${issueText}`,
+      `Can support: ${effectiveMeaning.canSupport}`,
+      `Boundary: ${effectiveMeaning.cannotSupport}`,
+      `Next public ask: ${effectiveMeaning.useNext}`,
+      "",
+      "Reference: https://scribe-bench.vercel.app/#quick-check",
+    ].join("\n"),
+  };
+}
+
+function publicEvidenceCardFromSmokeResult(result, packet = labEvidencePacket(result)) {
+  const status = packet.tone === "danger" ? "Smoke finding" : "Smoke packet";
+  return {
+    status,
+    statusClass: packet.tone === "danger" ? "needed" : packet.tone === "review" ? "open" : "ready",
+    title: "Current-model smoke evidence card",
+    summary: `${packet.finding} This is one seeded synthetic case, so it can prove the public path works but cannot rank a scribe system.`,
+    happened: `${packet.caseLabel}: generated with ${packet.generator}; judged by ${packet.judge}.`,
+    level: packet.scope,
+    boundary: "Smoke only; not a leaderboard row or current buying guide.",
+    next: packet.nextStep,
+    reference: "https://scribe-bench.vercel.app/#quick-check",
+    copyText: [
+      "ScribeBench public evidence card",
+      `Date: ${localDateStamp()}`,
+      "Type: current-model smoke packet",
+      `Case: ${packet.caseLabel}`,
+      `Generator: ${packet.generator}`,
+      `Judge: ${packet.judge}`,
+      `Status: ${status}`,
+      "",
+      `What happened: ${packet.finding}`,
+      `Evidence level: ${packet.scope}`,
+      "Boundary: Smoke only; not a leaderboard row or current buying guide.",
+      `Next public ask: ${packet.nextStep}`,
+      "",
+      "Reference: https://scribe-bench.vercel.app/#quick-check",
+    ].join("\n"),
+  };
+}
+
+function renderPublicEvidenceCard(card, { scroll = false } = {}) {
+  const panel = document.getElementById("public-evidence-card");
+  if (!panel || !card) return;
+  lastPublicEvidenceCard = card;
+  panel.hidden = false;
+  const status = document.getElementById("public-evidence-card-status");
+  if (status) {
+    status.textContent = card.status || "Evidence card";
+    status.className = `queue-status ${card.statusClass || "open"}`;
+  }
+  setText("public-evidence-card-title", card.title || "Public evidence card");
+  setText("public-evidence-card-summary", card.summary || "");
+  setText("public-evidence-card-happened", card.happened || "--");
+  setText("public-evidence-card-level", card.level || "--");
+  setText("public-evidence-card-boundary", card.boundary || "--");
+  setText("public-evidence-card-next", card.next || "--");
+  setText("public-evidence-card-output", card.copyText || buildPublicEvidenceCardText(card));
+  setPublicEvidenceCardCopyStatus("");
+  setPublicEvidenceCardFallback("");
+  if (scroll) scrollToAnchorTarget(panel, { behavior: "smooth" });
+}
+
+function buildPublicEvidenceCardText(card) {
+  return [
+    "ScribeBench public evidence card",
+    `Date: ${localDateStamp()}`,
+    `Status: ${card.status || "Evidence card"}`,
+    "",
+    `What happened: ${card.happened || "--"}`,
+    `Evidence level: ${card.level || "--"}`,
+    `Boundary: ${card.boundary || "--"}`,
+    `Next public ask: ${card.next || "--"}`,
+    card.reference ? `Reference: ${card.reference}` : "",
+  ].filter(Boolean).join("\n");
+}
+
+async function copyPublicEvidenceCard() {
+  if (!lastPublicEvidenceCard) {
+    setPublicEvidenceCardCopyStatus("Create an evidence card first.");
+    return;
+  }
+  const text = lastPublicEvidenceCard.copyText || buildPublicEvidenceCardText(lastPublicEvidenceCard);
+  try {
+    await copyText(text);
+    setPublicEvidenceCardFallback("");
+    setPublicEvidenceCardCopyStatus("Evidence card copied.");
+  } catch (_) {
+    setPublicEvidenceCardFallback(text);
+    setPublicEvidenceCardCopyStatus("Clipboard unavailable. Evidence card shown below.");
+  }
+}
+
+function setPublicEvidenceCardCopyStatus(message) {
+  const status = document.getElementById("public-evidence-card-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setPublicEvidenceCardFallback(text) {
+  const fallback = document.getElementById("public-evidence-card-copy-fallback");
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
@@ -1306,6 +1479,7 @@ function bindQuickCheck() {
   document.getElementById("quick-use-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
   document.getElementById("copy-quick-smoke-packet")?.addEventListener("click", copyQuickSmokePacket);
+  document.getElementById("copy-public-evidence-card")?.addEventListener("click", copyPublicEvidenceCard);
 }
 
 function bindPublicActionKit() {
@@ -1442,6 +1616,7 @@ function renderQuickResult(result) {
   }
   setText("quick-result-next", verdict.action);
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
+  renderPublicEvidenceCard(publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueTypes: receiptIssueTypes(result) }));
 }
 
 function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
@@ -2694,6 +2869,7 @@ function renderQuickSmokeArtifact(result) {
   });
   setQuickSmokeCopyStatus("");
   setQuickSmokeCopyFallback("");
+  renderPublicEvidenceCard(publicEvidenceCardFromSmokeResult(result, packet));
 }
 
 async function copyQuickSmokePacket() {
