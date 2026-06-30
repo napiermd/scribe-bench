@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Research context now points to the live preprint",
+      "why": "The public site said ScribeBench was a reproducibility artifact, but visitors could not reach the actual closed-loop clinical documentation QA paper from the artifact itself. That made the project feel weaker and less grounded than the NapierMD clinical-AI story.",
+      "proof": "Added the medRxiv preprint link and DOI to the README and methodology, added a research-context card to the Why this exists section, and surfaced the preprint from the site header area and footer.",
+      "next": "Keep each public entry point tied to a concrete thing a visitor can read, run, cite, or challenge.",
+      "links": [
+        { "label": "Preprint", "href": "https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1" },
+        { "label": "Why this exists", "href": "#why-this-exists" },
+        { "label": "Methodology", "href": "https://github.com/napiermd/scribe-bench/blob/main/docs/methodology.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Shared links now show the actual product",
       "why": "The site claimed a large social card but shipped no image metadata. A public build-in-public artifact needs to look intentional when linked from NapierMD, GitHub, Slack, or social posts, not like a bare static page.",
       "proof": "The site now publishes an Open Graph and Twitter image using the real first-screen checker screenshot, with alt text and static build copying so Vercel serves the image at /og-image.jpg.",

@@ -26,7 +26,7 @@ such as [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu:
 
 2. **An honest accounting of rater fragility.** In the calibration work behind ScribeBench, three board-certified physicians reviewed the same 36 blind A/B note pairs (84 total ratings). The primary overlapping rater pair agreed at **κ = 0.028** across 35 shared ratings (wide confidence interval), barely above chance. And in the same production data, binary structural completeness correlated with physician preference at **ρ = −0.077** (not significant): the *most complete* note is not the one physicians prefer. If your eval rests on a single rater or a checklist, you are measuring the rater or the checklist, not quality. ScribeBench reports aggregate rates with bootstrap confidence intervals for this reason.
 
-> Companion preprint: *Closed-Loop Quality Assurance for Production Clinical AI Documentation* (link on release). ScribeBench is its open reproducibility artifact. **Disclosure:** authored by a Sayvant co-founder; the judges and rubric are generalized from Sayvant's production QA system. See [Disclosure](#disclosure).
+> Companion preprint: [*Closed-Loop Quality Assurance for Production Clinical AI Documentation*](https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1) (medRxiv, DOI: [10.64898/2026.05.27.26353977v1](https://doi.org/10.64898/2026.05.27.26353977v1)). ScribeBench is its open walk-up artifact: one-note receipts, aggregate evidence rows, and a public contribution path for testing whether AI-scribe notes stay faithful to the source. **Disclosure:** authored by a Sayvant co-founder; the judges and rubric are generalized from Sayvant's production QA system. See [Disclosure](#disclosure).
 
 ---
 

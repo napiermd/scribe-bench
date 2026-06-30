@@ -44,4 +44,4 @@ The implication is not "the judge is bad." It is that **clinical-note preference
 
 ## Provenance
 
-ScribeBench's judges and rubrics were extracted and generalized from a production closed-loop QA system for clinical documentation (companion preprint). The Sayvant-specific clinical conventions, production prompts, and patient data are not part of this repository — only the evaluation methodology and synthetic/public data.
+ScribeBench's judges and rubrics were extracted and generalized from a production closed-loop QA system for clinical documentation, described in the companion preprint [*Closed-Loop Quality Assurance for Production Clinical AI Documentation*](https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1) (DOI: [10.64898/2026.05.27.26353977v1](https://doi.org/10.64898/2026.05.27.26353977v1)). The Sayvant-specific clinical conventions, production prompts, and patient data are not part of this repository -- only the evaluation methodology and synthetic/public data.
