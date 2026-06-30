@@ -30,6 +30,9 @@ import type {
 const DEFAULT_BASE_URL = 'https://scribe-bench.vercel.app';
 const DEFAULT_MODEL = 'nvidia/nemotron-3-ultra-550b-a55b:free';
 const DEFAULT_SYSTEM = 'openrouter-nemotron-3-ultra-public-api';
+const DEFAULT_STATUS_OUT = 'site/current-run.json';
+const RANKED_DATASET = 'primock57';
+const MIN_PUBLISHABLE_CASES = 30;
 const DIM_KEYS: (keyof NarrativeDimensions)[] = [
   'storyCohesion',
   'clinicalCompleteness',
@@ -58,7 +61,7 @@ export type PublicApiJudgment = {
   scoredAt: string;
 };
 
-type PublicApiCaseRecord = {
+export type PublicApiCaseRecord = {
   caseId: string;
   note?: string;
   generatedModel?: string;
@@ -68,7 +71,7 @@ type PublicApiCaseRecord = {
   errors: string[];
 };
 
-type ProgressFile = {
+export type ProgressFile = {
   schemaVersion: 1;
   baseUrl: string;
   dataset: string;
@@ -80,6 +83,39 @@ type ProgressFile = {
   startedAt: string;
   updatedAt: string;
   cases: Record<string, PublicApiCaseRecord>;
+};
+
+export type CurrentRunStatus = {
+  updatedAt: string;
+  title: string;
+  status: string;
+  statusLabel: string;
+  lastAttemptAt: string;
+  system: string;
+  dataset: string;
+  targetCases: number;
+  selectedCases: number;
+  generatedCases: number;
+  scoredCases: number;
+  erroredCases: number;
+  minimumPublishableCases: number;
+  repeats: number;
+  provider: string;
+  generationModel: string;
+  judgeModel: string;
+  lastScoredCase?: {
+    caseId: string;
+    normalized: number;
+    inputFidelity: number;
+    dangerousFabrications: number;
+    standardAssumptions: number;
+  };
+  blocker: string;
+  next: string;
+  unblockAsk: string;
+  resumeCommand: string;
+  rawNotesPolicy: string;
+  links: { label: string; href: string }[];
 };
 
 export function parseArgs(argv: string[]): Args {
@@ -354,6 +390,150 @@ function buildOutput(args: {
   };
 }
 
+export function buildCurrentRunStatus(args: {
+  progress: ProgressFile;
+  selectedCases: BenchmarkCase[];
+  scores: CaseScore[];
+  targetCases: number;
+  baseUrl: string;
+  outPath: string;
+  timeoutMs: number;
+  keyEnv?: string;
+  updatedAt?: string;
+}): CurrentRunStatus {
+  const selectedIds = new Set(args.selectedCases.map((c) => c.id));
+  const records = args.selectedCases.map((c) => ensureRecord(args.progress, c.id));
+  const generated = records.filter((record) => Boolean(record.note)).length;
+  const scored = records.filter((record) => Boolean(record.note) && completeJudgments(record, args.progress.repeats)).length;
+  const errored = records.filter((record) => !completeJudgments(record, args.progress.repeats) && record.errors.length > 0).length;
+  const latestScored = [...args.scores].reverse().find((score) => selectedIds.has(score.caseId) && !score.errored);
+  const latestErrorRecord = latestErroredRecord(records, args.progress.repeats);
+  const latestError = latestErrorRecord ? cleanRunError(latestErrorRecord.errors[latestErrorRecord.errors.length - 1]) : '';
+  const blockedIds = records
+    .filter((record) => !completeJudgments(record, args.progress.repeats) && record.errors.length > 0)
+    .map((record) => record.caseId);
+  const status = scored >= MIN_PUBLISHABLE_CASES ? 'ready' : latestError ? 'needs-credit-or-second-judge' : 'running';
+  const statusLabel = status === 'ready'
+    ? 'Ready for review'
+    : status === 'running'
+      ? 'Running'
+      : 'Needs credits or second judge';
+  const blocker = latestError
+    ? [
+      `Latest public API retry selected ${records.length} ${datasetLabel(args.progress.dataset)} cases through ${args.baseUrl}.`,
+      `${scored}/${records.length} selected cases are scored and ${generated}/${records.length} have generated notes.`,
+      blockedIds.length ? `Blocked cases: ${blockedIds.join(', ')}.` : '',
+      `Latest blocker: ${latestError}.`,
+    ].filter(Boolean).join(' ')
+    : scored >= MIN_PUBLISHABLE_CASES
+      ? `Current public API run has ${scored}/${args.targetCases} scored cases and is ready for aggregate review before publication.`
+      : `Current public API run has ${scored}/${args.targetCases} scored cases and no active blocker recorded. Continue the cached run before making a ranked claim.`;
+
+  return {
+    updatedAt: dateOnly(args.updatedAt || new Date().toISOString()),
+    title: 'Current PriMock57 public API attempt',
+    status,
+    statusLabel,
+    lastAttemptAt: args.progress.updatedAt,
+    system: args.progress.system,
+    dataset: datasetLabel(args.progress.dataset) === RANKED_DATASET ? 'PriMock57' : datasetLabel(args.progress.dataset),
+    targetCases: args.targetCases,
+    selectedCases: records.length,
+    generatedCases: generated,
+    scoredCases: scored,
+    erroredCases: errored,
+    minimumPublishableCases: MIN_PUBLISHABLE_CASES,
+    repeats: args.progress.repeats,
+    provider: args.progress.provider,
+    generationModel: args.progress.generationModel,
+    judgeModel: args.progress.judgeModel,
+    ...(latestScored ? {
+      lastScoredCase: {
+        caseId: latestScored.caseId,
+        normalized: Math.round(latestScored.narrative.normalized),
+        inputFidelity: latestScored.narrative.dimensions.inputFidelity,
+        dangerousFabrications: latestScored.fabrication.dangerous.length,
+        standardAssumptions: latestScored.fabrication.standard.length,
+      },
+    } : {}),
+    blocker,
+    next: scored >= MIN_PUBLISHABLE_CASES
+      ? 'Review exclusions, judge details, confidence intervals, and self-judge limitations before copying the aggregate row into leaderboard/results.json.'
+      : 'Add OpenRouter credits, pass a non-capped local provider key with --key-env, or configure a faster second judge, then resume the cached run toward at least 30 completed PriMock57 cases before publishing any ranked current row.',
+    unblockAsk: scored >= MIN_PUBLISHABLE_CASES
+      ? 'This run has enough scored cases for aggregate review. Verify the method details and publish scores only, not raw closed-model notes.'
+      : `This is not a model result yet: ${scored}/${records.length} attempted cases and ${scored}/${args.targetCases} target cases are scored. Have a non-capped provider key or credits? Keep the key in your shell, resume the public API runner, and publish aggregate scores only after at least 30 PriMock57 cases are scored.`,
+    resumeCommand: buildResumeCommand({
+      baseUrl: args.baseUrl,
+      dataset: args.progress.dataset,
+      system: args.progress.system,
+      repeats: args.progress.repeats,
+      limit: Math.max(records.length, MIN_PUBLISHABLE_CASES),
+      timeoutMs: args.timeoutMs,
+      keyEnv: args.keyEnv || defaultKeyEnv(args.progress.provider),
+      outPath: args.outPath,
+    }),
+    rawNotesPolicy: 'Raw generated notes remain in the ignored local progress cache and are not committed.',
+    links: [
+      { label: 'Runner source', href: 'https://github.com/napiermd/scribe-bench/blob/main/scripts/run_public_api_benchmark.ts' },
+      { label: 'Evidence ledger', href: '#leaderboard' },
+      { label: 'Run builder', href: '#run' },
+    ],
+  };
+}
+
+function completeJudgments(record: PublicApiCaseRecord, repeats: number) {
+  return (record.judgments || []).filter((judgment) => Number.isInteger(judgment.repeat)).length >= repeats;
+}
+
+function latestErroredRecord(records: PublicApiCaseRecord[], repeats: number) {
+  return records
+    .filter((record) => !completeJudgments(record, repeats) && record.errors.length > 0)
+    .sort((a, b) => String(a.errors[a.errors.length - 1]).localeCompare(String(b.errors[b.errors.length - 1])))
+    .at(-1);
+}
+
+function cleanRunError(value = '') {
+  return String(value).replace(/^\d{4}-\d{2}-\d{2}T[^\s]+\s+/, '').trim();
+}
+
+function dateOnly(value: string) {
+  const date = new Date(value);
+  return Number.isNaN(date.getTime()) ? value.slice(0, 10) : date.toISOString().slice(0, 10);
+}
+
+function defaultKeyEnv(provider: string) {
+  return {
+    openrouter: 'OPENROUTER_API_KEY',
+    baseten: 'BASETEN_API_KEY',
+  }[provider] || 'PROVIDER_API_KEY';
+}
+
+function buildResumeCommand(args: {
+  baseUrl: string;
+  dataset: string;
+  system: string;
+  repeats: number;
+  limit: number;
+  timeoutMs: number;
+  keyEnv: string;
+  outPath: string;
+}) {
+  return [
+    `export ${args.keyEnv}=...`,
+    'npm run bench:public-api -- \\',
+    `  --base-url ${args.baseUrl} \\`,
+    `  --dataset ${args.dataset} \\`,
+    `  --system ${args.system} \\`,
+    `  --repeats ${args.repeats} \\`,
+    `  --limit ${args.limit} \\`,
+    `  --timeout ${args.timeoutMs} \\`,
+    `  --key-env ${args.keyEnv} \\`,
+    `  --out ${args.outPath} \\`,
+    `  --status-out ${DEFAULT_STATUS_OUT}`,
+  ].join('\n');
+}
+
 async function main() {
   const args = parseArgs(process.argv.slice(2));
   const baseUrl = String(args['base-url'] || DEFAULT_BASE_URL).replace(/\/$/, '');
@@ -368,8 +548,9 @@ async function main() {
   const progressFile = progressPath(args, system);
   const apiHeaders = providerKeyHeaders(provider, process.env, args['key-env']);
   const callerKeyForwarded = Object.keys(apiHeaders).length > 0;
+  const allCases = loadCases(datasetDir);
+  const cases = selectedCases(allCases, args);
 
-  const cases = selectedCases(loadCases(datasetDir), args);
   const progress = readProgress(progressFile, {
     schemaVersion: 1,
     baseUrl,
@@ -457,9 +638,32 @@ async function main() {
   console.log(`\nWrote ${outPath}`);
   console.log(JSON.stringify(output.summary, null, 2));
 
+  const statusOut = statusOutPath(args, datasetDir);
+  if (statusOut) {
+    const status = buildCurrentRunStatus({
+      progress,
+      selectedCases: cases,
+      scores,
+      targetCases: allCases.length,
+      baseUrl,
+      outPath,
+      timeoutMs,
+      keyEnv: args['key-env'],
+    });
+    fs.mkdirSync(path.dirname(statusOut), { recursive: true });
+    fs.writeFileSync(statusOut, JSON.stringify(status, null, 2) + '\n');
+    console.log(`Wrote ${statusOut}`);
+  }
+
   if (summary.nErrored > 0) {
     process.exitCode = 1;
   }
+}
+
+function statusOutPath(args: Args, datasetDir: string) {
+  if (args['no-status'] === 'true' || args['status-out'] === 'false') return '';
+  if (args['status-out'] && args['status-out'] !== 'true') return args['status-out'];
+  return datasetLabel(datasetDir) === RANKED_DATASET ? DEFAULT_STATUS_OUT : '';
 }
 
 const invokedDirectly = process.argv[1] && /run_public_api_benchmark\.(ts|js)$/.test(process.argv[1]);

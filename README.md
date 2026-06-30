@@ -192,7 +192,8 @@ npm run bench:public-api -- \
   --dataset data/primock57/cases \
   --system current-system-public-api \
   --repeats 1 \
-  --out leaderboard/_public-api-pending.json
+  --out leaderboard/_public-api-pending.json \
+  --status-out site/current-run.json
 ```
 
 By default, the runner forwards a local `OPENROUTER_API_KEY` or `BASETEN_API_KEY`
@@ -201,14 +202,16 @@ MY_OPENROUTER_KEY` to point at a different environment variable. The key is
 never written to the progress cache or pending artifact.
 
 The progress cache lives under `.scribebench-cache/public-api-runs/` so interrupted
-runs can resume. Do not copy a pending row into `leaderboard/results.json` until
-the run has enough completed PriMock57 cases, no unreviewed errors, declared
-model/judge details, and the self-judge/second-judge limitation is disclosed.
-Free OpenRouter models can be slow and quota-limited; when a judge call times out
-or hits the daily cap, the runner records the case as errored/excluded and can
-resume once credits or another judge backend are available. The public site exposes
-that blocker in `/assets/current-run.json` and gives a copyable resume command in
-the Evidence section.
+runs can resume. The runner also writes `site/current-run.json` for PriMock57
+attempts by default, so every retry updates the public status card with the latest
+selected/generated/scored/errored counts and blocker. Do not copy a pending row
+into `leaderboard/results.json` until the run has enough completed PriMock57 cases,
+no unreviewed errors, declared model/judge details, and the self-judge/second-judge
+limitation is disclosed. Free OpenRouter models can be slow and quota-limited; when
+a judge call times out or hits the daily cap, the runner records the case as
+errored/excluded and can resume once credits or another judge backend are available.
+The public site exposes that blocker in `/assets/current-run.json` and gives a
+copyable resume command in the Evidence section.
 
 Current status: on **July 1, 2026 ICT** (**June 30, 2026 20:09 UTC**), the live
 public API runner was retried against the first five PriMock57 cases. PM57-d1c01

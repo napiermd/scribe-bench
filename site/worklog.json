@@ -3,6 +3,19 @@
   "entries": [
     {
       "date": "2026-07-01",
+      "status": "shipped",
+      "title": "Public API retries now update the current-run receipt automatically",
+      "why": "The current-row blocker is the most important evidence gap. Before this, a retry could update the ignored cache and pending artifact while the public status card still needed manual JSON editing.",
+      "proof": "The public API benchmark runner now builds the same current-run status object the website renders, writes site/current-run.json for PriMock57 attempts, includes selected/generated/scored/errored counts, blocked case ids, latest blocker text, last scored case, and a copyable resume command. Focused tests cover the partial-run blocker receipt.",
+      "next": "Use the runner as the single path for future current-row retries, then publish aggregate scores only after at least 30 PriMock57 cases are scored.",
+      "links": [
+        { "label": "Current run status", "href": "#current-run" },
+        { "label": "Runner source", "href": "https://github.com/napiermd/scribe-bench/blob/main/scripts/run_public_api_benchmark.ts" },
+        { "label": "README public API path", "href": "https://github.com/napiermd/scribe-bench#current-public-api-run-path" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
       "status": "open",
       "title": "Current PriMock57 row was retried and is blocked by free-model cap",
       "why": "The biggest remaining weakness is the lack of current powered rows. Leaving the blocker as an old status would make the build-in-public trail feel performative instead of useful.",
