@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Claim checks now point to the evidence artifact that would close them",
+      "why": "The claim checker turned vague AI-scribe language into a public ask, but it still left visitors to infer which ScribeBench artifact would actually satisfy the claim.",
+      "proof": "Each claim type now shows an Evidence path: the closing artifact, what the site can prove today, and the next click. Safety claims route toward powered aggregate rows, one-note claims route to QA packets, comparison claims route to comparable runs, and current-ranking claims route to the blocker or Add Row path.",
+      "next": "Keep connecting every public claim to the artifact that would make it citeable instead of leaving visitors with abstract benchmark advice.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Add row", "href": "#run" },
+        { "label": "Current blocker receipt", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Add Row now starts from what the visitor actually has",
       "why": "The Add Row path was accurate but too benchmark-native. It opened with candidate files, judge backends, and presets before helping a visitor decide whether they had a one-note QA issue, a claim, candidate notes, or a blocked run.",
       "proof": "The Run section now includes a Start from what you have chooser: one source-note pair routes to the checker, a vendor or model claim routes to the claim checker, candidate notes jump into the powered-row builder, and cap/partial-run states route to the current blocker receipt.",

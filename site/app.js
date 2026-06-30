@@ -154,6 +154,53 @@ const claimPresets = {
   },
 };
 
+const claimEvidencePaths = {
+  "vendor-zero": {
+    title: "Close hallucination-free with measured unsupported-care rates.",
+    close:
+      "A powered PriMock57 or declared real-workflow row with n, generator, judge, repeats, dangerous-fabrication rate with CI, leak rate, and tuning disclosure.",
+    current:
+      "ScribeBench can expose one-note failures and host aggregate rows. Current smoke evidence proves plumbing, not safety.",
+    next:
+      "Ask for or build the powered row before repeating the safety claim.",
+    primary: { label: "Open Add Row path", href: "#run" },
+    secondary: { label: "Review current blocker", href: "#current-run" },
+  },
+  "one-note": {
+    title: "Close a one-note claim with a QA packet, not a row.",
+    close:
+      "The source encounter, generated note, flagged unsupported items, excerpts, leak scan, and human clinical review.",
+    current:
+      "The browser checker can create the first QA packet immediately; the Lab can add a model-backed judge pass.",
+    next:
+      "Check the source-note pair, then use human review before trusting the note.",
+    primary: { label: "Check source-note pair", href: "#quick-check-form" },
+    secondary: { label: "Open Lab", href: "#lab" },
+  },
+  "system-better": {
+    title: "Close a comparison with comparable aggregate rows.",
+    close:
+      "Both systems scored on the same cases with the same publication policy, declared judge, repeats, confidence intervals, and method disclosure.",
+    current:
+      "The powered path and challenge planner define the comparison contract; smoke rows cannot decide a winner.",
+    next:
+      "Plan the comparable run, then publish aggregate rows for both systems.",
+    primary: { label: "Copy challenge plan", href: "#current-challenge" },
+    secondary: { label: "Open Add Row path", href: "#run" },
+  },
+  "current-ranking": {
+    title: "Close a current-ranking claim with current powered rows.",
+    close:
+      "Current model, vendor-system, or workflow rows scored on PriMock57 or a declared real-workflow dataset with n, date, judge, repeats, and CIs.",
+    current:
+      "The board has historical launch baselines and a visible current-run blocker. It is not a current buying guide yet.",
+    next:
+      "Review the blocker receipt or add the powered row that would make the ranking claim citeable.",
+    primary: { label: "Review current blocker", href: "#current-run" },
+    secondary: { label: "Open Add Row path", href: "#run" },
+  },
+};
+
 const challengePlans = {
   "frontier-powered": {
     label: "Current system under test",
@@ -1000,12 +1047,21 @@ function selectedClaimGuide() {
   return claimGuides[type] || claimGuides["vendor-zero"];
 }
 
+function selectedClaimType() {
+  return document.getElementById("claim-type")?.value || "vendor-zero";
+}
+
+function selectedClaimEvidencePath(type = selectedClaimType()) {
+  return claimEvidencePaths[type] || claimEvidencePaths["vendor-zero"];
+}
+
 function currentClaimText() {
   return document.getElementById("claim-text")?.value.trim() || "";
 }
 
 function renderClaimCheck() {
   const guide = selectedClaimGuide();
+  const evidencePath = selectedClaimEvidencePath();
   const claim = currentClaimText();
   const status = document.getElementById("claim-status");
   if (status) {
@@ -1018,8 +1074,25 @@ function renderClaimCheck() {
   setText("claim-support", guide.support);
   setText("claim-next-action", guide.nextAction);
   setText("claim-public-ask", buildClaimAsk(guide, claim));
+  renderClaimEvidencePath(evidencePath);
   setClaimCopyStatus("");
   setClaimCopyFallback("");
+}
+
+function renderClaimEvidencePath(path) {
+  setText("claim-evidence-title", path.title);
+  setText("claim-evidence-close", path.close);
+  setText("claim-evidence-current", path.current);
+  setText("claim-evidence-next", path.next);
+  setClaimEvidenceLink("claim-evidence-primary", path.primary);
+  setClaimEvidenceLink("claim-evidence-secondary", path.secondary);
+}
+
+function setClaimEvidenceLink(id, link) {
+  const target = document.getElementById(id);
+  if (!target || !link) return;
+  target.textContent = link.label;
+  target.setAttribute("href", link.href);
 }
 
 function shortClaim(value) {
@@ -1028,6 +1101,7 @@ function shortClaim(value) {
 }
 
 function buildClaimAsk(guide = selectedClaimGuide(), claim = currentClaimText()) {
+  const evidencePath = selectedClaimEvidencePath();
   const claimLine = claim ? `Claim: "${claim}"` : "Claim: [paste the exact public or vendor claim here]";
   return [
     "ScribeBench evidence ask",
@@ -1037,6 +1111,7 @@ function buildClaimAsk(guide = selectedClaimGuide(), claim = currentClaimText())
     guide.ask,
     "",
     `Why: ${guide.summary}`,
+    `Closing artifact: ${evidencePath.close}`,
     `Next step: ${guide.nextAction}`,
     "Reference: https://scribe-bench.vercel.app/#claim-check",
   ].join("\n");
@@ -1075,6 +1150,7 @@ function sendClaimToPublicCard() {
 
 function publicEvidenceCardFromClaim(guide, claim) {
   const claimLine = claim ? `"${shortClaim(claim)}"` : "the pasted AI-scribe claim";
+  const evidencePath = selectedClaimEvidencePath();
   return {
     status: guide.status,
     statusClass: guide.statusClass,
@@ -1094,6 +1170,7 @@ function publicEvidenceCardFromClaim(guide, claim) {
       "",
       `What happened: ${guide.summary}`,
       `Evidence level needed: ${guide.required}`,
+      `Closing artifact: ${evidencePath.close}`,
       `Boundary: This is an evidence ask, not a clinical safety result.`,
       `Next public ask: ${guide.ask}`,
       "",
