@@ -307,6 +307,7 @@ function renderSnapshot(results, metadata) {
   const inferredCases = Math.max(...ranked.map((r) => Number(r.n) || 0), 0);
   const cases = (metadata.caseCounts?.primock57 ?? inferredCases) || "--";
   const metrics = document.querySelectorAll("#snapshot-metrics dd");
+  if (metrics.length < 2) return;
   metrics[0].textContent = String(cases);
   metrics[1].textContent = String(ranked.length);
 }
@@ -632,6 +633,7 @@ function renderCases(cases) {
   if (defaultCase) {
     renderCase(defaultCase);
     populateLab(defaultCase);
+    populateQuickCheck(defaultCase, { run: true });
   }
 }
 
@@ -893,6 +895,109 @@ function setRouteLink(id, link) {
   if (!target || !link) return;
   target.textContent = link.label;
   target.setAttribute("href", link.href);
+}
+
+function bindQuickCheck() {
+  const form = document.getElementById("quick-check-form");
+  if (!form) return;
+  form.addEventListener("submit", runQuickLocalReceipt);
+  document.getElementById("quick-load-seeded")?.addEventListener("click", () => populateQuickCheck(seededCase(), { run: true }));
+  document.getElementById("quick-source")?.addEventListener("input", resetQuickResult);
+  document.getElementById("quick-note")?.addEventListener("input", resetQuickResult);
+}
+
+function populateQuickCheck(c, { run = false } = {}) {
+  if (!c) return null;
+  const source = document.getElementById("quick-source");
+  const note = document.getElementById("quick-note");
+  if (!source || !note) return null;
+  source.value = c.source || "";
+  source.dataset.caseId = c.id || "";
+  source.dataset.caseType = c.provenance || "synthetic";
+  note.value = c.candidateNote || "";
+  note.dataset.generatedModel = "bundled example candidate";
+  setQuickStatus(run ? "Seeded fall case loaded and checked." : "Seeded fall case loaded.", run ? "danger" : "");
+  return run ? runQuickLocalReceipt() : null;
+}
+
+function runQuickLocalReceipt(event) {
+  event?.preventDefault?.();
+  const sourceEl = document.getElementById("quick-source");
+  const noteEl = document.getElementById("quick-note");
+  if (!sourceEl || !noteEl) return null;
+  const source = sourceEl.value.trim();
+  const note = noteEl.value.trim();
+  if (!source || !note) {
+    resetQuickResult();
+    setQuickStatus("Source encounter and generated note are both required.", "review");
+    return null;
+  }
+  const result = buildLocalReceipt(source, note, {
+    generatedModel: noteEl.dataset.generatedModel || "",
+    caseId: sourceEl.dataset.caseId || "",
+    caseType: sourceEl.dataset.caseType || "",
+    sourceChars: source.length,
+    noteChars: note.length,
+  });
+  renderQuickResult(result);
+  const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
+  const leakCount = result.leaks?.filter(Boolean).length || 0;
+  const tone = dangerousCount ? "danger" : leakCount ? "review" : "ok";
+  setQuickStatus(
+    dangerousCount
+      ? `${dangerousCount} unsupported clinical item${dangerousCount === 1 ? "" : "s"} flagged.`
+      : leakCount
+        ? `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} flagged.`
+        : "No obvious unsupported item flagged by the browser receipt.",
+    tone
+  );
+  return result;
+}
+
+function renderQuickResult(result) {
+  const panel = document.getElementById("quick-result");
+  if (!panel) return;
+  panel.hidden = false;
+  const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
+  const leakCount = result.leaks?.filter(Boolean).length || 0;
+  const fidelity = Number(result.dimensions?.inputFidelity || 0);
+  const normalized = Number(result.normalized || 0);
+  const verdict = labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResult: Boolean(result.localResult) });
+  const status = document.getElementById("quick-result-status");
+  if (status) {
+    status.textContent = dangerousCount ? "Review before trust" : leakCount ? "Clean output" : "No obvious issue";
+    status.className = `queue-status ${verdict.tone === "danger" ? "needed" : verdict.tone === "review" ? "open" : "ready"}`;
+  }
+  setText("quick-result-title", verdict.title);
+  setText("quick-result-summary", verdict.copy);
+  const list = document.getElementById("quick-result-list");
+  if (list) {
+    list.innerHTML = "";
+    const items = dangerousCount
+      ? result.fabrication.dangerous
+      : leakCount
+        ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
+        : ["No obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak."];
+    for (const item of items.filter(Boolean)) {
+      const li = document.createElement("li");
+      li.textContent = item;
+      list.appendChild(li);
+    }
+  }
+  setText("quick-result-next", verdict.action);
+}
+
+function resetQuickResult() {
+  const panel = document.getElementById("quick-result");
+  if (panel) panel.hidden = true;
+  setQuickStatus("Ready to run a browser-only receipt.", "");
+}
+
+function setQuickStatus(message, tone = "") {
+  const status = document.getElementById("quick-check-status");
+  if (!status) return;
+  status.textContent = message;
+  status.dataset.tone = tone;
 }
 
 function escapeHtml(value) {
@@ -1923,6 +2028,7 @@ function setRunCopyFallback(text) {
 
 async function boot() {
   bindStartRouter();
+  bindQuickCheck();
   bindPublicStatus();
   bindCurrentRunCommand();
   bindClaimChecker();

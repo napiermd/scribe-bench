@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "First-screen note checker",
+      "why": "The public site still felt too much like a benchmark brochure. A visitor should understand the point by checking a note immediately, not by decoding PriMock57, smoke rows, and challenge language first.",
+      "proof": "Replaced the right-side receipt preview with a working browser-only source-vs-note checker, preloaded and scored the seeded SYN-003 fall case on first load, simplified the hero into who/what/not-proven statements, and shifted the visual tone toward a quieter clinical QA tool.",
+      "next": "Use the first-screen checker as the front door, then keep the deeper Lab, claim checker, and powered PriMock57 runner as stronger evidence levels.",
+      "links": [
+        { "label": "Check one note", "href": "#main" },
+        { "label": "Open full Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Structured no-key receipt checks",
       "why": "Provider quotas still block the first current powered PriMock57 row, so the public site should become more useful even before a visitor supplies a key or credits.",
       "proof": "Expanded the browser-only local receipt to catch high-confidence age mismatches, sex/gender mismatches, left-right body-part mismatches, and allergy contradictions alongside the existing contradiction, workup, transport, and leak checks. Added focused tests for both catches and non-catches, and updated the site copy to name the no-key checks plainly.",

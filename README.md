@@ -75,23 +75,21 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
-experience: a receipt-first homepage, a first-screen Start Here router, an evidence
+experience: a working first-screen source-vs-note checker, an evidence
 ledger, a public status receipt, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
 snapshot, synthetic demo case viewer, methodology summary, live generate-and-judge
-lab, and run-it-yourself submission path. The router makes the job explicit:
-one-note reviewers paste source plus note and get a receipt; buyers and clinical
-leaders turn vendor claims into an evidence ask; builders run smoke checks before
-claiming quality; contributors add the missing current powered rows. The homepage shows
-the seeded CT/syncope fabrication catch as a ScribeBench receipt before asking
-visitors to click deeper, then gives first-screen paths to run an instant no-key
-local receipt, run a current free-model smoke check, check one note, publish
-aggregate evidence for a scribe system, or evaluate whether a public claim is
-backed by proof. The Lab opens with that seeded failure already
-loaded plus a precomputed demo verdict, and the homepage can launch either a
-one-click browser-only receipt for SYN-003 or an OpenRouter smoke flow that
-generates a fresh candidate note, judges it, and leaves the visitor with a
-verdict. The public status receipt spells out what ScribeBench is useful for today,
+lab, and run-it-yourself submission path. The homepage now answers the product
+question directly: it is for clinical AI buyers, builders, and reviewers who have
+a source encounter plus an AI-written note and want to know whether the note
+invented care. The first screen includes a no-key browser checker with the seeded
+SYN-003 fall case loaded and scored, plus pasteable source and note fields for a
+visitor's own example. Buyers and clinical leaders can turn vendor claims into an
+evidence ask; builders can use the Lab for live model-backed scoring; contributors
+can add the missing current powered rows. The Lab opens with that seeded failure
+already loaded plus a precomputed demo verdict, and can also run an OpenRouter smoke
+flow that generates a fresh candidate note, judges it, and leaves the visitor with
+a verdict. The public status receipt spells out what ScribeBench is useful for today,
 what it does not prove yet, and the next powered PriMock57 proof step in copyable
 form. Visitors can also run the live judge,
 read the fabrication verdict, copy a short evidence packet that names the scope,

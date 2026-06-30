@@ -1,13 +1,13 @@
 :root {
   color-scheme: light;
-  --bg: #f6f4ef;
+  --bg: #f4f7f9;
   --panel: #ffffff;
-  --panel-soft: #fbfaf7;
-  --ink: #191816;
-  --muted: #65605a;
-  --faint: #8d867c;
-  --line: #d9d3c9;
-  --line-strong: #bbb1a4;
+  --panel-soft: #f8fafc;
+  --ink: #111827;
+  --muted: #5f6b7a;
+  --faint: #7b8794;
+  --line: #d7dde5;
+  --line-strong: #aeb8c5;
   --accent: #0f766e;
   --accent-strong: #0b5f59;
   --accent-soft: #d9eeea;
@@ -15,7 +15,7 @@
   --danger-soft: #f8ded8;
   --gold: #986f0b;
   --blue: #255e8f;
-  --shadow: 0 18px 55px rgba(38, 34, 29, 0.08);
+  --shadow: 0 18px 55px rgba(15, 23, 42, 0.08);
   --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   --sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --serif: Georgia, "Times New Roman", serif;
@@ -85,7 +85,7 @@ button {
   top: 0;
   z-index: 10;
   border-bottom: 1px solid rgba(25, 24, 22, 0.1);
-  background: rgba(246, 244, 239, 0.94);
+  background: rgba(244, 247, 249, 0.94);
   backdrop-filter: blur(18px);
 }
 
@@ -154,13 +154,13 @@ button {
 
 .summary-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(460px, 1.1fr);
   gap: 28px;
   align-items: stretch;
 }
 
 .intro-panel,
-.scoreboard,
+.quick-check-panel,
 .run-panel {
   border: 1px solid var(--line);
   background: var(--panel);
@@ -172,6 +172,7 @@ button {
   padding: clamp(1.35rem, 4vw, 2.25rem);
 }
 
+.quick-check-panel,
 .scoreboard {
   padding: 1.25rem;
 }
@@ -201,18 +202,18 @@ p {
 
 h1 {
   margin: 0;
-  font-family: var(--serif);
-  font-size: clamp(2.25rem, 5.8vw, 4.55rem);
-  line-height: 0.96;
+  font-family: var(--sans);
+  font-size: clamp(2.1rem, 4vw, 3.4rem);
+  line-height: 1;
   letter-spacing: 0;
-  max-width: 10.5em;
+  max-width: 11em;
 }
 
 h2 {
   margin: 0;
-  font-family: var(--serif);
-  font-size: clamp(2rem, 4vw, 3.1rem);
-  line-height: 1.02;
+  font-family: var(--sans);
+  font-size: clamp(1.75rem, 3vw, 2.45rem);
+  line-height: 1.08;
   letter-spacing: 0;
 }
 
@@ -235,6 +236,72 @@ h4 {
   max-width: 56rem;
   color: var(--muted);
   font-size: clamp(1.05rem, 2vw, 1.28rem);
+}
+
+.product-answer {
+  display: grid;
+  gap: 0.72rem;
+  margin-top: 1.15rem;
+}
+
+.product-answer article {
+  display: grid;
+  gap: 0.24rem;
+  border-left: 4px solid var(--accent);
+  background: var(--panel-soft);
+  padding: 0.82rem 0.95rem;
+}
+
+.product-answer span,
+.proof-path span {
+  color: var(--accent-strong);
+  font-size: 0.7rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.product-answer strong {
+  font-size: 1rem;
+  line-height: 1.22;
+}
+
+.product-answer p,
+.proof-path p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.proof-path {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1rem;
+}
+
+.proof-path div {
+  min-width: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  padding: 0.82rem;
+}
+
+.proof-path span {
+  display: inline-grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  letter-spacing: 0;
+}
+
+.proof-path strong {
+  display: block;
+  margin-top: 0.55rem;
+  line-height: 1.22;
 }
 
 .thesis-strip {
@@ -501,6 +568,132 @@ h4 {
 #instant-receipt-status[data-tone="danger"],
 #live-smoke-status[data-tone="danger"] {
   color: var(--danger);
+}
+
+.quick-check-panel {
+  display: grid;
+  align-content: start;
+  gap: 1rem;
+}
+
+.quick-check-head,
+.quick-result-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.quick-check-head .eyebrow,
+.quick-result-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.quick-check-head h2 {
+  font-size: clamp(1.55rem, 2.6vw, 2.2rem);
+}
+
+.local-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  border: 1px solid rgba(15, 118, 110, 0.3);
+  border-radius: 7px;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  padding: 0.34rem 0.52rem;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.quick-check-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.76rem;
+}
+
+.quick-check-form .field textarea {
+  min-height: 168px;
+}
+
+.quick-check-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.quick-check-actions .button {
+  min-height: 40px;
+}
+
+#quick-check-status {
+  grid-column: 1 / -1;
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+  margin: 0;
+}
+
+#quick-check-status[data-tone="ok"] {
+  color: var(--accent-strong);
+}
+
+#quick-check-status[data-tone="review"] {
+  color: var(--gold);
+}
+
+#quick-check-status[data-tone="danger"] {
+  color: var(--danger);
+}
+
+.quick-result {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  padding: 1rem;
+}
+
+.quick-result h3 {
+  font-size: 1.18rem;
+}
+
+.quick-result p {
+  color: var(--muted);
+  font-size: 0.92rem;
+  margin: 0.7rem 0 0;
+}
+
+.quick-result ul {
+  display: grid;
+  gap: 0.48rem;
+  margin: 0.85rem 0 0;
+  padding-left: 1.1rem;
+}
+
+.quick-result li {
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.42;
+}
+
+.quick-result-next {
+  border-left: 3px solid var(--accent);
+  margin-top: 0.9rem;
+  padding-left: 0.8rem;
+}
+
+.quick-result-next strong {
+  display: block;
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-result-next p {
+  margin-top: 0.28rem;
 }
 
 .actions,
@@ -2544,6 +2737,15 @@ h4 {
     scroll-margin-top: 156px;
   }
 
+  .quick-check-panel {
+    order: -1;
+  }
+
+  .quick-check-form .field textarea {
+    height: 112px;
+    min-height: 112px;
+  }
+
   .mobile-proof {
     display: block;
     border-left: 3px solid var(--accent);
@@ -2603,6 +2805,8 @@ h4 {
   .start-router-panel,
   .start-route-steps,
   .thesis-strip,
+  .proof-path,
+  .quick-check-form,
   .instant-receipt-lane,
   .live-smoke-lane,
   .workflow-strip,
@@ -2618,6 +2822,7 @@ h4 {
 
   .instant-receipt-lane .button,
   .live-smoke-lane .button,
+  .quick-check-actions .button,
   .status-actions .button,
   .current-run-command-actions .button,
   .start-route-actions .button,
@@ -2665,6 +2870,11 @@ h4 {
   .thesis-strip div:last-child,
   .workflow-strip div:last-child {
     border-bottom: 0;
+  }
+
+  .quick-check-head,
+  .quick-result-head {
+    flex-direction: column;
   }
 
   .start-router-tabs {

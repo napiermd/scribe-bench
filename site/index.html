@@ -50,167 +50,85 @@
             <p class="eyebrow">After-the-demo clinical AI evidence</p>
             <h1>Did the AI scribe invent care?</h1>
             <p class="lede">
-              ScribeBench is a public receipt generator for AI-scribe claims. Bring the
-              source encounter and the generated note; it tells you whether the note stayed
-              faithful, invented unsupported care, leaked template junk, or needs a full
-              PriMock57 evidence row before anyone should repeat the claim.
+              Paste the source encounter and the AI-written note. ScribeBench checks whether
+              the note added care, workups, demographics, allergies, or template junk that
+              the source does not support.
             </p>
-            <div class="thesis-strip" aria-label="ScribeBench in one line">
-              <div>
-                <span>When to use it</span>
-                <strong>After a demo looks good</strong>
-              </div>
-              <div>
-                <span>What it checks</span>
-                <strong>Did the signed record stay true?</strong>
-              </div>
-              <div>
-                <span>What you leave with</span>
-                <strong>A quotable QA receipt</strong>
-              </div>
+            <div class="product-answer" aria-label="What ScribeBench is for">
+              <article>
+                <span>Who it is for</span>
+                <strong>Clinical AI buyers, builders, reviewers</strong>
+                <p>Anyone with a source encounter and a generated note who wants a fast fidelity check.</p>
+              </article>
+              <article>
+                <span>What it does today</span>
+                <strong>One-note invented-care triage</strong>
+                <p>The browser receipt flags obvious unsupported claims without a provider key.</p>
+              </article>
+              <article>
+                <span>What it does not prove</span>
+                <strong>No vendor crown from one note</strong>
+                <p>System claims still need aggregate PriMock57 or real-workflow rows.</p>
+              </article>
             </div>
-            <p class="mobile-proof">
-              <strong>Example catch:</strong> source says no head strike or loss of consciousness;
-              the note invents a head CT and syncope workup.
-            </p>
-            <div class="start-router" aria-label="Choose what to do in ScribeBench">
-              <div class="start-router-tabs" role="group" aria-label="Visitor role">
-                <button type="button" class="active" data-start-route="note" aria-pressed="true">I have one note</button>
-                <button type="button" data-start-route="buyer" aria-pressed="false">I am evaluating a scribe</button>
-                <button type="button" data-start-route="builder" aria-pressed="false">I build one</button>
-                <button type="button" data-start-route="contributor" aria-pressed="false">I want to improve the board</button>
-              </div>
-              <div class="start-router-panel">
-                <div class="start-router-copy">
-                  <p class="eyebrow" id="start-route-kicker">Fastest useful path</p>
-                  <h2 id="start-route-title">Paste source plus note. Get a receipt.</h2>
-                  <p id="start-route-copy">
-                    Start with one encounter and one generated note. ScribeBench checks whether
-                    the note stayed faithful, invented unsupported care, leaked template junk,
-                    and what claim that result can actually support.
-                  </p>
-                </div>
-                <dl class="start-route-steps" aria-label="Selected ScribeBench path">
-                  <div>
-                    <dt>You bring</dt>
-                    <dd id="start-route-input">Source encounter and generated note.</dd>
-                  </div>
-                  <div>
-                    <dt>You do</dt>
-                    <dd id="start-route-action">Run the local receipt instantly, then use the live judge if you need model-backed scoring.</dd>
-                  </div>
-                  <div>
-                    <dt>You leave with</dt>
-                    <dd id="start-route-output">A copyable QA receipt and a clear next proof step.</dd>
-                  </div>
-                </dl>
-                <div class="start-route-actions">
-                  <a class="button primary" id="start-route-primary" href="#lab">Run instant receipt</a>
-                  <a class="button secondary" id="start-route-secondary" href="#demo">See the seeded catch</a>
-                </div>
-              </div>
-            </div>
-            <div class="instant-receipt-lane" aria-label="Run an instant no-key ScribeBench receipt">
+            <div class="proof-path" aria-label="ScribeBench proof levels">
               <div>
-                <p class="eyebrow">No-key instant receipt</p>
-                <h2>Run the seeded catch entirely in your browser.</h2>
-                <p>
-                  One click loads SYN-003 and creates a local receipt for the invented head CT,
-                  syncope workup, age/sex, laterality, allergy, and leak checks. No API key,
-                  quota, or network judge.
-                </p>
-                <span id="instant-receipt-status" role="status" aria-live="polite">Ready: no provider key needed.</span>
+                <span>1</span>
+                <strong>Check one note</strong>
+                <p>Catch obvious inventions now.</p>
               </div>
-              <button
-                class="button primary"
-                id="run-local-receipt-top"
-                type="button"
-                data-default-label="Run instant receipt"
-                data-running-label="Running receipt..."
-              >
-                Run instant receipt
-              </button>
-            </div>
-
-            <div class="live-smoke-lane" aria-label="Run a current free-model smoke check">
               <div>
-                <p class="eyebrow">Live free-model smoke check</p>
-                <h2>Then try the current OpenRouter path against the seeded fall case.</h2>
-                <p>
-                  One click loads SYN-003, generates a fresh candidate note with the configured
-                  free model, runs the judge, and shows whether unsupported care was invented.
-                </p>
-                <span id="live-smoke-status" role="status" aria-live="polite">Ready when the model list loads.</span>
+                <span>2</span>
+                <strong>Copy the receipt</strong>
+                <p>Name the source, claim, and next proof step.</p>
               </div>
-              <button
-                class="button primary"
-                id="run-live-smoke-top"
-                type="button"
-                data-default-label="Run current-model smoke"
-                data-running-label="Running smoke check..."
-              >
-                Run current-model smoke
-              </button>
-            </div>
-            <div class="actions">
-              <a class="button secondary" href="#lab">Paste your own note</a>
-              <a class="button secondary" href="#demo">Inspect seeded failure</a>
-              <a class="button secondary" href="#claim-check">Check a public claim</a>
-              <a class="button secondary" href="#current-challenge">Run a current challenge</a>
+              <div>
+                <span>3</span>
+                <strong>Run a row</strong>
+                <p>Use aggregate cases before making public system claims.</p>
+              </div>
             </div>
           </div>
 
-          <section class="scoreboard receipt-panel" aria-labelledby="scoreboard-title">
-            <div class="section-head compact">
+          <section class="quick-check-panel" aria-labelledby="quick-check-title">
+            <div class="quick-check-head">
               <div>
-                <p class="eyebrow">What visitors get back</p>
-                <h2 id="scoreboard-title">A receipt, not a vibe.</h2>
+                <p class="eyebrow">Check one note now</p>
+                <h2 id="quick-check-title">Run a no-key receipt.</h2>
+              </div>
+              <span class="local-badge">Browser only</span>
+            </div>
+            <form class="quick-check-form" id="quick-check-form">
+              <label class="field">
+                <span>Source encounter</span>
+                <textarea id="quick-source" rows="7" placeholder="Paste transcript, source note, or encounter summary."></textarea>
+              </label>
+              <label class="field">
+                <span>Generated note</span>
+                <textarea id="quick-note" rows="7" placeholder="Paste the AI-scribe note to check."></textarea>
+              </label>
+              <div class="quick-check-actions">
+                <button class="button primary" id="quick-run-local" type="submit">Run no-key receipt</button>
+                <button class="button secondary" id="quick-load-seeded" type="button">Load seeded failure</button>
+                <a class="button secondary" href="#lab">Open full Lab</a>
+              </div>
+              <p id="quick-check-status" role="status" aria-live="polite">Paste your own note, or load the seeded fall case.</p>
+            </form>
+            <div class="quick-result" id="quick-result" hidden>
+              <div class="quick-result-head">
+                <span class="queue-status needed" id="quick-result-status">Review</span>
+                <div>
+                  <p class="eyebrow">Receipt</p>
+                  <h3 id="quick-result-title">Run the check</h3>
+                </div>
+              </div>
+              <p id="quick-result-summary"></p>
+              <ul id="quick-result-list"></ul>
+              <div class="quick-result-next">
+                <strong>Next proof step</strong>
+                <p id="quick-result-next">--</p>
               </div>
             </div>
-            <div class="receipt-preview" aria-label="Example ScribeBench receipt">
-              <div class="receipt-topline">
-                <span>ScribeBench receipt</span>
-                <strong>SYN-003</strong>
-              </div>
-              <h3>Do not trust this note without review.</h3>
-              <p>
-                The note is fluent, but it changes the clinical story by inventing care
-                the source explicitly rules out.
-              </p>
-              <dl class="receipt-check">
-                <div>
-                  <dt>Source</dt>
-                  <dd>Mechanical rug trip, no head strike, no loss of consciousness, daughter brought her in.</dd>
-                </div>
-                <div>
-                  <dt>Note claim</dt>
-                  <dd>Negative head CT and syncope workup.</dd>
-                </div>
-                <div>
-                  <dt>Receipt output</dt>
-                  <dd><strong>Dangerous fabrication:</strong> cite the source, review the note, and run a powered row before claiming system quality.</dd>
-                </div>
-              </dl>
-              <a href="#lab">Open the receipt in the Lab</a>
-            </div>
-            <dl class="metric-grid receipt-metrics" id="snapshot-metrics">
-              <div>
-                <dt>Official cases</dt>
-                <dd>--</dd>
-              </div>
-              <div>
-                <dt>Powered rows</dt>
-                <dd>--</dd>
-              </div>
-              <div>
-                <dt>Primary metric</dt>
-                <dd>Invented care</dd>
-              </div>
-              <div>
-                <dt>Publication policy</dt>
-                <dd>Scores only</dd>
-              </div>
-            </dl>
           </section>
         </div>
       </section>
