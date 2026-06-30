@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Fresh OpenRouter smoke row",
+      "why": "The public Vercel site generated and judged all three bundled synthetic cases with current OpenRouter free models, so the board now has fresh evidence instead of only launch-era baselines.",
+      "proof": "Added openrouter-nemotron-3-ultra-live-smoke to the visible smoke table: n=3, nErrored=0, repeats=1, 0/3 dangerous fabrications flagged. The production judge JSON-repair path was exercised on SYN-003.",
+      "next": "Run the same generator over PriMock57 with declared repeats before treating it as a system-level claim.",
+      "links": [
+        { "label": "Raw results JSON", "href": "/assets/results.json" },
+        { "label": "Run smoke", "href": "#lab" },
+        { "label": "Use powered path", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Lab evidence packet",
       "why": "A visitor can now leave the Lab with a compact packet that names the scope, case, generator, judge, finding, and next proof step.",
       "proof": "Public alias serves the Evidence packet UI and copy action; production logs were clean after deploy.",

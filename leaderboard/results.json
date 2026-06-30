@@ -142,6 +142,38 @@
       "note": "Scores-only baseline (closed model). Generic scribe prompt, not a tuned system. n=57 PriMock57 consults, repeats=2."
     },
     {
+      "system": "openrouter-nemotron-3-ultra-live-smoke",
+      "dataset": "cases",
+      "claimLevel": "smoke",
+      "n": 3,
+      "nErrored": 0,
+      "repeats": 1,
+      "narrativeMean": 100,
+      "narrativeMeanCI": [
+        100,
+        100
+      ],
+      "dangerousFabricationRate": 0,
+      "dangerousFabricationRateCI": [
+        0,
+        0
+      ],
+      "leakRate": 0,
+      "fidelityMean": 5,
+      "perDimension": {
+        "storyCohesion": 5,
+        "clinicalCompleteness": 5,
+        "naturalFlow": 5,
+        "absenceOfArtifacts": 5,
+        "physicianReadability": 5,
+        "inputFidelity": 5
+      },
+      "judgeModel": "nvidia/nemotron-3-super-120b-a12b-20230311:free",
+      "scoredAt": "2026-06-30",
+      "notesPublished": false,
+      "note": "Fresh production smoke row generated through the public ScribeBench OpenRouter free-model path on 2026-06-30. n=3 synthetic cases, repeats=1, site-lab-v1, not ranked. The judge JSON repair path was exercised on SYN-003; use this only as plumbing/current-model evidence before a powered PriMock57 run."
+    },
+    {
       "system": "gpt-4o (scribe)",
       "dataset": "cases",
       "claimLevel": "smoke",

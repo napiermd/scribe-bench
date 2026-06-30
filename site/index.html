@@ -223,6 +223,7 @@
             <h3 id="evidence-agenda-title">What would make this benchmark useful next</h3>
             <p>
               Latest powered row: <strong id="latest-powered-run">loading from results</strong>.
+              Latest smoke row: <strong id="latest-smoke-run">loading from results</strong>.
               The next win is not another demo; it is current rows scored the same way so
               people can compare failure rates instead of launch-era vibes.
             </p>
@@ -246,6 +247,38 @@
               <p>Submit aggregate results from actual scribe pipelines, with generation method and any benchmark-specific tuning disclosed.</p>
               <a href="https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" target="_blank" rel="noreferrer">Submission rules</a>
             </article>
+          </div>
+        </div>
+
+        <div class="fresh-smoke-card" aria-labelledby="fresh-smoke-title">
+          <div class="fresh-smoke-copy">
+            <p class="eyebrow">Fresh public smoke</p>
+            <h3 id="fresh-smoke-title">The live path generated and judged the bundled synthetic set in the latest smoke run.</h3>
+            <p id="fresh-smoke-copy">
+              Loading the latest smoke row. Smoke rows prove the public loop works; they do not rank systems.
+            </p>
+          </div>
+          <dl class="fresh-smoke-metrics" aria-label="Latest smoke-run metrics">
+            <div>
+              <dt>System</dt>
+              <dd id="fresh-smoke-system">--</dd>
+            </div>
+            <div>
+              <dt>Scope</dt>
+              <dd id="fresh-smoke-scope">--</dd>
+            </div>
+            <div>
+              <dt>Dangerous fab</dt>
+              <dd id="fresh-smoke-danger">--</dd>
+            </div>
+            <div>
+              <dt>Next proof step</dt>
+              <dd id="fresh-smoke-next">--</dd>
+            </div>
+          </dl>
+          <div class="fresh-smoke-actions">
+            <a href="#lab">Replay one-note smoke</a>
+            <a href="#run">Graduate to powered row</a>
           </div>
         </div>
 

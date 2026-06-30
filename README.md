@@ -45,9 +45,17 @@ All are **scores-only launch baselines** (closed-model note text not published p
 
 | System | n | Narrative ↑ | Fidelity ↑ | Dangerous-fab ↓ | Judge |
 |--------|---|------------|-----------|-----------------|-------|
+| openrouter-nemotron-3-ultra-live-smoke | 3 | 100.0 | 5.00 | 0.0% | nvidia/nemotron-3-super-120b-a12b-20230311:free |
 | gpt-4o (scribe) | 3 | 71.7 | 4.67 | 0.0% | claude-opus |
 | claude-sonnet (scribe) | 3 | 68.0 | 4.67 | 33.3% | claude-opus |
 | example-baseline (seeded fab) † | 3 | 59.0 | 3.50 | 33.3% | claude-opus |
+
+The OpenRouter row was generated through the production Vercel API on **June 30,
+2026** with the current free-model path (`n=3`, `repeats=1`). It is useful as
+fresh plumbing evidence and deliberately **not ranked**. The production judge
+JSON-repair path was exercised on `SYN-003`, which is exactly the kind of
+operational fragility the public Lab should expose before anyone claims a
+system-level result.
 
 † `SYN-003` carries a deliberate seeded fabrication. The claude-sonnet 33% is a **real** catch — on `SYN-003` it fabricated "arrival via EMS" when the source says the daughter drove the patient in. At n=3 these CIs are wide on purpose; the PriMock57 table above is the substantive board.
 </details>

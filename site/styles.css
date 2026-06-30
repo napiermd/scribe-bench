@@ -606,6 +606,73 @@ h4 {
   margin-top: 0.25rem;
 }
 
+.fresh-smoke-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 0 0 1rem;
+}
+
+.fresh-smoke-copy {
+  min-width: 0;
+}
+
+.fresh-smoke-copy h3 {
+  font-size: 1.24rem;
+  max-width: 28rem;
+}
+
+.fresh-smoke-copy p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.72rem 0 0;
+  font-size: 0.94rem;
+}
+
+.fresh-smoke-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.fresh-smoke-metrics div {
+  min-width: 0;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  background: var(--panel);
+  padding: 0.85rem;
+}
+
+.fresh-smoke-metrics dt {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.fresh-smoke-metrics dd {
+  margin: 0.28rem 0 0;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.fresh-smoke-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.fresh-smoke-actions a {
+  font-weight: 850;
+}
+
 .queue-board {
   display: grid;
   grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
@@ -1853,6 +1920,7 @@ h4 {
 
   .summary-grid,
   .evidence-agenda,
+  .fresh-smoke-card,
   .worklog-board,
   .queue-board,
   .lab-shell,
@@ -1871,6 +1939,7 @@ h4 {
   .submission-checklist,
   .run-builder-actions,
   .agenda-grid,
+  .fresh-smoke-metrics,
   .lab-guide,
   .worklog-list article,
   .queue-list article,

@@ -125,16 +125,53 @@ function renderLeaderboard(results) {
 
 function renderEvidenceFreshness(results) {
   const target = document.getElementById("latest-powered-run");
-  if (!target) return;
   const ranked = rankedRows(results);
-  const latestDate = ranked
-    .map((row) => row.scoredAt)
-    .filter(Boolean)
-    .sort()
-    .pop();
-  target.textContent = latestDate
-    ? `${formatScoredAt(latestDate)} (${ranked.length} powered row${ranked.length === 1 ? "" : "s"})`
-    : "no powered rows yet";
+  const latestPowered = latestRow(ranked);
+  if (target) {
+    target.textContent = latestPowered
+      ? `${formatScoredAt(latestPowered.scoredAt)} (${ranked.length} powered row${ranked.length === 1 ? "" : "s"})`
+      : "no powered rows yet";
+  }
+
+  const smoke = smokeRows(results).filter((row) => row.claimLevel === "smoke");
+  const latestSmoke = latestRow(smoke);
+  const smokeTarget = document.getElementById("latest-smoke-run");
+  if (smokeTarget) {
+    smokeTarget.textContent = latestSmoke
+      ? `${formatScoredAt(latestSmoke.scoredAt)} (${smoke.length} smoke row${smoke.length === 1 ? "" : "s"})`
+      : "no smoke rows yet";
+  }
+  renderFreshSmoke(latestSmoke);
+}
+
+function latestRow(rows) {
+  const dated = rows.filter((row) => row.scoredAt);
+  dated.sort((a, b) => String(a.scoredAt).localeCompare(String(b.scoredAt)));
+  return dated[dated.length - 1] || rows[rows.length - 1] || null;
+}
+
+function renderFreshSmoke(row) {
+  if (!row) {
+    setText("fresh-smoke-copy", "No smoke row has been published yet. Use the Lab to run one, then graduate useful candidates to PriMock57.");
+    setText("fresh-smoke-system", "--");
+    setText("fresh-smoke-scope", "No row");
+    setText("fresh-smoke-danger", "--");
+    setText("fresh-smoke-next", "Run a smoke check first");
+    return;
+  }
+
+  const n = Number(row.n) || 0;
+  const dangerCases = Math.round((Number(row.dangerousFabricationRate) || 0) * n);
+  const repeats = Number(row.repeats) || 1;
+  const date = formatScoredAt(row.scoredAt);
+  setText(
+    "fresh-smoke-copy",
+    `${date}: ${row.system} completed ${n}/${n + (Number(row.nErrored) || 0)} bundled synthetic cases through the public path. This is fresh plumbing evidence, not a ranking claim.`
+  );
+  setText("fresh-smoke-system", row.system);
+  setText("fresh-smoke-scope", `${n} synthetic cases, ${repeats} repeat${repeats === 1 ? "" : "s"}`);
+  setText("fresh-smoke-danger", `${dangerCases}/${n} cases (${fmtPercent(Number(row.dangerousFabricationRate) || 0)})`);
+  setText("fresh-smoke-next", "Run PriMock57 before saying the system is better.");
 }
 
 function renderWorkLog(payload) {
