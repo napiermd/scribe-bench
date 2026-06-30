@@ -2662,6 +2662,58 @@ h4 {
   min-width: 0;
 }
 
+.run-plan-card {
+  display: grid;
+  gap: 0.9rem;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.run-plan-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.run-plan-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.run-plan-card h3 {
+  font-size: 1.18rem;
+}
+
+.run-plan-grid {
+  display: grid;
+  gap: 0.62rem;
+  margin: 0;
+}
+
+.run-plan-grid div {
+  min-width: 0;
+  border-left: 3px solid var(--line-strong);
+  background: rgba(255, 255, 255, 0.62);
+  padding: 0.62rem 0.72rem;
+}
+
+.run-plan-grid dt {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.run-plan-grid dd {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.38;
+  margin: 0.22rem 0 0;
+}
+
 .run-contract {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2702,6 +2754,55 @@ h4 {
   border: 1px solid var(--line);
   background: var(--panel-soft);
   padding: 1rem;
+}
+
+.run-presets {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.run-preset {
+  min-width: 0;
+  min-height: 58px;
+  border: 1px solid var(--line-strong);
+  border-radius: 7px;
+  background: var(--panel);
+  color: var(--ink);
+  cursor: pointer;
+  font: inherit;
+  line-height: 1.15;
+  padding: 0.62rem 0.7rem;
+  text-align: left;
+}
+
+.run-preset span,
+.run-preset small {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.run-preset span {
+  font-size: 0.88rem;
+  font-weight: 850;
+}
+
+.run-preset small {
+  color: var(--muted);
+  font-size: 0.74rem;
+  margin-top: 0.18rem;
+}
+
+.run-preset:hover,
+.run-preset.active {
+  border-color: rgba(15, 118, 110, 0.36);
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.run-preset:hover small,
+.run-preset.active small {
+  color: var(--accent-strong);
 }
 
 .field-row.run-builder-row {
@@ -2888,6 +2989,7 @@ h4 {
   .fresh-smoke-card,
   .worklog-board,
   .queue-board,
+  .run-plan-card,
   .lab-shell,
   .case-workspace,
   .method-grid,
@@ -3006,6 +3108,10 @@ h4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .run-presets {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .start-router-tabs button:nth-child(2n) {
     border-right: 0;
   }
@@ -3039,6 +3145,10 @@ h4 {
   }
 
   .challenge-presets {
+    grid-template-columns: 1fr;
+  }
+
+  .run-presets {
     grid-template-columns: 1fr;
   }
 

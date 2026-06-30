@@ -1120,14 +1120,58 @@
       <section class="wrap section run-panel" id="run">
         <div class="run-intro">
           <p class="eyebrow">Use it</p>
-          <h2>Build a public evidence row</h2>
+          <h2>Pick the run you can actually finish</h2>
           <p>
-            Pick the run you are trying to make, generate or paste candidate notes,
-            then score them with a declared judge. Smoke tests prove the plumbing.
-            Powered PriMock57 runs are the only rows that support public claims.
+            Start from a preset, then copy the exact JSON shape or benchmark command.
+            Smoke tests prove the plumbing. Powered PriMock57 or real-workflow runs
+            are the rows that support public claims.
           </p>
         </div>
+
+        <aside class="run-plan-card" aria-live="polite">
+          <div class="run-plan-head">
+            <span class="queue-status needed" id="run-plan-status">Publishable</span>
+            <div>
+              <p class="eyebrow">Selected run</p>
+              <h3 id="run-plan-title">Current powered row</h3>
+            </div>
+          </div>
+          <dl class="run-plan-grid">
+            <div>
+              <dt>Bring</dt>
+              <dd id="run-plan-bring">A current generator and a candidate-note file.</dd>
+            </div>
+            <div>
+              <dt>Run</dt>
+              <dd id="run-plan-run">Score all 57 PriMock57 cases with a declared judge.</dd>
+            </div>
+            <div>
+              <dt>Submit</dt>
+              <dd id="run-plan-submit">Aggregate scores only, no raw closed-model notes.</dd>
+            </div>
+          </dl>
+        </aside>
+
         <form class="run-builder" id="run-builder" aria-label="Contribution command builder">
+          <div class="run-presets" aria-label="Common run builder presets">
+            <button class="run-preset active" type="button" data-run-preset="current-powered" aria-pressed="true">
+              <span>Current powered row</span>
+              <small>57 PriMock57 cases</small>
+            </button>
+            <button class="run-preset" type="button" data-run-preset="quick-smoke" aria-pressed="false">
+              <span>Quick smoke test</span>
+              <small>3 bundled cases</small>
+            </button>
+            <button class="run-preset" type="button" data-run-preset="real-workflow" aria-pressed="false">
+              <span>Real workflow row</span>
+              <small>Your pipeline output</small>
+            </button>
+            <button class="run-preset" type="button" data-run-preset="second-judge" aria-pressed="false">
+              <span>Second-judge pass</span>
+              <small>Robustness check</small>
+            </button>
+          </div>
+
           <div class="field-row run-builder-row">
             <label class="field">
               <span>Run type</span>

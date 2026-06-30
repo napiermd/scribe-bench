@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Run builder presets",
+      "why": "The Run section still opened as a dense benchmark form. Visitors needed to pick the job first, then see the command details.",
+      "proof": "Added presets for a current powered row, quick smoke test, real workflow row, and second-judge pass. Each preset updates the selected-run plan, form fields, candidate JSON, generated command, and active state.",
+      "next": "Use the same task-first pattern to keep tightening the Evidence section around what a visitor can trust, challenge, or contribute next.",
+      "links": [
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Repo map", "href": "#repo-map" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Public repo map",
       "why": "The site had useful pieces, but a visitor still had to infer how the website, APIs, eval engine, data, leaderboard, and submission path fit together.",
       "proof": "Added a public Repo map section that names each repository piece, when to use it, what it outputs, and where to go next. The top navigation now links to Repo map, and the contributor start route points there as its secondary path.",

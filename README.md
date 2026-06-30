@@ -116,9 +116,11 @@ checker turns vague public/vendor statements such as "hallucination-free" or
 The Current-model challenge planner turns the stale-leaderboard objection into
 a proof-run picker with one-click plans for current hosted models, open/free
 candidates, real scribe workflows, or second-judge robustness checks.
-The Run section includes a contribution builder that generates the candidate-note JSON shape,
-smoke/powered benchmark command, and PR checklist from the visitor's selected
-dataset, generator, judge, and repeats. The Evidence section also carries a public
+The Run section includes task-first presets for a current powered row, quick
+smoke test, real workflow row, or second-judge pass, plus a contribution builder
+that generates the candidate-note JSON shape, smoke/powered benchmark command,
+and PR checklist from the visitor's selected dataset, generator, judge, and
+repeats. The Evidence section also carries a public
 work log (`/assets/worklog.json`) plus a queue for current frontier, open/free,
 real-workflow, and judge-robustness rows, including the proof required and first
 action for each target. The current-run card includes the latest blocked PriMock57

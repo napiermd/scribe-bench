@@ -272,6 +272,81 @@ const startRoutes = {
   },
 };
 
+const runPresets = {
+  "current-powered": {
+    status: "Publishable",
+    statusClass: "ready",
+    title: "Current powered row",
+    bring: "A current hosted model or scribe pipeline and notes for every PriMock57 case.",
+    run: "Generate candidate notes for all 57 PriMock57 cases, then score them with a declared judge and 2 repeats.",
+    submit: "Publish aggregate scores only: dangerous-fabrication rate, narrative mean, fidelity, leak rate, judge, date, and tuning disclosure.",
+    fields: {
+      dataset: "primock57",
+      system: "current-frontier-scribe",
+      candidatePath: "/tmp/current_frontier_primock57_notes.json",
+      generator: "openrouter",
+      model: "nvidia/nemotron-3-ultra-550b-a55b:free",
+      repeats: "2",
+      judgeBackend: "baseten",
+      judgeModel: "deepseek-ai/DeepSeek-V4-Pro",
+    },
+  },
+  "quick-smoke": {
+    status: "Smoke only",
+    statusClass: "open",
+    title: "Quick smoke test",
+    bring: "A model or prompt you want to sanity-check before spending a full PriMock57 run.",
+    run: "Score the 3 bundled synthetic cases first, especially the seeded SYN-003 unsupported-workup catch.",
+    submit: "Keep it separate from ranked evidence. A smoke row proves the path works; it does not crown a system.",
+    fields: {
+      dataset: "synthetic",
+      system: "openrouter-free-smoke",
+      candidatePath: "/tmp/scribebench_smoke_notes.json",
+      generator: "openrouter",
+      model: "nvidia/nemotron-3-ultra-550b-a55b:free",
+      repeats: "1",
+      judgeBackend: "openrouter",
+      judgeModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
+    },
+  },
+  "real-workflow": {
+    status: "High value",
+    statusClass: "valuable",
+    title: "Real workflow row",
+    bring: "Candidate notes from an actual scribe workflow plus a dataset scope you can describe publicly.",
+    run: "Save your pipeline output in the candidate-note JSON shape, then score it with a declared judge.",
+    submit: "Publish aggregate metrics, generation method, dataset scope, exclusions, repeats, judge, and tuning disclosure.",
+    fields: {
+      dataset: "primock57",
+      system: "real-workflow-scribe",
+      candidatePath: "/tmp/real_workflow_scribebench_notes.json",
+      generator: "own",
+      model: "your-production-scribe",
+      repeats: "2",
+      judgeBackend: "baseten",
+      judgeModel: "deepseek-ai/DeepSeek-V4-Pro",
+    },
+  },
+  "second-judge": {
+    status: "Robustness",
+    statusClass: "needed",
+    title: "Second-judge pass",
+    bring: "The same candidate notes from a promising row plus a different declared judge backend.",
+    run: "Reuse the candidate file and re-score it with a second judge so ranking movement is visible.",
+    submit: "Publish changed dangerous-fabrication rate, narrative mean, rank movement, and interpretation-changing disagreements.",
+    fields: {
+      dataset: "primock57",
+      system: "second-judge-robustness",
+      candidatePath: "/tmp/existing_row_candidate_notes.json",
+      generator: "own",
+      model: "reuse-existing-candidate-file",
+      repeats: "2",
+      judgeBackend: "openrouter",
+      judgeModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
+    },
+  },
+};
+
 const seededDemoResults = {
   "SYN-003": {
     dimensions: {
@@ -2030,14 +2105,90 @@ function bindRunBuilder() {
     repeatsSelect.dataset.touched = "true";
   });
   builder.querySelectorAll("input, select").forEach((control) => {
-    control.addEventListener("input", updateRunBuilder);
-    control.addEventListener("change", updateRunBuilder);
+    control.addEventListener("input", handleRunBuilderInput);
+    control.addEventListener("change", handleRunBuilderInput);
+  });
+  document.querySelectorAll("[data-run-preset]").forEach((button) => {
+    button.addEventListener("click", () => applyRunPreset(button.dataset.runPreset || "current-powered"));
   });
   document.getElementById("run-dataset")?.addEventListener("change", syncRunDefaultsForDataset);
   document.getElementById("copy-candidate-template")?.addEventListener("click", () => copyRunArtifact("candidate"));
   document.getElementById("copy-run-command")?.addEventListener("click", () => copyRunArtifact("command"));
-  syncRunDefaultsForDataset();
+  applyRunPreset("current-powered");
+}
+
+function handleRunBuilderInput() {
+  setActiveRunPreset(matchingRunPresetKey());
   updateRunBuilder();
+}
+
+function applyRunPreset(key) {
+  const preset = runPresets[key] || runPresets["current-powered"];
+  setFieldValue("run-dataset", preset.fields.dataset);
+  setFieldValue("run-system", preset.fields.system);
+  setFieldValue("run-candidate", preset.fields.candidatePath);
+  setFieldValue("run-generator", preset.fields.generator);
+  setFieldValue("run-model", preset.fields.model);
+  setFieldValue("run-repeats", preset.fields.repeats);
+  setFieldValue("run-judge-backend", preset.fields.judgeBackend);
+  setFieldValue("run-judge-model", preset.fields.judgeModel);
+  const candidateInput = document.getElementById("run-candidate");
+  const repeatsSelect = document.getElementById("run-repeats");
+  if (candidateInput) candidateInput.dataset.touched = "true";
+  if (repeatsSelect) repeatsSelect.dataset.touched = "true";
+  setActiveRunPreset(key);
+  updateRunBuilder();
+}
+
+function setFieldValue(id, value) {
+  const field = document.getElementById(id);
+  if (field) field.value = value;
+}
+
+function matchingRunPresetKey() {
+  const state = runBuilderState();
+  return Object.entries(runPresets).find(([, preset]) => {
+    const fields = preset.fields;
+    return (
+      fields.dataset === state.dataset &&
+      fields.system === state.system &&
+      fields.candidatePath === state.candidatePath &&
+      fields.generator === state.generator &&
+      fields.model === state.model &&
+      fields.repeats === state.repeats &&
+      fields.judgeBackend === state.judgeBackend &&
+      fields.judgeModel === state.judgeModel
+    );
+  })?.[0] || "";
+}
+
+function setActiveRunPreset(key) {
+  document.querySelectorAll("[data-run-preset]").forEach((button) => {
+    const active = Boolean(key) && button.dataset.runPreset === key;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+}
+
+function selectedRunPlan() {
+  const active = document.querySelector("[data-run-preset].active")?.dataset.runPreset;
+  return runPresets[active] || runPlanFromState(runBuilderState());
+}
+
+function runPlanFromState(state) {
+  const powered = state.dataset !== "synthetic";
+  return {
+    status: powered ? "Custom powered" : "Custom smoke",
+    statusClass: powered ? "ready" : "open",
+    title: powered ? "Custom powered row" : "Custom smoke test",
+    bring: powered
+      ? "Candidate notes for a declared multi-case dataset and a judge you can name."
+      : "Candidate notes for the bundled synthetic cases and a judge you can name.",
+    run: `Score ${state.datasetPath} as ${state.system} with ${state.repeats} repeat${state.repeats === "1" ? "" : "s"}.`,
+    submit: powered
+      ? "Submit aggregate metrics and method details before making a system-level claim."
+      : "Use this as plumbing evidence only; graduate useful results to a powered row.",
+  };
 }
 
 function syncRunDefaultsForDataset() {
@@ -2076,6 +2227,7 @@ function updateRunBuilder() {
   const state = runBuilderState();
   const candidate = buildCandidateTemplate(state);
   const command = buildRunCommand(state);
+  const plan = selectedRunPlan();
   const candidateOutput = document.getElementById("candidate-template-output");
   const commandOutput = document.getElementById("run-command-output");
   const summary = document.getElementById("run-generate-summary");
@@ -2086,8 +2238,21 @@ function updateRunBuilder() {
       ? `Run your own scribe over ${state.datasetPath}, save candidate notes to ${state.candidatePath}, then score them.`
       : `Generate candidate notes with ${state.generator}:${state.model}, then score ${state.datasetPath}.`;
   }
+  renderRunPlan(plan);
   setRunCopyStatus("");
   setRunCopyFallback("");
+}
+
+function renderRunPlan(plan) {
+  const status = document.getElementById("run-plan-status");
+  if (status) {
+    status.textContent = plan.status;
+    status.className = `queue-status ${plan.statusClass}`;
+  }
+  setText("run-plan-title", plan.title);
+  setText("run-plan-bring", plan.bring);
+  setText("run-plan-run", plan.run);
+  setText("run-plan-submit", plan.submit);
 }
 
 function buildCandidateTemplate(state = runBuilderState()) {
