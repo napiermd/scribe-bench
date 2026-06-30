@@ -2553,7 +2553,6 @@ async function boot() {
   bindChallengePlanner();
   bindLab();
   bindRunBuilder();
-  await loadLabModels();
   try {
     const [resultsPayload, casesPayload, metadata] = await Promise.all([
       loadJson("/assets/results.json"),
@@ -2587,6 +2586,8 @@ async function boot() {
     renderCurrentRunError();
     console.error(err);
   }
+
+  loadLabModels();
 
   realignCurrentHash();
 }

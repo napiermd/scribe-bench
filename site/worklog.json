@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "No-key receipt path loads before model plumbing",
+      "why": "The first screen could say the seeded fall case was loaded while the source and note boxes were still empty because model-list/API discovery ran before static demo data.",
+      "proof": "Changed startup so static results, demo cases, and metadata load first; the seeded source-vs-note receipt appears before optional Lab model discovery. The initial status now says the seeded case is loading until it is actually populated.",
+      "next": "Keep protecting the instant browser receipt as the primary public workflow. Model-backed paths should enrich the site without delaying the no-key proof.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "First screen now names the public point",
       "why": "The site could run a useful receipt, but the first viewport still made a new visitor infer who ScribeBench was for and why the public artifact mattered.",
       "proof": "Replaced the generic first-screen job strip with a compact For/Do/Point line: clinical AI buyers, builders, reviewers, and public commenters can get a receipt, challenge claims, or publish aggregate evidence; the output is proof, not a vague score.",
