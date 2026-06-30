@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The public evidence card now appears before the detailed receipt",
+      "why": "The first screen promised evidence, but after a note check the visitor still saw the long QA receipt before the shareable card. That made the useful leave-behind feel secondary.",
+      "proof": "The first result artifact after a note check is now the Public evidence card: what happened, evidence level, boundary, next public ask, and copy-ready text. The detailed source-note receipt follows underneath for review.",
+      "next": "Keep treating the evidence card as the main public output and the detailed receipt as supporting proof.",
+      "links": [
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Detailed receipt", "href": "#quick-check" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First screen now names the visitor jobs",
       "why": "The site could already check notes, challenge claims, and collect aggregate rows, but the first screen still led with evidence modes before saying who should use them. That left the product feeling like an internal benchmark page.",
       "proof": "The first viewport now names the three public jobs directly: clinical QA reviewers can review one AI note, buyers and operators can challenge a claim, and builders or contributors can add a public evidence row. The hero headline also promises the actual leave-behind: evidence.",
