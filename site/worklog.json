@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Add row now explains the public evidence package first",
+      "why": "The navigation said Add row, but the target section still opened like a developer command builder. That made the public contribution path feel more technical than it needed to and left non-coders guessing what a row actually publishes.",
+      "proof": "The Add row section now leads with a citeable-row promise and a three-part contract: what goes public, what stays private, and when to submit. The command builder remains below that contract, and related links now use Add row / add evidence wording instead of Build row.",
+      "next": "Keep the contribution path framed around the public artifact first, then the command needed to create it.",
+      "links": [
+        { "label": "Add row", "href": "#run" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Submission guide", "href": "https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First screen answers who, what, and why public",
       "why": "The site had become useful as a one-note checker, but the public-facing point still took too much inference. A skeptical visitor needed an immediate answer to who this is for, what they can do, and why anyone should care about the public evidence trail.",
       "proof": "The first-screen purpose strip now says ScribeBench is for clinical AI buyers, builders, and reviewers; it names the three jobs as checking one note, challenging a claim, or adding evidence; and it frames the public point as receipts and current rows for safe-or-best AI-scribe claims. The top nav now calls the contribution path Add row instead of the vaguer Run it, and direct hash links land without native smooth-scroll drift.",
@@ -605,7 +618,7 @@
       "proof": "The builder generates smoke and powered commands, candidate-note JSON templates, and a PR checklist from the selected run type.",
       "next": "Use the builder to add current frontier, open/free, real-workflow, and judge-robustness rows.",
       "links": [
-        { "label": "Build a row", "href": "#run" },
+        { "label": "Add row", "href": "#run" },
         { "label": "Submission guide", "href": "https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" }
       ]
     }

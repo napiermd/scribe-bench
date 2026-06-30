@@ -263,7 +263,7 @@ const startRoutes = {
     action: "Run the seeded SYN-003 smoke path, paste your own note, then score a full candidate file when the smoke path survives.",
     output: "A failure signal, judge summary, and a reproducible path to an aggregate benchmark row.",
     primary: { label: "Run current smoke", href: "#lab" },
-    secondary: { label: "Build a row", href: "#run" },
+    secondary: { label: "Add a row", href: "#run" },
   },
   contributor: {
     kicker: "For people improving the public board",
@@ -614,7 +614,7 @@ function renderCurrentRunError() {
   setText("current-run-errored", "--");
   setText("current-run-last-score", "--");
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
-  setElementHtml("decision-current-action", `<a href="#run">Build a fresh powered row</a>`);
+  setElementHtml("decision-current-action", `<a href="#run">Add a fresh powered row</a>`);
   const commandCard = document.getElementById("current-run-command-card");
   if (commandCard) commandCard.hidden = true;
 }

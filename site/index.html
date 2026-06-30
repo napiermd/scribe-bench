@@ -242,7 +242,7 @@
               One note can expose a failure. System-level claims need current powered
               PriMock57, real-workflow, or second-judge rows with aggregate scores.
             </p>
-            <a href="#run">Build a benchmark row</a>
+            <a href="#run">Add an evidence row</a>
           </article>
         </div>
 
@@ -376,7 +376,7 @@
                 <dd><code>eval/run_benchmark.ts</code>, <code>eval/fabrication.ts</code>, <code>eval/narrative_judge.ts</code></dd>
               </div>
             </dl>
-            <a href="#run">Build a row</a>
+            <a href="#run">Add a row</a>
           </article>
 
           <article class="repo-map-card">
@@ -958,7 +958,7 @@
             </div>
             <div class="historical-baseline-actions">
               <a class="button primary compact-button" href="#current-challenge">Add a current row</a>
-              <a class="button secondary compact-button" href="#run">Copy run command</a>
+              <a class="button secondary compact-button" href="#run">Add evidence row</a>
             </div>
           </div>
 
@@ -1378,12 +1378,12 @@
 
       <section class="wrap section run-panel" id="run">
         <div class="run-intro">
-          <p class="eyebrow">Use it</p>
-          <h2>Pick the run you can actually finish</h2>
+          <p class="eyebrow">Add evidence</p>
+          <h2>Add a row people can cite</h2>
           <p>
-            Start from a preset, then copy the exact JSON shape or benchmark command.
-            Powered rows start with the actual current system under test. Free-model smoke
-            tests prove the plumbing; they do not support public ranking claims.
+            A public row is aggregate evidence: system, date, dataset, case count,
+            judge, repeats, failure rates, and tuning disclosure. Start from the
+            run you can actually finish, then copy the JSON shape or benchmark command.
           </p>
         </div>
 
@@ -1410,6 +1410,21 @@
             </div>
           </dl>
         </aside>
+
+        <div class="run-contract" aria-label="Public row evidence contract">
+          <article>
+            <strong>What goes public</strong>
+            <p>Aggregate scores, case count, system date, judge, repeats, confidence intervals, and method notes.</p>
+          </article>
+          <article>
+            <strong>What stays private</strong>
+            <p>Raw closed-model notes, patient data, secrets, and any candidate text you are not allowed to publish.</p>
+          </article>
+          <article>
+            <strong>When to submit</strong>
+            <p>Use 57 cases when possible, no unresolved judge errors, and clear disclosure of prompts or benchmark tuning.</p>
+          </article>
+        </div>
 
         <form class="run-builder" id="run-builder" aria-label="Contribution command builder">
           <div class="run-presets" aria-label="Common run builder presets">
@@ -1493,21 +1508,6 @@
           </div>
           <p id="run-copy-status" role="status" aria-live="polite"></p>
         </form>
-
-        <div class="run-contract" aria-label="Evidence contract">
-          <article>
-            <strong>Ranked evidence</strong>
-            <p>57 PriMock57 cases, repeats declared, judge declared, aggregate scores only.</p>
-          </article>
-          <article>
-            <strong>Smoke only</strong>
-            <p>Three synthetic cases or free-model experiments. Good for demos and plumbing, never a leaderboard claim.</p>
-          </article>
-          <article>
-            <strong>Do not submit</strong>
-            <p>Closed-model note text, patient data, undeclared tuning, or a row with no judge details.</p>
-          </article>
-        </div>
 
         <div class="run-output-grid">
           <article class="run-output-card">

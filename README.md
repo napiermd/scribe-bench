@@ -163,7 +163,7 @@ is a declared candidate-note file from the actual system you want to discuss.
 
 ### Current public-API run path
 
-When the live Vercel site has provider keys configured, you can build a current
+When the live Vercel site has provider keys configured, you can add a current
 PriMock57 evidence row through the same public APIs visitors use. This keeps raw
 generated notes in the ignored local cache and writes an aggregate pending file:
 
