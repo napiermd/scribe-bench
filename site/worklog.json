@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Add Row now starts from what the visitor actually has",
+      "why": "The Add Row path was accurate but too benchmark-native. It opened with candidate files, judge backends, and presets before helping a visitor decide whether they had a one-note QA issue, a claim, candidate notes, or a blocked run.",
+      "proof": "The Run section now includes a Start from what you have chooser: one source-note pair routes to the checker, a vendor or model claim routes to the claim checker, candidate notes jump into the powered-row builder, and cap/partial-run states route to the current blocker receipt.",
+      "next": "Keep making contribution paths honest about evidence level so people do not mistake one note, smoke tests, or blocked runs for publishable system rows.",
+      "links": [
+        { "label": "Add row", "href": "#run" },
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Current blocker receipt", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The checker now says exactly what visitors leave with",
       "why": "The first-screen form worked, but a new visitor still had to infer the payoff from the seeded demo. That made the site feel closer to a canned benchmark page than a usable public QA tool.",
       "proof": "The checker now includes a compact output contract: bring source plus AI note, run browser QA with no key, leave with flagged issues, note/source excerpts, evidence boundary, and the next public ask. It also states the boundary that one note is QA evidence, not clinical clearance or a system ranking.",

@@ -2980,6 +2980,16 @@ function bindRunBuilder() {
   document.querySelectorAll("[data-run-preset]").forEach((button) => {
     button.addEventListener("click", () => applyRunPreset(button.dataset.runPreset || "current-powered"));
   });
+  document.querySelectorAll("[data-run-jump-preset]").forEach((link) => {
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      applyRunPreset(link.dataset.runJumpPreset || "current-powered");
+      window.history.pushState(null, "", "#run-builder");
+      scrollToAnchorTarget(builder, { behavior: "smooth" });
+      window.setTimeout(() => scrollToAnchorTarget(builder, { behavior: "auto" }), 520);
+      window.setTimeout(() => builder.querySelector("input, select, button")?.focus({ preventScroll: true }), 560);
+    });
+  });
   document.getElementById("run-dataset")?.addEventListener("change", syncRunDefaultsForDataset);
   document.getElementById("copy-candidate-template")?.addEventListener("click", () => copyRunArtifact("candidate"));
   document.getElementById("copy-run-command")?.addEventListener("click", () => copyRunArtifact("command"));
