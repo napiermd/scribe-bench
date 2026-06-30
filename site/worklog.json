@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Mobile now shows the evidence card before the edit form",
+      "why": "The mobile first screen finally explained the point, but it still forced visitors through source and note textareas before showing the useful public artifact. That made ScribeBench feel like a form demo instead of an evidence tool.",
+      "proof": "On small screens the Public evidence card now appears before the source-note form when a seeded result is available, with a mobile-only Edit source / note action for people who want to test their own pair.",
+      "next": "Keep mobile result-first: show the artifact, then expose editing and deeper Lab controls as the next step.",
+      "links": [
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Edit source / note", "href": "#quick-check-form" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Mobile visitors now see the point before the form",
       "why": "Desktop visitors saw the hero explanation next to the checker, but mobile visitors landed directly in a source-note form before seeing why ScribeBench exists or what public artifact they would leave with.",
       "proof": "The first mobile checker now includes a compact proof strip: fluent AI notes can add care that never happened, ScribeBench turns the source-vs-note gap into a copyable evidence card, and one note is QA rather than a ranking.",

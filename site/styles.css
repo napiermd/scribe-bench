@@ -1052,6 +1052,10 @@ h4 {
   gap: 0.6rem;
 }
 
+.button.mobile-edit-note-action {
+  display: none;
+}
+
 #public-evidence-card-copy-status {
   color: var(--muted);
   font-size: 0.86rem;
@@ -4456,7 +4460,7 @@ h4 {
   }
 
   .quick-check-form {
-    order: 2;
+    order: 3;
     gap: 0.6rem;
   }
 
@@ -4465,15 +4469,19 @@ h4 {
   }
 
   .quick-smoke-artifact {
-    order: 3;
+    order: 4;
   }
 
   .public-evidence-card {
-    order: 4;
+    order: 2;
   }
 
   .quick-result {
     order: 5;
+  }
+
+  .button.mobile-edit-note-action {
+    display: inline-flex;
   }
 
   .quick-check-form .field textarea {
