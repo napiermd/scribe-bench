@@ -85,6 +85,7 @@ The first screen now states the product through concrete visitor jobs:
 - **Challenge a claim:** turn "hallucination-free" language into an evidence ask with dataset, n, judge, repeats, and rates.
 - **Publish evidence:** use aggregate PriMock57 or real-workflow scores for system claims while keeping raw closed-model notes out.
 - **Inspect the proof:** flagged browser-check and demo receipt items now show note and source excerpts, including demographic, laterality, and allergy contradictions, so the receipt reads like evidence instead of a black-box verdict.
+- **Escalate the same pair:** a quick-check result can now open the exact source and note in the Lab, preserving pasted-vs-seeded metadata and rerunning the local receipt before any live judge call.
 - **Start without waiting on models:** the seeded no-key check loads from static demo data before model-list/API calls, so first-time visitors see the useful receipt path first.
 - **Keep receipts honest:** editing either quick-check text box clears seeded-case metadata, so copied receipts for pasted examples no longer claim to be `SYN-003`.
 
@@ -109,7 +110,9 @@ raw encounter text into the public ledger. Structured mismatches such as age, se
 left-vs-right body part, and NKDA-vs-listed-allergy contradictions carry the same
 inspectable proof as unsupported clinical-workup flags, and the receipt language now
 calls them source-note issues instead of squeezing every flag into "dangerous fabrication"
-jargon. The next
+jargon. A result can be opened directly in the Lab with the same source and note,
+so the visitor can escalate from no-key triage to model-backed scoring without
+re-pasting. The next
 section turns that receipt into
 an action path: review a flagged note, escalate a clean triage result to the Lab,
 challenge a vendor claim, or publish an aggregate powered row before making a

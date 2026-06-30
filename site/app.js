@@ -1206,6 +1206,7 @@ function bindQuickCheck() {
   document.getElementById("quick-source")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-note")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
+  document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
 }
 
 function populateQuickCheck(c, { run = false } = {}) {
@@ -1341,6 +1342,53 @@ async function copyQuickReceipt() {
   } catch (_) {
     setQuickCopyFallback(text);
     setQuickCopyStatus("Clipboard unavailable. Receipt shown below.");
+  }
+}
+
+function sendQuickPairToLab() {
+  const sourceEl = document.getElementById("quick-source");
+  const noteEl = document.getElementById("quick-note");
+  const labSource = document.getElementById("lab-source");
+  const labNote = document.getElementById("lab-note");
+  if (!sourceEl || !noteEl || !labSource || !labNote) return null;
+  const source = sourceEl.value.trim();
+  const note = noteEl.value.trim();
+  if (!source || !note) {
+    setQuickCopyStatus("Check a source-note pair first.");
+    return null;
+  }
+
+  const result = lastQuickResult || runQuickLocalReceipt();
+  if (!result) return null;
+
+  labSource.value = source;
+  labNote.value = note;
+  copyOptionalDataset(sourceEl, labSource, "caseId");
+  copyOptionalDataset(sourceEl, labSource, "caseType");
+  copyOptionalDataset(noteEl, labNote, "generatedModel");
+
+  const labResult = buildLocalReceipt(source, note, {
+    generatedModel: labNote.dataset.generatedModel || "",
+    caseId: labSource.dataset.caseId || "",
+    caseType: labSource.dataset.caseType || "",
+    sourceChars: source.length,
+    noteChars: note.length,
+  });
+  renderLabResult(labResult);
+  setLabStatus("Loaded this checked pair from the first-screen receipt. Run live judge if you need model-backed scoring.");
+  setQuickCopyStatus("Opened in Lab.");
+  if (window.location.hash !== "#lab") window.history.replaceState(null, "", "#lab");
+  document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  document.getElementById("run-lab")?.focus({ preventScroll: true });
+  return labResult;
+}
+
+function copyOptionalDataset(fromEl, toEl, key) {
+  const value = fromEl.dataset[key];
+  if (value) {
+    toEl.dataset[key] = value;
+  } else {
+    delete toEl.dataset[key];
   }
 }
 

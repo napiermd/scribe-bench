@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Quick receipts can escalate into the Lab",
+      "why": "The first-screen receipt could show a useful issue, but using that exact source-note pair in the Lab still required re-pasting or reloading a demo. The post-receipt path felt like a static explanation instead of a workflow.",
+      "proof": "Quick-check results now include an Open in Lab with this pair action. It copies the checked source and note into the Lab, preserves seeded-versus-pasted metadata, reruns the local receipt there, and leaves the live judge as the next escalation.",
+      "next": "Keep shortening the path from one-note triage to stronger evidence so visitors can move from a receipt to an action without rebuilding context.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Next steps", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Receipts now call flags source-note issues",
       "why": "Once demographic, laterality, and allergy contradictions became first-class checks, the UI still called every flag an unsupported clinical item or dangerous fabrication. That made the public receipt sound less precise than the evidence it showed.",
       "proof": "The quick checker, Lab verdicts, copyable summaries, and evidence packets now describe flagged source-note issues and list issue types such as age, sex/gender, laterality, allergy, unsupported care, or arrival mismatch. Demo case receipts also render the same evidence cards as the main checker.",
