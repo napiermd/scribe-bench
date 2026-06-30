@@ -573,6 +573,58 @@ h4 {
   font-size: 0.92rem;
 }
 
+.status-section {
+  padding-top: 48px;
+}
+
+.status-deck {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.status-card {
+  display: grid;
+  align-content: start;
+  gap: 0.72rem;
+  min-width: 0;
+  min-height: 230px;
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.status-card-primary {
+  border-color: rgba(15, 118, 110, 0.3);
+  background: #eef8f5;
+}
+
+.status-card h3 {
+  font-size: 1.16rem;
+  max-width: 30rem;
+}
+
+.status-card p {
+  color: var(--muted);
+  font-size: 0.93rem;
+  margin: 0;
+}
+
+.status-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.7rem;
+  margin-top: 0.2rem;
+}
+
+#public-status-copy-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
 .purpose-section {
   padding-top: 48px;
 }
@@ -2482,6 +2534,7 @@ h4 {
   }
 
   .method-cards,
+  .status-deck,
   .job-grid,
   .ledger-grid,
   .run-steps,
@@ -2517,10 +2570,15 @@ h4 {
 
   .instant-receipt-lane .button,
   .live-smoke-lane .button,
+  .status-actions .button,
   .start-route-actions .button,
   .split-actions,
   .split-actions .button {
     width: 100%;
+  }
+
+  .status-card-primary {
+    grid-column: span 1;
   }
 
   .case-list {

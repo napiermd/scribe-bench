@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Public status receipt",
+      "why": "A build-in-public benchmark needs a single artifact that tells visitors what is useful today, what is not proven yet, and what concrete run would make the project worth citing.",
+      "proof": "Added a top-level public status section with useful-today, evidence-now, not-proven-yet, and next-proof cards plus a copyable public status receipt. Simplified the top navigation so Status, Evidence, Lab, and Run it are easier to find.",
+      "next": "Use the status receipt as the public project spine, then finish a current powered PriMock57 row so the site can move from useful triage to stronger system-level evidence.",
+      "links": [
+        { "label": "Public status", "href": "#public-status" },
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "No-key local receipt path",
       "why": "A public usefulness loop cannot depend entirely on free hosted models behaving. Visitors need a meaningful first receipt even when provider keys, quotas, or latency get in the way.",
       "proof": "Added a browser-only local receipt module, Lab controls, first-screen instant receipt CTA, tests, and static build wiring. The local path catches explicit source contradictions, unsupported common workups such as head CT or syncope workup, EMS arrival mismatches, and deterministic template leaks without sending text to any API.",

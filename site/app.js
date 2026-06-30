@@ -191,6 +191,22 @@ const challengePlans = {
   },
 };
 
+const publicStatusReceipt = [
+  "ScribeBench public status (updated June 30, 2026)",
+  "",
+  "Useful today: paste a source encounter plus generated clinical note, or run the seeded SYN-003 demo, and get a source-vs-note QA receipt for unsupported care, template leaks, and the next evidence step.",
+  "",
+  "Evidence today: historical n=57 PriMock57 launch baselines from June 2, 2026; a fresh n=3 OpenRouter synthetic smoke row from June 30, 2026; and a public PriMock57 API runner that generated three current-model notes and scored one before free-model judge limits blocked the rest.",
+  "",
+  "Not proven yet: ScribeBench does not currently crown the best current model, certify a vendor system, approve clinical use, or turn one note into a system-level claim.",
+  "",
+  "Next proof: add OpenRouter credits or configure a faster second judge, resume the cached PriMock57 run, and publish aggregate-only scores after at least 30 scored cases with declared model, judge, repeats, date, and confidence intervals.",
+  "",
+  "Start here: https://scribe-bench.vercel.app/",
+  "Evidence ledger: https://scribe-bench.vercel.app/#leaderboard",
+  "Run builder: https://scribe-bench.vercel.app/#run",
+].join("\n");
+
 const startRoutes = {
   note: {
     kicker: "Fastest useful path",
@@ -767,6 +783,33 @@ function setChallengeCopyStatus(message) {
 
 function setChallengeCopyFallback(text) {
   const fallback = document.getElementById("challenge-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
+}
+
+function bindPublicStatus() {
+  document.getElementById("copy-public-status")?.addEventListener("click", copyPublicStatus);
+}
+
+async function copyPublicStatus() {
+  try {
+    await copyText(publicStatusReceipt);
+    setPublicStatusCopyFallback("");
+    setPublicStatusCopyStatus("Public status receipt copied.");
+  } catch (_) {
+    setPublicStatusCopyFallback(publicStatusReceipt);
+    setPublicStatusCopyStatus("Clipboard unavailable. Status receipt shown below.");
+  }
+}
+
+function setPublicStatusCopyStatus(message) {
+  const status = document.getElementById("public-status-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setPublicStatusCopyFallback(text) {
+  const fallback = document.getElementById("public-status-copy-fallback");
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
@@ -1841,6 +1884,7 @@ function setRunCopyFallback(text) {
 
 async function boot() {
   bindStartRouter();
+  bindPublicStatus();
   bindClaimChecker();
   bindChallengePlanner();
   bindLab();
