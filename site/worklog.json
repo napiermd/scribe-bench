@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The checker now says exactly what visitors leave with",
+      "why": "The first-screen form worked, but a new visitor still had to infer the payoff from the seeded demo. That made the site feel closer to a canned benchmark page than a usable public QA tool.",
+      "proof": "The checker now includes a compact output contract: bring source plus AI note, run browser QA with no key, leave with flagged issues, note/source excerpts, evidence boundary, and the next public ask. It also states the boundary that one note is QA evidence, not clinical clearance or a system ranking.",
+      "next": "Keep tying every action to a concrete artifact: QA packet, claim ask, smoke packet, or aggregate row.",
+      "links": [
+        { "label": "Quick checker", "href": "#quick-check" },
+        { "label": "Check your own note", "href": "#quick-check-form" },
+        { "label": "Public action kit", "href": "#public-action-kit" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Check your own note now clears the demo",
       "why": "The first-screen CTA said Check your own note, but it only jumped to a form still filled with the seeded failure. That made the real visitor path feel like a demo they had to erase by hand.",
       "proof": "The Clinical QA tile and the Public evidence card CTA now switch the quick checker into a blank own-note state: source and generated-note boxes are cleared, seeded result artifacts are hidden, the form is focused, and the Reload seeded failure action remains available.",

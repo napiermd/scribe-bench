@@ -812,6 +812,48 @@ h4 {
   line-height: 1.28;
 }
 
+.quick-output-contract {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.quick-output-contract div {
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.68rem 0.72rem;
+}
+
+.quick-output-contract div:last-child {
+  border-right: 0;
+}
+
+.quick-output-contract span {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-output-contract strong {
+  display: block;
+  margin-top: 0.18rem;
+  color: var(--ink);
+  font-size: 0.88rem;
+  line-height: 1.18;
+}
+
+.quick-output-contract p {
+  margin: 0.25rem 0 0;
+  color: var(--muted);
+  font-size: 0.76rem;
+  line-height: 1.3;
+}
+
 .local-badge {
   display: inline-flex;
   align-items: center;
@@ -4227,6 +4269,7 @@ h4 {
   .queue-list article,
   .quick-paths,
   .quick-proof-modes,
+  .quick-output-contract,
   .start-router-panel,
   .start-route-steps,
   .thesis-strip,
@@ -4263,6 +4306,25 @@ h4 {
 
   .quick-check-panel {
     order: 1;
+  }
+
+  .quick-output-contract {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .quick-output-contract div {
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding-left: 0.72rem;
+    padding-right: 0.72rem;
+  }
+
+  .quick-output-contract div:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .quick-output-contract div:nth-child(n + 3) {
+    border-bottom: 0;
   }
 
   .repo-loop-steps li {
@@ -4453,6 +4515,10 @@ h4 {
   .quick-check-help {
     font-size: 0.88rem;
     line-height: 1.34;
+  }
+
+  .quick-output-contract {
+    display: none;
   }
 
   .quick-check-form {
