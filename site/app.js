@@ -1315,6 +1315,7 @@ function bindQuickCheck() {
   document.getElementById("quick-source")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-note")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
+  document.getElementById("quick-use-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
 }
 
@@ -1431,6 +1432,9 @@ function renderQuickResult(result) {
   setText("quick-result-can-support", meaning.canSupport);
   setText("quick-result-cannot-support", meaning.cannotSupport);
   setText("quick-result-use-next", meaning.useNext);
+  const useGuidance = quickUseGuidance({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
+  setText("quick-use-title", useGuidance.title);
+  setText("quick-use-copy", useGuidance.copy);
   const list = document.getElementById("quick-result-list");
   if (list) {
     list.innerHTML = "";
@@ -1449,6 +1453,25 @@ function renderQuickResult(result) {
   }
   setText("quick-result-next", verdict.action);
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
+}
+
+function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
+  if (dangerousCount) {
+    return {
+      title: "Use this as a QA finding first.",
+      copy: `Copy the packet into review, then use the claim checker only if someone wants to turn this one-note issue${issueTypes ? ` (${issueTypes})` : ""} into a broader vendor or system claim.`,
+    };
+  }
+  if (leakCount) {
+    return {
+      title: "Use this to fix the output pipeline.",
+      copy: "Copy the packet for the team that owns prompts or templates. Recheck the note after cleanup before treating it as evidence.",
+    };
+  }
+  return {
+    title: "Use this as clean triage, not clearance.",
+    copy: "A clean browser check can support a narrow QA note. Use the Lab or powered rows before saying the whole scribe system is safe or better.",
+  };
 }
 
 function resetQuickResult() {

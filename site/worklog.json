@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Receipts now route visitors to the next useful action",
+      "why": "After the first-screen checker found a source-note issue, the visitor still had to choose among broad site sections. That made the product feel more like a dense benchmark page than a usable QA workflow.",
+      "proof": "Quick-check receipts now include a Use this result panel. For flagged source-note issues it recommends using the result as a QA finding first, then offers direct actions to copy the QA packet, challenge a claim, or add aggregate evidence. Clean triage and leak results get different guidance.",
+      "next": "Keep attaching every result to a concrete artifact someone can use immediately: QA packet, claim ask, or aggregate row plan.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Add aggregate row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "First screen now shows the actual receipt shape before abstraction",
       "why": "The site had become useful, but the opening still leaned on explanatory promise language. A skeptical visitor needed to see the concrete source-vs-note catch immediately, not infer it from role cards.",
       "proof": "The hero now opens with the seeded ScribeBench catch: the AI note invents a negative head CT and syncope workup while the source says mechanical rug trip, no head strike, and no loss of consciousness. The page names the output as two reviewable source-note issues plus a copyable QA packet before the visitor reaches the detailed receipt.",
