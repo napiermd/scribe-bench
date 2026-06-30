@@ -347,8 +347,8 @@ const runPresets = {
       generator: "own",
       model: "reuse-existing-candidate-file",
       repeats: "2",
-      judgeBackend: "openrouter",
-      judgeModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
+      judgeBackend: "anthropic",
+      judgeModel: "declared-independent-judge-model",
     },
   },
 };

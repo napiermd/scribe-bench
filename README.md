@@ -125,41 +125,41 @@ The fabrication judge draws a line most metrics miss: **registering care the cli
 ```bash
 npm install
 
-# First generate candidate notes with the system under test.
-# This example uses an OpenRouter-hosted model; replace it with your own scribe.
-export OPENROUTER_API_KEY=...
-npx tsx scripts/generate_baseline.ts \
-  --gen openrouter \
-  --model nvidia/nemotron-3-ultra-550b-a55b:free \
-  --dataset data/primock57/cases \
-  --out /tmp/openrouter_primock57_notes.json
+# 1. Smoke the harness with bundled synthetic data. This is not a ranked claim.
+npx tsx eval/run_benchmark.ts \
+  --dataset data/synthetic/cases \
+  --candidate data/synthetic/example_candidate.json \
+  --system "example-baseline" \
+  --out leaderboard/_smoke-pending.json
 
-# Then score those notes with a separate judge backend:
+# 2. For a real row, run your own scribe/system over PriMock57 first.
+# Save candidate notes as JSON:
+#   [{ "caseId": "PM57-d1c01", "note": "..." }, ...]
+# Keep raw closed-model notes local unless provider terms allow publication.
+
+# 3. Score that candidate file with a separate judge backend:
 #   anthropic  — needs ANTHROPIC_API_KEY
 #   cli        — uses the `claude` CLI over OAuth (Max/Pro plan, no key)
 #   baseten    — OpenAI-compatible Baseten Model APIs, needs BASETEN_API_KEY
 #   openrouter — OpenAI-compatible OpenRouter, needs OPENROUTER_API_KEY
 export SCRIBEBENCH_BACKEND=baseten
 export BASETEN_API_KEY=...
-export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
+export SCRIBEBENCH_JUDGE_MODEL=declared-strong-judge-model
 
-# Powered run for a public leaderboard claim:
 npx tsx eval/run_benchmark.ts \
   --dataset data/primock57/cases \
-  --candidate /tmp/openrouter_primock57_notes.json \
-  --system "openrouter-nemotron-3-ultra" \
+  --candidate /tmp/current_system_primock57_notes.json \
+  --system "current-system-under-test" \
   --repeats 2 \
-  --out leaderboard/_pending.json
-
-# Smoke test only; do not submit this as a ranked row:
-npx tsx eval/run_benchmark.ts \
-  --dataset data/synthetic/cases \
-  --candidate data/synthetic/example_candidate.json \
-  --system "example-baseline" \
   --out leaderboard/_pending.json
 ```
 
 The example candidate deliberately seeds one fabrication (case `SYN-003` invents a head CT and a syncope workup the source rules out) so you can see the fabrication judge fire. It is useful for plumbing and demos, not for ranking systems.
+
+If you want ScribeBench to generate candidate notes for a smoke run, use
+`scripts/generate_baseline.ts` with `--gen openrouter` or `--gen baseten`; treat
+that as a helper, not the default meaning of the benchmark. The publishable path
+is a declared candidate-note file from the actual system you want to discuss.
 
 ### Current public-API run path
 
@@ -171,7 +171,7 @@ generated notes in the ignored local cache and writes an aggregate pending file:
 npm run bench:public-api -- \
   --base-url https://scribe-bench.vercel.app \
   --dataset data/primock57/cases \
-  --system openrouter-nemotron-3-ultra-public-api \
+  --system current-system-public-api \
   --repeats 1 \
   --out leaderboard/_public-api-pending.json
 ```

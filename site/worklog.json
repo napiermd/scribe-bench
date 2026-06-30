@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Run docs now start with the actual system under test",
+      "why": "The site separated smoke tests from publishable evidence, but the README and backend docs still opened with provider-generated free-model examples. That made the project look like a toy model leaderboard instead of a harness for scoring real scribe output.",
+      "proof": "The Quickstart now begins with a bundled synthetic smoke test, then the powered path asks for candidate notes from the actual current system under test. Provider generation is documented as an optional helper, and the Run builder's serious presets no longer default robustness work to a free-model judge.",
+      "next": "Keep free/open models in the smoke lane unless someone completes a declared powered run with enough cases, repeats, judge details, and aggregate scores.",
+      "links": [
+        { "label": "README Quickstart", "href": "https://github.com/napiermd/scribe-bench#quickstart" },
+        { "label": "Model backends", "href": "https://github.com/napiermd/scribe-bench/blob/main/docs/model-backends.md" },
+        { "label": "Run builder", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "README now explains the repo instead of narrating every change",
       "why": "The public site was getting clearer, but the GitHub README still read like a running changelog. That made the repo feel more confusing and more AI-generated than the actual product warranted.",
       "proof": "The Public website section is now a concise orientation: three visitor jobs, explicit non-goals, and a repo map covering the site, local receipt, live API, eval engine, data, and evidence ledger.",

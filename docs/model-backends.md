@@ -9,31 +9,42 @@ The public leaderboard should use powered runs over `data/primock57/cases` with 
 
 ## Candidate Generation
 
-`scripts/generate_baseline.ts` creates the `[{ "caseId", "note" }]` file that
-`eval/run_benchmark.ts` scores. Candidate generation and judging are separate
-on purpose: the candidate model is the scribe under test; the judge model is the
-auditor that scores the output.
+The publishable path starts with candidate notes from the actual system under
+test. Save them as the `[{ "caseId", "note" }]` file that
+`eval/run_benchmark.ts` scores:
+
+```json
+[
+  { "caseId": "PM57-d1c01", "note": "HPI: ..." },
+  { "caseId": "PM57-d1c02", "note": "HPI: ..." }
+]
+```
+
+Candidate generation and judging are separate on purpose: the candidate model is
+the scribe under test; the judge model is the auditor that scores the output.
+Closed-model candidate notes should stay local unless the provider terms allow
+redistribution. Submit aggregate scores, not raw closed-model note text.
+
+`scripts/generate_baseline.ts` is available when you explicitly want
+ScribeBench to generate candidate notes for a smoke test or provider comparison:
 
 ```bash
-# OpenRouter candidate model
+# OpenRouter helper generation. Pick the model you actually want to test.
 export OPENROUTER_API_KEY=...
 npx tsx scripts/generate_baseline.ts \
   --gen openrouter \
-  --model nvidia/nemotron-3-ultra-550b-a55b:free \
+  --model openrouter-model-slug \
   --dataset data/primock57/cases \
   --out /tmp/openrouter_primock57_notes.json
 
-# Baseten candidate model
+# Baseten helper generation. Pick the deployed model you actually want to test.
 export BASETEN_API_KEY=...
 npx tsx scripts/generate_baseline.ts \
   --gen baseten \
-  --model deepseek-ai/DeepSeek-V4-Pro \
+  --model baseten-model-id \
   --dataset data/primock57/cases \
   --out /tmp/baseten_primock57_notes.json
 ```
-
-Closed-model candidate notes should stay local unless the provider terms allow
-redistribution. Submit aggregate scores, not raw closed-model note text.
 
 ## Supported Judge Backends
 
@@ -42,12 +53,12 @@ redistribution. Submit aggregate scores, not raw closed-model note text.
 | `anthropic` | `ANTHROPIC_API_KEY` | `claude-opus-4-8` | You want the default frontier-style judge path. |
 | `cli` | Claude CLI auth | `opus` | You have Claude CLI OAuth available locally. |
 | `baseten` | `BASETEN_API_KEY` | `deepseek-ai/DeepSeek-V4-Pro` | You want Baseten Model APIs through their OpenAI-compatible endpoint. |
-| `openrouter` | `OPENROUTER_API_KEY` | `nvidia/nemotron-3-ultra-550b-a55b:free` | You want OpenRouter-hosted models. Set `SCRIBEBENCH_JUDGE_MODEL` for paid/stronger models. |
+| `openrouter` | `OPENROUTER_API_KEY` | `nvidia/nemotron-3-ultra-550b-a55b:free` | You want an OpenRouter-hosted judge. Set `SCRIBEBENCH_JUDGE_MODEL` to the declared paid or strong model for serious rows. |
 
 Override any default with:
 
 ```bash
-export SCRIBEBENCH_JUDGE_MODEL=<provider-model-slug>
+export SCRIBEBENCH_JUDGE_MODEL=provider-model-slug
 ```
 
 ## Baseten Powered Run
@@ -57,12 +68,12 @@ Baseten Model APIs use the OpenAI-compatible chat-completions endpoint at `https
 ```bash
 export SCRIBEBENCH_BACKEND=baseten
 export BASETEN_API_KEY=...
-export SCRIBEBENCH_JUDGE_MODEL=deepseek-ai/DeepSeek-V4-Pro
+export SCRIBEBENCH_JUDGE_MODEL=declared-strong-judge-model
 
 npx tsx eval/run_benchmark.ts \
   --dataset data/primock57/cases \
-  --candidate your_primock57_notes.json \
-  --system "your-system" \
+  --candidate /tmp/current_system_primock57_notes.json \
+  --system "current-system-under-test" \
   --repeats 2 \
   --out leaderboard/_pending.json
 ```
