@@ -178,6 +178,10 @@ button {
   padding: clamp(1.35rem, 4vw, 2.25rem);
 }
 
+.intro-panel h1 {
+  font-size: clamp(1.9rem, 3.1vw, 2.72rem);
+}
+
 .quick-check-panel,
 .scoreboard {
   padding: 1.25rem;
@@ -246,16 +250,16 @@ h4 {
 
 .product-answer {
   display: grid;
-  gap: 0.72rem;
-  margin-top: 1.15rem;
+  gap: 0.5rem;
+  margin-top: 0.9rem;
 }
 
 .product-answer article {
   display: grid;
-  gap: 0.24rem;
+  gap: 0.18rem;
   border-left: 4px solid var(--accent);
   background: var(--panel-soft);
-  padding: 0.82rem 0.95rem;
+  padding: 0.56rem 0.74rem;
 }
 
 .product-answer span,
@@ -268,15 +272,15 @@ h4 {
 }
 
 .product-answer strong {
-  font-size: 1rem;
+  font-size: 0.9rem;
   line-height: 1.22;
 }
 
 .product-answer p,
 .proof-path p {
   color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.4;
+  font-size: 0.78rem;
+  line-height: 1.32;
   margin: 0;
 }
 
@@ -3505,6 +3509,18 @@ h4 {
   .start-router {
     grid-column: 1;
     grid-row: auto;
+  }
+
+  .quick-check-panel {
+    order: 1;
+  }
+
+  .intro-panel {
+    order: 2;
+  }
+
+  .start-router {
+    order: 3;
   }
 
   .instant-receipt-lane .button,

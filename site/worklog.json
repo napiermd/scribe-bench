@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "First screen now leads with visitor outputs",
+      "why": "Fresh production screenshots showed the page was useful, but visitors still had to infer the actual public artifact from benchmark language. That made the project easier to dismiss as a vague leaderboard instead of a tool people can use.",
+      "proof": "The first screen now states the three takeaways directly: a source-vs-note QA receipt, a copyable public evidence ask for vendor claims, or a current aggregate row plan. The seeded checker copy also names the unsupported head CT and syncope workup so the first visit shows the point immediately. On mobile, the working no-key checker now appears before the explanatory rail.",
+      "next": "Keep every above-the-fold path tied to a thing someone can copy, cite, or run, not only to an explanation of the benchmark.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Repo metadata now says the public job",
       "why": "The GitHub About text and package description still led with dense benchmark jargon. That kept the repo chrome out of sync with the clearer website and README.",
       "proof": "The package and GitHub repo descriptions now describe ScribeBench as a public workbench for checking whether AI-scribe notes invent care, with receipts and aggregate evidence rows.",

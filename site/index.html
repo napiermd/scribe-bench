@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>ScribeBench | AI scribe source-vs-note QA</title>
+    <title>ScribeBench | Find invented care in AI-scribe notes</title>
     <meta
       name="description"
       content="ScribeBench is a public QA workbench for clinical AI buyers, builders, and reviewers who need to check whether an AI-written clinical note invented care."
@@ -48,28 +48,31 @@
       <section class="summary-band">
         <div class="wrap summary-grid">
           <div class="intro-panel">
-            <p class="eyebrow">After-the-demo clinical AI evidence</p>
-            <h1>Did the AI scribe invent care?</h1>
+            <p class="eyebrow">Public clinical AI QA</p>
+            <h1>Find invented care before it becomes a claim.</h1>
 
-            <div class="purpose-line" aria-label="Who ScribeBench is for and why it exists">
-              <div>
-                <span>For</span>
-                <strong>Clinical AI buyers, builders, and reviewers.</strong>
-              </div>
-              <div>
-                <span>Do</span>
-                <strong>Check one note, challenge a claim, or add evidence.</strong>
-              </div>
-              <div>
-                <span>Point</span>
-                <strong>Receipts and current rows for safe-or-best AI-scribe claims.</strong>
-              </div>
+            <div class="product-answer" aria-label="What visitors can do with ScribeBench">
+              <article>
+                <span>Check a note</span>
+                <strong>Paste source plus AI note. Leave with a QA receipt.</strong>
+                <p>It names unsupported care, contradictions, leaks, and what the result can and cannot prove.</p>
+              </article>
+              <article>
+                <span>Challenge a claim</span>
+                <strong>Turn "hallucination-free" into a public evidence ask.</strong>
+                <p>Copy the dataset, n, judge, repeats, rate, and disclosure request the claim requires.</p>
+              </article>
+              <article>
+                <span>Add evidence</span>
+                <strong>Replace stale model rows with a current aggregate row plan.</strong>
+                <p>Use the run builder and scores-only submission path without publishing raw closed-model notes.</p>
+              </article>
             </div>
 
             <p class="lede">
-              Paste the source encounter and the AI-written note. ScribeBench points to
-              the exact places where the note changes facts, invents workups, or leaks
-              template junk the source does not support.
+              The point is not another cute leaderboard. It is a public way to show
+              exactly where a fluent clinical note changed the source, and what proof
+              a bigger safety or "best model" claim still needs.
             </p>
           </div>
 
@@ -82,7 +85,9 @@
               <span class="local-badge">No API key</span>
             </div>
             <p class="quick-check-help">
-              The seeded example loads automatically. Replace either box with your own source and AI note.
+              The seeded example loads automatically and shows the artifact: a receipt
+              for an unsupported head CT and syncope workup. Replace either box with
+              your own source and AI note.
             </p>
             <form class="quick-check-form" id="quick-check-form">
               <label class="field">
@@ -147,7 +152,7 @@
           <div class="start-router" aria-label="Choose a ScribeBench starting point">
             <div class="start-router-head">
               <p class="eyebrow">Choose the next job</p>
-              <h2>What are you trying to prove?</h2>
+              <h2>What do you need to leave with?</h2>
               <p>
                 Start with the note receipt. Then use the path that matches the review,
                 claim, or evidence row you need next.
