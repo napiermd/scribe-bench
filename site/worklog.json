@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Current-model challenge planner",
+      "why": "The site now gives visitors a concrete answer to the stale-leaderboard objection: pick the kind of current row you can run, name the system, and copy the exact evidence plan.",
+      "proof": "Added the Current-model challenge section with target switching, system-label input, live proof-plan rendering, and clipboard/fallback copy behavior for frontier, open/free, real-workflow, and second-judge runs.",
+      "next": "Use the planner to turn public interest into actual powered PriMock57 rows for current models and real scribe workflows.",
+      "links": [
+        { "label": "Copy challenge plan", "href": "#current-challenge" },
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Public claim checker",
       "why": "A visitor can paste a vague AI-scribe claim, choose what kind of claim it is, and leave with a concrete evidence requirement plus a copyable public ask.",
       "proof": "Added the Claim checker section to the public site with live claim-type switching and clipboard/fallback copy behavior for one-note, hallucination-free, system-comparison, and current-ranking claims.",

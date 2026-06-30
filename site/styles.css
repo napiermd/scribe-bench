@@ -601,6 +601,101 @@ h4 {
   padding: 0.85rem;
 }
 
+.challenge-section {
+  padding-top: 56px;
+}
+
+.challenge-tool {
+  display: grid;
+  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
+  gap: 18px;
+  align-items: start;
+}
+
+.challenge-form,
+.challenge-output {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.challenge-form {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.field-row.challenge-row {
+  grid-template-columns: minmax(0, 0.9fr) minmax(210px, 0.7fr) auto;
+}
+
+#challenge-copy-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.challenge-output-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 0.8rem;
+}
+
+.challenge-output-head .eyebrow {
+  margin-bottom: 0.35rem;
+}
+
+.challenge-output h3 {
+  font-size: 1.24rem;
+}
+
+.challenge-output-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 1rem;
+}
+
+.challenge-output-grid article {
+  min-width: 0;
+  border-left: 3px solid var(--line-strong);
+  background: var(--panel-soft);
+  padding: 0.78rem 0.85rem;
+}
+
+.challenge-output-grid h4 {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+}
+
+.challenge-output-grid p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.42;
+  margin: 0.28rem 0 0;
+}
+
+.challenge-plan-preview {
+  border-top: 1px solid var(--line);
+  margin-top: 1rem;
+  padding-top: 1rem;
+}
+
+.challenge-plan-preview p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #17312e;
+  background: var(--panel-soft);
+  border: 1px solid var(--line);
+  padding: 0.85rem;
+  margin: 0.55rem 0 0;
+}
+
 .ledger-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -2027,6 +2122,7 @@ h4 {
 
   .summary-grid,
   .claim-tool,
+  .challenge-tool,
   .evidence-agenda,
   .fresh-smoke-card,
   .worklog-board,
@@ -2046,6 +2142,7 @@ h4 {
   .run-output-grid,
   .submission-checklist,
   .claim-output-grid,
+  .challenge-output-grid,
   .run-builder-actions,
   .agenda-grid,
   .fresh-smoke-metrics,
@@ -2057,6 +2154,7 @@ h4 {
   .workflow-strip,
   .field-row,
   .field-row.claim-row,
+  .field-row.challenge-row,
   .field-row.lab-model-row,
   .field-row.run-builder-row,
   .lab-textareas,

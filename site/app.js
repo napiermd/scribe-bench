@@ -118,6 +118,77 @@ const claimGuides = {
   },
 };
 
+const challengePlans = {
+  "frontier-powered": {
+    label: "Current hosted frontier model",
+    status: "Needed now",
+    statusClass: "needed",
+    defaultSystem: "current-frontier-scribe",
+    title: "A powered current row makes the board useful again.",
+    run:
+      "Generate notes for all 57 PriMock57 cases with a current hosted model, then score the same candidate file with a declared judge and 2 repeats.",
+    publish:
+      "Publish aggregate scores only: dangerous-fabrication rate with CI, narrative mean with CI, fidelity mean, leak rate, model/date, judge, prompt policy, and tuning disclosure.",
+    why:
+      "This directly answers the old-model criticism. It turns the page from historical baselines into a current comparison surface.",
+    evidence:
+      "n=57 PriMock57, repeats=2, current generation model, declared judge, aggregate-only row, no closed raw notes.",
+    next:
+      "Use the Run section to create the candidate-note JSON and benchmark command, then open a GitHub PR with the aggregate row.",
+  },
+  "open-free": {
+    label: "Open/free model candidate",
+    status: "Low friction",
+    statusClass: "open",
+    defaultSystem: "openrouter-free-candidate",
+    title: "A cheap model earns attention by surviving the smoke path first.",
+    run:
+      "Start with the seeded SYN-003 Lab flow and bundled synthetic smoke set. If it avoids obvious unsupported care, graduate it to all 57 PriMock57 cases.",
+    publish:
+      "Publish the smoke row separately from powered rows, then add a powered row only after the full PriMock57 run exists.",
+    why:
+      "This lets people test current open/free models without pretending three synthetic cases prove a system is best.",
+    evidence:
+      "Smoke first: n=3 synthetic cases. Powered next: n=57 PriMock57, repeats declared, judge declared, aggregate-only.",
+    next:
+      "Run the Lab smoke check, then use the powered path for any model worth discussing publicly.",
+  },
+  "real-workflow": {
+    label: "Real scribe workflow",
+    status: "High value",
+    statusClass: "valuable",
+    defaultSystem: "real-workflow-scribe",
+    title: "A real workflow row is more useful than another generic model demo.",
+    run:
+      "Score candidate notes from an actual scribe pipeline against a declared dataset. PriMock57 is public; real-workflow datasets can be aggregate-only if raw notes cannot be shared.",
+    publish:
+      "Publish aggregate metrics, generation method, whether prompts were tuned to ScribeBench, judge model, repeats, dataset scope, and any exclusions.",
+    why:
+      "Buyers and builders care about deployed behavior. This turns ScribeBench into a public evidence ledger for real systems, not just model names.",
+    evidence:
+      "Aggregate metrics, dataset scope, judge, repeats, generation method, tuning disclosure, data policy followed.",
+    next:
+      "Prepare a scores-only submission and link it to the public evidence ledger.",
+  },
+  "judge-robustness": {
+    label: "Second-judge robustness pass",
+    status: "Needed",
+    statusClass: "needed",
+    defaultSystem: "judge-robustness-pass",
+    title: "A second judge checks whether the ranking is judge-shaped.",
+    run:
+      "Reuse the exact same candidate notes from a promising row and re-score them with a second declared judge model.",
+    publish:
+      "Publish the changed dangerous-fabrication rate, narrative mean, rank movement, and any disagreements that would alter the public interpretation.",
+    why:
+      "A benchmark is weaker if one model silently grades another. Robustness rows make the evidence harder to dismiss.",
+    evidence:
+      "Same candidate notes, same dataset, second judge, changed metrics, changed ranking called out.",
+    next:
+      "Choose a second judge backend and submit the robustness row next to the original row.",
+  },
+};
+
 const seededDemoResults = {
   "SYN-003": {
     dimensions: {
@@ -486,6 +557,103 @@ function setClaimCopyStatus(message) {
 
 function setClaimCopyFallback(text) {
   const fallback = document.getElementById("claim-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
+}
+
+function bindChallengePlanner() {
+  const form = document.getElementById("challenge-form");
+  if (!form) return;
+  form.addEventListener("submit", (event) => event.preventDefault());
+  const target = document.getElementById("challenge-target");
+  const system = document.getElementById("challenge-system");
+  target?.addEventListener("change", () => {
+    syncChallengeSystemDefault();
+    renderChallengePlan();
+  });
+  system?.addEventListener("input", renderChallengePlan);
+  document.getElementById("copy-challenge-plan")?.addEventListener("click", copyChallengePlan);
+  syncChallengeSystemDefault();
+  renderChallengePlan();
+}
+
+function selectedChallengePlan() {
+  const target = document.getElementById("challenge-target")?.value || "frontier-powered";
+  return challengePlans[target] || challengePlans["frontier-powered"];
+}
+
+function syncChallengeSystemDefault() {
+  const plan = selectedChallengePlan();
+  const input = document.getElementById("challenge-system");
+  if (!input) return;
+  const previousDefault = input.dataset.defaultValue || "";
+  const current = input.value.trim();
+  if (!current || current === previousDefault) input.value = plan.defaultSystem;
+  input.dataset.defaultValue = plan.defaultSystem;
+}
+
+function currentChallengeSystem() {
+  const plan = selectedChallengePlan();
+  return document.getElementById("challenge-system")?.value.trim() || plan.defaultSystem;
+}
+
+function renderChallengePlan() {
+  const plan = selectedChallengePlan();
+  const system = currentChallengeSystem();
+  const status = document.getElementById("challenge-status");
+  if (status) {
+    status.textContent = plan.status;
+    status.className = `queue-status ${plan.statusClass}`;
+  }
+  setText("challenge-title", plan.title);
+  setText("challenge-run", plan.run);
+  setText("challenge-publish", plan.publish);
+  setText("challenge-why", plan.why);
+  setText("challenge-public-plan", buildChallengePlan(plan, system));
+  setChallengeCopyStatus("");
+  setChallengeCopyFallback("");
+}
+
+function buildChallengePlan(plan = selectedChallengePlan(), system = currentChallengeSystem()) {
+  return [
+    "ScribeBench current-model challenge",
+    `Target: ${plan.label}`,
+    `System label: ${system}`,
+    `Status: ${plan.status}`,
+    "",
+    `Why this matters: ${plan.why}`,
+    "",
+    `Run: ${plan.run}`,
+    `Evidence minimum: ${plan.evidence}`,
+    `Publish: ${plan.publish}`,
+    `Next step: ${plan.next}`,
+    "",
+    "Run builder: https://scribe-bench.vercel.app/#run",
+    "Evidence ledger: https://scribe-bench.vercel.app/#leaderboard",
+    "Submission guide: https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md",
+  ].join("\n");
+}
+
+async function copyChallengePlan() {
+  const text = buildChallengePlan();
+  try {
+    await copyText(text);
+    setChallengeCopyFallback("");
+    setChallengeCopyStatus("Run plan copied.");
+  } catch (_) {
+    setChallengeCopyFallback(text);
+    setChallengeCopyStatus("Clipboard unavailable. Run plan shown below.");
+  }
+}
+
+function setChallengeCopyStatus(message) {
+  const status = document.getElementById("challenge-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setChallengeCopyFallback(text) {
+  const fallback = document.getElementById("challenge-copy-fallback");
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
@@ -1427,6 +1595,7 @@ function setRunCopyFallback(text) {
 
 async function boot() {
   bindClaimChecker();
+  bindChallengePlanner();
   bindLab();
   bindRunBuilder();
   await loadLabModels();
