@@ -210,6 +210,13 @@ resume once credits or another judge backend are available. The public site expo
 that blocker in `/assets/current-run.json` and gives a copyable resume command in
 the Evidence section.
 
+Current status: on **July 1, 2026 ICT** (**June 30, 2026 20:09 UTC**), the live
+public API runner was retried against the first five PriMock57 cases. PM57-d1c01
+is scored; PM57-d1c02 and PM57-d1c03 have cached generated notes but their judge
+calls hit OpenRouter's free-model daily cap; PM57-d1c04 and PM57-d1c05 could not
+generate for the same cap. That leaves the current row at **1/5 attempted** and
+**1/57 target cases scored**. It is a blocker receipt, not a model result.
+
 ## Datasets
 
 - **`data/synthetic/cases/`** — 3 fully synthetic encounters (ED, clinic, inpatient). Ships in-repo; the runnable quickstart set.

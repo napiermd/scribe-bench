@@ -33,6 +33,13 @@ section[id] {
   scroll-margin-top: 86px;
 }
 
+#current-run,
+#public-action-kit,
+#worklog,
+#evidence-queue {
+  scroll-margin-top: 86px;
+}
+
 #main {
   scroll-margin-top: 86px;
 }
@@ -3729,6 +3736,13 @@ h4 {
 
 @media (max-width: 920px) {
   .queue-board {
+    scroll-margin-top: 156px;
+  }
+
+  #current-run,
+  #public-action-kit,
+  #worklog,
+  #evidence-queue {
     scroll-margin-top: 156px;
   }
 

@@ -7,6 +7,15 @@ const fmtCI = (ci, percent = false) => {
   return ` [${ci[0].toFixed(1)}-${ci[1].toFixed(1)}]`;
 };
 const fmtDate = new Intl.DateTimeFormat("en", { month: "long", day: "numeric", year: "numeric", timeZone: "UTC" });
+const fmtDateTime = new Intl.DateTimeFormat("en", {
+  month: "long",
+  day: "numeric",
+  year: "numeric",
+  hour: "numeric",
+  minute: "2-digit",
+  timeZone: "UTC",
+  timeZoneName: "short",
+});
 const localDateStamp = (date = new Date()) => {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
@@ -572,6 +581,11 @@ function renderCurrentRun(run) {
   const links = Array.isArray(run.links) ? run.links : [];
   const resumeCommand = String(run.resumeCommand || "").trim();
   const minimumPublishable = Number(run.minimumPublishableCases) || MIN_RANKED_CASES;
+  const attempted = selected || target;
+  const lastAttemptText = formatTimestamp(run.lastAttemptAt);
+  const attemptText = lastAttemptText
+    ? ` Last public retry: ${lastAttemptText}; ${scored}/${attempted} selected cases scored and ${errored}/${attempted} errored or blocked.`
+    : "";
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -580,19 +594,19 @@ function renderCurrentRun(run) {
   setText("current-run-title", run.title || "Current PriMock57 run attempt");
   setText(
     "current-run-copy",
-    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${selected || target} selected cases have generated notes. ${run.rawNotesPolicy || "Raw generated notes are not published."}`
+    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${attempted} selected cases have generated notes.${attemptText} ${run.rawNotesPolicy || "Raw generated notes are not published."}`
   );
   setText(
     "freshness-current-gap",
-    `${scored}/${target} current PriMock57 cases scored; publishable threshold is ${minimumPublishable}+ scored cases with declared system, date, judge, repeats, and exclusions.`
+    `${scored}/${target} current PriMock57 cases scored; latest public retry attempted ${attempted} and left ${errored} errored or blocked. Publishable threshold is ${minimumPublishable}+ scored cases with declared system, date, judge, repeats, and exclusions.`
   );
   setText(
     "freshness-next-row",
     `Resume ${run.system || "the current system"} to at least ${minimumPublishable} scored PriMock57 cases, preferably all ${target}, then publish aggregate scores only.`
   );
-  setText("current-run-generated", `${generated}/${selected || target}`);
+  setText("current-run-generated", `${generated}/${attempted}`);
   setText("current-run-scored", `${scored}/${target}`);
-  setText("current-run-errored", `${errored}/${selected || target}`);
+  setText("current-run-errored", `${errored}/${attempted}`);
   setText(
     "current-run-last-score",
     last.caseId
@@ -605,11 +619,11 @@ function renderCurrentRun(run) {
   setText("current-run-resume-command", resumeCommand);
   setText(
     "decision-current-proof",
-    `${scored}/${target} current PriMock57 cases scored; publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
+    `${scored}/${target} current PriMock57 cases scored; latest retry attempted ${attempted} and left ${errored} blocked or errored. Publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
   );
   setText(
     "hero-current-gap",
-    `${scored}/${target} current PriMock57 cases scored; publishable at ${minimumPublishable}+ with declared judge, repeats, date, and exclusions.`
+    `${scored}/${target} current PriMock57 cases scored. Latest retry: ${scored}/${attempted} selected cases scored; free-model cap blocks the rest.`
   );
   setElementHtml(
     "decision-current-action",
@@ -771,6 +785,11 @@ function externalLinkAttrs(href = "") {
 function formatScoredAt(value) {
   const date = new Date(`${value}T00:00:00Z`);
   return Number.isNaN(date.getTime()) ? value : fmtDate.format(date);
+}
+
+function formatTimestamp(value) {
+  const date = new Date(String(value || ""));
+  return Number.isNaN(date.getTime()) ? "" : fmtDateTime.format(date);
 }
 
 function compactText(value, max = 140) {

@@ -3,6 +3,19 @@
   "entries": [
     {
       "date": "2026-07-01",
+      "status": "open",
+      "title": "Current PriMock57 row was retried and is blocked by free-model cap",
+      "why": "The biggest remaining weakness is the lack of current powered rows. Leaving the blocker as an old status would make the build-in-public trail feel performative instead of useful.",
+      "proof": "Retried the live public API runner against the first 5 PriMock57 cases on July 1 ICT. PM57-d1c01 remains the only scored case; PM57-d1c02 and PM57-d1c03 have cached notes but judge calls hit OpenRouter's free-model daily cap, and PM57-d1c04/PM57-d1c05 could not generate for the same cap. current-run.json now reports 1/5 attempted and 1/57 target cases scored.",
+      "next": "Add OpenRouter credits, use a non-capped local provider key, or switch to a faster second judge, then resume toward at least 30 scored PriMock57 cases before publishing any ranked current row.",
+      "links": [
+        { "label": "Current run status", "href": "#current-run" },
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
       "status": "shipped",
       "title": "First screen now shows the live proof trail",
       "why": "ScribeBench explained the workflow, but the public build-in-public signal still lived farther down the page. A skeptical visitor could miss what changed recently, what is still missing, and what can honestly be cited.",
