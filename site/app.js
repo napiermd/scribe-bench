@@ -716,7 +716,7 @@ function renderResultRows(bodyId, rows, { ranked, emptyText }) {
   body.innerHTML = "";
 
   if (!rows.length) {
-    body.innerHTML = `<tr><td colspan="9">${escapeHtml(emptyText)}</td></tr>`;
+    body.innerHTML = `<tr><td colspan="10">${escapeHtml(emptyText)}</td></tr>`;
     return;
   }
 
@@ -727,8 +727,9 @@ function renderResultRows(bodyId, rows, { ranked, emptyText }) {
     const narrativeCI = fmtCI(row.narrativeMeanCI);
     const leak = fmtPercent(row.leakRate);
     const width = Math.max(2, Math.min(100, row.dangerousFabricationRate * 100));
-    const statusLabel = ranked ? `#${index + 1}` : "No rank";
-    const statusDetail = ranked ? "Powered" : "n too small";
+    const statusLabel = ranked ? `Baseline ${index + 1}` : "Smoke";
+    const statusDetail = ranked ? "Historical" : "Not ranked";
+    const scoredAt = row.scoredAt ? formatScoredAt(row.scoredAt) : "--";
 
     tr.innerHTML = `
       <td class="rank-cell">
@@ -751,6 +752,7 @@ function renderResultRows(bodyId, rows, { ranked, emptyText }) {
       <td><strong>${row.narrativeMean.toFixed(1)}</strong><small>${narrativeCI}</small></td>
       <td>${row.fidelityMean.toFixed(2)}</td>
       <td>${leak}</td>
+      <td>${escapeHtml(scoredAt)}</td>
       <td>${escapeHtml(row.judgeModel)}</td>
     `;
     body.appendChild(tr);
@@ -2480,10 +2482,10 @@ async function boot() {
     renderCases(casesPayload.cases || []);
   } catch (err) {
     document.getElementById("leaderboard-body").innerHTML = `
-      <tr><td colspan="9">Could not load benchmark data. Check the static build output.</td></tr>
+      <tr><td colspan="10">Could not load benchmark data. Check the static build output.</td></tr>
     `;
     const smokeBody = document.getElementById("smoke-body");
-    if (smokeBody) smokeBody.innerHTML = `<tr><td colspan="9">Could not load smoke-test data.</td></tr>`;
+    if (smokeBody) smokeBody.innerHTML = `<tr><td colspan="10">Could not load smoke-test data.</td></tr>`;
     console.error(err);
   }
 

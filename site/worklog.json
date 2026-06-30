@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Historical baseline guardrail",
+      "why": "The evidence section still risked looking like a stale current-model leaderboard because the old launch rows appeared in a normal ranked table.",
+      "proof": "Reframed the powered table as historical baselines, changed rank language to baseline order, added scored dates, and put current-row actions directly above the old rows.",
+      "next": "Run and publish current powered PriMock57 rows so the historical board becomes comparison context instead of the main artifact.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current-model challenge", "href": "#current-challenge" },
+        { "label": "Run builder", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Demo case receipts",
       "why": "The synthetic demo still behaved like a passive source/note gallery even though the product promise is a receipt for unsupported care.",
       "proof": "Added a browser-only receipt panel to the demo case viewer. Selecting a bundled case now shows score, flagged unsupported items, leaks, next proof step, and actions to load the same case in the Lab or first-screen checker.",

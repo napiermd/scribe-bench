@@ -124,6 +124,9 @@ and next proof step, then copy a fuller QA summary before they test their own no
 The synthetic demo section now runs the same browser-only receipt on each bundled
 case, so the examples show what the checker catches instead of acting as a passive
 source/note gallery.
+The Evidence section now frames the old GPT-4o/launch Claude rows as a historical
+baseline board with scored dates and current-row actions, so visitors do not read
+stale launch baselines as today's model ranking.
 The judge path
 requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing

@@ -1373,6 +1373,39 @@ h4 {
   margin-top: 0.25rem;
 }
 
+.historical-baseline-board {
+  border: 1px solid rgba(152, 111, 11, 0.34);
+  background: #fff9e8;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+  margin: 0 0 1rem;
+}
+
+.historical-baseline-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  margin-bottom: 1rem;
+}
+
+.historical-baseline-head h3 {
+  font-size: 1.25rem;
+}
+
+.historical-baseline-head p:not(.eyebrow) {
+  max-width: 52rem;
+  color: var(--muted);
+  margin: 0.55rem 0 0;
+}
+
+.historical-baseline-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.7rem;
+}
+
 .fresh-smoke-card {
   display: grid;
   grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
@@ -2018,7 +2051,7 @@ h4 {
 .leaderboard-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 850px;
+  min-width: 980px;
 }
 
 .leaderboard-table th,
@@ -3156,6 +3189,7 @@ h4 {
   .challenge-tool,
   .evidence-digest,
   .evidence-agenda,
+  .historical-baseline-head,
   .current-run-card,
   .fresh-smoke-card,
   .worklog-board,
@@ -3214,6 +3248,7 @@ h4 {
   .quick-result-actions .button,
   .current-run-command-actions .button,
   .case-receipt-actions .button,
+  .historical-baseline-actions .button,
   .start-route-actions .button,
   .split-actions,
   .split-actions .button {
@@ -3230,6 +3265,10 @@ h4 {
 
   .case-list {
     position: static;
+  }
+
+  .historical-baseline-actions {
+    justify-content: stretch;
   }
 
   .run-builder-actions .button {

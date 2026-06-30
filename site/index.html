@@ -822,27 +822,46 @@
           </div>
         </div>
 
-        <div class="leaderboard-shell">
-          <table class="leaderboard-table">
-            <thead>
-              <tr>
-                <th scope="col">Rank</th>
-                <th scope="col">System</th>
-                <th scope="col">Dataset</th>
-                <th scope="col">n</th>
-                <th scope="col">Dangerous fab</th>
-                <th scope="col">Narrative</th>
-                <th scope="col">Fidelity</th>
-                <th scope="col">Leak</th>
-                <th scope="col">Judge</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboard-body">
-              <tr>
-                <td colspan="9">Loading leaderboard...</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="historical-baseline-board" aria-labelledby="historical-baselines-title">
+          <div class="historical-baseline-head">
+            <div>
+              <p class="eyebrow">Historical baselines</p>
+              <h3 id="historical-baselines-title">Launch rows, not the current leaderboard</h3>
+              <p>
+                These rows are ordered by dangerous-fabrication rate so the failure gradient
+                stays visible. They are June 2026 generic-scribe baselines, not a ranking of
+                the systems people should choose today.
+              </p>
+            </div>
+            <div class="historical-baseline-actions">
+              <a class="button primary compact-button" href="#current-challenge">Add a current row</a>
+              <a class="button secondary compact-button" href="#run">Copy run command</a>
+            </div>
+          </div>
+
+          <div class="leaderboard-shell">
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th scope="col">Baseline order</th>
+                  <th scope="col">System</th>
+                  <th scope="col">Dataset</th>
+                  <th scope="col">n</th>
+                  <th scope="col">Dangerous fab</th>
+                  <th scope="col">Narrative</th>
+                  <th scope="col">Fidelity</th>
+                  <th scope="col">Leak</th>
+                  <th scope="col">Scored</th>
+                  <th scope="col">Judge</th>
+                </tr>
+              </thead>
+              <tbody id="leaderboard-body">
+                <tr>
+                  <td colspan="10">Loading historical baselines...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
 
         <div class="subsection-head">
@@ -868,12 +887,13 @@
                 <th scope="col">Narrative</th>
                 <th scope="col">Fidelity</th>
                 <th scope="col">Leak</th>
+                <th scope="col">Scored</th>
                 <th scope="col">Judge</th>
               </tr>
             </thead>
             <tbody id="smoke-body">
               <tr>
-                <td colspan="9">Loading smoke tests...</td>
+                <td colspan="10">Loading smoke tests...</td>
               </tr>
             </tbody>
           </table>
