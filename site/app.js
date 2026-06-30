@@ -200,7 +200,7 @@ const publicStatusReceipt = [
   "",
   "Not proven yet: ScribeBench does not currently crown the best current model, certify a vendor system, approve clinical use, or turn one note into a system-level claim.",
   "",
-  "Next proof: add OpenRouter credits or configure a faster second judge, resume the cached PriMock57 run, and publish aggregate-only scores after at least 30 scored cases with declared model, judge, repeats, date, and confidence intervals.",
+  "Next proof: add OpenRouter credits or configure a faster second judge, copy the resume command from the Evidence card, and publish aggregate-only scores after at least 30 scored cases with declared model, judge, repeats, date, and confidence intervals.",
   "",
   "Start here: https://scribe-bench.vercel.app/",
   "Evidence ledger: https://scribe-bench.vercel.app/#leaderboard",
@@ -384,6 +384,7 @@ function renderCurrentRun(run) {
   const scored = Number(run.scoredCases) || 0;
   const errored = Number(run.erroredCases) || 0;
   const links = Array.isArray(run.links) ? run.links : [];
+  const resumeCommand = String(run.resumeCommand || "").trim();
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -405,6 +406,13 @@ function renderCurrentRun(run) {
   );
   setText("current-run-blocker", run.blocker || "No blocker recorded.");
   setText("current-run-next", run.next || "Continue the run and publish only when the evidence threshold is met.");
+  setText("current-run-unblock", run.unblockAsk || "Use the run builder to create a publishable powered row.");
+  setText("current-run-resume-command", resumeCommand);
+  setCurrentRunCopyStatus("");
+  setCurrentRunCopyFallback("");
+
+  const commandCard = document.getElementById("current-run-command-card");
+  if (commandCard) commandCard.hidden = !resumeCommand;
 
   const linkTarget = document.getElementById("current-run-links");
   if (linkTarget) {
@@ -426,6 +434,8 @@ function renderCurrentRunError() {
   setText("current-run-scored", "--");
   setText("current-run-errored", "--");
   setText("current-run-last-score", "--");
+  const commandCard = document.getElementById("current-run-command-card");
+  if (commandCard) commandCard.hidden = true;
 }
 
 function currentRunStatusClass(status) {
@@ -435,6 +445,35 @@ function currentRunStatusClass(status) {
     ready: "ready",
     blocked: "needed",
   }[String(status || "").toLowerCase()] || "open";
+}
+
+function bindCurrentRunCommand() {
+  document.getElementById("copy-current-run-command")?.addEventListener("click", copyCurrentRunCommand);
+}
+
+async function copyCurrentRunCommand() {
+  const text = document.getElementById("current-run-resume-command")?.textContent?.trim() || "";
+  if (!text) return;
+  try {
+    await copyText(text);
+    setCurrentRunCopyFallback("");
+    setCurrentRunCopyStatus("Resume command copied.");
+  } catch (_) {
+    setCurrentRunCopyFallback(text);
+    setCurrentRunCopyStatus("Clipboard unavailable. Command shown below.");
+  }
+}
+
+function setCurrentRunCopyStatus(message) {
+  const status = document.getElementById("current-run-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setCurrentRunCopyFallback(text) {
+  const fallback = document.getElementById("current-run-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
 }
 
 function renderWorkLog(payload) {
@@ -1885,6 +1924,7 @@ function setRunCopyFallback(text) {
 async function boot() {
   bindStartRouter();
   bindPublicStatus();
+  bindCurrentRunCommand();
   bindClaimChecker();
   bindChallengePlanner();
   bindLab();

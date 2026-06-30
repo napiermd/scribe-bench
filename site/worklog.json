@@ -3,6 +3,19 @@
   "entries": [
     {
       "date": "2026-06-30",
+      "status": "open",
+      "title": "Current row blocker made actionable",
+      "why": "The strongest remaining objection is evidence freshness. A failed current PriMock57 retry should become a public contribution path, not an invisible local error.",
+      "proof": "Retried the public API PriMock57 run at 11:06 UTC. PM57-d1c01 stayed scored, while PM57-d1c02 and PM57-d1c03 again hit OpenRouter's free-model daily cap. Updated the current-run status asset and Evidence card with the exact blocker, minimum publishable threshold, and a copyable resume command for anyone with credits or a non-capped provider key.",
+      "next": "Resume with OpenRouter credits, a caller-supplied provider key, or a faster second judge until at least 30 PriMock57 cases are scored, then publish aggregate-only scores.",
+      "links": [
+        { "label": "Current run status", "href": "#current-run" },
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Runner source", "href": "https://github.com/napiermd/scribe-bench/blob/main/scripts/run_public_api_benchmark.ts" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
       "status": "shipped",
       "title": "Public status receipt",
       "why": "A build-in-public benchmark needs a single artifact that tells visitors what is useful today, what is not proven yet, and what concrete run would make the project worth citing.",

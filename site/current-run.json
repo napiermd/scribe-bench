@@ -3,6 +3,7 @@
   "title": "Current PriMock57 public API attempt",
   "status": "needs-credit-or-second-judge",
   "statusLabel": "Needs credits or second judge",
+  "lastAttemptAt": "2026-06-30T11:06:29Z",
   "system": "openrouter-nemotron-3-ultra-public-api",
   "dataset": "PriMock57",
   "targetCases": 57,
@@ -10,6 +11,7 @@
   "generatedCases": 3,
   "scoredCases": 1,
   "erroredCases": 2,
+  "minimumPublishableCases": 30,
   "repeats": 1,
   "provider": "openrouter",
   "generationModel": "nvidia/nemotron-3-ultra-550b-a55b:free",
@@ -21,8 +23,10 @@
     "dangerousFabrications": 0,
     "standardAssumptions": 3
   },
-  "blocker": "PM57-d1c02 and PM57-d1c03 generated successfully, but judge calls first timed out and then hit OpenRouter's free-model daily cap on retry.",
+  "blocker": "PM57-d1c02 and PM57-d1c03 generated successfully, but judge calls first timed out and then hit OpenRouter's free-model daily cap again on the June 30 11:06 UTC retry.",
   "next": "Add OpenRouter credits, pass a local provider key with --key-env, or configure a faster second judge, then resume the cached run toward at least 30 completed PriMock57 cases before publishing any ranked current row.",
+  "unblockAsk": "Have a non-capped OpenRouter key or credits? Keep the key in your shell, resume the public API runner, and submit aggregate scores only after at least 30 PriMock57 cases are scored.",
+  "resumeCommand": "export OPENROUTER_API_KEY=...\nnpm run bench:public-api -- \\\n  --base-url https://scribe-bench.vercel.app \\\n  --dataset data/primock57/cases \\\n  --system openrouter-nemotron-3-ultra-public-api \\\n  --repeats 1 \\\n  --limit 30 \\\n  --key-env OPENROUTER_API_KEY \\\n  --out leaderboard/_public-api-pending.json",
   "rawNotesPolicy": "Raw generated notes remain in the ignored local progress cache and are not committed.",
   "links": [
     { "label": "Runner source", "href": "https://github.com/napiermd/scribe-bench/blob/main/scripts/run_public_api_benchmark.ts" },

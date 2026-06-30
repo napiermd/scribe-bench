@@ -112,7 +112,9 @@ smoke/powered benchmark command, and PR checklist from the visitor's selected
 dataset, generator, judge, and repeats. The Evidence section also carries a public
 work log (`/assets/worklog.json`) plus a queue for current frontier, open/free,
 real-workflow, and judge-robustness rows, including the proof required and first
-action for each target. That keeps the stale launch baselines framed as an active
+action for each target. The current-run card includes the latest blocked PriMock57
+public-API attempt plus a copyable resume command for anyone with a non-capped
+provider key or credits. That keeps the stale launch baselines framed as an active
 contribution backlog rather than a dead leaderboard.
 
 ```bash
@@ -217,7 +219,9 @@ the run has enough completed PriMock57 cases, no unreviewed errors, declared
 model/judge details, and the self-judge/second-judge limitation is disclosed.
 Free OpenRouter models can be slow and quota-limited; when a judge call times out
 or hits the daily cap, the runner records the case as errored/excluded and can
-resume once credits or another judge backend are available.
+resume once credits or another judge backend are available. The public site exposes
+that blocker in `/assets/current-run.json` and gives a copyable resume command in
+the Evidence section.
 
 ## Datasets
 

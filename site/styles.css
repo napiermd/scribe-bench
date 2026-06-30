@@ -1138,6 +1138,53 @@ h4 {
   font-weight: 850;
 }
 
+.current-run-command {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  border-top: 1px solid rgba(152, 111, 11, 0.24);
+  padding-top: 0.9rem;
+}
+
+.current-run-command-copy {
+  min-width: 0;
+}
+
+.current-run-command h4 {
+  color: var(--gold);
+  font-size: 0.68rem;
+}
+
+.current-run-command p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.42;
+  margin: 0.35rem 0 0;
+}
+
+.current-run-command .code-block {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.48;
+  white-space: pre-wrap;
+}
+
+.current-run-command-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+#current-run-copy-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
 .fresh-smoke-copy {
   min-width: 0;
 }
@@ -2547,6 +2594,7 @@ h4 {
   .agenda-grid,
   .current-run-metrics,
   .current-run-detail,
+  .current-run-command,
   .fresh-smoke-metrics,
   .lab-guide,
   .worklog-list article,
@@ -2571,6 +2619,7 @@ h4 {
   .instant-receipt-lane .button,
   .live-smoke-lane .button,
   .status-actions .button,
+  .current-run-command-actions .button,
   .start-route-actions .button,
   .split-actions,
   .split-actions .button {

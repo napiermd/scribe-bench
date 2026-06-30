@@ -566,6 +566,24 @@
             </div>
           </div>
           <div class="current-run-actions" id="current-run-links"></div>
+          <div class="current-run-command" id="current-run-command-card" hidden>
+            <div class="current-run-command-copy">
+              <h4>Unblock this row</h4>
+              <p id="current-run-unblock">--</p>
+            </div>
+            <pre class="code-block"><code id="current-run-resume-command"></code></pre>
+            <div class="current-run-command-actions">
+              <button class="button secondary compact-button" id="copy-current-run-command" type="button">Copy resume command</button>
+              <span id="current-run-copy-status" role="status" aria-live="polite"></span>
+            </div>
+            <textarea
+              class="copy-fallback"
+              id="current-run-copy-fallback"
+              readonly
+              hidden
+              aria-label="Current ScribeBench run resume command"
+            ></textarea>
+          </div>
         </div>
 
         <div class="fresh-smoke-card" aria-labelledby="fresh-smoke-title">
