@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Repo metadata now says the public job",
+      "why": "The GitHub About text and package description still led with dense benchmark jargon. That kept the repo chrome out of sync with the clearer website and README.",
+      "proof": "The package and GitHub repo descriptions now describe ScribeBench as a public workbench for checking whether AI-scribe notes invent care, with receipts and aggregate evidence rows.",
+      "next": "Keep every public entry point using the same practical language before deeper benchmark terminology.",
+      "links": [
+        { "label": "GitHub repo", "href": "https://github.com/napiermd/scribe-bench" },
+        { "label": "Live checker", "href": "#quick-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "README now starts with live jobs",
       "why": "The GitHub repo still opened with benchmark positioning and methodology before a visitor saw the live site link or the practical jobs. That made the repo entry point feel more academic than useful.",
       "proof": "The README now adds a Start here table immediately after the project summary, with direct links to the live checker, claim checker, evidence ledger, and Add row flow, plus the output each path gives the visitor.",

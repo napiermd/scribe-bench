@@ -1,7 +1,7 @@
 {
   "name": "scribe-bench",
   "version": "0.1.0",
-  "description": "A fidelity benchmark for clinical documentation AI — narrative quality + fabrication detection, calibrated to physician preference.",
+  "description": "Public workbench for checking whether AI-scribe notes invent care, with receipts and aggregate evidence rows.",
   "license": "MIT",
   "author": "Andrew Napier, MD",
   "type": "module",
