@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 76](https://img.shields.io/badge/tests-76%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 80](https://img.shields.io/badge/tests-80%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -110,12 +110,15 @@ submission path. Buyers and clinical leaders can turn common vendor claims
 such as "hallucination-free," "safe note," "better scribe," or "best current model"
 into a copyable evidence ask without starting from a blank textarea; builders can
 use the Lab for live model-backed scoring; contributors can add the missing current
-powered rows. The Lab opens with that seeded failure
-already loaded plus a precomputed demo verdict, and can also run an OpenRouter smoke
-flow that generates a fresh candidate note, judges it, and leaves the visitor with
-a verdict. Visitors can also run the live judge, read the fabrication verdict, copy
-a short evidence packet that names the scope, models, finding, and next proof step,
-then copy a fuller QA summary before they test their own notes. The judge path
+powered rows. The Lab is now source-first: visitors see the seeded failure, paste
+or replace the source encounter and candidate note, run the instant no-key receipt,
+then escalate to a live judge or generated candidate only when the one-note result
+deserves it. Model/provider/key controls sit behind a settings disclosure instead
+of leading the workflow. The Lab can still run an OpenRouter smoke flow that
+generates a fresh candidate note, judges it, and leaves the visitor with a verdict.
+Visitors can copy a short evidence packet that names the scope, models, finding,
+and next proof step, then copy a fuller QA summary before they test their own notes.
+The judge path
 requests JSON-object responses where supported
 and repairs common malformed JSON responses from free/current models before failing
 closed; the live API also has a compact plain-text fallback for models that keep
@@ -146,16 +149,17 @@ npm run preview
 
 Source lives in [`site/`](site/). The build script copies the static app into
 `dist/` and publishes bounded JSON from the existing benchmark artifacts.
-The live Lab can generate a candidate note from the source encounter, then judge
-that note in the same browser flow with a separate judge model. It returns a
-plain-language verdict and next step, not just a raw score, and can copy either
-a short public evidence packet or a detailed QA summary for review notes and
-public discussion. The Lab also has a browser-only local receipt that needs no
-API key or network call; it conservatively catches explicit contradictions,
-unsupported common workups, transport mismatches, age/sex mismatches,
-left/right body-part mismatches, allergy contradictions, and deterministic
-template leaks so a visitor can get an immediate triage receipt even when free
-hosted models are slow or capped. It can use a
+The live Lab starts with source encounter and candidate note fields, then makes
+the browser-only local receipt the primary action. That receipt needs no API key
+or network call; it conservatively catches explicit contradictions, unsupported
+common workups, transport mismatches, age/sex mismatches, left/right body-part
+mismatches, allergy contradictions, and deterministic template leaks so a visitor
+can get immediate triage even when free hosted models are slow or capped. The Lab
+can also generate a candidate note from the source encounter, then judge that note
+in the same browser flow with a separate judge model. It returns a plain-language
+verdict and next step, not just a raw score, and can copy either a short public
+evidence packet or a detailed QA summary for review notes and public discussion.
+It can use a
 Vercel `OPENROUTER_API_KEY` environment variable, or a temporary OpenRouter key
 pasted into the browser for that session. Baseten's OpenAI-compatible Model APIs
 are wired as an optional provider and become available when `BASETEN_API_KEY` is

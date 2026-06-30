@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "Source-first Lab workflow",
+      "why": "The Lab had useful checking behavior, but it opened with provider, model, and key controls before the visitor saw the actual job: compare a source encounter with an AI-written note.",
+      "proof": "Reframed the Lab around a three-step source-to-note QA workflow, moved the note fields before model settings, made the no-key local receipt the primary action, and tucked provider/model/key controls into a settings disclosure.",
+      "next": "Keep testing whether a first-time visitor can understand the public path from one-note triage to powered PriMock57 evidence without needing repo context.",
+      "links": [
+        { "label": "Live Lab", "href": "#lab" },
+        { "label": "Check one note", "href": "#main" },
+        { "label": "Run builder", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Evidence trust readout",
       "why": "The Evidence section opened with agenda machinery before answering what the rows can prove today.",
       "proof": "Moved the ranked/smoke/missing explanation to the top of the Evidence section and rewrote it as a plain readout: what can support a claim, what only shows smoke evidence, and what cannot be claimed yet.",

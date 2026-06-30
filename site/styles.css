@@ -2042,13 +2042,22 @@ h4 {
   padding-top: 64px;
 }
 
+.lab-workflow,
 .lab-guide {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 12px;
+}
+
+.lab-workflow {
+  margin: 0 0 1rem;
+}
+
+.lab-guide {
   margin: 1rem 0 0;
 }
 
+.lab-workflow article,
 .lab-guide article {
   display: grid;
   grid-template-columns: 34px minmax(0, 1fr);
@@ -2061,6 +2070,7 @@ h4 {
   padding: 0.95rem;
 }
 
+.lab-workflow span,
 .lab-guide span {
   display: grid;
   place-items: center;
@@ -2074,11 +2084,13 @@ h4 {
   font-weight: 900;
 }
 
+.lab-workflow strong,
 .lab-guide strong {
   display: block;
   line-height: 1.25;
 }
 
+.lab-workflow p,
 .lab-guide p {
   margin: 0.38rem 0 0;
   color: var(--muted);
@@ -2109,6 +2121,45 @@ h4 {
 
 .field-row.lab-model-row {
   grid-template-columns: minmax(135px, 0.32fr) minmax(0, 1fr) minmax(0, 1fr) auto;
+}
+
+.lab-model-settings {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  margin-top: 1rem;
+  padding: 0.9rem;
+}
+
+.lab-model-settings summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 850;
+}
+
+.lab-model-settings summary::marker {
+  color: var(--accent-strong);
+}
+
+.lab-model-settings summary span {
+  display: inline;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.lab-model-settings summary small {
+  display: block;
+  margin: 0.2rem 0 0 1.05rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.lab-model-settings .lab-model-row,
+.lab-key-field {
+  margin-top: 0.9rem;
 }
 
 .field {
@@ -2155,7 +2206,6 @@ h4 {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.9rem;
-  margin-top: 0.9rem;
 }
 
 .lab-actions {
@@ -3010,6 +3060,7 @@ h4 {
   .current-run-detail,
   .current-run-command,
   .fresh-smoke-metrics,
+  .lab-workflow,
   .lab-guide,
   .worklog-list article,
   .queue-list article,
@@ -3052,10 +3103,6 @@ h4 {
 
   .case-list {
     position: static;
-  }
-
-  .lab-results {
-    order: -1;
   }
 
   .run-builder-actions .button {

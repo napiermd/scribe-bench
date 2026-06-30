@@ -853,14 +853,13 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Live lab</p>
-            <h2>Generate and judge a current-model note</h2>
+            <h2>Check one note, then decide whether it needs a bigger run</h2>
             <p>
-              The seeded failure case opens with a precomputed demo verdict so the failure
-              mode is visible immediately: a note invents a head CT and syncope workup that
-              the source rules out. Run the local receipt for no-key browser triage across
-              common contradictions, demographics, laterality, allergies, and leaks; re-score
-              with the selected live judge; or replace the text with your own source and
-              candidate note. This is one-note triage, not leaderboard evidence.
+              Bring a source encounter and an AI-written note. Start with the no-key local
+              receipt for fast triage, then use the live judge when you want a model-backed
+              verdict or generate a fresh candidate from the same source. The seeded failure
+              is loaded so the first visit shows the point immediately: fluent notes can
+              invent care the source rules out. One note is triage, not leaderboard evidence.
             </p>
           </div>
           <div class="split-actions">
@@ -877,40 +876,32 @@
           </div>
         </div>
 
+        <div class="lab-workflow" aria-label="Live lab workflow">
+          <article>
+            <span>1</span>
+            <div>
+              <strong>Paste source and note</strong>
+              <p>Use the seeded fall case or replace both fields with your own encounter and candidate note.</p>
+            </div>
+          </article>
+          <article>
+            <span>2</span>
+            <div>
+              <strong>Run the instant receipt</strong>
+              <p>Get no-key browser triage for contradictions, invented workups, demographics, laterality, allergies, and leaks.</p>
+            </div>
+          </article>
+          <article>
+            <span>3</span>
+            <div>
+              <strong>Escalate only when needed</strong>
+              <p>Use the live judge or generate a fresh candidate when the one-note result deserves stronger evidence.</p>
+            </div>
+          </article>
+        </div>
+
         <div class="lab-shell">
           <form class="lab-form" id="lab-form">
-            <div class="field-row lab-model-row">
-              <label class="field">
-                <span>Provider</span>
-                <select id="lab-provider">
-                  <option value="openrouter">OpenRouter free</option>
-                  <option value="baseten">Baseten Model APIs</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>Generation model</span>
-                <select id="lab-generate-model"></select>
-              </label>
-              <label class="field">
-                <span>Judge model</span>
-                <select id="lab-judge-model"></select>
-              </label>
-              <button class="button secondary compact-button" id="refresh-models" type="button">Refresh models</button>
-            </div>
-
-            <label class="field">
-              <span id="lab-key-label">Temporary provider API key</span>
-              <input
-                id="lab-key"
-                type="password"
-                autocomplete="off"
-                placeholder="Optional; uses the configured Vercel key when available"
-              />
-              <small class="field-hint" id="provider-hint">
-                OpenRouter free models use the configured site key; paste a temporary key only to override it.
-              </small>
-            </label>
-
             <div class="lab-textareas">
               <label class="field">
                 <span>Source encounter</span>
@@ -923,13 +914,52 @@
             </div>
 
             <div class="lab-actions">
+              <button class="button primary" id="run-local-receipt" type="button">Run local receipt</button>
+              <button class="button secondary" id="run-lab" type="submit">Run live judge</button>
               <button class="button secondary" id="generate-note" type="button">Generate candidate note</button>
-              <button class="button secondary" id="run-local-receipt" type="button">Run local receipt</button>
-              <button class="button primary" id="run-lab" type="submit">Run live judge</button>
               <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
             </div>
+
+            <details class="lab-model-settings">
+              <summary>
+                <span>Model settings and temporary key</span>
+                <small>Defaults use the configured public Lab path.</small>
+              </summary>
+
+              <div class="field-row lab-model-row">
+                <label class="field">
+                  <span>Provider</span>
+                  <select id="lab-provider">
+                    <option value="openrouter">OpenRouter free</option>
+                    <option value="baseten">Baseten Model APIs</option>
+                  </select>
+                </label>
+                <label class="field">
+                  <span>Generation model</span>
+                  <select id="lab-generate-model"></select>
+                </label>
+                <label class="field">
+                  <span>Judge model</span>
+                  <select id="lab-judge-model"></select>
+                </label>
+                <button class="button secondary compact-button" id="refresh-models" type="button">Refresh models</button>
+              </div>
+
+              <label class="field lab-key-field">
+                <span id="lab-key-label">Temporary provider API key</span>
+                <input
+                  id="lab-key"
+                  type="password"
+                  autocomplete="off"
+                  placeholder="Optional; uses the configured Vercel key when available"
+                />
+                <small class="field-hint" id="provider-hint">
+                  OpenRouter free models use the configured site key; paste a temporary key only to override it.
+                </small>
+              </label>
+            </details>
           </form>
 
           <aside class="lab-results" aria-live="polite">
@@ -1046,22 +1076,22 @@
           <article>
             <span>1</span>
             <div>
-              <strong>Start with the seeded failure</strong>
-              <p>SYN-003 is already loaded so the first visit has a real unsupported claim to inspect.</p>
+              <strong>Use it for review</strong>
+              <p>A one-note receipt is enough to flag unsupported care for human review or debugging.</p>
             </div>
           </article>
           <article>
             <span>2</span>
             <div>
-              <strong>Read the seeded verdict</strong>
-              <p>The first result is precomputed so you can see the head CT and syncope workup catch immediately.</p>
+              <strong>Copy the packet</strong>
+              <p>The result names the scope, models, finding, and next proof step without copying raw encounter text.</p>
             </div>
           </article>
           <article>
             <span>3</span>
             <div>
-              <strong>Re-score or copy the summary</strong>
-              <p>Run the live judge for model-backed scoring, or copy the demo summary before testing your own note.</p>
+              <strong>Do not overclaim</strong>
+              <p>Use PriMock57 powered runs before saying a scribe, vendor, or model is safer overall.</p>
             </div>
           </article>
         </div>
