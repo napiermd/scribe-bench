@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "First screen turned into visitor jobs",
+      "why": "The top of the site still read partly like positioning copy, so a first-time visitor had to assemble what the repo was for from several later sections.",
+      "proof": "Replaced the abstract For/Does/Why strip with three concrete jobs: check one note, challenge a claim, or publish aggregate evidence. The first screen now names the seeded CT/syncope catch and separates one-note QA from system-level proof.",
+      "next": "Keep compressing the site around visitor jobs so the benchmark machinery feels like a path, not a pile of artifacts.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Powered row defaults made serious",
       "why": "The Run builder asked visitors to create a current powered row but prefilled an OpenRouter free model, making the serious evidence path look like another cheap smoke demo.",
       "proof": "Changed the current powered-row preset and current challenge planner to start with the actual system under test, a visitor-produced candidate-note file, and a declared strong judge. OpenRouter/free-model defaults now stay in the smoke-test preset.",

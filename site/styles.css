@@ -335,7 +335,8 @@ h4 {
 .thesis-strip strong {
   display: block;
   margin-top: 0.28rem;
-  line-height: 1.24;
+  font-size: 0.92rem;
+  line-height: 1.25;
 }
 
 .mobile-proof {
