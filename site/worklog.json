@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Mobile visitors now see the point before the form",
+      "why": "Desktop visitors saw the hero explanation next to the checker, but mobile visitors landed directly in a source-note form before seeing why ScribeBench exists or what public artifact they would leave with.",
+      "proof": "The first mobile checker now includes a compact proof strip: fluent AI notes can add care that never happened, ScribeBench turns the source-vs-note gap into a copyable evidence card, and one note is QA rather than a ranking.",
+      "next": "Keep checking mobile first; if the first viewport reads like a generic form, add context before adding more sections.",
+      "links": [
+        { "label": "Mobile checker", "href": "#quick-check" },
+        { "label": "Public evidence card", "href": "#quick-check" },
+        { "label": "Who this is for", "href": "#who-uses-this" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The evidence-card copy action is now visible before the preview",
       "why": "The site had promoted the Public evidence card as the main leave-behind, but the Copy evidence card action still appeared below the long copy-preview block. That made the artifact visible before it was obviously usable.",
       "proof": "The Public evidence card now shows the primary copy action immediately after the evidence fields, before the scroll-contained copy-ready text. Visitors can act on the card before reading the full block.",
