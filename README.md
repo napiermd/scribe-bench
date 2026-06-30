@@ -79,10 +79,10 @@ PriMock57, and build-in-public updates through GitHub submissions. The Run secti
 includes a contribution builder that generates the candidate-note JSON shape,
 smoke/powered benchmark command, and PR checklist from the visitor's selected
 dataset, generator, judge, and repeats. The Evidence section also carries a public
-queue for current frontier, open/free, real-workflow, and judge-robustness rows,
-including the proof required and first action for each target. That keeps the
-stale launch baselines framed as a contribution backlog rather than a dead
-leaderboard.
+work log (`/assets/worklog.json`) plus a queue for current frontier, open/free,
+real-workflow, and judge-robustness rows, including the proof required and first
+action for each target. That keeps the stale launch baselines framed as an active
+contribution backlog rather than a dead leaderboard.
 
 ```bash
 npm run build

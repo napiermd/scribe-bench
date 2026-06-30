@@ -1,0 +1,41 @@
+{
+  "updatedAt": "2026-06-30",
+  "entries": [
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
+      "title": "Lab evidence packet",
+      "why": "A visitor can now leave the Lab with a compact packet that names the scope, case, generator, judge, finding, and next proof step.",
+      "proof": "Public alias serves the Evidence packet UI and copy action; production logs were clean after deploy.",
+      "next": "Use packets as the lightweight artifact for public discussion, then graduate useful claims into PriMock57 rows.",
+      "links": [
+        { "label": "Open Lab", "href": "#lab" },
+        { "label": "Raw work log", "href": "/assets/worklog.json" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
+      "title": "One-click current-model smoke check",
+      "why": "The homepage can run the seeded fall case through the configured OpenRouter free-model path instead of only describing the benchmark.",
+      "proof": "OpenRouter model discovery is configured on production and returns current free models; the live site exposes the smoke-check CTA.",
+      "next": "Promote promising smoke checks to powered PriMock57 runs before making any model-ranking claim.",
+      "links": [
+        { "label": "Run smoke", "href": "#lab" },
+        { "label": "Use powered path", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
+      "title": "Contribution command builder",
+      "why": "The Run section now turns a visitor's dataset, generator, judge, repeats, and system label into the JSON shape and command needed for a public row.",
+      "proof": "The builder generates smoke and powered commands, candidate-note JSON templates, and a PR checklist from the selected run type.",
+      "next": "Use the builder to add current frontier, open/free, real-workflow, and judge-robustness rows.",
+      "links": [
+        { "label": "Build a row", "href": "#run" },
+        { "label": "Submission guide", "href": "https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" }
+      ]
+    }
+  ]
+}

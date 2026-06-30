@@ -137,6 +137,76 @@ function renderEvidenceFreshness(results) {
     : "no powered rows yet";
 }
 
+function renderWorkLog(payload) {
+  const list = document.getElementById("worklog-list");
+  if (!list) return;
+  const entries = Array.isArray(payload?.entries) ? payload.entries : [];
+  list.innerHTML = "";
+
+  if (!entries.length) {
+    list.innerHTML = `
+      <article>
+        <span class="queue-status needed">Missing</span>
+        <h3>No public work log entries yet</h3>
+        <p>Ship a concrete change, then add the proof and next step to worklog.json.</p>
+      </article>
+    `;
+    return;
+  }
+
+  entries.slice(0, 4).forEach((entry) => {
+    const links = Array.isArray(entry.links) ? entry.links : [];
+    const article = document.createElement("article");
+    article.innerHTML = `
+      <div class="worklog-main">
+        <span class="queue-status ${worklogStatusClass(entry.status)}">${escapeHtml(entry.status || "logged")}</span>
+        <small>${escapeHtml(formatScoredAt(entry.date || payload.updatedAt || ""))}</small>
+        <h3>${escapeHtml(entry.title || "Untitled work")}</h3>
+        <p>${escapeHtml(entry.why || "")}</p>
+      </div>
+      <dl>
+        <div>
+          <dt>Proof</dt>
+          <dd>${escapeHtml(entry.proof || "No proof recorded.")}</dd>
+        </div>
+        <div>
+          <dt>Next</dt>
+          <dd>${escapeHtml(entry.next || "No next step recorded.")}</dd>
+        </div>
+      </dl>
+      <div class="worklog-links">
+        ${links.map((link) => `<a href="${escapeHtml(link.href || "#")}"${externalLinkAttrs(link.href)}>${escapeHtml(link.label || "Open")}</a>`).join("")}
+      </div>
+    `;
+    list.appendChild(article);
+  });
+}
+
+function renderWorkLogError() {
+  const list = document.getElementById("worklog-list");
+  if (!list) return;
+  list.innerHTML = `
+    <article>
+      <span class="queue-status needed">Unavailable</span>
+      <h3>Could not load the public work log</h3>
+      <p>The benchmark still works; the work-log asset failed to load.</p>
+    </article>
+  `;
+}
+
+function worklogStatusClass(status) {
+  return {
+    shipped: "ready",
+    open: "open",
+    needed: "needed",
+    valuable: "valuable",
+  }[String(status || "").toLowerCase()] || "open";
+}
+
+function externalLinkAttrs(href = "") {
+  return /^https?:\/\//i.test(href) ? ' target="_blank" rel="noreferrer"' : "";
+}
+
 function formatScoredAt(value) {
   const date = new Date(`${value}T00:00:00Z`);
   return Number.isNaN(date.getTime()) ? value : fmtDate.format(date);
@@ -1195,6 +1265,13 @@ async function boot() {
     `;
     const smokeBody = document.getElementById("smoke-body");
     if (smokeBody) smokeBody.innerHTML = `<tr><td colspan="9">Could not load smoke-test data.</td></tr>`;
+    console.error(err);
+  }
+
+  try {
+    renderWorkLog(await loadJson("/assets/worklog.json"));
+  } catch (err) {
+    renderWorkLogError();
     console.error(err);
   }
 }

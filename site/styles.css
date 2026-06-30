@@ -722,6 +722,116 @@ h4 {
   font-weight: 850;
 }
 
+.worklog-board {
+  display: grid;
+  grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
+  gap: 12px;
+  margin: 0 0 1rem;
+}
+
+.worklog-copy,
+.worklog-list article {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.worklog-copy {
+  align-self: stretch;
+}
+
+.worklog-copy h3 {
+  font-size: 1.24rem;
+}
+
+.worklog-copy p:not(.eyebrow) {
+  color: var(--muted);
+  margin: 0.72rem 0 0;
+  font-size: 0.94rem;
+}
+
+.worklog-copy a {
+  display: inline-flex;
+  margin-top: 0.8rem;
+  font-weight: 850;
+}
+
+.worklog-list {
+  display: grid;
+  gap: 10px;
+}
+
+.worklog-list article {
+  display: grid;
+  grid-template-columns: minmax(0, 0.62fr) minmax(280px, 0.7fr);
+  gap: 16px;
+  box-shadow: none;
+  background: var(--panel-soft);
+}
+
+.worklog-main {
+  min-width: 0;
+}
+
+.worklog-main small {
+  display: block;
+  color: var(--faint);
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  margin-top: 0.55rem;
+}
+
+.worklog-list h3 {
+  font-size: 1.04rem;
+  margin-top: 0.42rem;
+}
+
+.worklog-list p {
+  color: var(--muted);
+  margin: 0.45rem 0 0;
+  font-size: 0.92rem;
+}
+
+.worklog-list dl {
+  display: grid;
+  gap: 0.55rem;
+  margin: 0;
+}
+
+.worklog-list dl div {
+  min-width: 0;
+  border-left: 3px solid var(--line-strong);
+  padding-left: 0.75rem;
+}
+
+.worklog-list dt {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.worklog-list dd {
+  margin: 0.18rem 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+  overflow-wrap: anywhere;
+}
+
+.worklog-links {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.worklog-links a {
+  font-weight: 850;
+  font-size: 0.88rem;
+}
+
 .subsection-head {
   margin: 1.6rem 0 0.8rem;
 }
@@ -1743,6 +1853,7 @@ h4 {
 
   .summary-grid,
   .evidence-agenda,
+  .worklog-board,
   .queue-board,
   .lab-shell,
   .case-workspace,
@@ -1761,6 +1872,7 @@ h4 {
   .run-builder-actions,
   .agenda-grid,
   .lab-guide,
+  .worklog-list article,
   .queue-list article,
   .quick-paths,
   .live-smoke-lane,
