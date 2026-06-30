@@ -31,7 +31,7 @@
           </span>
         </a>
         <nav class="nav" aria-label="Primary navigation">
-          <a href="#purpose">Start here</a>
+          <a href="#main">Start here</a>
           <a href="#claim-check">Claim check</a>
           <a href="#current-challenge">Challenge</a>
           <a href="#leaderboard">Evidence</a>
@@ -74,25 +74,42 @@
               <strong>Example catch:</strong> source says no head strike or loss of consciousness;
               the note invents a head CT and syncope workup.
             </p>
-            <div class="quick-paths" aria-label="Choose a ScribeBench path">
-              <article>
-                <span>I have one note</span>
-                <strong>Check source fidelity</strong>
-                <p>Paste source + note. Get verdict, flags, leaks, and a QA summary.</p>
-                <a href="#lab">Run note triage</a>
-              </article>
-              <article>
-                <span>I have a scribe system</span>
-                <strong>Publish aggregate evidence</strong>
-                <p>Run PriMock57. Submit scores-only rows with judge and method declared.</p>
-                <a href="#run">Run the harness</a>
-              </article>
-              <article>
-                <span>I am evaluating claims</span>
-                <strong>Separate demo from proof</strong>
-                <p>Compare the seeded catch, powered rows, and current evidence queue.</p>
-                <a href="#claim-check">Check a claim</a>
-              </article>
+            <div class="start-router" aria-label="Choose what to do in ScribeBench">
+              <div class="start-router-tabs" role="group" aria-label="Visitor role">
+                <button type="button" class="active" data-start-route="note" aria-pressed="true">I have one note</button>
+                <button type="button" data-start-route="buyer" aria-pressed="false">I am evaluating a scribe</button>
+                <button type="button" data-start-route="builder" aria-pressed="false">I build one</button>
+                <button type="button" data-start-route="contributor" aria-pressed="false">I want to improve the board</button>
+              </div>
+              <div class="start-router-panel">
+                <div class="start-router-copy">
+                  <p class="eyebrow" id="start-route-kicker">Fastest useful path</p>
+                  <h2 id="start-route-title">Paste source plus note. Get a receipt.</h2>
+                  <p id="start-route-copy">
+                    Start with one encounter and one generated note. ScribeBench checks whether
+                    the note stayed faithful, invented unsupported care, leaked template junk,
+                    and what claim that result can actually support.
+                  </p>
+                </div>
+                <dl class="start-route-steps" aria-label="Selected ScribeBench path">
+                  <div>
+                    <dt>You bring</dt>
+                    <dd id="start-route-input">Source encounter and generated note.</dd>
+                  </div>
+                  <div>
+                    <dt>You do</dt>
+                    <dd id="start-route-action">Run the Lab judge, then review flagged claims against the source.</dd>
+                  </div>
+                  <div>
+                    <dt>You leave with</dt>
+                    <dd id="start-route-output">A copyable QA receipt and a clear next proof step.</dd>
+                  </div>
+                </dl>
+                <div class="start-route-actions">
+                  <a class="button primary" id="start-route-primary" href="#lab">Run note triage</a>
+                  <a class="button secondary" id="start-route-secondary" href="#demo">See the seeded catch</a>
+                </div>
+              </div>
             </div>
             <div class="live-smoke-lane" aria-label="Run a current free-model smoke check">
               <div>

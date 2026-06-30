@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 66](https://img.shields.io/badge/tests-66%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 73](https://img.shields.io/badge/tests-73%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -75,11 +75,14 @@ Live results: [`leaderboard/results.json`](leaderboard/results.json). Rows marke
 
 This repo builds a static public ScribeBench site for Vercel, currently live at
 `https://scribe-bench.vercel.app`. The site gives non-repo visitors a walk-up
-experience: a receipt-first homepage, role-based entry points, an evidence
+experience: a receipt-first homepage, a first-screen Start Here router, an evidence
 ledger, a powered PriMock57 leaderboard, a public claim checker, a current-model
 challenge planner, a separate not-ranked synthetic smoke-test table, benchmark
 snapshot, synthetic demo case viewer, methodology summary, live generate-and-judge
-lab, and run-it-yourself submission path. The homepage shows
+lab, and run-it-yourself submission path. The router makes the job explicit:
+one-note reviewers paste source plus note and get a receipt; buyers and clinical
+leaders turn vendor claims into an evidence ask; builders run smoke checks before
+claiming quality; contributors add the missing current powered rows. The homepage shows
 the seeded CT/syncope fabrication catch as a ScribeBench receipt before asking
 visitors to click deeper, then gives first-screen paths to run a current
 free-model smoke check, check one note, publish aggregate evidence for a scribe

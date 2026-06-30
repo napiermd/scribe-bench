@@ -332,6 +332,111 @@ h4 {
   font-weight: 850;
 }
 
+.start-router {
+  margin: 1rem 0 0;
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.start-router-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-bottom: 1px solid var(--line);
+}
+
+.start-router-tabs button {
+  min-width: 0;
+  min-height: 42px;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  font-size: 0.78rem;
+  font-weight: 850;
+  line-height: 1.18;
+  padding: 0.7rem 0.75rem;
+  text-align: left;
+}
+
+.start-router-tabs button:last-child {
+  border-right: 0;
+}
+
+.start-router-tabs button:hover,
+.start-router-tabs button.active {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+}
+
+.start-router-tabs button:focus-visible {
+  outline: 3px solid rgba(15, 118, 110, 0.36);
+  outline-offset: -3px;
+}
+
+.start-router-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1fr);
+  gap: 0.85rem;
+  padding: 0.95rem;
+}
+
+.start-router-copy {
+  min-width: 0;
+}
+
+.start-router-copy .eyebrow {
+  margin-bottom: 0.4rem;
+}
+
+.start-router-copy h2 {
+  font-family: var(--sans);
+  font-size: 1.18rem;
+  line-height: 1.18;
+}
+
+.start-router-copy p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.42;
+  margin: 0.55rem 0 0;
+}
+
+.start-route-steps {
+  display: grid;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+.start-route-steps div {
+  min-width: 0;
+  border-left: 3px solid var(--line-strong);
+  background: var(--panel);
+  padding: 0.58rem 0.68rem;
+}
+
+.start-route-steps dt {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.start-route-steps dd {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.34;
+}
+
+.start-route-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
 .live-smoke-lane {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -2377,6 +2482,8 @@ h4 {
   .worklog-list article,
   .queue-list article,
   .quick-paths,
+  .start-router-panel,
+  .start-route-steps,
   .thesis-strip,
   .live-smoke-lane,
   .workflow-strip,
@@ -2391,6 +2498,7 @@ h4 {
   }
 
   .live-smoke-lane .button,
+  .start-route-actions .button,
   .split-actions,
   .split-actions .button {
     width: 100%;
@@ -2432,6 +2540,18 @@ h4 {
   .workflow-strip div:last-child {
     border-bottom: 0;
   }
+
+  .start-router-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .start-router-tabs button:nth-child(2n) {
+    border-right: 0;
+  }
+
+  .start-router-tabs button:nth-child(-n + 2) {
+    border-bottom: 1px solid var(--line);
+  }
 }
 
 @media (max-width: 560px) {
@@ -2467,6 +2587,20 @@ h4 {
 
   .button {
     width: 100%;
+  }
+
+  .start-router-tabs {
+    grid-template-columns: 1fr;
+  }
+
+  .start-router-tabs button,
+  .start-router-tabs button:nth-child(2n) {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .start-router-tabs button:last-child {
+    border-bottom: 0;
   }
 
   .case-toolbar {

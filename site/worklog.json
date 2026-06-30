@@ -4,6 +4,19 @@
     {
       "date": "2026-06-30",
       "status": "shipped",
+      "title": "First-visit product router",
+      "why": "The site still asked new visitors to understand the benchmark before it told them what job they could do. That made the public project feel abstract and easy to dismiss as AI-benchmark theater.",
+      "proof": "Replaced the static first-screen quick paths with a role-based Start Here router for one-note reviewers, buyers or clinical leaders, scribe builders, and evidence contributors. Each route now states what the visitor brings, what they do, what they leave with, and the next click.",
+      "next": "Use the router language as the spine for the rest of the site: keep collapsing jargon into concrete jobs, receipts, and public evidence rows.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Run Lab", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-06-30",
+      "status": "shipped",
       "title": "Resumable public API PriMock57 runner",
       "why": "The site should not stop at one-note receipts. It needs a concrete path from the public Vercel lab to current aggregate PriMock57 evidence without committing raw generated notes.",
       "proof": "Added scripts/run_public_api_benchmark.ts with ignored progress caching, caller-supplied provider-key forwarding, fail-closed incomplete-case handling, configuration mismatch guards, aggregate-only pending output, tests, and a public current-run status card. A production slice generated and judged PM57-d1c01 through https://scribe-bench.vercel.app; PM57-d1c02 and PM57-d1c03 generated but judge calls first timed out, then hit OpenRouter's free-model daily cap on retry. The errored cases stayed excluded instead of being counted clean.",

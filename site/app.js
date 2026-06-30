@@ -189,6 +189,53 @@ const challengePlans = {
   },
 };
 
+const startRoutes = {
+  note: {
+    kicker: "Fastest useful path",
+    title: "Paste source plus note. Get a receipt.",
+    copy:
+      "Start with one encounter and one generated note. ScribeBench checks whether the note stayed faithful, invented unsupported care, leaked template junk, and what claim that result can actually support.",
+    input: "Source encounter and generated note.",
+    action: "Run the Lab judge, then review flagged claims against the source.",
+    output: "A copyable QA receipt and a clear next proof step.",
+    primary: { label: "Run note triage", href: "#lab" },
+    secondary: { label: "See the seeded catch", href: "#demo" },
+  },
+  buyer: {
+    kicker: "For buyers and clinical leaders",
+    title: "Turn vendor polish into an evidence ask.",
+    copy:
+      "Use ScribeBench when a demo note looks impressive or a vendor says the scribe is hallucination-free. The site separates a one-note catch from a system-level claim.",
+    input: "A demo note, vendor claim, or internal pilot example.",
+    action: "Use the claim checker, inspect the seeded failure, then ask for aggregate PriMock57 or real-workflow scores.",
+    output: "A concrete public ask: dataset, n, judge, repeats, dangerous-fabrication rate, leak rate, and disclosure.",
+    primary: { label: "Check a claim", href: "#claim-check" },
+    secondary: { label: "Read evidence gaps", href: "#leaderboard" },
+  },
+  builder: {
+    kicker: "For scribe builders",
+    title: "Find failures before a note becomes a promise.",
+    copy:
+      "Use the Lab as a fast triage loop, then graduate anything worth discussing to a powered PriMock57 run. Smoke checks are useful, but they are not a crown.",
+    input: "A model, prompt, or pipeline that generates clinical notes.",
+    action: "Run the seeded SYN-003 smoke path, paste your own note, then score a full candidate file when the smoke path survives.",
+    output: "A failure signal, judge summary, and a reproducible path to an aggregate benchmark row.",
+    primary: { label: "Run current smoke", href: "#lab" },
+    secondary: { label: "Build a row", href: "#run" },
+  },
+  contributor: {
+    kicker: "For people improving the public board",
+    title: "Add the current rows the site is missing.",
+    copy:
+      "The old rows are kept as historical baselines. The useful public work is adding current frontier, open/free, real-workflow, and second-judge rows without publishing raw closed-model notes.",
+    input: "A system label, candidate-note file, dataset choice, generation model, judge, and repeats.",
+    action: "Copy a run plan, generate aggregate scores, and submit the scores-only row through GitHub.",
+    output: "A public evidence row or a visible blocker that explains what still needs to be run.",
+    primary: { label: "Copy challenge plan", href: "#current-challenge" },
+    secondary: { label: "Open run builder", href: "#run" },
+  },
+};
+
 const seededDemoResults = {
   "SYN-003": {
     dimensions: {
@@ -721,6 +768,40 @@ function setChallengeCopyFallback(text) {
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
+}
+
+function bindStartRouter() {
+  const buttons = [...document.querySelectorAll("[data-start-route]")];
+  if (!buttons.length) return;
+
+  const selectRoute = (key) => {
+    const route = startRoutes[key] || startRoutes.note;
+    buttons.forEach((button) => {
+      const active = button.dataset.startRoute === key;
+      button.classList.toggle("active", active);
+      button.setAttribute("aria-pressed", active ? "true" : "false");
+    });
+    setText("start-route-kicker", route.kicker);
+    setText("start-route-title", route.title);
+    setText("start-route-copy", route.copy);
+    setText("start-route-input", route.input);
+    setText("start-route-action", route.action);
+    setText("start-route-output", route.output);
+    setRouteLink("start-route-primary", route.primary);
+    setRouteLink("start-route-secondary", route.secondary);
+  };
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => selectRoute(button.dataset.startRoute || "note"));
+  });
+  selectRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
+}
+
+function setRouteLink(id, link) {
+  const target = document.getElementById(id);
+  if (!target || !link) return;
+  target.textContent = link.label;
+  target.setAttribute("href", link.href);
 }
 
 function escapeHtml(value) {
@@ -1658,6 +1739,7 @@ function setRunCopyFallback(text) {
 }
 
 async function boot() {
+  bindStartRouter();
   bindClaimChecker();
   bindChallengePlanner();
   bindLab();
