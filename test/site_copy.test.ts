@@ -397,36 +397,40 @@ describe('site copy and labels', () => {
     expect(app).not.toContain('challengePlans');
   });
 
-  it('makes the public work queue copyable as a contribution task', () => {
+  it('keeps the run section focused on aggregate row submission', () => {
     const runStart = html.indexOf('<section class="wrap section run-panel" id="run">');
     const footerStart = html.indexOf('<footer', runStart);
     const runSection = runStart >= 0 ? html.slice(runStart, footerStart >= 0 ? footerStart : undefined) : '';
-    const chooserIndex = runSection.indexOf('Choose your entry point');
-    const queueIndex = runSection.indexOf('Public work queue');
+    const planIndex = runSection.indexOf('Powered row requirements');
+    const contractIndex = runSection.indexOf('Public row evidence contract');
     const builderIndex = runSection.indexOf('Aggregate row command builder');
 
-    expect(runSection).toContain('Help make ScribeBench worth citing.');
-    expect(runSection).toContain('You do not need to be a benchmark person.');
-    expect(runSection).toContain('Only many scored notes');
-    expect(runSection).toContain('What do you have in hand?');
-    expect(runSection).toContain('I can unblock the current run.');
-    expect(runSection).toContain('Open the blocker task');
-    expect(chooserIndex).toBeGreaterThan(-1);
-    expect(queueIndex).toBeGreaterThan(chooserIndex);
-    expect(builderIndex).toBeGreaterThan(queueIndex);
-    expect(runSection).toContain('id="public-work-queue-task"');
-    expect(runSection).toContain('Copyable public task');
-    expect(runSection).toContain('id="copy-public-work-task"');
-    expect(runSection).toContain('Generated ScribeBench public contribution task');
-    expect(runSection).not.toContain('Pick the artifact before touching the builder.');
-    expect(runSection).not.toContain('Start from evidence in hand');
+    expect(runSection).toContain('Publish a scored row only when you have many notes.');
+    expect(runSection).toContain('One source-note pair belongs in the checker.');
+    expect(runSection).toContain('This section is only for aggregate evidence');
+    expect(planIndex).toBeGreaterThan(-1);
+    expect(contractIndex).toBeGreaterThan(planIndex);
+    expect(builderIndex).toBeGreaterThan(contractIndex);
+    expect(runSection).toContain('Candidate note JSON');
+    expect(runSection).toContain('Generated command');
+    expect(runSection).toContain('Pull request checklist');
+    expect(runSection).not.toContain('Help make ScribeBench worth citing.');
+    expect(runSection).not.toContain('Choose your entry point');
+    expect(runSection).not.toContain('What do you have in hand?');
+    expect(runSection).not.toContain('Public work queue');
+    expect(runSection).not.toContain('id="public-work-queue-task"');
+    expect(runSection).not.toContain('id="copy-public-work-task"');
+    expect(runSection).not.toContain('Generated ScribeBench public contribution task');
     expect(app).toContain('let currentPublicWorkTask = "";');
     expect(app).toContain('function buildPublicWorkTask(run, counts)');
     expect(app).toContain('ScribeBench public contribution task');
     expect(app).toContain('status: "Only for rows"');
     expect(app).toContain('Boundary: no raw closed-model notes in the public repo; this is not a current ranking until the row is complete and reviewed.');
     expect(app).toContain('bindPublicWorkTaskCopy();');
+    expect(app).toContain('document.querySelectorAll("[data-copy-public-work-task]")');
     expect(app).toContain('setPublicWorkQueueCopyStatus("Public task copied.");');
+    expect(app).not.toContain('document.querySelectorAll("#copy-public-work-task');
+    expect(app).not.toContain('public-work-queue-task');
   });
 
   it('keeps the evidence tables framed as claim-boundary ledgers', () => {
@@ -494,7 +498,7 @@ describe('site copy and labels', () => {
     expect(app).not.toContain('setText("current-run-generated"');
     expect(app).not.toContain('setText("current-run-last-score"');
     expect(app).not.toContain('setText("current-run-next"');
-    expect(app).toContain('document.querySelectorAll("#copy-public-work-task, [data-copy-public-work-task]")');
+    expect(app).toContain('document.querySelectorAll("[data-copy-public-work-task]")');
     expect(app).toContain('function bindCitationBoundaryCopy()');
     expect(app).toContain('document.getElementById("copy-citation-boundary")?.addEventListener("click", copyCitationBoundary);');
     expect(app).toContain('ScribeBench citation boundary');

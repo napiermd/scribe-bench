@@ -652,44 +652,11 @@ function renderCurrentRun(run) {
     "hero-current-gap",
     `${scored}/${target} current PriMock57 cases scored. Latest retry: ${attemptScope}, ${scored}/${attempted} scored, and ${errored}/${attempted} blocked or errored. Not a current ranking yet.`
   );
-  const queueStatus = document.getElementById("public-work-queue-status");
-  if (queueStatus) {
-    queueStatus.textContent = scored >= minimumPublishable ? "Ready for method review" : run.statusLabel || "Current public blocker";
-    queueStatus.className = `queue-status ${scored >= minimumPublishable ? "ready" : currentRunStatusClass(run.status)}`;
-  }
   const evidenceTaskStatus = document.getElementById("evidence-task-status");
   if (evidenceTaskStatus) {
     evidenceTaskStatus.textContent = scored >= minimumPublishable ? "Ready for method review" : run.statusLabel || "Open public task";
     evidenceTaskStatus.className = `queue-status ${scored >= minimumPublishable ? "ready" : currentRunStatusClass(run.status)}`;
   }
-  setText(
-    "public-work-queue-summary",
-    scored >= minimumPublishable
-      ? `${run.system || "The current run"} has reached the ${minimumPublishable}-case threshold. Review the method before publishing a ranked current row.`
-      : `${run.system || "The current run"} has ${scored}/${target} PriMock57 cases scored. It needs ${publishableRemaining} more scored cases before this page can support a current model row.`
-  );
-  setText(
-    "public-work-queue-job",
-    scored >= minimumPublishable
-      ? "Review the aggregate scores, confidence interval, exclusions, judge, repeats, and tuning notes before submitting the row."
-      : `Resume the cached run to at least ${minimumPublishable} scored PriMock57 cases, preferably all ${target}.`
-  );
-  setText(
-    "public-work-queue-blocker",
-    errored
-      ? `Latest public retry: ${scored}/${attempted} selected cases scored, ${generated}/${attempted} generated, and ${errored}/${attempted} blocked or errored.`
-      : run.blocker || "No blocker recorded; the row still needs enough scored cases to be publishable."
-  );
-  setText(
-    "public-work-queue-done",
-    `Aggregate-only row with n>=${minimumPublishable}, system/date, dataset, judge, repeats, failure rates, confidence interval, and exclusions.`
-  );
-  setText(
-    "public-work-queue-why",
-    scored >= minimumPublishable
-      ? "This is where the board can move from blocker receipt to current comparison evidence."
-      : "It turns the site from useful one-note QA plus historical baselines into current comparison evidence."
-  );
   currentPublicWorkTask = buildPublicWorkTask(run, {
     attempted,
     generated,
@@ -699,12 +666,6 @@ function renderCurrentRun(run) {
     target,
     errored,
   });
-  setText("public-work-queue-task", publicWorkTaskSummary(run, {
-    minimumPublishable,
-    publishableRemaining,
-    scored,
-    target,
-  }));
   setPublicWorkQueueCopyStatus("");
   setPublicWorkQueueCopyFallback("");
   setElementHtml(
@@ -725,14 +686,6 @@ function renderCurrentRun(run) {
       .map((link) => `<a href="${escapeHtml(link.href || "#")}"${externalLinkAttrs(link.href)}>${escapeHtml(link.label || "Open")}</a>`)
       .join("");
   }
-}
-
-function publicWorkTaskSummary(run, counts) {
-  const system = run?.system || "the current public API run";
-  if (counts.scored >= counts.minimumPublishable) {
-    return `${system} has reached ${counts.scored}/${counts.target} PriMock57 scored cases. The next public task is method review: confidence interval, exclusions, judge, repeats, tuning notes, and aggregate-only publication.`;
-  }
-  return `Need someone with a non-capped provider key or credits to resume ${system}; ${counts.publishableRemaining} more scored PriMock57 cases are needed before the page can support a current model row.`;
 }
 
 function buildPublicWorkTask(run, counts) {
@@ -802,11 +755,6 @@ function renderCurrentRunError() {
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
   setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
   setText("hero-current-gap", "Current-run status did not load. Do not use the old rows as a current ranking.");
-  setText("public-work-queue-summary", "The current-run status asset failed to load, so the public queue cannot prove a current model row from this page.");
-  setText("public-work-queue-job", "Use the row builder to create a fresh powered run with a declared dataset, judge, repeats, date, and exclusions.");
-  setText("public-work-queue-blocker", "Current-run status is unavailable.");
-  setText("public-work-queue-done", "Publish aggregate scores only after at least 30 PriMock57 cases are scored.");
-  setText("public-work-queue-why", "Without this row, the page remains useful for one-note QA but not for current model ranking claims.");
   currentPublicWorkTask = [
     "ScribeBench public contribution task",
     "Status: current-run status did not load from /assets/current-run.json.",
@@ -815,7 +763,6 @@ function renderCurrentRunError() {
     "Boundary: no raw closed-model notes in the public repo.",
     "Reference: https://scribe-bench.vercel.app/#run",
   ].join("\n");
-  setText("public-work-queue-task", "Current-run status failed to load. Use the row builder to create or resume a fresh powered run with aggregate-only publication.");
   setPublicWorkQueueCopyStatus("");
   setPublicWorkQueueCopyFallback("");
   setElementHtml("decision-current-action", `<a href="#run">Add a fresh powered row</a>`);
@@ -837,7 +784,7 @@ function bindCurrentRunCommand() {
 }
 
 function bindPublicWorkTaskCopy() {
-  document.querySelectorAll("#copy-public-work-task, [data-copy-public-work-task]").forEach((button) => {
+  document.querySelectorAll("[data-copy-public-work-task]").forEach((button) => {
     button.addEventListener("click", copyPublicWorkTask);
   });
 }
@@ -894,7 +841,7 @@ function setCitationBoundaryFallback(text) {
 }
 
 async function copyPublicWorkTask() {
-  const text = currentPublicWorkTask || document.getElementById("public-work-queue-task")?.textContent?.trim() || "";
+  const text = currentPublicWorkTask;
   if (!text) return;
   try {
     await copyText(text);
@@ -907,14 +854,14 @@ async function copyPublicWorkTask() {
 }
 
 function setPublicWorkQueueCopyStatus(message) {
-  ["public-work-queue-copy-status", "current-run-task-copy-status"].forEach((id) => {
+  ["current-run-task-copy-status"].forEach((id) => {
     const status = document.getElementById(id);
     if (status) status.textContent = message;
   });
 }
 
 function setPublicWorkQueueCopyFallback(text) {
-  ["public-work-queue-copy-fallback", "current-run-task-copy-fallback"].forEach((id) => {
+  ["current-run-task-copy-fallback"].forEach((id) => {
     const fallback = document.getElementById(id);
     if (!fallback) return;
     fallback.value = text;

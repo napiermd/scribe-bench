@@ -1441,12 +1441,12 @@
       <section class="wrap section run-panel" id="run">
         <div class="run-intro">
           <p class="eyebrow">Contribute</p>
-          <h2>Help make ScribeBench worth citing.</h2>
+          <h2>Publish a scored row only when you have many notes.</h2>
           <p>
-            You do not need to be a benchmark person. Start with what you have:
-            one source-note pair, a public claim, a batch of candidate notes, or a
-            provider key that can unblock the current run. Only many scored notes
-            become a citable row.
+            One source-note pair belongs in the checker. A slogan belongs in the
+            claim checker. This section is only for aggregate evidence: a declared
+            dataset, candidate-note JSON, judge, repeats, date, confidence intervals,
+            and scores-only publication.
           </p>
         </div>
 
@@ -1473,97 +1473,6 @@
             </div>
           </dl>
         </aside>
-
-        <div class="contribution-intake" aria-labelledby="contribution-intake-title">
-          <div class="contribution-intake-copy">
-            <p class="eyebrow">Choose your entry point</p>
-            <h3 id="contribution-intake-title">What do you have in hand?</h3>
-            <p>
-              ScribeBench should give each visitor the right next artifact. A single
-              note becomes a QA packet, a claim becomes an evidence ask, a provider key
-              helps unblock the current row, and many candidate notes become aggregate evidence.
-            </p>
-          </div>
-          <div class="contribution-paths" aria-label="Choose a contribution path">
-            <article>
-              <span class="queue-status open">One note</span>
-              <h4>I have a source-note pair.</h4>
-              <p>Create a QA packet first. This is useful review evidence, not a model ranking.</p>
-              <a class="text-link" href="#quick-check-form" data-quick-start-own>Check the note</a>
-            </article>
-            <article>
-              <span class="queue-status valuable">Claim</span>
-              <h4>I saw a vendor or model claim.</h4>
-              <p>Turn the slogan into a public ask: dataset, n, judge, repeats, rates, and disclosures.</p>
-              <a class="text-link" href="#claim-check">Build the evidence ask</a>
-            </article>
-            <article>
-              <span class="queue-status needed">Current gap</span>
-              <h4>I can unblock the current run.</h4>
-              <p>Bring a non-capped provider key or credits, resume the cached run, and keep raw notes out of the repo.</p>
-              <a class="text-link" href="#current-run">Open the blocker task</a>
-            </article>
-            <article>
-              <span class="queue-status ready">Candidate notes</span>
-              <h4>I have outputs from a system.</h4>
-              <p>Use the row builder when you can score a declared dataset and publish aggregate evidence.</p>
-              <a class="text-link" href="#run-builder" data-run-jump-preset="current-powered">Build a powered row</a>
-            </article>
-          </div>
-        </div>
-
-        <section class="public-work-queue" aria-labelledby="public-work-queue-title">
-          <div class="public-work-queue-head">
-            <span class="queue-status needed" id="public-work-queue-status">Current public blocker</span>
-            <div>
-              <p class="eyebrow">Public work queue</p>
-              <h3 id="public-work-queue-title">Finish the current PriMock57 row before making model claims.</h3>
-              <p id="public-work-queue-summary">
-                This page is useful today as a note checker. The next public job is turning the blocked
-                hosted run attempt into a publishable aggregate row.
-              </p>
-            </div>
-          </div>
-          <div class="public-work-queue-grid" aria-label="Next public contribution">
-            <article>
-              <strong>Active job</strong>
-              <p id="public-work-queue-job">Resume the current hosted PriMock57 run to the publishable threshold.</p>
-            </article>
-            <article>
-              <strong>Current blocker</strong>
-              <p id="public-work-queue-blocker">The free public model path hit a provider cap before enough cases were scored.</p>
-            </article>
-            <article>
-              <strong>Counts as done</strong>
-              <p id="public-work-queue-done">Publish aggregate scores only with case count, judge, repeats, date, and exclusions.</p>
-            </article>
-            <article>
-              <strong>Why anyone should care</strong>
-              <p id="public-work-queue-why">It converts the site from a useful one-note QA tool into current model evidence.</p>
-            </article>
-          </div>
-          <div class="public-work-queue-task" aria-label="Copyable public contribution task">
-            <div>
-              <strong>Copyable public task</strong>
-              <p id="public-work-queue-task">
-                Need someone with a non-capped provider key to resume the current PriMock57 run, score at least 30 cases, and publish aggregate-only results.
-              </p>
-            </div>
-            <button class="button secondary compact-button" id="copy-public-work-task" type="button">Copy public task</button>
-          </div>
-          <div class="public-work-queue-actions" aria-label="Act on the current public queue item">
-            <a class="button primary compact-button" href="#current-run">Open blocker receipt</a>
-            <a class="button secondary compact-button" href="#run-builder" data-run-jump-preset="current-powered">Build the row command</a>
-          </div>
-          <p id="public-work-queue-copy-status" role="status" aria-live="polite"></p>
-          <textarea
-            class="copy-fallback"
-            id="public-work-queue-copy-fallback"
-            readonly
-            hidden
-            aria-label="Generated ScribeBench public contribution task"
-          ></textarea>
-        </section>
 
         <div class="run-contract" aria-label="Public row evidence contract">
           <article>
