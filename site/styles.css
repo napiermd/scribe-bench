@@ -749,6 +749,51 @@ h4 {
   scroll-margin-top: 98px;
 }
 
+.quick-check-head {
+  order: 1;
+}
+
+.quick-check-help {
+  order: 2;
+}
+
+.quick-result {
+  order: 3;
+}
+
+.quick-check-form {
+  order: 4;
+  scroll-margin-top: 98px;
+}
+
+.public-evidence-card {
+  order: 5;
+}
+
+.quick-smoke-artifact {
+  order: 6;
+}
+
+.mobile-proof {
+  order: 7;
+}
+
+.quick-proof-label {
+  order: 8;
+}
+
+.quick-capability-grid {
+  order: 9;
+}
+
+.quick-output-contract {
+  order: 10;
+}
+
+.current-model-lane {
+  order: 11;
+}
+
 .quick-check-head,
 .quick-result-head {
   display: flex;

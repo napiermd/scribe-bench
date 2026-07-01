@@ -125,8 +125,8 @@
             </div>
             <p class="quick-check-help">
               For reviewers, buyers, and builders who need a source-vs-note receipt.
-              The seeded fall case is loaded so the artifact is visible immediately;
-              switch to your own pair when you want a usable QA packet.
+              The seeded fall case opens with the actual artifact first; switch to
+              your own pair when you want a usable QA packet.
             </p>
             <form class="quick-check-form" id="quick-check-form">
               <label class="field">
@@ -158,7 +158,7 @@
               <div class="quick-result-head">
                 <span class="queue-status needed" id="quick-result-status">Review</span>
                 <div>
-                  <p class="eyebrow">Detailed receipt</p>
+                  <p class="eyebrow">Default artifact</p>
                   <h3 id="quick-result-title">Run the check</h3>
                 </div>
               </div>
@@ -170,9 +170,9 @@
                   <p id="quick-use-copy">Run the check to see whether this is a QA finding, a claim ask, or evidence-row work.</p>
                 </div>
                 <div class="quick-use-actions">
-                  <button class="button primary compact-button" id="quick-use-copy-receipt" type="button">Copy QA packet</button>
+                  <button class="button primary compact-button" type="button" data-quick-start-own>Check your own note</button>
+                  <button class="button secondary compact-button" id="quick-use-copy-receipt" type="button">Copy QA packet</button>
                   <a class="button secondary compact-button" id="quick-use-claim-link" href="#claim-check">Challenge a claim</a>
-                  <a class="button secondary compact-button" id="quick-use-row-link" href="#run">Add aggregate row</a>
                 </div>
               </div>
               <ul id="quick-result-list"></ul>
