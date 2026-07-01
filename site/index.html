@@ -817,11 +817,11 @@
         <div class="section-head">
           <div>
             <p class="eyebrow">Public use ledger</p>
-            <h2>Use it for a QA finding first; use rows only to bound claims.</h2>
+            <h2>Start with the note checker. Treat model ranking as unfinished public work.</h2>
             <p>
-              A visitor can paste one source-note pair and leave with a QA finding. If
-              they came for model claims, this ledger says what is citable today, what
-              is historical, and what work would make a current comparison publishable.
+              This section is the public answer to "what can I cite?" It separates the
+              useful artifact that works today from the current-row task that would make
+              a model comparison publishable.
             </p>
           </div>
           <a class="text-link" href="/assets/results.json">Raw results JSON</a>
@@ -829,17 +829,31 @@
 
         <div class="evidence-answer" aria-labelledby="evidence-answer-title">
           <div class="evidence-answer-main">
-            <p class="eyebrow">Useful now</p>
-            <h3 id="evidence-answer-title">Use the checker today. Do not cite a current winner yet.</h3>
+            <p class="eyebrow">Public answer right now</p>
+            <h3 id="evidence-answer-title">A one-note QA finding is usable. A current winner is not proven.</h3>
             <p>
-              This ledger has one job: separate what a visitor can use now from what would be required for a
-              public model claim. A one-note QA finding works today. A current best-scribe ranking is not citable
-              until the public row reaches the scored-case threshold.
+              Use ScribeBench today when you have the source and the AI note. Use the rows
+              only to bound claims until a current powered PriMock57 row reaches the
+              publishable threshold.
             </p>
+            <dl class="evidence-answer-queue" aria-label="Current public evidence queue">
+              <div>
+                <dt>Use today</dt>
+                <dd id="ledger-use-now">One source-note QA finding with reviewer handoff.</dd>
+              </div>
+              <div>
+                <dt>Blocked now</dt>
+                <dd id="ledger-blocked-now">Current model ranking still needs a publishable powered row.</dd>
+              </div>
+              <div>
+                <dt>Next publishable artifact</dt>
+                <dd id="ledger-next-artifact">A current aggregate row with n, judge, repeats, date, CI, and exclusions.</dd>
+              </div>
+            </dl>
             <div class="evidence-answer-actions">
-              <a class="button primary compact-button" href="#quick-check">Start note review</a>
-              <button class="button secondary compact-button" id="copy-current-row-task" data-copy-public-work-task type="button">Copy current-row task</button>
-              <a class="button secondary compact-button" href="#claim-check">Check claim boundary</a>
+              <a class="button primary compact-button" href="#quick-check">Check one note</a>
+              <button class="button secondary compact-button" id="copy-current-row-task" data-copy-public-work-task type="button">Copy evidence task</button>
+              <a class="button secondary compact-button" href="#claim-check">Challenge a claim</a>
               <button class="button secondary compact-button" id="copy-citation-boundary" type="button">Copy citation boundary</button>
               <span id="current-run-task-copy-status" role="status" aria-live="polite"></span>
               <span id="citation-boundary-copy-status" role="status" aria-live="polite"></span>
@@ -865,33 +879,32 @@
           <div class="evidence-answer-grid" aria-label="What ScribeBench evidence can support">
             <article>
               <span class="queue-status ready">Works today</span>
-              <h3>Use: one-note QA finding</h3>
+              <h3>Use today: one-note QA finding</h3>
               <p>Paste a source encounter plus generated note, catch unsupported care, and copy the reviewer handoff.</p>
               <a href="#quick-check">Open checker</a>
             </article>
             <article>
               <span class="queue-status needed">Not proven</span>
-              <h3>Do not cite: current winner</h3>
+              <h3>Blocked: current winner</h3>
               <p id="decision-current-proof">9/57 current PriMock57 cases scored; 21/30 selected cases are blocked or errored. Not publishable yet.</p>
               <small id="decision-current-action"><a href="#current-run">Resume the current row</a></small>
             </article>
             <article>
               <span class="queue-status valuable">Next useful artifact</span>
-              <h3>Make citable: current row</h3>
+              <h3>Make publishable: current row</h3>
               <p id="freshness-next-row">Run a current powered PriMock57 row with declared system, judge, repeats, date, and aggregate scores only.</p>
               <small><a href="#current-run">Open the blocker</a></small>
-            </article>
-            <article>
-              <span class="queue-status open">Archive only</span>
-              <h3>Historical failure gradient</h3>
-              <p id="decision-history-proof">4 powered launch rows; latest scored June 2, 2026. Historical baseline, not a buying guide.</p>
-              <small>Latest powered row: <strong id="latest-powered-run">June 2, 2026 (4 powered rows)</strong></small>
             </article>
           </div>
           <div class="evidence-answer-foot">
             <div>
               <strong>Current gap</strong>
               <p id="freshness-current-gap">9/57 current PriMock57 cases scored. Publishable threshold is 30+ scored cases with declared system, date, judge, repeats, and exclusions.</p>
+            </div>
+            <div>
+              <strong>Historical archive</strong>
+              <p id="decision-history-proof">4 powered launch rows; latest scored June 2, 2026. Historical baseline, not a buying guide.</p>
+              <small>Latest powered row: <strong id="latest-powered-run">June 2, 2026 (4 powered rows)</strong></small>
             </div>
             <div>
               <strong>Smoke lane</strong>

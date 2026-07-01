@@ -622,6 +622,22 @@ function renderCurrentRun(run) {
     "freshness-next-row",
     `Resume ${run.system || "the current system"} to at least ${minimumPublishable} scored PriMock57 cases, preferably all ${target}, then publish aggregate scores only.`
   );
+  setText(
+    "ledger-use-now",
+    "One source-note QA finding with reviewer handoff; useful for chart QA, pilot review, or vendor defect routing."
+  );
+  setText(
+    "ledger-blocked-now",
+    scored >= minimumPublishable
+      ? `${scored}/${target} PriMock57 cases scored. Method review is still required before citing a current comparison.`
+      : `${scored}/${target} PriMock57 cases scored; ${publishableRemaining} more are needed before a current ranking is citable.`
+  );
+  setText(
+    "ledger-next-artifact",
+    scored >= minimumPublishable
+      ? "Review the aggregate row, judge, repeats, date, confidence intervals, exclusions, and tuning disclosure."
+      : `Finish a powered aggregate row for ${run.system || "the current system"} with n>=${minimumPublishable}, judge, repeats, date, CI, and exclusions.`
+  );
   setText("current-run-scored", `${scored}/${target} scored`);
   setText(
     "current-run-errored",
@@ -683,20 +699,35 @@ function buildPublicWorkTask(run, counts) {
   const system = run?.system || "current-public-api-run";
   const blocker = run?.blocker || "The current run has not reached the publishable case threshold.";
   const next = run?.next || "Resume the run, then publish aggregate scores only after the evidence threshold is met.";
-  const done = `Done when: aggregate-only row with n>=${counts.minimumPublishable}, dataset, system/date, judge, repeats, failure rates, confidence interval, exclusions, and tuning disclosure.`;
   const status = `${system}: ${counts.scored}/${counts.target} PriMock57 cases scored, ${counts.generated}/${counts.attempted} generated, ${counts.errored}/${counts.attempted} blocked or errored.`;
   const ask = counts.scored >= counts.minimumPublishable
-    ? "Ask: review the method and aggregate row before anyone cites this as current comparison evidence."
-    : `Ask: resume the cached run with a non-capped provider key or credits until at least ${counts.minimumPublishable} PriMock57 cases are scored.`;
+    ? "Review the method and aggregate row before anyone cites this as current comparison evidence."
+    : `Resume the cached run with a non-capped provider key or credits until at least ${counts.minimumPublishable} PriMock57 cases are scored.`;
+  const sendTo = counts.scored >= counts.minimumPublishable
+    ? "Method reviewer, benchmark maintainer, or public thread asking whether the current row is citable."
+    : "Anyone with provider credits, a non-capped model key, or a current scribe system they want scored.";
   return [
-    "ScribeBench public contribution task",
-    status,
-    ask,
+    "ScribeBench current-row evidence task: make the model comparison citable.",
+    `Date: ${localDateStamp()}`,
+    `Send to: ${sendTo}`,
+    `Current status: ${status}`,
+    "",
+    `Ask: ${ask}`,
+    "",
+    "Bring:",
+    `1. A declared provider or system under test (${system}).`,
+    "2. A non-capped provider key, credits, or candidate-note file kept out of the public repo.",
+    "3. The same dataset and scoring contract: PriMock57, judge, repeats, date, confidence interval, exclusions, and tuning disclosure.",
+    "",
     `Blocker: ${blocker}`,
     `Next: ${next}`,
-    done,
-    "Boundary: no raw closed-model notes in the public repo; this is not a current ranking until the row is complete and reviewed.",
-    "Reference: https://scribe-bench.vercel.app/#current-run",
+    `Done when: aggregate-only row with n>=${counts.minimumPublishable}, failure rates, confidence interval, judge, repeats, date, exclusions, and tuning disclosure.`,
+    "",
+    "Boundary:",
+    "- No raw closed-model notes in the public repo.",
+    "- This is not a current ranking until the row is complete and reviewed.",
+    "",
+    "Link: https://scribe-bench.vercel.app/#current-run",
   ].join("\n");
 }
 
@@ -745,13 +776,17 @@ function renderCurrentRunError() {
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
   setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
+  setText("ledger-use-now", "One source-note QA finding still works without the current-run status asset.");
+  setText("ledger-blocked-now", "Current ranking support is unavailable because the current-run status asset did not load.");
+  setText("ledger-next-artifact", "Create or resume a powered aggregate row with n>=30, judge, repeats, date, CI, and exclusions.");
   currentPublicWorkTask = [
-    "ScribeBench public contribution task",
-    "Status: current-run status did not load from /assets/current-run.json.",
+    "ScribeBench current-row evidence task: make the model comparison citable.",
+    `Date: ${localDateStamp()}`,
+    "Current status: current-run status did not load from /assets/current-run.json.",
     "Ask: create or resume a powered run with a declared dataset, judge, repeats, date, and exclusions.",
     "Done when: aggregate-only row with n>=30, confidence interval, failure rates, and method disclosure.",
     "Boundary: no raw closed-model notes in the public repo.",
-    "Reference: https://scribe-bench.vercel.app/#run",
+    "Link: https://scribe-bench.vercel.app/#run",
   ].join("\n");
   setPublicWorkQueueCopyStatus("");
   setPublicWorkQueueCopyFallback("");
