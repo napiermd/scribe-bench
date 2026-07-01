@@ -2229,6 +2229,47 @@ h4 {
   gap: 12px;
 }
 
+.after-decision-matrix {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0 0 12px;
+  border: 1px solid rgba(15, 118, 110, 0.24);
+  border-left: 4px solid var(--accent);
+  background: #eef8f5;
+}
+
+.after-decision-matrix div {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.26rem 0.55rem;
+  align-content: start;
+  min-width: 0;
+  border-right: 1px solid rgba(15, 118, 110, 0.18);
+  padding: 0.78rem 0.82rem;
+}
+
+.after-decision-matrix div:last-child {
+  border-right: 0;
+}
+
+.after-decision-matrix dt {
+  color: var(--accent-strong);
+  font-size: 0.64rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.after-decision-matrix dd {
+  color: var(--ink);
+  font-size: 0.82rem;
+  font-weight: 750;
+  line-height: 1.28;
+  margin: 0;
+  min-width: 0;
+}
+
 .after-receipt-card {
   display: grid;
   align-content: start;
@@ -5795,6 +5836,7 @@ h4 {
 
   .method-cards,
   .audience-grid,
+  .after-decision-matrix,
   .after-receipt-grid,
   .origin-grid,
   .repo-map-grid,
@@ -6023,6 +6065,15 @@ h4 {
   }
 
   .quick-review-grid div:last-child {
+    border-bottom: 0;
+  }
+
+  .after-decision-matrix div {
+    border-right: 0;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.18);
+  }
+
+  .after-decision-matrix div:last-child {
     border-bottom: 0;
   }
 

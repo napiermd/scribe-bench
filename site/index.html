@@ -544,11 +544,11 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">After the finding</p>
-            <h2>One checked note tells you what to do next.</h2>
+            <h2>Choose the next bounded action after a QA finding.</h2>
             <p>
-              ScribeBench is for people holding evidence: a source-note pair, a
-              public claim, a blocked run, or candidate notes. Start with the
-              finding, then choose the smallest honest next step.
+              This is the point of ScribeBench: one note becomes a QA packet,
+              one bigger claim becomes an evidence ask, and any public ranking
+              has to earn a scored aggregate row.
             </p>
           </div>
           <div class="split-actions">
@@ -557,14 +557,49 @@
           </div>
         </div>
 
+        <dl class="after-decision-matrix" aria-label="ScribeBench after-finding decision matrix">
+          <div>
+            <dt>If you have</dt>
+            <dd>A flagged source-note gap</dd>
+            <dt>Do this</dt>
+            <dd>Hold or edit the note.</dd>
+            <dt>Leave with</dt>
+            <dd>Reviewer QA packet.</dd>
+          </div>
+          <div>
+            <dt>If you have</dt>
+            <dd>A disputed finding</dd>
+            <dt>Do this</dt>
+            <dd>Ask for a second read.</dd>
+            <dt>Leave with</dt>
+            <dd>Second-reader packet.</dd>
+          </div>
+          <div>
+            <dt>If you have</dt>
+            <dd>A vendor or model claim</dd>
+            <dt>Do this</dt>
+            <dd>Build the evidence ask.</dd>
+            <dt>Leave with</dt>
+            <dd>Proof checklist.</dd>
+          </div>
+          <div>
+            <dt>If you have</dt>
+            <dd>A public comparison claim</dd>
+            <dt>Do this</dt>
+            <dd>Finish a scored row.</dd>
+            <dt>Leave with</dt>
+            <dd>Scores-only aggregate evidence.</dd>
+          </div>
+        </dl>
+
         <div class="after-receipt-grid" id="public-action-kit" aria-label="What to do after a ScribeBench finding">
           <article class="after-receipt-card after-receipt-primary">
-            <span>One note</span>
-            <h3>If the note is flagged, hold it and copy the QA finding.</h3>
+            <span>Act on one note</span>
+            <h3>Use the QA packet to hold, edit, or route the note.</h3>
             <p>
-              Use ScribeBench for clinical QA when a generated note may have
-              invented care. The finding gives the flagged claim, source excerpt,
-              boundary, and next review step.
+              The useful output is not a score. It is a reviewer handoff with
+              the unsupported claim, note/source excerpts, boundary, and next
+              review step.
             </p>
             <div class="after-receipt-actions">
               <a class="button primary compact-button" href="#quick-result">Open finding</a>
@@ -572,24 +607,24 @@
             </div>
           </article>
           <article class="after-receipt-card">
-            <span>Public claim</span>
-            <h3>If the claim is bigger than one note, ask for evidence.</h3>
+            <span>Challenge a claim</span>
+            <h3>Turn "safe" or "best" into the proof it would need.</h3>
             <p>
-              Buyers, operators, and skeptics can turn "safe," "best," or
-              "hallucination-free" language into the dataset, n, judge, repeats,
-              CI, and exclusions it would need.
+              Buyers, operators, and public readers can ask for dataset, n,
+              judge, repeats, confidence interval, exclusions, and tuning
+              disclosure instead of repeating the claim.
             </p>
             <div class="after-receipt-actions">
               <a class="button secondary compact-button" href="#claim-check">Build claim ask</a>
             </div>
           </article>
           <article class="after-receipt-card">
-            <span>Public row</span>
-            <h3>If you want a ranking, finish a scored aggregate row.</h3>
+            <span>Publish evidence</span>
+            <h3>Use aggregate rows only when you want people to compare systems.</h3>
             <p>
-              One demo or smoke check cannot rank systems. Current rows need many
-              declared notes scored under the same rules, published as aggregate
-              metrics only.
+              One demo or smoke check cannot rank systems. Citable rows need
+              declared cases, judge, repeats, exclusions, and aggregate metrics
+              without publishing closed-model note text.
             </p>
             <div class="after-receipt-actions">
               <a class="button secondary compact-button" href="#current-run">Review blocker</a>
@@ -597,12 +632,12 @@
             </div>
           </article>
           <article class="after-receipt-card">
-            <span>Repo</span>
-            <h3>If someone asks what this is, say: public QA harness.</h3>
+            <span>Explain the repo</span>
+            <h3>The repo is the machinery behind those public artifacts.</h3>
             <p>
-              The repo is the reproducible machinery behind the site: browser
-              checker, optional Lab APIs, evaluator, public cases, worklog, and
-              scores-only evidence ledger.
+              It contains the browser checker, optional Lab APIs, evaluator,
+              public cases, worklog, and scores-only evidence ledger so other
+              people can inspect or extend the loop.
             </p>
             <div class="after-receipt-actions">
               <a class="button secondary compact-button" href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">Open GitHub</a>
