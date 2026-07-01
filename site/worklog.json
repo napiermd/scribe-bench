@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The Lab workbench now starts with the second-read job",
+      "why": "Direct links to the Lab workbench still landed on textareas and a seeded score before restating why a visitor was there. That could make the Lab feel like a model playground instead of a second-read review for one disputed note.",
+      "proof": "The workbench now opens with a Second-read intake contract: checked source plus note, no-key first with live judge optional, and a second-read QA finding as the output. Lab result labels now read Seeded QA finding, Review signal, and Flagged gaps instead of generic benchmark language.",
+      "next": "Keep direct anchors self-explanatory: every deep link should name the artifact, input, and boundary before showing controls.",
+      "links": [
+        { "label": "Lab workbench", "href": "#lab-workbench" },
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The row builder now names the public artifact first",
       "why": "The contribution path explained aggregate evidence higher up, but direct links to the run builder still landed on presets and CLI fields before saying what the visitor was creating.",
       "proof": "The builder now opens with an Aggregate row intake, a scores-only evidence-package headline, and Input, Output, and Use when steps before the candidate-note JSON and scoring command.",
