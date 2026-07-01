@@ -17,14 +17,25 @@ describe('site copy and labels', () => {
   it('uses hero space to route visitors to the artifact they need', () => {
     const summarySection = html.match(/<section class="summary-band">[\s\S]*?<\/section>/)?.[0] || '';
     const introIndex = summarySection.indexOf('class="intro-panel"');
+    const productAnswerIndex = summarySection.indexOf('class="product-answer"');
     const routerIndex = summarySection.indexOf('class="start-router"');
     const quickCheckIndex = summarySection.indexOf('class="quick-check-panel"');
     const proofIndex = summarySection.indexOf('class="hero-proof-trail"');
 
     expect(summarySection).toContain('NapierMD public clinical AI QA');
     expect(summarySection).toContain('Check if an AI scribe invented care.');
-    expect(summarySection).toContain('Paste the source encounter and AI-written note.');
-    expect(summarySection).toContain('unsupported tests, diagnoses, medications, follow-up, and events');
+    expect(summarySection).toContain('Paste the source and AI note.');
+    expect(summarySection).toContain('unsupported care and gives you a copyable review packet');
+    expect(productAnswerIndex).toBeGreaterThan(introIndex);
+    expect(productAnswerIndex).toBeLessThan(routerIndex);
+    expect(summarySection).toContain('What ScribeBench is for');
+    expect(summarySection).toContain('What this is');
+    expect(summarySection).toContain('A public evidence workbench for AI-scribe truth checks.');
+    expect(summarySection).toContain('Who uses it');
+    expect(summarySection).toContain('Clinical QA reviewers, buyers, builders, and contributors.');
+    expect(summarySection).toContain('Point');
+    expect(summarySection).toContain('Leave with a reviewable artifact.');
+    expect(summarySection).toContain('Copy a QA packet, claim ask, blocker receipt, or aggregate row');
     expect(routerIndex).toBeGreaterThan(introIndex);
     expect(routerIndex).toBeLessThan(quickCheckIndex);
     expect(proofIndex).toBeGreaterThan(routerIndex);
@@ -45,9 +56,6 @@ describe('site copy and labels', () => {
     expect(summarySection).not.toContain('Why this exists');
     expect(summarySection).not.toContain('Documentation AI only matters if the signed record stays true.');
     expect(summarySection).not.toContain('13 hospital sites');
-    expect(summarySection).not.toContain('What this is');
-    expect(summarySection).not.toContain('Who uses it');
-    expect(summarySection).not.toContain('What you leave with');
     expect(summarySection).not.toContain('A no-account source-vs-note checker.');
     expect(summarySection).not.toContain('People holding evidence, not spectators.');
     expect(summarySection).not.toContain('A review packet first; aggregate rows only with many notes.');
@@ -169,13 +177,21 @@ describe('site copy and labels', () => {
     const guideGridIndex = guideSection.indexOf('guide-grid');
     const repoSystemIndex = guideSection.indexOf('guide-system');
 
-    expect(answerStripIndex).toBe(-1);
+    expect(answerStripIndex).toBeGreaterThan(-1);
     expect(guideGridIndex).toBe(-1);
+    expect(answerStripIndex).toBeLessThan(artifactKitIndex);
     expect(artifactKitIndex).toBeGreaterThan(-1);
     expect(repoSystemIndex).toBeGreaterThan(artifactKitIndex);
     expect(guideSection).toContain('Leave with one artifact, not another demo screenshot.');
     expect(guideSection).toContain('The first screen already handles the note check.');
     expect(guideSection).toMatch(/packet,\s+ask,\s+blocker receipt,\s+or aggregate row/);
+    expect(guideSection).toContain('Who ScribeBench is for and why it exists');
+    expect(guideSection).toContain('For whom');
+    expect(guideSection).toContain('Someone with evidence in hand.');
+    expect(guideSection).toContain('What to bring');
+    expect(guideSection).toContain('A source-note pair, public claim, blocker, or candidate-note set.');
+    expect(guideSection).toContain('Why public');
+    expect(guideSection).toContain('AI-scribe claims should point back to source evidence.');
     expect(guideSection).toContain('Public action kit');
     expect(guideSection).toContain('Pick the artifact that matches the evidence you actually have.');
     expect(guideSection).toContain('Review packet');
@@ -187,8 +203,6 @@ describe('site copy and labels', () => {
     expect(guideSection).toContain('Aggregate row');
     expect(guideSection).toContain('For claims about a system, not one note.');
     expect(guideSection).toContain('Copy what is scored, what is blocked, and the exact next run task.');
-    expect(guideSection).not.toContain('For whom');
-    expect(guideSection).not.toContain('What to paste');
     expect(guideSection).not.toContain('I need to review one AI-scribe note.');
     expect(guideSection).not.toContain('I need to challenge a public AI-scribe claim.');
     expect(guideSection).not.toContain('I can add evidence people can cite.');

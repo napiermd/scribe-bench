@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now answers who this is for",
+      "why": "The public site was becoming more useful, but a cold visitor still had to infer the product contract from the checker, route chooser, and evidence language. That made ScribeBench feel like tool output before it felt like a public artifact.",
+      "proof": "Added a first-screen answer strip that names what ScribeBench is, who uses it, and the point of leaving with a reviewable artifact. Added the same cold-visitor answer before the public action kit so the guide explains the audience and purpose before the repo machinery.",
+      "next": "Keep the public page anchored on the visitor's evidence-in-hand job before showing benchmark or implementation details.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Public guide", "href": "#next-steps" },
+        { "label": "Check one note", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The claim checker now leads with the ask",
       "why": "The claim checker already generated a useful public ask, but the output panel also exposed proof requirements, current limits, and an evidence path all at once. That made the artifact compete with its own explanation.",
       "proof": "Kept the copyable public ask visible as the primary artifact and moved proof requirements, current limits, and evidence-path detail behind native disclosure controls. Visitors can copy the ask first, then open the deeper method context when they need it.",
