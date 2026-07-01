@@ -1409,49 +1409,6 @@ function publicEvidenceCardFromClaim(guide, claim) {
   };
 }
 
-function publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueTypes = "" } = {}) {
-  const dangerousCount = cleanStringArray(result?.fabrication?.dangerous).length;
-  const leakCount = cleanStringArray((result?.leaks || []).map(formatLeakHit)).length;
-  const status = dangerousCount ? "QA finding" : leakCount ? "Leak finding" : "Clean triage";
-  const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-note pair";
-  const findings = publicEvidenceFindingsFromResult(result);
-  const issueText = dangerousCount
-    ? receiptIssueSentence(result)
-    : leakCount
-      ? `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} flagged.`
-      : "No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged.";
-  const fallbackMeaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes });
-  const effectiveMeaning = meaning || fallbackMeaning;
-  const title = dangerousCount ? "One-note QA evidence card" : "One-note triage evidence card";
-  return {
-    status,
-    statusClass: dangerousCount ? "needed" : leakCount ? "open" : "ready",
-    title,
-    summary: verdict?.copy || issueText,
-    happened: `${caseLabel}: ${issueText}`,
-    level: "One note, browser-only receipt",
-    boundary: effectiveMeaning.cannotSupport,
-    next: effectiveMeaning.useNext,
-    findings,
-    reference: "https://scribe-bench.vercel.app/#quick-check",
-    copyText: [
-      "ScribeBench public evidence card",
-      `Date: ${localDateStamp()}`,
-      "Type: one-note QA receipt",
-      `Case: ${caseLabel}`,
-      `Status: ${status}`,
-      "",
-      `What happened: ${issueText}`,
-      `Can support: ${effectiveMeaning.canSupport}`,
-      `Boundary: ${effectiveMeaning.cannotSupport}`,
-      `Next public ask: ${effectiveMeaning.useNext}`,
-      ...publicEvidenceFindingTextLines(findings),
-      "",
-      "Reference: https://scribe-bench.vercel.app/#quick-check",
-    ].join("\n"),
-  };
-}
-
 function publicEvidenceCardFromSmokeResult(result, packet = labEvidencePacket(result)) {
   const status = packet.tone === "danger" ? "Smoke finding" : "Smoke packet";
   return {
@@ -1531,20 +1488,6 @@ function renderPublicEvidenceCardActions(card) {
     row.textContent = rowAction?.label || "Add powered row";
     row.setAttribute("href", rowAction?.href || "#run");
   }
-}
-
-function publicEvidenceFindingsFromResult(result) {
-  const findings = cleanStringArray(result?.fabrication?.dangerous);
-  const evidence = Array.isArray(result?.evidence?.dangerous) ? result.evidence.dangerous : [];
-  return findings.slice(0, 3).map((finding) => {
-    const detail = evidence.find((entry) => entry?.finding === finding) || {};
-    return {
-      finding,
-      noteExcerpt: detail.noteExcerpt || "",
-      sourceExcerpt: detail.sourceExcerpt || "",
-      reason: detail.reason || "",
-    };
-  });
 }
 
 function publicEvidenceFindingTextLines(findings) {
@@ -1967,6 +1910,7 @@ function runQuickLocalReceipt(event) {
     sourceChars: source.length,
     noteChars: note.length,
   });
+  resetQuickArtifacts();
   renderQuickResult(result);
   const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
   const leakCount = result.leaks?.filter(Boolean).length || 0;
@@ -2035,7 +1979,6 @@ function renderQuickResult(result) {
   }
   setText("quick-result-next", verdict.action);
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
-  renderPublicEvidenceCard(publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueTypes: receiptIssueTypes(result) }));
 }
 
 function quickResultLabel(result) {

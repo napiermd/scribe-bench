@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first note path now has one artifact",
+      "why": "The browser receipt already created a copy-ready review packet, but the page also rendered a separate public evidence card for the same one-note result. That repeated the same finding and made the first experience feel padded.",
+      "proof": "Running the first checker now clears claim and smoke artifacts and leaves the review packet as the single output. Public evidence cards remain reserved for claim asks and second-read smoke packets, where a standalone handoff is useful.",
+      "next": "Keep cutting repeated artifact language so each visitor path leaves one obvious output.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Review packet", "href": "#quick-receipt-preview-output" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The Lab now stays behind the review receipt",
       "why": "The Lab still surfaced provider availability and smoke runs like browsing models was the product. That made the site feel like a model playground instead of a public source-vs-note review workflow.",
       "proof": "The Lab now says to start from the browser receipt, escalates only when a flagged source-note pair needs a second read, and hides model names behind provider readiness. The smoke action is framed as testing a bounded second-read path, not ranking current models.",

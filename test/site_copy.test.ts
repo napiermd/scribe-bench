@@ -125,6 +125,10 @@ describe('site copy and labels', () => {
     expect(app).toContain('What this can support:');
     expect(app).toContain('Boundary: one source-note pair, browser-only local check, not a leaderboard row, system certification, or clinical clearance.');
     expect(app).toContain('setQuickCopyStatus("Review packet copied.");');
+    expect(app).toContain('resetQuickArtifacts();');
+    expect(app).not.toContain('publicEvidenceCardFromQuickResult');
+    expect(app).not.toContain('renderPublicEvidenceCard(publicEvidenceCardFromQuickResult');
+    expect(html).toContain('Challenge a claim or test the second-read path to create one concise public card.');
   });
 
   it('answers the cold visitor question before repo machinery', () => {
