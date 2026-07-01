@@ -1114,6 +1114,38 @@ h4 {
   overflow-wrap: anywhere;
 }
 
+.public-evidence-findings {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.public-evidence-findings > strong {
+  color: var(--ink);
+  font-size: 0.82rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.public-evidence-findings ul {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+}
+
+.public-evidence-findings .evidence-finding {
+  margin-left: 0;
+  border-color: rgba(15, 118, 110, 0.18);
+}
+
+.public-evidence-findings .evidence-finding strong {
+  font-size: 0.84rem;
+}
+
+.public-evidence-findings .evidence-finding dl {
+  margin-top: 0.55rem;
+}
+
 .public-evidence-card-preview {
   display: grid;
   gap: 0.55rem;

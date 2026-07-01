@@ -1184,6 +1184,7 @@ function publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueType
   const leakCount = cleanStringArray((result?.leaks || []).map(formatLeakHit)).length;
   const status = dangerousCount ? "QA finding" : leakCount ? "Leak finding" : "Clean triage";
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-note pair";
+  const findings = publicEvidenceFindingsFromResult(result);
   const issueText = dangerousCount
     ? receiptIssueSentence(result)
     : leakCount
@@ -1201,6 +1202,7 @@ function publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueType
     level: "One note, browser-only receipt",
     boundary: effectiveMeaning.cannotSupport,
     next: effectiveMeaning.useNext,
+    findings,
     reference: "https://scribe-bench.vercel.app/#quick-check",
     copyText: [
       "ScribeBench public evidence card",
@@ -1213,6 +1215,7 @@ function publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueType
       `Can support: ${effectiveMeaning.canSupport}`,
       `Boundary: ${effectiveMeaning.cannotSupport}`,
       `Next public ask: ${effectiveMeaning.useNext}`,
+      ...publicEvidenceFindingTextLines(findings),
       "",
       "Reference: https://scribe-bench.vercel.app/#quick-check",
     ].join("\n"),
@@ -1266,10 +1269,59 @@ function renderPublicEvidenceCard(card, { scroll = false } = {}) {
   setText("public-evidence-card-level", card.level || "--");
   setText("public-evidence-card-boundary", card.boundary || "--");
   setText("public-evidence-card-next", card.next || "--");
+  renderPublicEvidenceFindings(card.findings || []);
   setText("public-evidence-card-output", card.copyText || buildPublicEvidenceCardText(card));
   setPublicEvidenceCardCopyStatus("");
   setPublicEvidenceCardFallback("");
   if (scroll) scrollToAnchorTarget(panel, { behavior: "smooth" });
+}
+
+function publicEvidenceFindingsFromResult(result) {
+  const findings = cleanStringArray(result?.fabrication?.dangerous);
+  const evidence = Array.isArray(result?.evidence?.dangerous) ? result.evidence.dangerous : [];
+  return findings.slice(0, 3).map((finding) => {
+    const detail = evidence.find((entry) => entry?.finding === finding) || {};
+    return {
+      finding,
+      noteExcerpt: detail.noteExcerpt || "",
+      sourceExcerpt: detail.sourceExcerpt || "",
+      reason: detail.reason || "",
+    };
+  });
+}
+
+function publicEvidenceFindingTextLines(findings) {
+  if (!findings.length) return [];
+  const lines = ["", "Flagged evidence:"];
+  for (const item of findings) {
+    lines.push(`- ${item.finding}`);
+    if (item.noteExcerpt) lines.push(`  Note excerpt: ${item.noteExcerpt}`);
+    if (item.sourceExcerpt) lines.push(`  Source check: ${item.sourceExcerpt}`);
+  }
+  return lines;
+}
+
+function renderPublicEvidenceFindings(findings) {
+  const wrapper = document.getElementById("public-evidence-card-findings");
+  const list = document.getElementById("public-evidence-card-finding-list");
+  if (!wrapper || !list) return;
+  list.innerHTML = "";
+  wrapper.hidden = !findings.length;
+  if (!findings.length) return;
+  for (const item of findings) {
+    const li = document.createElement("li");
+    li.className = "evidence-finding";
+    const summary = document.createElement("strong");
+    summary.textContent = item.finding;
+    li.appendChild(summary);
+    if (item.noteExcerpt || item.sourceExcerpt) {
+      const dl = document.createElement("dl");
+      appendEvidenceRow(dl, "Note says", item.noteExcerpt);
+      appendEvidenceRow(dl, item.reason === "source contradiction" ? "Source says" : "Source check", item.sourceExcerpt);
+      li.appendChild(dl);
+    }
+    list.appendChild(li);
+  }
 }
 
 function buildPublicEvidenceCardText(card) {
@@ -1282,6 +1334,7 @@ function buildPublicEvidenceCardText(card) {
     `Evidence level: ${card.level || "--"}`,
     `Boundary: ${card.boundary || "--"}`,
     `Next public ask: ${card.next || "--"}`,
+    ...publicEvidenceFindingTextLines(card.findings || []),
     card.reference ? `Reference: ${card.reference}` : "",
   ].filter(Boolean).join("\n");
 }

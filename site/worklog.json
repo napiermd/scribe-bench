@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Public evidence cards now include the actual flagged snippets",
+      "why": "The one-note receipt had useful note/source excerpts, but the first-screen public evidence card collapsed the result into a generic issue count. That made the shareable artifact feel less useful than the detailed receipt it came from.",
+      "proof": "One-note QA cards now show a Flagged evidence section with the top source-note issues plus note and source excerpts, and the copy-ready public card includes the same snippets. Claim and smoke cards stay concise when they do not have source-note evidence rows.",
+      "next": "Keep tightening the public artifacts so every copied packet contains enough evidence to stand on its own without making the reader hunt around the page.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Public evidence card", "href": "#public-evidence-card" },
+        { "label": "Detailed receipt", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now says what the browser check catches",
       "why": "The page could produce a useful one-note QA packet, but the first screen still spent prime space on abstract paths like claims, rows, and blockers before explaining the concrete checks a visitor gets immediately.",
       "proof": "The first-screen checker now shows a compact Browser check catches grid: invented lab/imaging/ECG results, medication/treatment/order changes, diagnosis/workup story changes, and demographic/laterality/allergy/template issues. The deeper route chooser still handles claims, candidate notes, and current-row blockers.",
