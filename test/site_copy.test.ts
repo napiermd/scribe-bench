@@ -241,6 +241,10 @@ describe('site copy and labels', () => {
 
   it('makes the first copied note artifact reviewer-ready', () => {
     const quickSection = html.match(/<div class="quick-result" id="quick-result"[\s\S]*?<form class="quick-check-form"/)?.[0] || '';
+    const snapshotIndex = quickSection.indexOf('class="quick-result-snapshot"');
+    const useRouterIndex = quickSection.indexOf('class="quick-use-router"');
+    const receiptPreviewIndex = quickSection.indexOf('class="quick-receipt-preview"');
+    const detailsIndex = quickSection.indexOf('class="quick-result-details"');
 
     expect(quickSection).toContain('Copy review packet');
     expect(quickSection).toContain('quick-result-snapshot');
@@ -251,10 +255,15 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('id="quick-result-details-summary"');
     expect(quickSection).toContain('<details class="quick-result-boundary-detail">');
     expect(quickSection).toContain('Show what this can and cannot prove');
-    expect(quickSection).toContain('<details class="quick-receipt-preview"');
-    expect(quickSection).toContain('Preview copy-ready review packet');
+    expect(quickSection).toContain('<details class="quick-receipt-preview" aria-label="Copy-ready ScribeBench review packet" open>');
+    expect(quickSection).toContain('Review packet text');
+    expect(quickSection).toContain('Visible before copy');
+    expect(quickSection).not.toContain('Preview copy-ready review packet');
     expect(quickSection).toContain('ScribeBench source-vs-note review packet');
     expect(quickSection).toContain('Copy-ready ScribeBench review packet');
+    expect(receiptPreviewIndex).toBeGreaterThan(snapshotIndex);
+    expect(receiptPreviewIndex).toBeLessThan(useRouterIndex);
+    expect(receiptPreviewIndex).toBeLessThan(detailsIndex);
     expect(app).toContain('ScribeBench note review packet');
     expect(app).toContain('function renderQuickResultSnapshot');
     expect(app).toContain('setText("quick-result-issue-count", issueCountLabel(dangerousCount));');
