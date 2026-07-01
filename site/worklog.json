@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The note checker result now opens with the usable evidence",
+      "why": "A pasted source-note run did flag unsupported care, but the first result viewport still felt like an internal receipt and direct form links could be overwritten by the seeded demo after the JSON load finished.",
+      "proof": "Direct #quick-check-form visits now stay in blank own-note mode, and each QA finding adds a first-evidence panel with the note claim, source check, and review step before the copy-ready finding text.",
+      "next": "Keep the one-note path artifact-first: direct links should accept the visitor's evidence, and the result should lead with what to verify before anyone signs or cites the note.",
+      "links": [
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Seeded demo", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The GitHub README now opens with the public job",
       "why": "The website routes were clearer, but a visitor who clicked GitHub could still fall from the repo description into file trees and historical benchmark rows before seeing what to do with the project.",
       "proof": "The README now has a Use this repo in public block that sends source-note users to the one-note checker, claim users to the claim checker, and ranking questions to the evidence ledger with the plain answer that a current ranking is not ready yet.",

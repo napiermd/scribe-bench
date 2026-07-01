@@ -125,7 +125,7 @@ describe('site copy and labels', () => {
     expect(app).toContain('startPanel.hidden = !text;');
     expect(app).toContain('document.querySelectorAll("[data-quick-start-own]").forEach((link) => {');
     expect(app).toContain('link.addEventListener("click", startOwnQuickCheck);');
-    expect(app).toContain('function startOwnQuickCheck(event)');
+    expect(app).toContain('function startOwnQuickCheck(event, { focus = true, scroll = true, preserveHash = false } = {})');
     expect(app).not.toContain('bindStartRouter');
     expect(app).not.toContain('selectStartRoute');
     expect(app).not.toContain('copyStartRoutePlan');
@@ -269,6 +269,7 @@ describe('site copy and labels', () => {
 
   it('makes the first copied note artifact reviewer-ready', () => {
     const quickSection = html.match(/<div class="quick-result" id="quick-result"[\s\S]*?<form class="quick-check-form"/)?.[0] || '';
+    const evidenceIndex = quickSection.indexOf('class="quick-evidence-preview"');
     const snapshotIndex = quickSection.indexOf('class="quick-result-snapshot"');
     const useRouterIndex = quickSection.indexOf('class="quick-use-router"');
     const destinationIndex = quickSection.indexOf('class="quick-destination-panel"');
@@ -286,6 +287,11 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('id="quick-handoff-why"');
     expect(quickSection).toContain('id="quick-handoff-evidence"');
     expect(quickSection).toContain('id="quick-handoff-next"');
+    expect(quickSection).toContain('class="quick-evidence-preview"');
+    expect(quickSection).toContain('First source-note gap');
+    expect(quickSection).toContain('id="quick-evidence-note"');
+    expect(quickSection).toContain('id="quick-evidence-source"');
+    expect(quickSection).toContain('id="quick-evidence-next"');
     expect(quickSection).toContain('<details class="quick-result-details">');
     expect(quickSection).toContain('id="quick-result-details-summary"');
     expect(quickSection).toContain('<details class="quick-result-boundary-detail">');
@@ -314,6 +320,13 @@ describe('site copy and labels', () => {
     expect(app).toContain('ScribeBench source-vs-note QA finding');
     expect(app).toContain('function renderQuickReviewHandoff');
     expect(app).toContain('function quickReviewHandoff');
+    expect(app).toContain('function renderQuickEvidencePreview');
+    expect(app).toContain('Start here: this is the first claim to verify before anyone trusts or signs the note.');
+    expect(app).toContain('No matching support phrase found in the source text.');
+    expect(app).toContain('Check the first evidence card, then open the full list for every excerpt.');
+    expect(app).toContain('let quickOwnModeRequested = false;');
+    expect(app).toContain('function wantsOwnQuickCheck()');
+    expect(app).toContain('startOwnQuickCheck(null, { focus: false, scroll: false, preserveHash: true });');
     expect(app).toContain('function renderQuickDestination');
     expect(app).toContain('function quickDestinationGuidance');
     expect(app).toContain('function buildQuickRouteText');
@@ -357,6 +370,8 @@ describe('site copy and labels', () => {
     expect(app).not.toContain('publicEvidenceCardFromQuickResult');
     expect(app).not.toContain('renderPublicEvidenceCard(publicEvidenceCardFromQuickResult');
     expect(html).toContain('Challenge a claim or test the second-read path to create one concise public ask.');
+    expect(evidenceIndex).toBeGreaterThan(-1);
+    expect(evidenceIndex).toBeLessThan(snapshotIndex);
   });
 
   it('answers the cold visitor question before repo machinery', () => {

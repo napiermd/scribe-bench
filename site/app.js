@@ -35,6 +35,7 @@ const demoFindings = {
 const RANKED_DATASET = "primock57";
 const MIN_RANKED_CASES = 30;
 let currentPublicWorkTask = "";
+let quickOwnModeRequested = false;
 
 const providerConfigs = {
   openrouter: {
@@ -999,7 +1000,11 @@ function renderCases(cases) {
   if (defaultCase) {
     renderCase(defaultCase);
     populateLab(defaultCase);
-    populateQuickCheck(defaultCase, { run: true });
+    if (quickOwnModeRequested || wantsOwnQuickCheck()) {
+      startOwnQuickCheck(null, { focus: false, scroll: false, preserveHash: true });
+    } else {
+      populateQuickCheck(defaultCase, { run: true });
+    }
   }
   document.getElementById("case-load-lab")?.addEventListener("click", () => {
     if (!selectedDemoCase) return;
@@ -1485,6 +1490,7 @@ function realignCurrentHash() {
 function bindQuickCheck() {
   const form = document.getElementById("quick-check-form");
   if (!form) return;
+  if (wantsOwnQuickCheck()) quickOwnModeRequested = true;
   form.addEventListener("submit", (event) => runQuickLocalReceipt(event, { revealResult: true }));
   document.getElementById("quick-load-seeded")?.addEventListener("click", () => populateQuickCheck(seededCase(), { run: true }));
   document.getElementById("quick-source")?.addEventListener("input", resetQuickAfterManualEdit);
@@ -1502,8 +1508,13 @@ function bindQuickCheck() {
   });
 }
 
+function wantsOwnQuickCheck() {
+  return window.location.hash === "#quick-check-form";
+}
+
 function populateQuickCheck(c, { run = false } = {}) {
   if (!c) return null;
+  quickOwnModeRequested = false;
   const source = document.getElementById("quick-source");
   const note = document.getElementById("quick-note");
   if (!source || !note) return null;
@@ -1522,11 +1533,12 @@ function populateQuickCheck(c, { run = false } = {}) {
   return result;
 }
 
-function startOwnQuickCheck(event) {
+function startOwnQuickCheck(event, { focus = true, scroll = true, preserveHash = false } = {}) {
   event?.preventDefault?.();
   const source = document.getElementById("quick-source");
   const note = document.getElementById("quick-note");
   if (!source || !note) return;
+  quickOwnModeRequested = true;
   source.value = "";
   note.value = "";
   delete source.dataset.caseId;
@@ -1535,9 +1547,11 @@ function startOwnQuickCheck(event) {
   resetQuickResult();
   resetQuickArtifacts();
   setQuickStatus("Paste your source encounter and generated note, then run the browser check.", "");
-  window.history.pushState(null, "", "#quick-check-form");
-  scrollToAnchorTarget(document.getElementById("quick-check-form") || source, { behavior: "smooth" });
-  window.setTimeout(() => source.focus({ preventScroll: true }), 250);
+  if (!preserveHash || window.location.hash !== "#quick-check-form") {
+    window.history.pushState(null, "", "#quick-check-form");
+  }
+  if (scroll) scrollToAnchorTarget(document.getElementById("quick-check-form") || source, { behavior: "smooth" });
+  if (focus) window.setTimeout(() => source.focus({ preventScroll: true }), 250);
 }
 
 function revealQuickResult() {
@@ -1614,6 +1628,7 @@ function renderQuickResult(result) {
   const issueTypes = receiptIssueTypes(result);
   renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes });
   renderQuickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
+  renderQuickEvidencePreview(result, { dangerousCount, leakCount, issueTypes, verdict });
   const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes });
   setText("quick-result-can-support", meaning.canSupport);
   setText("quick-result-cannot-support", meaning.cannotSupport);
@@ -1643,6 +1658,55 @@ function renderQuickResult(result) {
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
 }
 
+function renderQuickEvidencePreview(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
+  const panel = document.querySelector(".quick-evidence-preview");
+  if (!panel) return;
+  panel.hidden = false;
+  const dangerousEvidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
+  const firstFinding = result.fabrication?.dangerous?.filter(Boolean)?.[0] || "";
+  const firstEvidence = dangerousEvidence.find((item) => item?.finding === firstFinding) || dangerousEvidence[0];
+
+  if (dangerousCount) {
+    panel.dataset.tone = "danger";
+    setText("quick-evidence-preview-type", "First source-note gap");
+    setText("quick-evidence-preview-title", firstEvidence?.label || firstFinding || "Unsupported note claim");
+    setText("quick-evidence-preview-lead", "Start here: this is the first claim to verify before anyone trusts or signs the note.");
+    setText("quick-evidence-note-label", "Note says");
+    setText("quick-evidence-note", firstEvidence?.noteExcerpt || firstFinding || "The note includes a claim the source may not support.");
+    setText("quick-evidence-source-label", firstEvidence?.reason === "source contradiction" ? "Source says" : "Source check");
+    setText("quick-evidence-source", firstEvidence?.sourceExcerpt || "No matching support phrase found in the source text.");
+    setText(
+      "quick-evidence-next",
+      `${dangerousCount === 1 ? "Verify this gap" : `Verify this gap, then review the other ${dangerousCount - 1}`} before signing or citing the note.`
+    );
+    return;
+  }
+
+  if (leakCount) {
+    const firstLeak = (result.leaks || []).filter(Boolean)[0];
+    panel.dataset.tone = "review";
+    setText("quick-evidence-preview-type", "First cleanup signal");
+    setText("quick-evidence-preview-title", firstLeak?.marker || "Template or metadata leak");
+    setText("quick-evidence-preview-lead", "This is not a source-fidelity gap, but the output still needs cleanup before sharing.");
+    setText("quick-evidence-note-label", "Output shows");
+    setText("quick-evidence-note", firstLeak?.excerpt || verdict.copy);
+    setText("quick-evidence-source-label", "Source check");
+    setText("quick-evidence-source", "This signal comes from the generated note artifact, not from a supported-care comparison.");
+    setText("quick-evidence-next", "Fix the artifact, regenerate, and recheck before treating the note as clean.");
+    return;
+  }
+
+  panel.dataset.tone = "ok";
+  setText("quick-evidence-preview-type", "Covered checks");
+  setText("quick-evidence-preview-title", "No covered source-note gap found");
+  setText("quick-evidence-preview-lead", "The browser check did not catch a covered issue, so the useful output is a narrow triage note.");
+  setText("quick-evidence-note-label", "Note says");
+  setText("quick-evidence-note", "No unsupported care, chart-fact drift, or deterministic leak was flagged by these checks.");
+  setText("quick-evidence-source-label", "Source check");
+  setText("quick-evidence-source", "Covered categories only; this is not clinical clearance or proof of system safety.");
+  setText("quick-evidence-next", "Continue human review, or use the Lab and aggregate rows before making broader claims.");
+}
+
 function renderQuickReviewHandoff(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
   const handoff = quickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
   const panel = document.querySelector(".quick-review-handoff");
@@ -1667,7 +1731,7 @@ function quickReviewHandoff(result, { dangerousCount, leakCount, issueTypes = ""
       action: "Hold or edit the note until the flagged claims are checked against the source.",
       why: `${issueCountLabel(dangerousCount)} change what the reader would believe happened${issueTypes ? `: ${issueTypes}.` : "."}`,
       evidence: evidenceLabel
-        ? `First flag: ${evidenceLabel}. Open the note/source evidence below for excerpts.`
+        ? `First flag: ${evidenceLabel}. Check the first evidence card, then open the full list for every excerpt.`
         : firstFinding || verdict.copy,
       next: "Copy the QA finding for review, or ask a second-read judge if the source-note gap is disputed.",
     };
@@ -1812,6 +1876,8 @@ function resetQuickResult() {
   lastQuickResult = null;
   const panel = document.getElementById("quick-result");
   if (panel) panel.hidden = true;
+  const evidence = document.querySelector(".quick-evidence-preview");
+  if (evidence) evidence.hidden = true;
   setText("quick-receipt-preview-output", "");
   setQuickCopyStatus("");
   setQuickCopyFallback("");
