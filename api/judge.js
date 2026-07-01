@@ -10,7 +10,7 @@ const DEFAULT_LEAK_TOKENS = [
 ];
 
 const PLACEHOLDER_RE = /\*\([^)\n]{1,60}\)\*/g;
-const MAX_CHARS = 18000;
+export const MAX_CHARS = 60000;
 const PROVIDERS = {
   openrouter: {
     endpoint: 'https://openrouter.ai/api/v1/chat/completions',
@@ -52,7 +52,7 @@ export default async function handler(req, res) {
 
   if (!source || !note) return res.status(400).json({ error: 'Source and note are required.' });
   if (source.length + note.length > MAX_CHARS) {
-    return res.status(413).json({ error: `Source plus note must be under ${MAX_CHARS} characters for the live lab.` });
+    return res.status(413).json({ error: `Source plus note must be under ${MAX_CHARS} characters for the live judge.` });
   }
   if (!apiKey) {
     return res.status(401).json({

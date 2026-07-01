@@ -1,7 +1,7 @@
 // @vitest-environment node
 import { describe, expect, it } from 'vitest';
 // @ts-expect-error The Vercel API route is plain JS but still safe to import in Vitest.
-import { parseCompactJudgeText } from '../api/judge.js';
+import { MAX_CHARS, parseCompactJudgeText } from '../api/judge.js';
 
 describe('parseCompactJudgeText', () => {
   it('parses compact fallback judge output', () => {
@@ -31,5 +31,9 @@ REASONING: Faithful note.`);
 
     expect(parsed.fabrication.dangerous).toEqual([]);
     expect(parsed.fabrication.standard).toEqual([]);
+  });
+
+  it('keeps the live judge large enough for generated PriMock57 notes', () => {
+    expect(MAX_CHARS).toBeGreaterThanOrEqual(60000);
   });
 });
