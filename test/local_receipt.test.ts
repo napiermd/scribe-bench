@@ -57,6 +57,37 @@ describe('browser local receipt', () => {
     expect(result.evidence.dangerous.some((item) => /allerg/i.test(item.finding) && /penicillin causes rash/i.test(item.sourceExcerpt) && /NKDA/i.test(item.noteExcerpt))).toBe(true);
   });
 
+  it('catches unsupported treatment inventions without a model', () => {
+    const source = [
+      'Clinic visit for viral upper respiratory symptoms.',
+      'Afebrile. Lungs clear.',
+      'Clinician recommended rest, oral hydration, and acetaminophen as needed.',
+      'No antibiotics were given. No IV fluids were given.',
+    ].join(' ');
+    const note = 'Plan: started azithromycin and administered IV normal saline bolus in clinic.';
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/antibiotic treatment/i);
+    expect(dangerous).toMatch(/IV fluid treatment/i);
+    expect(result.evidence.dangerous.some((item) => /antibiotic treatment/i.test(item.finding) && /azithromycin/i.test(item.noteExcerpt) && /No antibiotics were given/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /IV fluid treatment/i.test(item.finding) && /normal saline/i.test(item.noteExcerpt) && /No IV fluids were given/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('does not flag treatments when the source supports them or the note repeats a negation', () => {
+    const supported = runLocalReceipt(
+      'Patient received azithromycin and one liter of IV normal saline for pneumonia with dehydration.',
+      'Treatment: azithromycin was started and IV normal saline was administered.'
+    );
+    const negated = runLocalReceipt(
+      'Viral URI. No antibiotics were given.',
+      'Assessment: viral URI. No antibiotics were given.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+  });
+
   it('does not flag matching demographics, laterality, and allergy facts', () => {
     const source = '62-year-old woman with right knee pain. No known drug allergies.';
     const note = '62-year-old woman with right knee pain. Allergies: NKDA.';

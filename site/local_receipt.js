@@ -75,6 +75,56 @@ const WORKUP_GROUPS = [
   { label: "head injury workup", pattern: /\b(head\s+injury|trauma)\s+workup\b/i, support: [/\b(head\s+injury|head\s+strike|head\s+trauma)\b/i] },
 ];
 
+const TREATMENT_GROUPS = [
+  {
+    label: "antibiotic treatment",
+    note: treatmentPatterns([
+      "antibiotics?",
+      "amoxicillin",
+      "augmentin",
+      "azithromycin",
+      "ceftriaxone",
+      "cephalexin",
+      "ciprofloxacin",
+      "clindamycin",
+      "doxycycline",
+      "vancomycin",
+    ]),
+    support: [/\b(antibiotics?|amoxicillin|augmentin|azithromycin|ceftriaxone|cephalexin|ciprofloxacin|clindamycin|doxycycline|vancomycin)\b/i],
+    contradiction: [
+      /\bno\s+(antibiotics?|antimicrobials?)\s+(were\s+)?(given|started|prescribed|needed|indicated)\b/i,
+      /\bnot\s+(given|started|prescribed|treated)\s+(with\s+)?(antibiotics?|antimicrobials?)\b/i,
+    ],
+  },
+  {
+    label: "IV fluid treatment",
+    note: treatmentPatterns(["iv\\s+fluids?", "intravenous\\s+fluids?", "normal\\s+saline", "saline\\s+bolus", "lactated\\s+ringers?", "LR\\b"]),
+    support: [/\b(iv\s+fluids?|intravenous\s+fluids?|normal\s+saline|saline\s+bolus|lactated\s+ringers?|LR)\b/i],
+    contradiction: [
+      /\bno\s+(iv\s+|intravenous\s+)?fluids?\s+(were\s+)?(given|administered|started|needed|indicated)\b/i,
+      /\bnot\s+(given|administered|started)\s+(iv\s+|intravenous\s+)?fluids?\b/i,
+    ],
+  },
+  {
+    label: "steroid treatment",
+    note: treatmentPatterns(["steroids?", "prednisone", "dexamethasone", "methylprednisolone", "solu-medrol"]),
+    support: [/\b(steroids?|prednisone|dexamethasone|methylprednisolone|solu-medrol)\b/i],
+    contradiction: [
+      /\bno\s+steroids?\s+(were\s+)?(given|started|prescribed|needed|indicated)\b/i,
+      /\bnot\s+(given|started|prescribed|treated)\s+(with\s+)?steroids?\b/i,
+    ],
+  },
+  {
+    label: "insulin treatment",
+    note: treatmentPatterns(["insulin", "glargine", "lispro"]),
+    support: [/\b(insulin|glargine|lispro)\b/i],
+    contradiction: [
+      /\bno\s+insulin\s+(was\s+|were\s+)?(given|started|prescribed|needed|indicated)\b/i,
+      /\bnot\s+(given|started|prescribed|treated)\s+(with\s+)?insulin\b/i,
+    ],
+  },
+];
+
 const SIDE_PART_RE = /\b(left|right)\s+(hip|knee|ankle|foot|wrist|hand|shoulder|elbow|arm|leg|eye|ear)\b/gi;
 
 const ALLERGY_TERMS = [
@@ -250,6 +300,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of TREATMENT_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching support phrase found in the source text.",
+      });
+    }
+  }
+
   const structuredEvidence = detectStructuredMismatchEvidence(sourceText, noteText);
   dangerous.push(...structuredEvidence.map((item) => item.finding));
   dangerousEvidence.push(...structuredEvidence);
@@ -271,10 +345,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, treatments, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, treatment action, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -300,6 +374,14 @@ function floorDimensions() {
     physicianReadability: 1,
     inputFidelity: 1,
   };
+}
+
+function treatmentPatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  return [
+    new RegExp(`\\b(?:start(?:ed)?|give|gave|given|administer(?:ed)?|prescrib(?:ed|e)|treated\\s+with|placed\\s+(?:him|her|them|the\\s+patient)\\s+on)\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,70}\\b(?:start(?:ed)?|given|administer(?:ed)?|prescrib(?:ed|e))\\b`, "i"),
+  ];
 }
 
 function localDimensions({ dangerous, leaks, overlap }) {

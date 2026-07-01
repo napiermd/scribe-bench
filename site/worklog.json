@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The no-key checker now catches invented treatment actions",
+      "why": "The source-vs-note checker could catch invented workups and common contradicted facts, but it still missed a clinically important case: the note claiming antibiotics, IV fluids, steroids, or insulin were given when the source did not support that care.",
+      "proof": "The browser-only receipt now checks positive treatment actions for antibiotics, IV fluids, steroids, and insulin, separates source contradictions from missing visible support, and shows note/source excerpts in the QA packet. Focused tests cover unsupported antibiotic and IV-fluid inventions plus supported and negated non-catches.",
+      "next": "Keep strengthening the no-key checker around the concrete things AI notes invent: treatment delivered, orders placed, diagnoses escalated, and follow-up that never happened.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Detailed receipt", "href": "#quick-check" },
+        { "label": "Fabrication taxonomy", "href": "https://github.com/napiermd/scribe-bench/blob/main/docs/fabrication-taxonomy.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first-screen router now starts from what the visitor has",
       "why": "The homepage named audiences, but a cold visitor still had to decide whether they were a buyer, reviewer, builder, or contributor before knowing what to click.",
       "proof": "The first-screen router now starts from the actual input: source plus AI note, public claim, candidate notes, or current evidence gap. Each path names the artifact it creates: QA packet, evidence ask, citable row, or blocker receipt.",
