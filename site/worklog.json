@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Mobile now puts the visitor's note before the seeded demo",
+      "why": "The first screen explained the product better, but on a phone the paste form still sat behind a long route stack and the seeded example. That made the main job feel slower than it was.",
+      "proof": "Mobile ordering now routes to the source-note form before the seeded catch, tightens the purpose copy, and turns the first source-note route into a primary tap target.",
+      "next": "Keep measuring the first-tap path: a visitor with source + note should get to an empty form and then a QA finding without reading benchmark machinery.",
+      "links": [
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Seeded demo", "href": "#quick-result" },
+        { "label": "After-the-finding guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now states the point before the routes",
       "why": "The site had a useful checker, but a cold visitor still had to infer who it was for, what they leave with, and why the repo exists.",
       "proof": "The opening checker now has a real page H1 plus a compact Point / Who / Why repo exists contract before the source-note, claim, and aggregate-evidence routes.",
