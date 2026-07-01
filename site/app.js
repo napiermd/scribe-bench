@@ -1162,9 +1162,19 @@ function renderClaimCheck() {
   setText("claim-support", guide.support);
   setText("claim-next-action", guide.nextAction);
   setText("claim-public-ask", buildClaimAsk(guide, claim));
+  renderClaimDecisionCard(guide, evidencePath);
   renderClaimEvidencePath(evidencePath);
   setClaimCopyStatus("");
   setClaimCopyFallback("");
+}
+
+function renderClaimDecisionCard(guide, path) {
+  setText("claim-decision-title", path.title);
+  setText("claim-decision-status", guide.status);
+  setText("claim-decision-close", path.close);
+  setText("claim-decision-next", path.next);
+  setClaimEvidenceLink("claim-decision-primary", path.primary);
+  setClaimEvidenceLink("claim-decision-secondary", path.secondary);
 }
 
 function renderClaimEvidencePath(path) {
@@ -1205,28 +1215,46 @@ function buildClaimAsk(guide = selectedClaimGuide(), claim = currentClaimText())
   ].join("\n");
 }
 
-async function copyClaimAsk() {
+async function copyClaimAsk(event) {
+  const scope = claimCopyScope(event);
   const text = buildClaimAsk();
   try {
     await copyText(text);
     setClaimCopyFallback("");
-    setClaimCopyStatus("Public ask copied.");
+    setClaimCopyStatus("Public ask copied.", scope);
   } catch (_) {
     setClaimCopyFallback(text);
-    setClaimCopyStatus("Clipboard unavailable. Public ask shown below.");
+    setClaimCopyStatus(
+      scope === "form"
+        ? "Clipboard unavailable. Public ask shown in the answer panel."
+        : "Clipboard unavailable. Public ask shown below.",
+      scope
+    );
   }
 }
 
-function setClaimCopyStatus(message) {
-  const status = document.getElementById("claim-copy-status");
-  if (status) status.textContent = message;
+function claimCopyScope(event) {
+  return event?.currentTarget?.id === "copy-claim-ask" ? "form" : "output";
+}
+
+function claimCopyStatusIds(scope = "all") {
+  if (scope === "form") return ["claim-copy-status"];
+  if (scope === "output") return ["claim-output-copy-status"];
+  return ["claim-copy-status", "claim-output-copy-status"];
+}
+
+function setClaimCopyStatus(message, scope = "all") {
+  claimCopyStatusIds(scope).forEach((id) => {
+    const status = document.getElementById(id);
+    if (status) status.textContent = message;
+  });
 }
 
 function setClaimCopyFallback(text) {
+  const panel = document.getElementById("claim-copy-panel");
   const fallback = document.getElementById("claim-copy-fallback");
-  if (!fallback) return;
-  fallback.value = text;
-  fallback.hidden = !text;
+  if (fallback) fallback.value = text;
+  if (panel) panel.hidden = !text;
 }
 
 function sendClaimToPublicCard() {

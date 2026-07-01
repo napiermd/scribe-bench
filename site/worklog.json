@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The claim checker now shows the proof path before the copy block",
+      "why": "A visitor challenging a vague AI-scribe claim should immediately see whether the claim is unsupported, what artifact would close it, and what to click next. Hiding that behind details made the claim checker feel like another text generator.",
+      "proof": "Added a visible claim-boundary card above the copyable public ask with current status, closing artifact, next public step, and direct action links for the selected claim type. The manual-copy fallback now opens inside the public-ask output card instead of the intake form.",
+      "next": "Keep moving public-claim flows toward concrete evidence artifacts: one-note QA finding, evidence ask, or powered aggregate row.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The Lab now says when a second read is actually useful",
       "why": "The checker could hand a flagged note into the Lab, but the live-judge step still looked like generic model plumbing. Visitors need to know whether to stop at the no-key QA finding or ask for another read.",
       "proof": "Added a second-read decision card above the Lab inputs. It changes with the current result: flagged no-key findings say they are enough to hold the note, live judges are optional for disputed gaps or reviewer prose, and every path keeps the boundary at one note.",

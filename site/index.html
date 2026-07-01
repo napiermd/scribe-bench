@@ -653,13 +653,6 @@
               <button class="button secondary compact-button" id="claim-send-card" type="button">Make evidence ask</button>
               <p id="claim-copy-status" role="status" aria-live="polite"></p>
             </div>
-            <textarea
-              class="copy-fallback"
-              id="claim-copy-fallback"
-              readonly
-              hidden
-              aria-label="Generated ScribeBench public claim ask"
-            ></textarea>
           </form>
 
           <aside class="claim-output" aria-live="polite">
@@ -671,15 +664,52 @@
               </div>
             </div>
             <p id="claim-summary"></p>
+            <section class="claim-decision-card" aria-labelledby="claim-decision-title">
+              <div class="claim-decision-head">
+                <p class="eyebrow">Claim boundary</p>
+                <h4 id="claim-decision-title">What this claim needs</h4>
+              </div>
+              <dl class="claim-decision-grid" aria-label="Public claim evidence boundary">
+                <div>
+                  <dt>Current status</dt>
+                  <dd id="claim-decision-status">--</dd>
+                </div>
+                <div>
+                  <dt>Closing artifact</dt>
+                  <dd id="claim-decision-close">--</dd>
+                </div>
+                <div>
+                  <dt>Next public step</dt>
+                  <dd id="claim-decision-next">--</dd>
+                </div>
+              </dl>
+              <div class="claim-decision-actions">
+                <a class="button primary compact-button" id="claim-decision-primary" href="#run">Open Add Row path</a>
+                <a class="button secondary compact-button" id="claim-decision-secondary" href="#current-run">Review current blocker</a>
+              </div>
+            </section>
             <div class="claim-ask-preview" aria-label="Copyable public claim ask">
               <div class="claim-ask-preview-head">
                 <div>
                   <p class="eyebrow">Copyable public ask</p>
                   <h4>Paste this into the next diligence thread.</h4>
                 </div>
-                <button class="button primary compact-button" id="copy-claim-ask-output" data-copy-claim-ask type="button">Copy this ask</button>
+                <div class="claim-ask-preview-actions">
+                  <button class="button primary compact-button" id="copy-claim-ask-output" data-copy-claim-ask type="button">Copy this ask</button>
+                  <p id="claim-output-copy-status" role="status" aria-live="polite"></p>
+                </div>
               </div>
               <pre class="code-block"><code id="claim-public-ask"></code></pre>
+              <div class="claim-copy-panel" id="claim-copy-panel" hidden>
+                <strong>Manual copy fallback</strong>
+                <p>Clipboard access is unavailable here. Select this public ask and paste it into the next diligence thread.</p>
+                <textarea
+                  class="copy-fallback"
+                  id="claim-copy-fallback"
+                  readonly
+                  aria-label="Generated ScribeBench public claim ask"
+                ></textarea>
+              </div>
             </div>
             <details class="claim-proof-detail">
               <summary>Show proof requirements and current limits</summary>
