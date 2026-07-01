@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Evidence rows now carry their claim boundary",
+      "why": "The Evidence section warned that launch rows are historical, but the table rows themselves could still be read as a current leaderboard once someone scrolled past the explanation.",
+      "proof": "The historical table now opens with a visible caption and a Claim boundary column. Each powered row says Historical only and not current ranking; smoke rows say Smoke only and not ranked.",
+      "next": "Keep making the ledger impossible to misread: current claims need a completed current powered row, while old rows can only support the failure-gradient story.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Historical baselines", "href": "#historical-baselines-title" },
+        { "label": "Current blocker", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first copied packet now reads like a review handoff",
       "why": "The first-screen receipt showed the right source-note evidence, but the copied packet opened with title/date/scope metadata. That made the artifact feel more like benchmark output than something a reviewer could paste into a decision thread.",
       "proof": "The first copy action now creates a review packet that starts with use-now, verdict, what happened, case, date, flagged source-note evidence, what it can and cannot support, the evidence boundary, and the next proof step. The first-screen buttons now say Copy review packet.",

@@ -129,4 +129,14 @@ describe('site copy and labels', () => {
     expect(app).toContain('bindPublicWorkTaskCopy();');
     expect(app).toContain('setPublicWorkQueueCopyStatus("Public task copied.");');
   });
+
+  it('keeps the evidence tables framed as claim-boundary ledgers', () => {
+    const leaderboardSection = html.match(/<section class="wrap section" id="leaderboard">[\s\S]*?<\/section>/)?.[0] || '';
+
+    expect(leaderboardSection).toContain('Claim boundary');
+    expect(leaderboardSection).toContain("Historical rows can support a failure-gradient claim only; they cannot crown today's best AI scribe.");
+    expect(leaderboardSection).toContain('Smoke rows prove plumbing on tiny synthetic sets; they are never ranked evidence.');
+    expect(app).toContain('const statusLabel = ranked ? "Historical only" : "Smoke only";');
+    expect(app).toContain('const statusDetail = ranked ? `Baseline ${index + 1}; not current ranking` : "Plumbing proof; not ranked";');
+  });
 });

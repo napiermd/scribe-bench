@@ -1012,8 +1012,8 @@ function renderResultRows(bodyId, rows, { ranked, emptyText }) {
     const narrativeCI = fmtCI(row.narrativeMeanCI);
     const leak = fmtPercent(row.leakRate);
     const width = Math.max(2, Math.min(100, row.dangerousFabricationRate * 100));
-    const statusLabel = ranked ? `Baseline ${index + 1}` : "Smoke";
-    const statusDetail = ranked ? "Historical" : "Not ranked";
+    const statusLabel = ranked ? "Historical only" : "Smoke only";
+    const statusDetail = ranked ? `Baseline ${index + 1}; not current ranking` : "Plumbing proof; not ranked";
     const scoredAt = row.scoredAt ? formatScoredAt(row.scoredAt) : "--";
 
     tr.innerHTML = `
