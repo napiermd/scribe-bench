@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 113](https://img.shields.io/badge/tests-113%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 114](https://img.shields.io/badge/tests-114%20passing-brightgreen)
 
 **A public source-vs-note QA workbench for AI-scribe claims.**
 
@@ -34,10 +34,10 @@ What the repo adds is reproducibility: the checker, cases, scoring code, worklog
 
 ## Who this is for
 
-- **Clinical QA reviewers** checking one AI-scribe note against the source encounter.
-- **Buyers and operators** turning vendor or pilot claims into concrete evidence asks.
-- **AI-scribe builders** finding unsupported-care failures before a fluent note becomes a promise.
-- **Research contributors** adding current, scores-only aggregate rows instead of treating old baselines as a buying guide.
+- **Clinical QA reviewers** paste one source encounter plus one AI-scribe note, then copy a hold/edit QA finding for review.
+- **Buyers and operators** paste a vendor or pilot claim, then copy the evidence ask that belongs in diligence.
+- **AI-scribe builders** reproduce unsupported-care failures, then route the defect with note/source excerpts.
+- **Research contributors** add current, scores-only aggregate rows instead of treating old baselines as a buying guide.
 
 It is **not** a patient app, billing tool, clinical-clearance engine, or current-model winner board.
 

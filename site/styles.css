@@ -333,6 +333,52 @@ h4 {
   color: #8a5a14;
 }
 
+.role-playbook {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.role-playbook div {
+  display: grid;
+  align-content: start;
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.7rem 0.72rem;
+}
+
+.role-playbook div:last-child {
+  border-right: 0;
+}
+
+.role-playbook dt {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.role-playbook dd {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.3;
+  margin: 0.25rem 0 0;
+  min-width: 0;
+}
+
+.role-playbook dd strong {
+  color: var(--ink);
+}
+
+.role-playbook a {
+  color: var(--accent-strong);
+  font-weight: 850;
+}
+
 .quick-artifact-preview {
   display: grid;
   gap: 0.7rem;
@@ -639,6 +685,7 @@ h4 {
 
 .quick-start-strip,
 .purpose-line,
+.role-playbook,
 .quick-artifact-preview,
 .quick-entry-paths,
 .public-evidence-card,
@@ -5838,6 +5885,7 @@ h4 {
   .audience-grid,
   .after-decision-matrix,
   .after-receipt-grid,
+  .role-playbook,
   .origin-grid,
   .repo-map-grid,
   .repo-loop-steps,
@@ -5918,6 +5966,7 @@ h4 {
   .quick-check-head,
   .quick-check-help,
   .purpose-line,
+  .role-playbook,
   .quick-artifact-preview,
   .quick-entry-paths,
   .quick-start-strip,
@@ -5953,32 +6002,36 @@ h4 {
     order: 4;
   }
 
-  .quick-entry-paths {
+  .role-playbook {
     order: 5;
   }
 
-  .quick-artifact-preview {
+  .quick-entry-paths {
     order: 6;
   }
 
-  .quick-result {
+  .quick-artifact-preview {
     order: 7;
   }
 
-  .quick-start-strip {
+  .quick-result {
     order: 8;
   }
 
-  .mobile-proof {
+  .quick-start-strip {
     order: 9;
   }
 
-  .quick-proof-label {
+  .mobile-proof {
     order: 10;
   }
 
-  .quick-capability-grid {
+  .quick-proof-label {
     order: 11;
+  }
+
+  .quick-capability-grid {
+    order: 12;
   }
 
   .quick-output-contract {
@@ -6074,6 +6127,15 @@ h4 {
   }
 
   .after-decision-matrix div:last-child {
+    border-bottom: 0;
+  }
+
+  .role-playbook div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .role-playbook div:last-child {
     border-bottom: 0;
   }
 
@@ -6447,32 +6509,36 @@ h4 {
     order: 4;
   }
 
-  .quick-entry-paths {
+  .role-playbook {
     order: 5;
   }
 
-  .quick-artifact-preview {
+  .quick-entry-paths {
     order: 6;
   }
 
-  .quick-result {
+  .quick-artifact-preview {
     order: 7;
   }
 
-  .quick-start-strip {
+  .quick-result {
     order: 8;
   }
 
-  .mobile-proof {
+  .quick-start-strip {
     order: 9;
   }
 
-  .quick-proof-label {
+  .mobile-proof {
     order: 10;
   }
 
-  .quick-capability-grid {
+  .quick-proof-label {
     order: 11;
+  }
+
+  .quick-capability-grid {
+    order: 12;
   }
 
   .quick-check-head h1 {
@@ -6493,6 +6559,10 @@ h4 {
   .purpose-line strong {
     font-size: 0.88rem;
     line-height: 1.2;
+  }
+
+  .role-playbook dd {
+    font-size: 0.76rem;
   }
 
   .quick-entry-paths article {

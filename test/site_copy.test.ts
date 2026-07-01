@@ -39,6 +39,21 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('class="purpose-boundary"');
     expect(summarySection).toContain('Boundary');
     expect(summarySection).toContain('One pasted note supports review; system claims require aggregate rows.');
+    expect(summarySection).toContain('class="role-playbook"');
+    expect(summarySection).toContain('Who uses ScribeBench and what they do');
+    expect(summarySection).toContain('Clinical QA reviewer');
+    expect(summarySection).toContain('paste source plus note');
+    expect(summarySection).toContain('hold/edit QA finding');
+    expect(summarySection).toContain('Buyer or operator');
+    expect(summarySection).toContain('challenge a vendor promise');
+    expect(summarySection).toContain('evidence ask for diligence');
+    expect(summarySection).toContain('Builder or vendor');
+    expect(summarySection).toContain('reproduce source-note defects');
+    expect(summarySection).toContain('route note for the owner');
+    expect(summarySection).toContain('Research contributor');
+    expect(summarySection).toContain('add aggregate evidence');
+    expect(summarySection).toContain('scores-only row recipe');
+    expect(summarySection).toContain('Build ask');
     expect(summarySection).toContain('class="quick-artifact-preview"');
     expect(summarySection).toContain('Example ScribeBench QA finding');
     expect(summarySection).toContain('Example QA packet');
@@ -102,12 +117,16 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.quick-proof-pair');
     expect(styles).toContain('.purpose-line .purpose-boundary');
     expect(styles).toContain('.purpose-line .purpose-boundary span');
+    expect(styles).toContain('.role-playbook');
+    expect(styles).toContain('.role-playbook dt');
+    expect(styles).toContain('.role-playbook dd strong');
     expect(styles).toContain('.quick-artifact-preview');
     expect(styles).toContain('.quick-artifact-preview-grid');
     expect(styles).toContain('.quick-artifact-preview-grid div:nth-child(2n)');
-    expect(styles).toContain('.quick-entry-paths {\n    order: 5;');
-    expect(styles).toContain('.quick-artifact-preview {\n    order: 6;');
-    expect(styles).toContain('.quick-result {\n    order: 7;');
+    expect(styles).toContain('.role-playbook {\n    order: 5;');
+    expect(styles).toContain('.quick-entry-paths {\n    order: 6;');
+    expect(styles).toContain('.quick-artifact-preview {\n    order: 7;');
+    expect(styles).toContain('.quick-result {\n    order: 8;');
     expect(styles).toContain('.quick-entry-paths');
     expect(styles).toContain('.quick-entry-paths article');
     expect(styles).toContain('.quick-entry-paths article:last-child');
@@ -116,9 +135,9 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.quick-check-panel {\n    order: 1;');
     expect(styles).toContain('.purpose-line {\n    order: 3;');
     expect(styles).toContain('.quick-check-form {\n    order: 4;');
-    expect(styles).toContain('.quick-start-strip {\n    order: 8;');
-    expect(styles).toContain('.mobile-proof {\n    order: 9;');
-    expect(styles).toContain('.quick-capability-grid {\n    order: 11;');
+    expect(styles).toContain('.quick-start-strip {\n    order: 9;');
+    expect(styles).toContain('.mobile-proof {\n    order: 10;');
+    expect(styles).toContain('.quick-capability-grid {\n    order: 12;');
     expect(styles).toContain('.quick-entry-paths p {\n    display: none;');
     expect(styles).toContain('.quick-entry-paths article:first-child a');
     expect(styles).toContain('background: var(--accent);');
@@ -195,15 +214,17 @@ describe('site copy and labels', () => {
     const mobileStyles = styles.match(/@media \(max-width: 560px\) \{[\s\S]*$/)?.[0] || '';
     const formOrder = mobileStyles.indexOf('.quick-check-form {\n    order: 3;');
     const contractOrder = mobileStyles.indexOf('.purpose-line {\n    order: 4;');
-    const chooserOrder = mobileStyles.indexOf('.quick-entry-paths {\n    order: 5;');
-    const artifactOrder = mobileStyles.indexOf('.quick-artifact-preview {\n    order: 6;');
+    const roleOrder = mobileStyles.indexOf('.role-playbook {\n    order: 5;');
+    const chooserOrder = mobileStyles.indexOf('.quick-entry-paths {\n    order: 6;');
+    const artifactOrder = mobileStyles.indexOf('.quick-artifact-preview {\n    order: 7;');
 
     expect(formOrder).toBeGreaterThan(-1);
     expect(contractOrder).toBeGreaterThan(formOrder);
-    expect(chooserOrder).toBeGreaterThan(contractOrder);
+    expect(roleOrder).toBeGreaterThan(contractOrder);
+    expect(chooserOrder).toBeGreaterThan(roleOrder);
     expect(artifactOrder).toBeGreaterThan(chooserOrder);
-    expect(mobileStyles).toContain('.quick-result {\n    order: 7;');
-    expect(mobileStyles).toContain('.quick-start-strip {\n    order: 8;');
+    expect(mobileStyles).toContain('.quick-result {\n    order: 8;');
+    expect(mobileStyles).toContain('.quick-start-strip {\n    order: 9;');
   });
 
   it('keeps model smoke out of the first note-checking task', () => {
