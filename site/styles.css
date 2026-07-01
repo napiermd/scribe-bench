@@ -258,21 +258,52 @@ h4 {
   font-size: clamp(1.05rem, 2vw, 1.28rem);
 }
 
-.product-answer {
+.public-contract {
   display: grid;
-  gap: 0.34rem;
-  margin-top: 0.74rem;
+  gap: 0.74rem;
+  margin-top: 0.9rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 0.9rem 0;
 }
 
-.product-answer article {
+.public-contract-main {
   display: grid;
-  gap: 0.08rem;
-  border-left: 3px solid var(--accent);
-  background: var(--panel-soft);
-  padding: 0.36rem 0.58rem;
+  gap: 0.42rem;
 }
 
-.product-answer span,
+.public-contract-main .eyebrow {
+  margin-bottom: 0;
+}
+
+.public-contract-main h2 {
+  font-size: 1.12rem;
+  line-height: 1.18;
+}
+
+.public-contract-main p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.38;
+  margin: 0;
+}
+
+.public-contract-grid {
+  display: grid;
+  margin: 0;
+  border-top: 1px solid var(--line);
+}
+
+.public-contract-grid div {
+  display: grid;
+  grid-template-columns: minmax(78px, 0.28fr) minmax(0, 1fr);
+  gap: 0.7rem;
+  min-width: 0;
+  border-bottom: 1px solid var(--line);
+  padding: 0.52rem 0;
+}
+
+.public-contract-grid dt,
 .proof-path span {
   color: var(--accent-strong);
   font-size: 0.7rem;
@@ -281,17 +312,24 @@ h4 {
   text-transform: uppercase;
 }
 
-.product-answer strong {
+.public-contract-grid dd {
+  color: var(--ink);
   font-size: 0.82rem;
-  line-height: 1.18;
+  font-weight: 750;
+  line-height: 1.28;
+  margin: 0;
 }
 
-.product-answer p,
+.public-contract-audience,
 .proof-path p {
   color: var(--muted);
-  font-size: 0.72rem;
-  line-height: 1.22;
+  font-size: 0.8rem;
+  line-height: 1.34;
   margin: 0;
+}
+
+.public-contract-audience strong {
+  color: var(--ink);
 }
 
 .hero-proof-trail {
@@ -5629,6 +5667,11 @@ h4 {
 
   .quick-proof-pair div {
     padding: 0.58rem 0.65rem;
+  }
+
+  .public-contract-grid div {
+    grid-template-columns: 1fr;
+    gap: 0.22rem;
   }
 
   .quick-check-head,

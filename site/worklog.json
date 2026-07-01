@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now states the public contract",
+      "why": "The opening panel still split purpose across what/who/point cards and a separate route chooser. A cold visitor could see the checker working without understanding the larger rule: one note gets a receipt, but broad AI-scribe claims need aggregate rows.",
+      "proof": "Replaced the first-screen purpose cards with a compact public contract: one note becomes a QA packet, one claim becomes an evidence ask, and many notes become an aggregate row only after a declared run.",
+      "next": "Keep measuring every first-screen block against the same question: does it help someone paste evidence, copy a packet, challenge a claim, or build a row?",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Custom note checks now reveal the receipt",
       "why": "The paste-your-own-note flow rendered the receipt above the form. After submit, a visitor could stay near the form status text and miss the actual review packet.",
       "proof": "Changed form submit to reveal #quick-result, update the hash, and scroll to the receipt after the local browser check runs. Seeded demo loading still checks quietly without jumping the first screen.",
