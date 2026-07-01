@@ -1606,6 +1606,7 @@ function renderQuickResult(result) {
   setText("quick-result-summary", verdict.copy);
   const issueTypes = receiptIssueTypes(result);
   renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes });
+  renderQuickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
   const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes });
   setText("quick-result-can-support", meaning.canSupport);
   setText("quick-result-cannot-support", meaning.cannotSupport);
@@ -1632,6 +1633,56 @@ function renderQuickResult(result) {
   }
   setText("quick-result-next", verdict.action);
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
+}
+
+function renderQuickReviewHandoff(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
+  const handoff = quickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
+  const panel = document.querySelector(".quick-review-handoff");
+  if (panel) panel.dataset.tone = handoff.tone;
+  setText("quick-review-handoff-title", handoff.title);
+  setText("quick-handoff-action", handoff.action);
+  setText("quick-handoff-why", handoff.why);
+  setText("quick-handoff-evidence", handoff.evidence);
+  setText("quick-handoff-next", handoff.next);
+}
+
+function quickReviewHandoff(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
+  const firstFinding = result.fabrication?.dangerous?.filter(Boolean)?.[0] || "";
+  const firstEvidence = Array.isArray(result.evidence?.dangerous)
+    ? result.evidence.dangerous.find((item) => item?.finding === firstFinding) || result.evidence.dangerous[0]
+    : null;
+  if (dangerousCount) {
+    const evidenceLabel = firstEvidence?.label || firstFinding.replace(/\s+appears[\s\S]*$/, "").trim();
+    return {
+      tone: "danger",
+      title: "Hold this note before signing.",
+      action: "Hold or edit the note until the flagged claims are checked against the source.",
+      why: `${issueCountLabel(dangerousCount)} change what the reader would believe happened${issueTypes ? `: ${issueTypes}.` : "."}`,
+      evidence: evidenceLabel
+        ? `First flag: ${evidenceLabel}. Open the note/source evidence below for excerpts.`
+        : firstFinding || verdict.copy,
+      next: "Copy the QA finding for review, or ask a second-read judge if the source-note gap is disputed.",
+    };
+  }
+  if (leakCount) {
+    const firstLeak = (result.leaks || []).filter(Boolean)[0];
+    return {
+      tone: "review",
+      title: "Fix the artifact before sharing.",
+      action: "Send this back to the prompt, template, or note-generation owner.",
+      why: `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} appeared in the note output.`,
+      evidence: firstLeak ? `${firstLeak.marker}: ${firstLeak.excerpt}` : verdict.copy,
+      next: "Regenerate and recheck the note before treating it as clean evidence.",
+    };
+  }
+  return {
+    tone: "ok",
+    title: "Use as clean triage, not clearance.",
+    action: "A human reviewer can keep reviewing the note; this browser check did not find a covered issue.",
+    why: "The covered checks did not catch unsupported care, chart-fact drift, or deterministic leaks.",
+    evidence: "No obvious flagged source-note issue in the covered categories.",
+    next: "Use a second read or aggregate run before making a system-level safety or comparison claim.",
+  };
 }
 
 function renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes = "" }) {

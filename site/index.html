@@ -168,10 +168,34 @@
                   <dd id="quick-result-boundary">--</dd>
                 </div>
               </dl>
-              <details class="quick-receipt-preview" aria-label="Copy-ready ScribeBench QA finding" open>
+              <section class="quick-review-handoff" aria-labelledby="quick-review-handoff-title">
+                <div class="quick-review-handoff-head">
+                  <p class="eyebrow">Reviewer handoff</p>
+                  <h4 id="quick-review-handoff-title">Run the check</h4>
+                </div>
+                <dl class="quick-review-grid">
+                  <div>
+                    <dt>Action</dt>
+                    <dd id="quick-handoff-action">Run the check before trusting this note.</dd>
+                  </div>
+                  <div>
+                    <dt>Why</dt>
+                    <dd id="quick-handoff-why">ScribeBench will summarize the source-note gap here.</dd>
+                  </div>
+                  <div>
+                    <dt>Evidence</dt>
+                    <dd id="quick-handoff-evidence">Flagged note/source excerpts appear after the check.</dd>
+                  </div>
+                  <div>
+                    <dt>Next</dt>
+                    <dd id="quick-handoff-next">Copy the QA finding or ask for a second read.</dd>
+                  </div>
+                </dl>
+              </section>
+              <details class="quick-receipt-preview" aria-label="Copy-ready ScribeBench QA finding">
                 <summary class="quick-receipt-preview-head">
-                  <strong>QA finding text</strong>
-                  <span>Copy-ready</span>
+                  <strong>Full QA finding text</strong>
+                  <span>Open when copying</span>
                 </summary>
                 <pre class="code-block"><code id="quick-receipt-preview-output"></code></pre>
               </details>

@@ -113,7 +113,7 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 
 Use the website for six jobs:
 
-1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care and chart-fact drift: unsupported treatments, procedures, medication changes, diagnoses, orders, test results, demographics, laterality, allergies, and leaks. No API key required.
+1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a reviewer handoff plus a QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care and chart-fact drift: unsupported treatments, procedures, medication changes, diagnoses, orders, test results, demographics, laterality, allergies, and leaks. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
 3. **Read today's answer.** The checker, after-the-finding guide, and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Choose the next bounded action.** After a finding, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.
