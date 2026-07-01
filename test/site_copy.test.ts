@@ -14,15 +14,19 @@ describe('site copy and labels', () => {
     expect(app).toContain('"Seeded example receipt"');
   });
 
-  it('uses hero space to explain visitor jobs instead of duplicating the seeded receipt', () => {
+  it('uses hero space to explain the product in plain English', () => {
     const summarySection = html.match(/<section class="summary-band">[\s\S]*?<\/section>/)?.[0] || '';
 
-    expect(summarySection).toContain('What people do here');
-    expect(summarySection).toContain('Turn source-vs-note doubt into a shareable artifact.');
-    expect(summarySection).toContain('Clinical reviewer');
-    expect(summarySection).toContain('Buyer or operator');
-    expect(summarySection).toContain('Builder or contributor');
-    expect(summarySection).toContain('Paste one encounter and AI note');
+    expect(summarySection).toContain('Paste what happened. Catch what the AI made up.');
+    expect(summarySection).toContain('ScribeBench is a public checker for AI-written clinical notes.');
+    expect(summarySection).toContain('What this is');
+    expect(summarySection).toContain('Who uses it');
+    expect(summarySection).toContain('Why care');
+    expect(summarySection).toContain('A no-account source-vs-note reviewer.');
+    expect(summarySection).toContain('Fluent notes can invent care.');
+    expect(summarySection).toContain('head CT and syncope workup that never happened');
+    expect(summarySection).toContain('Paste the source encounter and the AI-written note.');
+    expect(summarySection).toContain('it catches made-up care');
     expect(summarySection).not.toContain('The first loaded case shows the point immediately.');
     expect(summarySection).not.toContain('CT head was negative; syncope workup started.');
   });

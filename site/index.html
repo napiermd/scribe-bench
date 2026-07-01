@@ -66,31 +66,30 @@
         <div class="wrap summary-grid">
           <div class="intro-panel">
             <p class="eyebrow">Public clinical AI QA</p>
-            <h1>Check an AI-scribe note. Leave with evidence.</h1>
+            <h1>Paste what happened. Catch what the AI made up.</h1>
             <p class="lede">
-              For clinical QA reviewers, buyers, operators, and builders who need
-              a source-vs-note receipt before trusting an AI-scribe claim.
+              ScribeBench is a public checker for AI-written clinical notes. Give it
+              the source encounter and the generated note; it returns a copyable review
+              packet naming unsupported care, source excerpts, and what the result can
+              actually prove.
             </p>
 
-            <div class="hero-use-cases" aria-label="What people do with ScribeBench">
-              <div class="hero-use-cases-head">
-                <span class="queue-status needed">What people do here</span>
-                <strong>Turn source-vs-note doubt into a shareable artifact.</strong>
+            <div class="plain-answer" aria-label="ScribeBench in plain English">
+              <div>
+                <span>What this is</span>
+                <strong>A no-account source-vs-note reviewer.</strong>
+                <p>It checks whether the note says tests, diagnoses, medications, follow-up, or events the source does not support.</p>
               </div>
-              <dl>
-                <div>
-                  <dt>Clinical reviewer</dt>
-                  <dd>Paste one encounter and AI note; copy a QA packet with flagged snippets.</dd>
-                </div>
-                <div>
-                  <dt>Buyer or operator</dt>
-                  <dd>Turn a vendor claim into the dataset, judge, repeats, and disclosures it needs.</dd>
-                </div>
-                <div>
-                  <dt>Builder or contributor</dt>
-                  <dd>Add citable aggregate rows only when the batch, method, and boundary are declared.</dd>
-                </div>
-              </dl>
+              <div>
+                <span>Who uses it</span>
+                <strong>Reviewers, buyers, builders, and contributors.</strong>
+                <p>Anyone holding a source encounter, AI note, vendor claim, or batch of candidate notes that needs evidence.</p>
+              </div>
+              <div>
+                <span>Why care</span>
+                <strong>Fluent notes can invent care.</strong>
+                <p>The seeded example catches a head CT and syncope workup that never happened, then turns that into a review packet.</p>
+              </div>
             </div>
 
             <div class="hero-proof-trail" aria-labelledby="hero-proof-trail-title">
@@ -124,9 +123,10 @@
               <span class="local-badge">No API key</span>
             </div>
             <p class="quick-check-help">
-              For reviewers, buyers, and builders who need a source-vs-note receipt.
-              The seeded fall case opens with the actual artifact first; switch to
-              your own pair when you want a usable QA packet.
+              Paste the source encounter and the AI-written note. The seeded fall
+              case opens first so you can see the artifact: it catches made-up care,
+              shows the exact note/source snippets, and explains what the finding
+              can and cannot prove.
             </p>
             <div class="quick-result" id="quick-result" hidden>
               <div class="quick-result-head">
