@@ -1866,21 +1866,18 @@ function buildQuickReceiptText(result) {
   const leakCount = leaks.length;
   const fidelity = Number(result.dimensions?.inputFidelity || 0);
   const normalized = Number(result.normalized || 0);
+  const issueTypes = receiptIssueTypes(result);
   const verdict = labVerdict({
     dangerousCount,
     leakCount,
     fidelity,
     normalized,
     localResult: Boolean(result.localResult),
-    issueTypes: receiptIssueTypes(result),
+    issueTypes,
   });
-  const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
+  const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes });
+  const handoff = quickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
-  const useNow = dangerousCount
-    ? "Review the flagged claims against the source before this note is trusted or signed."
-    : leakCount
-      ? "Fix the prompt or template leak, regenerate the note, and recheck the source-note pair."
-      : "Use this as one-note triage, then review clinically before trusting the note.";
   const evidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
   const flaggedItems = dangerousCount
     ? dangerous.flatMap((item) => {
@@ -1896,24 +1893,26 @@ function buildQuickReceiptText(result) {
 
   return [
     "ScribeBench source-vs-note QA finding",
-    `Use now: ${useNow}`,
-    `Verdict: ${verdict.title}`,
-    `What happened: ${verdict.copy}`,
+    `Decision: ${handoff.title}`,
+    `Action: ${handoff.action}`,
+    `Why: ${handoff.why}`,
+    `Evidence: ${handoff.evidence}`,
+    `Next: ${handoff.next}`,
+    "",
     `Case: ${caseLabel}`,
     `Date: ${localDateStamp()}`,
+    "Check: browser-only local source-vs-note QA",
     "",
     "Flagged source-note evidence:",
     ...flaggedItems,
     "",
-    "What this can support:",
-    `- ${meaning.canSupport}`,
-    "What this cannot support:",
-    `- ${meaning.cannotSupport}`,
+    "Boundary: one source-note pair, browser-only local check.",
+    `Can support: ${meaning.canSupport}`,
+    `Cannot support: ${meaning.cannotSupport}`,
+    `Use next: ${meaning.useNext}`,
+    "Not: leaderboard row, system certification, or clinical clearance.",
     "",
-    "Boundary: one source-note pair, browser-only local check, not a leaderboard row, system certification, or clinical clearance.",
-    `Next proof step: ${verdict.action}`,
-    "",
-    "Reference: https://scribe-bench.vercel.app/",
+    "Reference: https://scribe-bench.vercel.app/#quick-check",
   ].join("\n");
 }
 

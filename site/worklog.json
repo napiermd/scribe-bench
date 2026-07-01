@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Copied QA findings now start with the reviewer decision",
+      "why": "The on-screen result had become action-first, but the copied QA finding still opened like a report. That made the shareable artifact feel less decisive than the product surface.",
+      "proof": "The copied source-vs-note QA finding now starts with Decision, Action, Why, Evidence, and Next before showing detailed source-note evidence and boundaries.",
+      "next": "Keep every exported artifact paste-ready: the first lines should tell a reviewer what to do before they read the detailed evidence.",
+      "links": [
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Second-read review", "href": "#lab" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The source-note path now opens a clean checker",
       "why": "The new first-screen chooser routed people with their own source and note to the form, but that form was still prefilled with the seeded demo and stale demo status.",
       "proof": "The source + note entry now uses the same own-note start behavior as Check my note: it clears the seeded source and note, hides old artifacts, focuses the source field, and asks the visitor to paste their own evidence.",
