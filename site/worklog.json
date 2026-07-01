@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Own-note results no longer look like the demo",
+      "why": "The checker caught real pasted-note issues, but the result header still said Default artifact. That made a visitor-owned QA packet feel canned.",
+      "proof": "Quick-check results now label pasted source-note pairs as Your QA packet, seeded examples as Seeded example receipt, and other loaded cases as Loaded case receipt. A regression test prevents the old demo label from returning.",
+      "next": "Keep separating the practical note-review path from deeper benchmark language so the first visit feels like a tool, not a report.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Public evidence card", "href": "#public-evidence-card" },
+        { "label": "Guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Contribute now starts with the next public job",
       "why": "The site explained evidence levels, but the contribution surface still made visitors decode benchmark controls before seeing the one concrete public thing that would make the project more useful.",
       "proof": "The Add Row section now opens with a Public work queue tied to the live current-run status: active job, blocker, done condition, why it matters, and direct actions into the blocker receipt or powered-row command builder.",

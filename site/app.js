@@ -1809,6 +1809,7 @@ function renderQuickResult(result) {
     status.textContent = dangerousCount ? "Review before trust" : leakCount ? "Clean output" : "No obvious issue";
     status.className = `queue-status ${verdict.tone === "danger" ? "needed" : verdict.tone === "review" ? "open" : "ready"}`;
   }
+  setText("quick-result-label", quickResultLabel(result));
   setText("quick-result-title", verdict.title);
   setText("quick-result-summary", verdict.copy);
   const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
@@ -1837,6 +1838,14 @@ function renderQuickResult(result) {
   setText("quick-result-next", verdict.action);
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
   renderPublicEvidenceCard(publicEvidenceCardFromQuickResult(result, { verdict, meaning, issueTypes: receiptIssueTypes(result) }));
+}
+
+function quickResultLabel(result) {
+  const caseId = String(result?.caseId || "").trim();
+  if (!caseId) return "Your QA packet";
+  return result?.caseType === "synthetic" || /^SYN-/i.test(caseId)
+    ? "Seeded example receipt"
+    : "Loaded case receipt";
 }
 
 function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
