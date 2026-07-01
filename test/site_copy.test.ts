@@ -78,7 +78,9 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('Run the no-key browser check; open the Lab only if the receipt needs a second read.');
     expect(summarySection).toContain('Read the NapierMD proof trail');
     expect(summarySection).toContain('Seeded receipt loaded:');
-    expect(summarySection).toContain('it catches made-up care');
+    expect(summarySection).toContain('Paste source + AI note. Get a receipt for invented care.');
+    expect(summarySection).toContain('flagged claim, source contradiction, evidence boundary, and next review step');
+    expect(summarySection).toContain('paste your own source-note pair in the form here');
     expect(summarySection).toContain('quick-start-strip');
     expect(summarySection).toContain('Seeded catch visible now');
     expect(summarySection).toContain('The AI note invented a negative head CT and a syncope workup.');
@@ -111,6 +113,10 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.intro-panel {\n    order: 2;');
     expect(styles).toContain('.quick-start-copy-fallback');
     expect(styles).toContain('.quick-start-copy-panel');
+    expect(styles).toContain('grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);');
+    expect(styles).toContain('.intro-panel {\n  grid-column: 1;\n  grid-row: 2;');
+    expect(styles).toContain('.quick-check-panel {\n  grid-column: 1;\n  grid-row: 1;');
+    expect(styles).toContain('.quick-check-form {\n  display: grid;\n  grid-column: 2;');
     expect(styles).toContain('#start-route-copy-status');
     expect(styles).toContain('.start-route-copy-panel');
     expect(styles).toContain('.start-route-copy-fallback');
