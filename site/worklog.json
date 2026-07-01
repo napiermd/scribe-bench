@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The checked-note result now owns the work surface",
+      "why": "After the first-screen fix, the paste-and-check workflow was clear, but the generated QA finding still rendered in the left rail while the right half of the page sat empty. That made the most important artifact feel secondary.",
+      "proof": "A completed note check now spans the full checker panel: the status, title, copy action, first source-note gap, compact boundary, and reviewer handoff read as one artifact instead of a narrow side card.",
+      "next": "Keep the post-check experience centered on the artifact a reviewer can use: first gap, source evidence, action, and copied QA finding before lower-priority routing material.",
+      "links": [
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "First evidence card", "href": "#quick-result" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The first screen now shows the actual checker before the brochure",
       "why": "The headline and purpose copy said ScribeBench was a source-vs-note checker, but the first viewport still showed route cards and seeded-demo explanation before both paste boxes and the primary check action were visible.",
       "proof": "The desktop and mobile first view now put the source box, AI-note box, and Check note now action ahead of the seeded demo, with the route and purpose material moved into the supporting rail or below the form.",

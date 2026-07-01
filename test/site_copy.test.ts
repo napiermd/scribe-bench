@@ -109,6 +109,7 @@ describe('site copy and labels', () => {
     expect(styles).toContain('grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);');
     expect(styles).toContain('.quick-check-panel {\n  grid-column: 1;\n  grid-row: 1;');
     expect(styles).toContain('.quick-check-form {\n  display: grid;\n  grid-column: 2;');
+    expect(styles).toContain('.quick-result {\n  grid-column: 1 / -1;');
     expect(styles).toContain('grid-column: 1 / -1;');
     expect(styles).toContain('min-height: 220px;');
     expect(styles).toContain('min-height: 100px;');

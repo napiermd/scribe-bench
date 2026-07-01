@@ -543,7 +543,6 @@ h4 {
 .quick-start-strip,
 .purpose-line,
 .quick-entry-paths,
-.quick-result,
 .public-evidence-card,
 .quick-smoke-artifact {
   grid-column: 1;
@@ -555,6 +554,14 @@ h4 {
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
+}
+
+.quick-result-head {
+  justify-content: flex-start;
+}
+
+.quick-result-head > div {
+  min-width: 0;
 }
 
 .quick-check-head .eyebrow,
@@ -1026,6 +1033,7 @@ h4 {
 }
 
 .quick-result {
+  grid-column: 1 / -1;
   border: 1px solid var(--line);
   background: var(--panel-soft);
   padding: 1rem;
