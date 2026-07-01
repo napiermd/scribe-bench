@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The claim checker now has its own intake contract",
+      "why": "The claim route had a clear output card, but the form still opened with presets and a textarea before saying what artifact the visitor was creating. That made the claim path feel less concrete than the note checker, Lab, and row builder.",
+      "proof": "The claim form now starts with Claim-to-evidence intake, says to turn the claim into a public ask rather than a verdict, and shows Bring, Check, and Leave with steps before the presets.",
+      "next": "Keep every direct route artifact-first: note paths create QA findings, claim paths create evidence asks, and row paths create aggregate evidence packages.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Source-note checker", "href": "#quick-check-form" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The Lab workbench now starts with the second-read job",
       "why": "Direct links to the Lab workbench still landed on textareas and a seeded score before restating why a visitor was there. That could make the Lab feel like a model playground instead of a second-read review for one disputed note.",
       "proof": "The workbench now opens with a Second-read intake contract: checked source plus note, no-key first with live judge optional, and a second-read QA finding as the output. Lab result labels now read Seeded QA finding, Review signal, and Flagged gaps instead of generic benchmark language.",

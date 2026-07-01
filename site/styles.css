@@ -2339,6 +2339,66 @@ h4 {
   gap: 0.9rem;
 }
 
+.claim-form-head {
+  display: grid;
+  gap: 0.34rem;
+  border-left: 3px solid var(--accent);
+  background: #eef8f5;
+  padding: 0.72rem 0.82rem;
+}
+
+.claim-form-head .eyebrow {
+  margin: 0;
+}
+
+.claim-form-head h3 {
+  color: var(--ink);
+  font-size: 1.02rem;
+  letter-spacing: 0;
+  line-height: 1.22;
+  text-transform: none;
+}
+
+.claim-form-head p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.36;
+  margin: 0;
+}
+
+.claim-intake-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.claim-intake-steps div {
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.62rem 0.7rem;
+}
+
+.claim-intake-steps div:last-child {
+  border-right: 0;
+}
+
+.claim-intake-steps dt {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.claim-intake-steps dd {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  margin: 0.28rem 0 0;
+}
+
 .claim-presets {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5164,6 +5224,7 @@ h4 {
   .evidence-task-steps,
   .public-action-grid,
   .quick-intake-steps,
+  .claim-intake-steps,
   .evidence-answer-grid,
   .evidence-answer-foot,
   .evidence-decision-list,
@@ -5282,6 +5343,15 @@ h4 {
   }
 
   .quick-intake-steps div:last-child {
+    border-bottom: 0;
+  }
+
+  .claim-intake-steps div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .claim-intake-steps div:last-child {
     border-bottom: 0;
   }
 

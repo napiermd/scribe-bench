@@ -446,6 +446,11 @@ describe('site copy and labels', () => {
     const evidencePathIndex = claimSection.indexOf('claim-evidence-path');
 
     expect(claimSection).toContain('Turn a vague AI-scribe claim into an evidence ask.');
+    expect(claimSection).toContain('Claim-to-evidence intake');
+    expect(claimSection).toContain('Turn the claim into a public ask, not a verdict.');
+    expect(claimSection).toContain('One public claim or buying-room promise.');
+    expect(claimSection).toContain('What the claim can support now.');
+    expect(claimSection).toContain('Copyable evidence ask plus next proof step.');
     expect(claimSection).toContain('data-copy-claim-ask');
     expect(claimSection).toContain('Copyable public ask');
     expect(claimSection).toContain('Paste this into the next diligence thread.');
@@ -466,6 +471,9 @@ describe('site copy and labels', () => {
     expect(app).toContain('function renderPublicEvidenceCardActions(card)');
     expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim ask" : "Copy evidence ask";');
     expect(app).toContain('ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";');
+    expect(styles).toContain('.claim-form-head');
+    expect(styles).toContain('.claim-intake-steps');
+    expect(styles).toContain('.claim-intake-steps div:last-child');
     expect(html).not.toContain('id="current-challenge"');
     expect(html).not.toContain('Powered-row challenge');
     expect(app).not.toContain('bindChallengePlanner');
