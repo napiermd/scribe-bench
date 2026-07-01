@@ -1462,6 +1462,32 @@
         </div>
 
         <form class="run-builder" id="run-builder" aria-label="Aggregate row command builder">
+          <div class="run-builder-head">
+            <div>
+              <p class="eyebrow">Aggregate row intake</p>
+              <h3>Build a scores-only evidence package, not another demo.</h3>
+              <p>
+                Use this only when you have many candidate notes from the same system.
+                The public artifact is aggregate metrics plus method disclosure; raw
+                closed-model notes stay out of the repo.
+              </p>
+            </div>
+            <a class="button secondary compact-button" href="#claim-check">Only have a claim?</a>
+          </div>
+          <dl class="run-builder-contract" aria-label="What the aggregate row builder creates">
+            <div>
+              <dt>Input</dt>
+              <dd>Candidate-note JSON for one declared system and dataset.</dd>
+            </div>
+            <div>
+              <dt>Output</dt>
+              <dd>Scores-only row with n, judge, repeats, date, CI, and exclusions.</dd>
+            </div>
+            <div>
+              <dt>Use when</dt>
+              <dd>A public claim needs system-level evidence, not a one-note finding.</dd>
+            </div>
+          </dl>
           <div class="run-presets" aria-label="Common run builder presets">
             <button class="run-preset active" type="button" data-run-preset="current-powered" aria-pressed="true">
               <span>Current powered row</span>
@@ -1549,7 +1575,7 @@
             <div class="run-output-head">
               <div>
                 <p class="eyebrow">Artifact 1</p>
-                <h3>Candidate note JSON</h3>
+                <h3>Private candidate-note JSON shape</h3>
               </div>
             </div>
             <pre class="code-block"><code id="candidate-template-output">[
@@ -1561,7 +1587,7 @@
             <div class="run-output-head">
               <div>
                 <p class="eyebrow">Artifact 2</p>
-                <h3>Generated command</h3>
+                <h3>Scoring command for aggregate output</h3>
               </div>
             </div>
             <pre class="code-block"><code id="run-command-output"></code></pre>

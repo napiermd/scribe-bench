@@ -40,7 +40,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
 | Bound what public claims can say | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A QA-finding-first ledger that separates useful one-note output, historical rows, smoke tests, and current-model gaps. |
 | Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored blocker status, excluded-case boundary, and resume command for the public API row. |
-| Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
+| Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The scores-only evidence package, private candidate-note JSON shape, and benchmark command. |
 | Reuse or audit the machinery | [`site/`](site/), [`eval/`](eval/), [`leaderboard/results.json`](leaderboard/results.json) | The static site, evaluator, public cases, and scores-only ledger behind the public artifacts. |
 
 The public website is not a consumer app, a patient app, clinical clearance, or

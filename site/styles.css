@@ -4781,6 +4781,67 @@ h4 {
   padding: 1rem;
 }
 
+.run-builder-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  border-left: 3px solid var(--accent);
+  background: #eef8f5;
+  padding: 0.82rem 0.9rem;
+}
+
+.run-builder-head .eyebrow {
+  margin-bottom: 0.34rem;
+}
+
+.run-builder-head h3 {
+  color: var(--ink);
+  font-size: 1.08rem;
+  letter-spacing: 0;
+  line-height: 1.22;
+}
+
+.run-builder-head p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.38;
+  margin: 0.46rem 0 0;
+}
+
+.run-builder-contract {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.run-builder-contract div {
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.66rem 0.72rem;
+}
+
+.run-builder-contract div:last-child {
+  border-right: 0;
+}
+
+.run-builder-contract dt {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.run-builder-contract dd {
+  color: var(--ink);
+  font-size: 0.82rem;
+  line-height: 1.35;
+  margin: 0.3rem 0 0;
+}
+
 .run-presets {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -5089,6 +5150,8 @@ h4 {
   .field-row.claim-row,
   .field-row.lab-model-row,
   .field-row.run-builder-row,
+  .run-builder-head,
+  .run-builder-contract,
   .lab-textareas,
   .case-receipt-metrics,
   .comparison-grid {
@@ -5159,6 +5222,15 @@ h4 {
   }
 
   .quick-intake-steps div:last-child {
+    border-bottom: 0;
+  }
+
+  .run-builder-contract div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .run-builder-contract div:last-child {
     border-bottom: 0;
   }
 
