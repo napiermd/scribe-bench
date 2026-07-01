@@ -2838,11 +2838,25 @@ h4 {
 }
 
 .evidence-answer-actions {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
-  gap: 0.7rem;
+  gap: 0.55rem;
   margin-top: 1rem;
+}
+
+.evidence-answer-actions .button {
+  font-size: 0.8rem;
+  min-width: 0;
+  min-height: 36px;
+  width: 100%;
+  padding: 0.52rem 0.48rem;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.evidence-answer-actions span {
+  grid-column: 1 / -1;
 }
 
 #citation-boundary-copy-status {

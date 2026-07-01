@@ -573,9 +573,10 @@ describe('site copy and labels', () => {
     expect(historicalArchiveIndex).toBeGreaterThan(worklogIndex);
     expect(smokeArchiveIndex).toBeGreaterThan(historicalArchiveIndex);
     expect(leaderboardSection).toContain('Useful now');
-    expect(leaderboardSection).toContain('The useful artifact is a one-note QA finding.');
+    expect(leaderboardSection).toContain('Use the checker today. Do not cite a current winner yet.');
+    expect(leaderboardSection).toContain('This ledger has one job: separate what a visitor can use now');
     expect(leaderboardSection).toContain('Make comparison citable');
-    expect(leaderboardSection).toContain('Copy public task');
+    expect(leaderboardSection).toContain('Copy current-row task');
     expect(leaderboardSection).toContain('id="copy-current-row-task"');
     expect(leaderboardSection).toContain('data-copy-public-work-task');
     expect(leaderboardSection).toContain('id="evidence-task-title"');
@@ -583,8 +584,11 @@ describe('site copy and labels', () => {
     expect(leaderboardSection).toContain('id="current-run-task-copy-status"');
     expect(leaderboardSection).toContain('Start note review');
     expect(leaderboardSection).toContain('Check claim boundary');
-    expect(leaderboardSection).toContain('Finish public row');
     expect(leaderboardSection).toContain('Copy citation boundary');
+    expect(leaderboardSection).toContain('Use: one-note QA finding');
+    expect(leaderboardSection).toContain('Do not cite: current winner');
+    expect(leaderboardSection).toContain('Make citable: current row');
+    expect(leaderboardSection).toContain('Archive only');
     expect(leaderboardSection).toContain('id="copy-citation-boundary"');
     expect(leaderboardSection).toContain('id="citation-boundary-copy-status"');
     expect(leaderboardSection).toContain('id="citation-boundary-copy-panel"');
@@ -592,8 +596,7 @@ describe('site copy and labels', () => {
     expect(leaderboardSection).toContain('Select this citation boundary and paste it wherever the rows are being discussed.');
     expect(leaderboardSection).toContain('Current-row blocker');
     expect(leaderboardSection).toContain('Historical failure gradient');
-    expect(leaderboardSection).toContain('Current best-scribe ranking');
-    expect(leaderboardSection).toContain('Publishable current row');
+    expect(leaderboardSection).toContain('current best-scribe ranking is not citable');
     expect(leaderboardSection).toContain('Finish the current row before ranking anyone.');
     expect(leaderboardSection).toContain('Need 21 more scored PriMock57 cases');
     expect(leaderboardSection).toContain('A non-capped OpenRouter key, credits, or another declared provider.');

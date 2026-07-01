@@ -740,19 +740,27 @@
         <div class="evidence-answer" aria-labelledby="evidence-answer-title">
           <div class="evidence-answer-main">
             <p class="eyebrow">Useful now</p>
-            <h3 id="evidence-answer-title">The useful artifact is a one-note QA finding.</h3>
+            <h3 id="evidence-answer-title">Use the checker today. Do not cite a current winner yet.</h3>
             <p>
-              ScribeBench is worthwhile when it creates a QA finding: source, note, flagged unsupported care,
-              evidence level, and the next public ask. The rows exist to keep public claims honest: old rows stay
-              historical, smoke rows stay plumbing proof, and the current row stays blocked until enough cases are scored.
+              This ledger has one job: separate what a visitor can use now from what would be required for a
+              public model claim. A one-note QA finding works today. A current best-scribe ranking is not citable
+              until the public row reaches the scored-case threshold.
             </p>
             <div class="evidence-answer-actions">
               <a class="button primary compact-button" href="#quick-check">Start note review</a>
+              <button class="button secondary compact-button" id="copy-current-row-task" data-copy-public-work-task type="button">Copy current-row task</button>
               <a class="button secondary compact-button" href="#claim-check">Check claim boundary</a>
-              <a class="button secondary compact-button" href="#current-run">Finish public row</a>
               <button class="button secondary compact-button" id="copy-citation-boundary" type="button">Copy citation boundary</button>
+              <span id="current-run-task-copy-status" role="status" aria-live="polite"></span>
               <span id="citation-boundary-copy-status" role="status" aria-live="polite"></span>
             </div>
+            <textarea
+              class="copy-fallback"
+              id="current-run-task-copy-fallback"
+              readonly
+              hidden
+              aria-label="ScribeBench current-row public task"
+            ></textarea>
             <div class="citation-boundary-copy-panel" id="citation-boundary-copy-panel" hidden>
               <strong>Manual copy fallback</strong>
               <p>Clipboard access is unavailable here. Select this citation boundary and paste it wherever the rows are being discussed.</p>
@@ -767,27 +775,27 @@
           <div class="evidence-answer-grid" aria-label="What ScribeBench evidence can support">
             <article>
               <span class="queue-status ready">Works today</span>
-              <h3>One-note QA finding</h3>
-              <p>Use a source encounter plus generated note to catch unsupported care and copy a QA finding.</p>
+              <h3>Use: one-note QA finding</h3>
+              <p>Paste a source encounter plus generated note, catch unsupported care, and copy the reviewer handoff.</p>
               <a href="#quick-check">Open checker</a>
             </article>
             <article>
-              <span class="queue-status open">Historical only</span>
-              <h3>Historical failure gradient</h3>
-              <p id="decision-history-proof">4 powered launch rows; latest scored June 2, 2026. Historical baseline, not a buying guide.</p>
-              <small>Latest powered row: <strong id="latest-powered-run">June 2, 2026 (4 powered rows)</strong></small>
-            </article>
-            <article>
               <span class="queue-status needed">Not proven</span>
-              <h3>Current best-scribe ranking</h3>
+              <h3>Do not cite: current winner</h3>
               <p id="decision-current-proof">9/57 current PriMock57 cases scored; 21/30 selected cases are blocked or errored. Not publishable yet.</p>
               <small id="decision-current-action"><a href="#current-run">Resume the current row</a></small>
             </article>
             <article>
               <span class="queue-status valuable">Next useful artifact</span>
-              <h3>Publishable current row</h3>
+              <h3>Make citable: current row</h3>
               <p id="freshness-next-row">Run a current powered PriMock57 row with declared system, judge, repeats, date, and aggregate scores only.</p>
-              <small>Latest smoke row: <strong id="latest-smoke-run">June 30, 2026 (4 smoke rows)</strong></small>
+              <small><a href="#current-run">Open the blocker</a></small>
+            </article>
+            <article>
+              <span class="queue-status open">Archive only</span>
+              <h3>Historical failure gradient</h3>
+              <p id="decision-history-proof">4 powered launch rows; latest scored June 2, 2026. Historical baseline, not a buying guide.</p>
+              <small>Latest powered row: <strong id="latest-powered-run">June 2, 2026 (4 powered rows)</strong></small>
             </article>
           </div>
           <div class="evidence-answer-foot">
@@ -813,17 +821,8 @@
               Need 21 more scored PriMock57 cases to reach the 30-case publishable threshold; all public output stays aggregate-only.
             </p>
             <div class="evidence-task-actions">
-              <button class="button primary compact-button" id="copy-current-row-task" data-copy-public-work-task type="button">Copy public task</button>
               <a class="button secondary compact-button" href="#current-run-command-card">Show resume command</a>
-              <span id="current-run-task-copy-status" role="status" aria-live="polite"></span>
             </div>
-            <textarea
-              class="copy-fallback"
-              id="current-run-task-copy-fallback"
-              readonly
-              hidden
-              aria-label="ScribeBench current-row public task"
-            ></textarea>
           </div>
           <dl class="evidence-task-steps">
             <div>
