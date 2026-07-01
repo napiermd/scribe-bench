@@ -83,7 +83,7 @@ const claimGuides = {
     required:
       "A powered run with case count, dataset, generator, judge, repeats, dangerous-fabrication rate, confidence interval, and tuning disclosure.",
     support:
-      "The Lab can expose one-note failures and the leaderboard can host aggregate scores. Current smoke rows only prove the path works.",
+      "The Lab can expose one-note failures and the leaderboard can host aggregate scores. Second-read smoke rows only prove the path works.",
     nextAction:
       "Ask for a PriMock57 or real-workflow aggregate row before repeating the claim.",
     ask:
@@ -161,7 +161,7 @@ const claimEvidencePaths = {
     close:
       "A powered PriMock57 or declared real-workflow row with n, generator, judge, repeats, dangerous-fabrication rate with CI, leak rate, and tuning disclosure.",
     current:
-      "ScribeBench can expose one-note failures and host aggregate rows. Current smoke evidence proves plumbing, not safety.",
+      "ScribeBench can expose one-note failures and host aggregate rows. Second-read smoke evidence proves plumbing, not safety.",
     next:
       "Ask for or build the powered row before repeating the safety claim.",
     primary: { label: "Open Add Row path", href: "#run" },
@@ -583,7 +583,7 @@ function renderEvidenceFreshness(results) {
     "hero-evidence-boundary",
     latestPowered
       ? `${ranked.length} historical powered row${ranked.length === 1 ? "" : "s"}; latest ${formatScoredAt(latestPowered.scoredAt)}. Cite the failure gradient, not a current winner.`
-      : "One-note receipts are live now. Current-model claims still need powered aggregate rows."
+      : "One-note receipts are live now. Model claims still need powered aggregate rows."
   );
   renderFreshSmoke(latestSmoke);
 }
@@ -1457,17 +1457,17 @@ function publicEvidenceCardFromSmokeResult(result, packet = labEvidencePacket(re
   return {
     status,
     statusClass: packet.tone === "danger" ? "needed" : packet.tone === "review" ? "open" : "ready",
-    title: "Current-model smoke evidence card",
+    title: "Second-read smoke evidence card",
     summary: `${packet.finding} This is one seeded synthetic case, so it can prove the public path works but cannot rank a scribe system.`,
     happened: `${packet.caseLabel}: generated with ${packet.generator}; judged by ${packet.judge}.`,
     level: packet.scope,
-    boundary: "Smoke only; not a leaderboard row or current buying guide.",
+    boundary: "Smoke only; not a leaderboard row or model buying guide.",
     next: packet.nextStep,
     reference: "https://scribe-bench.vercel.app/#quick-check",
     copyText: [
       "ScribeBench public evidence card",
       `Date: ${localDateStamp()}`,
-      "Type: current-model smoke packet",
+      "Type: second-read smoke packet",
       `Case: ${packet.caseLabel}`,
       `Generator: ${packet.generator}`,
       `Judge: ${packet.judge}`,
@@ -1475,7 +1475,7 @@ function publicEvidenceCardFromSmokeResult(result, packet = labEvidencePacket(re
       "",
       `What happened: ${packet.finding}`,
       `Evidence level: ${packet.scope}`,
-      "Boundary: Smoke only; not a leaderboard row or current buying guide.",
+      "Boundary: Smoke only; not a leaderboard row or model buying guide.",
       `Next public ask: ${packet.nextStep}`,
       "",
       "Reference: https://scribe-bench.vercel.app/#quick-check",
@@ -1717,7 +1717,7 @@ function renderChallengePlan() {
 
 function buildChallengePlan(plan = selectedChallengePlan(), system = currentChallengeSystem()) {
   return [
-    "ScribeBench current-model challenge",
+    "ScribeBench powered-row challenge",
     `Target: ${plan.label}`,
     `System label: ${system}`,
     `Status: ${plan.status}`,
@@ -2437,41 +2437,39 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
   const list = document.getElementById("current-model-list");
   if (!status || !copy || !list) return;
 
-  const visibleModels = Array.isArray(models) ? models.filter((model) => model?.id).slice(0, 4) : [];
   const providerLabel = providerConfigs[provider]?.label || provider;
   const count = Array.isArray(models) ? models.filter((model) => model?.id).length : 0;
 
-  status.textContent = count ? `${count} live options` : "No models";
+  status.textContent = count ? "Provider ready" : "No provider list";
   status.className = `queue-status ${configured && count ? "ready" : count ? "open" : "needed"}`;
   copy.textContent = count
-    ? `${providerLabel} returned ${count} usable model${count === 1 ? "" : "s"} for second-opinion smoke checks. Use this after the browser receipt; require a powered PriMock57 row before citing a winner.`
-    : `${providerLabel} did not return a usable model list. The browser receipt still works without a model call.`;
+    ? `${providerLabel} is ready for bounded second-read checks after a browser receipt. Keep any one-note output as a review packet; require a powered PriMock57 row before citing a system claim.`
+    : `${providerLabel} did not return a provider list. The browser receipt still works without a model call.`;
   if (warning && count) {
     copy.textContent += ` ${warning}`;
   }
 
   list.innerHTML = "";
-  if (!visibleModels.length) {
-    const item = document.createElement("li");
-    item.textContent = "No current model options loaded.";
-    list.appendChild(item);
+  if (!count) {
+    list.innerHTML = `
+      <li>
+        <strong>No provider list loaded</strong>
+        <span>The browser receipt still works without a model call.</span>
+      </li>
+    `;
     return;
   }
 
-  for (const model of visibleModels) {
-    const item = document.createElement("li");
-    const name = document.createElement("strong");
-    const meta = document.createElement("span");
-    name.textContent = readableModelName(model);
-    meta.textContent = model.id;
-    item.append(name, meta);
-    list.appendChild(item);
-  }
-}
-
-function readableModelName(model) {
-  const raw = String(model?.name || model?.id || "Current model").replace(/\s+/g, " ").trim();
-  return raw.replace(/\s*\([^)]*\)\s*$/, "").trim() || raw;
+  list.innerHTML = `
+    <li>
+      <strong>Second-read models available</strong>
+      <span>${count} provider option${count === 1 ? "" : "s"} loaded; choose one in Provider settings only when a receipt needs escalation.</span>
+    </li>
+    <li>
+      <strong>Smoke only</strong>
+      <span>One-note model calls create review packets, not rankings.</span>
+    </li>
+  `;
 }
 
 function modelSelects() {
@@ -2681,14 +2679,14 @@ async function runLiveSmokeCheck(event) {
   setQuickSmokeCopyStatus("");
   setQuickSmokeCopyFallback("");
   setLiveSmokeBusy(true);
-  setLiveSmokeStatus("Running: loading SYN-003 and refreshing current free models...");
+  setLiveSmokeStatus("Running: loading SYN-003 and checking second-read provider status...");
   showQuickSmokeArtifactStatus({
     status: "Running",
     statusClass: "open",
-    title: "Generating and judging a fresh current-model note",
-    copy: "ScribeBench is loading the seeded case, refreshing the OpenRouter free-model list, then generating and judging one fresh note. This stays smoke-only.",
+    title: "Testing a bounded second-read path",
+    copy: "ScribeBench is loading the seeded case, checking provider readiness, then generating and judging one fresh note. This stays smoke-only.",
     caseLabel: "SYN-003",
-    generator: "Refreshing OpenRouter free models",
+    generator: "Checking second-read provider",
     judge: "Waiting for generated note",
     boundary: "Smoke only; not a leaderboard row.",
   });
@@ -2707,8 +2705,8 @@ async function runLiveSmokeCheck(event) {
     showQuickSmokeArtifactStatus({
       status: "Running",
       statusClass: "open",
-      title: "Generating the candidate note",
-      copy: "The Lab is asking the selected current free model to write a fresh note from the seeded encounter.",
+      title: "Generating the candidate note for the second read",
+      copy: "The Lab is asking the selected generation model to write a fresh note from the seeded encounter.",
       caseLabel: c.id || "SYN-003",
       generator: selectedModelLabel("lab-generate-model"),
       judge: selectedModelLabel("lab-judge-model"),
@@ -2721,7 +2719,7 @@ async function runLiveSmokeCheck(event) {
         status: "Blocked",
         statusClass: "needed",
         title: "Generation did not finish",
-        copy: currentLabStatus() || "The current free-model path did not return a candidate note. Try again later or paste a temporary provider key.",
+        copy: currentLabStatus() || "The second-read path did not return a candidate note. Try again later or paste a temporary provider key.",
         caseLabel: c.id || "SYN-003",
         generator: selectedModelLabel("lab-generate-model"),
         judge: selectedModelLabel("lab-judge-model"),
@@ -2747,7 +2745,7 @@ async function runLiveSmokeCheck(event) {
         status: "Blocked",
         statusClass: "needed",
         title: "Judge did not finish",
-        copy: currentLabStatus() || "The current free-model judge did not return a usable verdict. The generated note remains in the Lab, but no smoke packet was created.",
+        copy: currentLabStatus() || "The selected judge did not return a usable verdict. The generated note remains in the Lab, but no smoke packet was created.",
         caseLabel: c.id || "SYN-003",
         generator: generated.model || selectedModelLabel("lab-generate-model"),
         judge: selectedModelLabel("lab-judge-model"),
@@ -3366,7 +3364,7 @@ function liveSmokeButtons() {
 function setLiveSmokeBusy(isBusy) {
   liveSmokeButtons().forEach((button) => {
     button.disabled = isBusy;
-    const fallback = button.dataset.defaultLabel || "Smoke current models";
+    const fallback = button.dataset.defaultLabel || "Test second-read path";
     button.textContent = isBusy ? (button.dataset.runningLabel || fallback) : fallback;
   });
 }
@@ -3384,8 +3382,8 @@ function showQuickSmokeArtifactStatus({
   title,
   copy,
   caseLabel = "SYN-003",
-  generator = "Selected OpenRouter free model",
-  judge = "Selected OpenRouter free model",
+  generator = "Selected second-read model",
+  judge = "Selected second-read model",
   boundary = "Smoke only; not a leaderboard row.",
 } = {}) {
   const artifact = document.getElementById("quick-smoke-artifact");
@@ -3396,8 +3394,8 @@ function showQuickSmokeArtifactStatus({
     statusEl.textContent = status || "Smoke";
     statusEl.className = `queue-status ${statusClass}`;
   }
-  setText("quick-smoke-title", title || "Current smoke check");
-  setText("quick-smoke-copy", copy || "Run the current-model smoke path to create a smoke-only evidence packet.");
+  setText("quick-smoke-title", title || "Second-read smoke check");
+  setText("quick-smoke-copy", copy || "Run the second-read smoke path to create a smoke-only review packet.");
   setText("quick-smoke-case", caseLabel);
   setText("quick-smoke-generator", generator);
   setText("quick-smoke-judge", judge);
@@ -3411,7 +3409,7 @@ function renderQuickSmokeArtifact(result) {
   showQuickSmokeArtifactStatus({
     status: packet.tone === "danger" ? "Review" : "Smoke complete",
     statusClass,
-    title: packet.tone === "danger" ? "Current smoke found a source-note issue" : "Current smoke created a packet",
+    title: packet.tone === "danger" ? "Second-read smoke found a source-note issue" : "Second-read smoke created a packet",
     copy: `${packet.finding} This is one seeded synthetic case, so it can prove the public path works but cannot rank a scribe system.`,
     caseLabel: packet.caseLabel,
     generator: packet.generator,
@@ -3425,7 +3423,7 @@ function renderQuickSmokeArtifact(result) {
 
 async function copyQuickSmokePacket() {
   if (!lastSmokeResult) {
-    setQuickSmokeCopyStatus("Run the current-model smoke check first.");
+    setQuickSmokeCopyStatus("Run the second-read smoke check first.");
     return;
   }
   const text = buildEvidencePacketText(lastSmokeResult);
@@ -3465,11 +3463,11 @@ function updateLiveSmokeReadiness(models, configured) {
   if (selectedProvider() !== "openrouter") return;
   const usable = Array.isArray(models) && models.length > 0;
   if (configured && usable) {
-    setLiveSmokeStatus(`Ready: ${models.length} current free model${models.length === 1 ? "" : "s"} available.`, "ok");
+    setLiveSmokeStatus("Ready: provider is available for bounded second reads.", "ok");
   } else if (usable) {
-    setLiveSmokeStatus("Model list loaded. Paste a temporary key if generation asks for one.", "review");
+    setLiveSmokeStatus("Provider list loaded. Paste a temporary key if generation asks for one.", "review");
   } else {
-    setLiveSmokeStatus("Model list unavailable. Refresh models or paste a temporary OpenRouter key.", "review");
+    setLiveSmokeStatus("Provider list unavailable. Refresh models or paste a temporary OpenRouter key.", "review");
   }
 }
 

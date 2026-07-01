@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The Lab now stays behind the review receipt",
+      "why": "The Lab still surfaced provider availability and smoke runs like browsing models was the product. That made the site feel like a model playground instead of a public source-vs-note review workflow.",
+      "proof": "The Lab now says to start from the browser receipt, escalates only when a flagged source-note pair needs a second read, and hides model names behind provider readiness. The smoke action is framed as testing a bounded second-read path, not ranking current models.",
+      "next": "Keep model-backed paths from implying system ranking; public claims still need powered aggregate rows.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Second-read Lab", "href": "#lab" },
+        { "label": "Powered row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The guide now stops repeating the same path choice",
       "why": "After the first-screen checker, the page asked visitors to choose a path, then repeated the same idea in the Public guide and again in a How to use grid. That made the site feel padded instead of useful.",
       "proof": "The Public guide now starts with one instruction: leave with one artifact, not another demo screenshot. The duplicate ScribeBench in one pass strip and repeated How to use cards were removed, leaving the artifact kit followed by the repo loop.",

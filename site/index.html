@@ -278,25 +278,25 @@
               <div class="quick-smoke-head">
                 <span class="queue-status open" id="quick-smoke-status">Smoke</span>
                 <div>
-                  <p class="eyebrow">Current smoke packet</p>
-                  <h3 id="quick-smoke-title">Run the current-model smoke check</h3>
+                  <p class="eyebrow">Second-read smoke packet</p>
+                  <h3 id="quick-smoke-title">Test the second-read path</h3>
                 </div>
               </div>
               <p id="quick-smoke-copy">
-                Generate a fresh note for the seeded case, judge it against the source, and leave with a smoke-only evidence packet.
+                Generate a fresh note for the seeded case, judge it against the source, and leave with a smoke-only review packet.
               </p>
-              <dl class="quick-smoke-grid" aria-label="Current-model smoke packet details">
+              <dl class="quick-smoke-grid" aria-label="Second-read smoke packet details">
                 <div>
                   <dt>Case</dt>
                   <dd id="quick-smoke-case">SYN-003</dd>
                 </div>
                 <div>
                   <dt>Generator</dt>
-                  <dd id="quick-smoke-generator">Selected OpenRouter free model</dd>
+                  <dd id="quick-smoke-generator">Selected second-read model</dd>
                 </div>
                 <div>
                   <dt>Judge</dt>
-                  <dd id="quick-smoke-judge">Selected OpenRouter free model</dd>
+                  <dd id="quick-smoke-judge">Selected second-read model</dd>
                 </div>
                 <div>
                   <dt>Boundary</dt>
@@ -636,7 +636,7 @@
       <section class="wrap section challenge-section" id="current-challenge">
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">Current-model challenge</p>
+            <p class="eyebrow">Powered-row challenge</p>
             <h2>Stop arguing about stale rows. Pick the next proof run.</h2>
             <p>
               The public board is only useful if people can see exactly what evidence is missing
@@ -646,7 +646,7 @@
           <a class="text-link" href="#run">Open the run builder</a>
         </div>
 
-        <div class="challenge-tool" aria-label="Current-model ScribeBench challenge planner">
+        <div class="challenge-tool" aria-label="Powered-row ScribeBench challenge planner">
           <form class="challenge-form" id="challenge-form">
             <div class="challenge-presets" aria-label="Common proof runs">
               <button class="challenge-preset" type="button" data-challenge-preset="frontier-powered">
@@ -690,7 +690,7 @@
               id="challenge-copy-fallback"
               readonly
               hidden
-              aria-label="Generated ScribeBench current-model run plan"
+              aria-label="Generated ScribeBench powered-row run plan"
             ></textarea>
           </form>
 
@@ -1136,11 +1136,11 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Optional second opinion</p>
-            <h2>Use the Lab when one note needs a second opinion</h2>
+            <h2>Use the Lab only when one note needs a second read.</h2>
             <p>
-              Bring the same source encounter and candidate note. Start with the no-key
-              browser receipt, ask a live judge only when the result needs a stronger read,
-              then copy a review packet with the method boundary attached.
+              Start from the browser receipt. The Lab can ask a live judge or generate a
+              demo candidate, but every output remains a review packet or smoke check,
+              never a ranking.
             </p>
           </div>
           <div class="split-actions">
@@ -1151,23 +1151,23 @@
         <div class="lab-contract" aria-label="How to use the ScribeBench Lab">
           <article>
             <span>Use when</span>
-            <strong>One note needs review.</strong>
-            <p>A source-note pair has an issue, a buyer asks for a second read, or a builder wants prompt QA.</p>
+            <strong>A flagged source-note pair needs a second read.</strong>
+            <p>A buyer, builder, or reviewer wants another read on the same source and note.</p>
           </article>
           <article>
             <span>Do first</span>
-            <strong>Run the no-key receipt.</strong>
-            <p>The browser check catches unsupported care instantly before any provider model is involved.</p>
+            <strong>Run or copy the browser receipt.</strong>
+            <p>The deterministic check catches unsupported care before any provider model is involved.</p>
           </article>
           <article>
             <span>Escalate if</span>
-            <strong>You need a live judge.</strong>
-            <p>Use configured models or a temporary key for a second opinion on the same source-note pair.</p>
+            <strong>A live judge would help adjudicate the flagged claim.</strong>
+            <p>Use configured models or a temporary key for a bounded second opinion.</p>
           </article>
           <article>
             <span>Do not claim</span>
-            <strong>No ranking from one note.</strong>
-            <p>A Lab result is a review packet or smoke check. System claims need aggregate rows.</p>
+            <strong>No ranking from a Lab call.</strong>
+            <p>A Lab result is a review packet or smoke check. System claims still need aggregate rows.</p>
           </article>
         </div>
 
@@ -1196,7 +1196,7 @@
             <details class="lab-model-settings">
               <summary>
                 <span>Provider settings (optional)</span>
-                <small>Use only when the review needs a live model or smoke run.</small>
+                <small>Use only after a receipt needs a live second read.</small>
               </summary>
 
               <div class="field-row lab-model-row">
@@ -1374,29 +1374,32 @@
             <span class="queue-status open" id="current-model-lane-status">Loading</span>
             <div>
               <p class="eyebrow">Current model lane</p>
-              <h3 id="current-model-lane-title">Live models are review aids, not leaderboard rows.</h3>
+              <h3 id="current-model-lane-title">Second-opinion models stay behind the receipt.</h3>
             </div>
           </div>
           <p id="current-model-lane-copy">
-            Loading the configured OpenRouter free-model list. Use this lane for a second
-            read or one-note smoke check; a winner claim still needs a powered PriMock57 row.
+            Loading provider readiness for bounded second reads. Use this only after the
+            browser receipt shows a source-note issue that needs another look.
           </p>
-          <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
-            <li>Loading current free models...</li>
+          <ul class="current-model-list" id="current-model-list" aria-label="Provider status for second reads">
+            <li>
+              <strong>Second-read status</strong>
+              <span>Loading provider availability...</span>
+            </li>
           </ul>
           <div class="current-model-lane-actions">
             <button
               class="button secondary compact-button"
               id="current-model-run-smoke"
               type="button"
-              data-default-label="Run one-note smoke"
-              data-running-label="Running smoke check..."
+              data-default-label="Test second-read path"
+              data-running-label="Testing second-read path..."
             >
-              Run one-note smoke
+              Test second-read path
             </button>
             <a class="button secondary compact-button" href="#run">Add powered row</a>
           </div>
-          <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
+          <p id="live-smoke-status" role="status" aria-live="polite">Checking second-read provider status...</p>
         </div>
 
         <div class="lab-guide" aria-label="Live lab quick path">
@@ -1611,7 +1614,7 @@
               <h3 id="public-work-queue-title">Finish the current PriMock57 row before making model claims.</h3>
               <p id="public-work-queue-summary">
                 This page is useful today as a note checker. The next public job is turning the blocked
-                current-model attempt into a publishable aggregate row.
+                hosted run attempt into a publishable aggregate row.
               </p>
             </div>
           </div>

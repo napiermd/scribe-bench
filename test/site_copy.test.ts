@@ -67,20 +67,25 @@ describe('site copy and labels', () => {
     const demoStart = html.indexOf('<section class="wrap section split" id="demo">', labStart);
     const labSection = labStart >= 0 ? html.slice(labStart, demoStart >= 0 ? demoStart : undefined) : '';
 
-    expect(labSection).toContain('Use the Lab when one note needs a second opinion');
+    expect(labSection).toContain('Use the Lab only when one note needs a second read.');
     expect(labSection).toContain('lab-contract');
     expect(labSection).toContain('Use when');
-    expect(labSection).toContain('One note needs review.');
-    expect(labSection).toContain('Run the no-key receipt.');
-    expect(labSection).toContain('You need a live judge.');
-    expect(labSection).toContain('No ranking from one note.');
+    expect(labSection).toContain('Start from the browser receipt.');
+    expect(labSection).toContain('A flagged source-note pair needs a second read.');
+    expect(labSection).toContain('Run or copy the browser receipt.');
+    expect(labSection).toContain('A live judge would help adjudicate the flagged claim.');
+    expect(labSection).toContain('No ranking from a Lab call.');
     expect(labSection).toContain('Ask live judge for review');
     expect(labSection).toContain('Generate demo candidate');
     expect(labSection).toContain('Provider settings (optional)');
-    expect(labSection).toContain('Live models are review aids, not leaderboard rows.');
+    expect(labSection).toContain('Second-opinion models stay behind the receipt.');
+    expect(labSection).toContain('Provider status for second reads');
+    expect(labSection).toContain('Test second-read path');
     expect(labSection).not.toContain('Model settings and temporary key');
     expect(labSection).not.toContain('Generate candidate</button>');
     expect(labSection).not.toContain('Use live models only for a second opinion.');
+    expect(labSection).not.toContain('Run one-note smoke');
+    expect(labSection).not.toContain('Current free models available for smoke checks');
     expect(html).toContain('Copy review packet');
     expect(html).toContain('Copy detailed review');
     expect(html).toContain('What to do with this result');
@@ -92,6 +97,11 @@ describe('site copy and labels', () => {
     expect(app).toContain('Boundary: one source-note pair, not a leaderboard row, system certification, or clinical clearance.');
     expect(app).toContain('Note says: ${detail.noteExcerpt}');
     expect(app).toContain('${label}: ${detail.sourceExcerpt}');
+    expect(app).toContain('Second-read models available');
+    expect(app).toContain('Smoke only');
+    expect(app).toContain('Provider ready');
+    expect(app).not.toContain('returned ${count} usable model');
+    expect(app).not.toContain('Smoke current models');
   });
 
   it('makes the first copied note artifact reviewer-ready', () => {
