@@ -173,12 +173,26 @@ describe('site copy and labels', () => {
     const modelLaneStart = html.indexOf('<div class="current-model-lane"');
 
     expect(quickForm).toContain('id="quick-run-local"');
+    expect(quickForm).toContain('quick-form-head');
+    expect(quickForm).toContain('Source-note intake');
+    expect(quickForm).toContain('Check one pasted note against one source.');
+    expect(quickForm).toContain('Replace the seeded text when you have your own case.');
+    expect(quickForm).toContain('quick-intake-steps');
+    expect(quickForm).toContain('What the note checker needs and returns');
+    expect(quickForm).toContain('Encounter source plus generated note.');
+    expect(quickForm).toContain('Unsupported care and high-risk chart drift.');
+    expect(quickForm).toContain('Reviewer decision, excerpts, and boundary.');
     expect(quickForm).toContain('href="#lab-workbench"');
     expect(quickForm).not.toContain('run-live-smoke-top');
     expect(quickForm).not.toContain('Smoke current models');
     expect(labSectionStart).toBeGreaterThan(-1);
     expect(labWorkbenchStart).toBeGreaterThan(labSectionStart);
     expect(modelLaneStart).toBeGreaterThan(labWorkbenchStart);
+    expect(styles).toContain('.quick-form-head');
+    expect(styles).toContain('.quick-intake-steps');
+    expect(styles).toContain('.quick-intake-steps div:last-child');
+    expect(app).toContain('seeded example:');
+    expect(app).toContain('Replace both boxes to review your own note.');
     expect(app).toContain('return ["current-model-run-smoke"]');
   });
 

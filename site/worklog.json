@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The note checker form now has an intake contract",
+      "why": "The first screen explained the point, but the paste form still looked like two bare text boxes beside demo state. That made the actual review workflow feel less real than the copy promised.",
+      "proof": "The checker form now names the source-note intake, says to replace the seeded text for a real case, and shows Bring, Check, and Leave with steps before the source and AI-note fields.",
+      "next": "Keep tightening the hands-on review path: the moment someone arrives at a control, it should say what artifact they are creating and what boundary it carries.",
+      "links": [
+        { "label": "Source-note intake", "href": "#quick-check-form" },
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "After-the-finding guide", "href": "#public-action-kit" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The evidence ledger now starts with the useful artifact",
       "why": "The lower evidence section still opened with a blocked aggregate row, which made ScribeBench feel like stalled benchmark machinery instead of a public tool someone can use today.",
       "proof": "The ledger now leads with the one-note QA finding, claim-boundary actions, and explicit limits for historical, smoke, and current-ranking evidence before showing the current-row contribution task.",

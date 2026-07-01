@@ -1512,8 +1512,14 @@ function populateQuickCheck(c, { run = false } = {}) {
   source.dataset.caseType = c.provenance || "synthetic";
   note.value = c.candidateNote || "";
   note.dataset.generatedModel = "bundled example candidate";
-  setQuickStatus(run ? `${c.id} loaded and checked for invented care.` : `${c.id} loaded.`, run ? "review" : "");
-  return run ? runQuickLocalReceipt() : null;
+  if (!run) {
+    setQuickStatus(`${c.id} seeded example loaded. Replace both boxes to review your own note.`, "");
+    return null;
+  }
+  const result = runQuickLocalReceipt();
+  const issueText = result ? receiptIssueSentence(result) : "example checked";
+  setQuickStatus(`${c.id} seeded example: ${issueText} Replace both boxes to review your own note.`, "review");
+  return result;
 }
 
 function startOwnQuickCheck(event) {
