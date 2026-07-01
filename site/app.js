@@ -2568,7 +2568,13 @@ function renderLabResult(result) {
   setCopyStatus("");
   setSummaryFallback("");
   const label = document.getElementById("lab-result-label");
-  if (label) label.textContent = result.demoResult ? "Seeded demo result" : "Result";
+  if (label) {
+    label.textContent = result.demoResult
+      ? "Seeded QA finding"
+      : result.localResult
+        ? "No-key QA finding"
+        : "Live second-read result";
+  }
   document.getElementById("lab-score").textContent = `${result.normalized ?? "--"}/100`;
   document.getElementById("lab-danger").textContent = String(result.fabrication?.dangerous?.length ?? 0);
   renderLabVerdict(result);
@@ -2607,7 +2613,7 @@ function resetLabResult() {
   const label = document.getElementById("lab-result-label");
   if (empty) empty.hidden = false;
   if (output) output.hidden = true;
-  if (label) label.textContent = "Result";
+  if (label) label.textContent = "Review result";
   updateLabEmptyForInputs();
   setCopyStatus("");
   setSummaryFallback("");

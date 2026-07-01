@@ -1051,6 +1051,30 @@
 
         <div class="lab-shell" id="lab-workbench">
           <form class="lab-form" id="lab-form">
+            <div class="lab-workbench-head" aria-label="Second-read review intake">
+              <div>
+                <p class="eyebrow">Second-read intake</p>
+                <h3>Re-read the same checked source and note.</h3>
+                <p>
+                  Bring a flagged source-note pair from the browser check. Leave with a reviewer decision and boundary, not a score or leaderboard claim.
+                </p>
+              </div>
+              <div class="lab-workbench-flow" aria-label="Second-read review contract">
+                <div>
+                  <span>Input</span>
+                  <strong>Checked source + note</strong>
+                </div>
+                <div>
+                  <span>Judge</span>
+                  <strong>No-key first, live optional</strong>
+                </div>
+                <div>
+                  <span>Leave with</span>
+                  <strong>Second-read QA finding</strong>
+                </div>
+              </div>
+            </div>
+
             <div class="lab-textareas">
               <label class="field">
                 <span>Source encounter</span>
@@ -1143,14 +1167,14 @@
             <div class="lab-output" id="lab-output" hidden>
               <div class="result-hero">
                 <div>
-                  <p class="eyebrow" id="lab-result-label">Result</p>
+                  <p class="eyebrow" id="lab-result-label">Review result</p>
                   <strong id="lab-score">--</strong>
-                  <span>Narrative</span>
+                  <span>Review signal</span>
                 </div>
                 <div>
-                  <p class="eyebrow">Source issues</p>
+                  <p class="eyebrow">Flagged gaps</p>
                   <strong id="lab-danger">--</strong>
-                  <span>Flagged items</span>
+                  <span>Source-note issues</span>
                 </div>
               </div>
 
