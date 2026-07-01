@@ -411,6 +411,58 @@ const RESULT_GROUPS = [
   },
 ];
 
+const PROCEDURE_GROUPS = [
+  {
+    label: "laceration repair or wound closure",
+    note: procedurePatterns(["laceration\\s+repair", "wound\\s+closure", "sutures?", "staples?", "skin\\s+glue", "dermabond"]),
+    support: [/\b(laceration\s+repair|wound\s+closure|sutures?|staples?|skin\s+glue|dermabond)\b/i],
+    contradiction: [
+      /\bno\s+(?:laceration\s+repair|wound\s+closure|sutures?|staples?)\s+(?:was\s+|were\s+)?(?:performed|done|placed|needed|indicated)\b/i,
+      /\b(?:laceration\s+repair|wound\s+closure|sutures?|staples?)\s+(?:was\s+|were\s+)?not\s+(?:performed|done|placed|needed|indicated)\b/i,
+      /\bwound\s+(?:was\s+)?(?:cleaned|irrigated|dressed)\s+only\b/i,
+    ],
+  },
+  {
+    label: "splint, cast, or immobilizer procedure",
+    note: procedurePatterns(["splints?", "casts?", "brace", "immobilizer", "immobili[sz]ation"]),
+    support: [/\b(splints?|casts?|brace|immobilizer|immobili[sz]ation)\b/i],
+    contradiction: [
+      /\bno\s+(?:splint|cast|brace|immobilizer|immobili[sz]ation)\s+(?:was\s+|were\s+)?(?:applied|placed|provided|needed|indicated)\b/i,
+      /\b(?:splint|cast|brace|immobilizer|immobili[sz]ation)\s+(?:was\s+|were\s+)?not\s+(?:applied|placed|provided|needed|indicated)\b/i,
+    ],
+  },
+  {
+    label: "incision and drainage procedure",
+    note: procedurePatterns(["I\\s*&\\s*D", "incision\\s+and\\s+drainage", "abscess", "drainage"]),
+    support: [/\b(I\s*&\s*D|incision\s+and\s+drainage|abscess\s+drain(?:ed|age)|drainage)\b/i],
+    contradiction: [
+      /\bno\s+(?:I\s*&\s*D|incision\s+and\s+drainage|drainage)\s+(?:was\s+)?(?:performed|done|needed|indicated)\b/i,
+      /\b(?:I\s*&\s*D|incision\s+and\s+drainage|drainage)\s+(?:was\s+)?not\s+(?:performed|done|needed|indicated)\b/i,
+      /\bnot\s+drained\b/i,
+    ],
+  },
+  {
+    label: "reduction procedure",
+    note: procedurePatterns(["reduction", "reduced", "closed\\s+reduction", "joint\\s+reduction"]),
+    support: [/\b(reduction|reduced|closed\s+reduction|joint\s+reduction)\b/i],
+    contradiction: [
+      /\bno\s+(?:reduction|closed\s+reduction|joint\s+reduction)\s+(?:was\s+)?(?:performed|done|needed|indicated)\b/i,
+      /\b(?:reduction|closed\s+reduction|joint\s+reduction)\s+(?:was\s+)?not\s+(?:performed|done|needed|indicated)\b/i,
+      /\bnot\s+reduced\b/i,
+    ],
+  },
+  {
+    label: "airway or central-line procedure",
+    note: procedurePatterns(["intubat(?:ed|ion)", "central\\s+line", "central\\s+venous\\s+catheter", "CVC\\b"]),
+    support: [/\b(intubat(?:ed|ion)|central\s+line|central\s+venous\s+catheter|CVC)\b/i],
+    contradiction: [
+      /\bno\s+(?:intubation|central\s+line|central\s+venous\s+catheter|CVC)\s+(?:was\s+)?(?:performed|done|placed|needed|indicated)\b/i,
+      /\b(?:intubation|central\s+line|central\s+venous\s+catheter|CVC)\s+(?:was\s+)?not\s+(?:performed|done|placed|needed|indicated)\b/i,
+      /\bnot\s+intubated\b/i,
+    ],
+  },
+];
+
 const SIDE_PART_RE = /\b(left|right)\s+(hip|knee|ankle|foot|wrist|hand|shoulder|elbow|arm|leg|eye|ear)\b/gi;
 
 const ALLERGY_TERMS = [
@@ -749,6 +801,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of PROCEDURE_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching procedure support phrase found in the source text.",
+      });
+    }
+  }
+
   const structuredEvidence = detectStructuredMismatchEvidence(sourceText, noteText);
   dangerous.push(...structuredEvidence.map((item) => item.finding));
   dangerousEvidence.push(...structuredEvidence);
@@ -770,10 +846,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, medication changes, care-plan actions, urgent follow-up, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, procedures, medication changes, care-plan actions, urgent follow-up, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, medication change, care-plan order/referral/disposition, urgent follow-up plan, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, procedure, medication change, care-plan order/referral/disposition, urgent follow-up plan, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -853,6 +929,16 @@ function resultPatterns(terms) {
     new RegExp(`\\b(?:show(?:ed|s)?|reveal(?:ed|s)?|demonstrat(?:ed|es)?|returned|came\\s+back)\\b[^.!?;]{0,90}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b${termGroup}\\b\\s*(?::|=)?\\s*\\d+(?:\\.\\d+)?\\b`, "i"),
     new RegExp(`\\b${resultDescriptor}\\s+${termGroup}\\b`, "i"),
+  ];
+}
+
+function procedurePatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  const actionGroup = "(?:perform(?:ed)?|done|complete(?:d)?|repair(?:ed)?|clos(?:ed|ure)|plac(?:ed|ement)|appl(?:ied|y)|insert(?:ed|ion)|drain(?:ed|age)|reduc(?:ed|tion)|splint(?:ed)?|cast(?:ed)?|immobili[sz](?:ed|ation)|intubat(?:ed|ion))";
+  return [
+    new RegExp(`\\b${actionGroup}\\b[^.!?;]{0,90}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,90}\\b${actionGroup}\\b`, "i"),
+    new RegExp(`\\bprocedure\\s*:\\s*[^.!?;]{0,90}\\b${termGroup}\\b`, "i"),
   ];
 }
 

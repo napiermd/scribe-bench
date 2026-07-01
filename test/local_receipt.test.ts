@@ -292,6 +292,57 @@ describe('browser local receipt', () => {
     expect(negated.fabrication.dangerous).toEqual([]);
   });
 
+  it('catches unsupported procedure inventions without a model', () => {
+    const source = [
+      'Urgent care visit after a fall with small wrist abrasion.',
+      'No laceration repair was performed.',
+      'No splint was applied.',
+      'Wound was cleaned and dressed only.',
+    ].join(' ');
+    const note = 'Procedure: laceration repaired with 3 nylon sutures and wrist splint applied.';
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/laceration repair|wound closure/i);
+    expect(dangerous).toMatch(/splint, cast, or immobilizer procedure/i);
+    expect(result.evidence.dangerous.some((item) => /laceration repair|wound closure/i.test(item.finding) && /laceration repaired with 3 nylon sutures/i.test(item.noteExcerpt) && /No laceration repair was performed/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /splint, cast, or immobilizer procedure/i.test(item.finding) && /splint applied/i.test(item.noteExcerpt) && /No splint was applied/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('catches unsupported I&D, reduction, and airway procedure claims without a model', () => {
+    const source = [
+      'ED visit for shoulder pain and small skin abscess.',
+      'No incision and drainage was performed.',
+      'Reduction was not performed.',
+      'Patient was not intubated and no central line was placed.',
+    ].join(' ');
+    const note = [
+      'Procedures: incision and drainage of abscess completed.',
+      'Closed shoulder reduction performed.',
+      'Patient was intubated and central line placed.',
+    ].join(' ');
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/incision and drainage procedure/i);
+    expect(dangerous).toMatch(/reduction procedure/i);
+    expect(dangerous).toMatch(/airway or central-line procedure/i);
+  });
+
+  it('does not flag supported or negated procedure language', () => {
+    const supported = runLocalReceipt(
+      'Laceration repair performed with 3 nylon sutures. Volar splint applied.',
+      'Procedure: laceration repair with 3 nylon sutures and volar splint applied.'
+    );
+    const negated = runLocalReceipt(
+      'No laceration repair was performed. No splint was applied.',
+      'No laceration repair was performed. No splint was applied.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+  });
+
   it('does not flag matching demographics, laterality, and allergy facts', () => {
     const source = '62-year-old woman with right knee pain. No known drug allergies.';
     const note = '62-year-old woman with right knee pain. Allergies: NKDA.';
