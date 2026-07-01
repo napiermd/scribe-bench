@@ -222,11 +222,14 @@
                 <button class="button secondary compact-button" id="quick-start-copy-receipt" type="button">Copy seeded packet</button>
                 <a class="button secondary compact-button" href="#quick-result">Inspect demo receipt</a>
                 <span id="quick-start-copy-status" role="status" aria-live="polite"></span>
+              </div>
+              <div class="quick-start-copy-panel" id="quick-start-copy-panel" hidden>
+                <strong>Manual copy fallback</strong>
+                <p>Clipboard access is unavailable here. Select this packet and paste it into the next review thread.</p>
                 <textarea
                   class="copy-fallback quick-start-copy-fallback"
                   id="quick-start-copy-fallback"
                   readonly
-                  hidden
                   aria-label="ScribeBench demo review packet"
                 ></textarea>
               </div>

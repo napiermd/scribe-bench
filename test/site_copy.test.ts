@@ -75,6 +75,10 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('Copy seeded packet');
     expect(summarySection).toContain('Inspect demo receipt');
     expect(summarySection).toContain('quick-start-copy-status');
+    expect(summarySection).toContain('quick-start-copy-panel');
+    expect(summarySection).toContain('Manual copy fallback');
+    expect(summarySection).toContain('Clipboard access is unavailable here.');
+    expect(summarySection).toContain('Select this packet and paste it into the next review thread.');
     expect(summarySection).toContain('quick-start-copy-fallback');
     expect(summarySection).toContain('ScribeBench demo review packet');
     expect(styles).toContain('.quick-proof-pair');
@@ -86,9 +90,14 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.quick-check-panel {\n    order: 1;');
     expect(styles).toContain('.intro-panel {\n    order: 2;');
     expect(styles).toContain('.quick-start-copy-fallback');
+    expect(styles).toContain('.quick-start-copy-panel');
+    expect(styles).toContain('grid-column: 1 / -1;');
+    expect(styles).toContain('min-height: 220px;');
     expect(app).toContain('document.getElementById("quick-start-copy-receipt")?.addEventListener("click", copyQuickReceipt);');
     expect(app).toContain('"quick-copy-status", "quick-start-copy-status"');
     expect(app).toContain('"quick-copy-fallback", "quick-start-copy-fallback"');
+    expect(app).toContain('document.getElementById("quick-start-copy-panel")');
+    expect(app).toContain('startPanel.hidden = !text;');
     expect(app).toContain('startOwnQuickCheck(event);');
     expect(app).toContain('Check your note');
     expect(summarySection).not.toContain('Why this exists');

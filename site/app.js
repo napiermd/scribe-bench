@@ -2020,6 +2020,8 @@ function setQuickCopyFallback(text) {
     fallback.value = text;
     fallback.hidden = !text;
   });
+  const startPanel = document.getElementById("quick-start-copy-panel");
+  if (startPanel) startPanel.hidden = !text;
 }
 
 function escapeHtml(value) {
