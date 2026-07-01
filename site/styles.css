@@ -1366,6 +1366,105 @@ h4 {
   padding: 0.82rem;
 }
 
+.quick-destination-panel {
+  display: grid;
+  gap: 0.72rem;
+  border: 1px solid rgba(15, 118, 110, 0.26);
+  background: var(--panel);
+  margin-top: 0.85rem;
+  padding: 0.82rem;
+}
+
+.quick-destination-panel[data-tone="danger"] {
+  border-color: rgba(180, 35, 24, 0.24);
+  background: #fffaf8;
+}
+
+.quick-destination-panel[data-tone="review"] {
+  border-color: rgba(152, 111, 11, 0.26);
+  background: #fffaf0;
+}
+
+.quick-destination-head {
+  display: grid;
+  gap: 0.3rem;
+}
+
+.quick-destination-head .eyebrow {
+  margin-bottom: 0;
+}
+
+.quick-destination-head h4 {
+  color: var(--ink);
+  font-size: 0.96rem;
+  letter-spacing: 0;
+  line-height: 1.24;
+  text-transform: none;
+}
+
+.quick-destination-head p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.36;
+  margin: 0;
+}
+
+.quick-destination-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--panel);
+}
+
+.quick-destination-grid div {
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.62rem 0.7rem;
+}
+
+.quick-destination-grid div:last-child {
+  border-right: 0;
+}
+
+.quick-destination-grid dt {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.quick-destination-panel[data-tone="danger"] .quick-destination-grid dt {
+  color: var(--danger);
+}
+
+.quick-destination-panel[data-tone="review"] .quick-destination-grid dt {
+  color: var(--gold);
+}
+
+.quick-destination-grid dd {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.35;
+  margin: 0.28rem 0 0;
+  overflow-wrap: anywhere;
+}
+
+.quick-destination-actions {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+}
+
+#quick-route-copy-status {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
 .quick-use-copy {
   min-width: 0;
 }
@@ -4918,6 +5017,7 @@ h4 {
   .quick-check-form,
   .quick-result-snapshot,
   .quick-review-grid,
+  .quick-destination-grid,
   .quick-result-meaning,
   .quick-use-router,
   .quick-smoke-grid,
@@ -5000,6 +5100,15 @@ h4 {
     border-bottom: 0;
   }
 
+  .quick-destination-grid div {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .quick-destination-grid div:last-child {
+    border-bottom: 0;
+  }
+
   .repo-loop-steps li {
     border-right: 0;
     border-bottom: 1px solid rgba(15, 118, 110, 0.2);
@@ -5017,6 +5126,7 @@ h4 {
   .lab-demo-actions .button,
   .quick-result-actions .button,
   .quick-use-actions .button,
+  .quick-destination-actions .button,
   .quick-smoke-actions .button,
   .public-evidence-card-actions .button,
   .claim-evidence-actions .button,

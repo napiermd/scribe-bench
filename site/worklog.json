@@ -1,6 +1,19 @@
 {
-  "updatedAt": "2026-07-01",
+  "updatedAt": "2026-07-02",
   "entries": [
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
+      "title": "QA findings now say where they should be used",
+      "why": "The checker could produce a strong source-vs-note finding, but visitors still had to infer whether it belonged in chart QA, a vendor defect thread, or a public evidence discussion.",
+      "proof": "The result now includes a Where this goes panel and a copyable QA finding route for chart QA, builder/vendor handoff, and public claim boundaries.",
+      "next": "Keep moving useful output closer to the review workflow: every generated artifact should say who should receive it and what it can and cannot support.",
+      "links": [
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
     {
       "date": "2026-07-01",
       "status": "shipped",

@@ -222,6 +222,38 @@
                   <a class="button secondary compact-button" id="quick-use-claim-link" href="#claim-check">Challenge a claim</a>
                 </div>
               </div>
+              <section class="quick-destination-panel" aria-labelledby="quick-destination-title">
+                <div class="quick-destination-head">
+                  <p class="eyebrow">Where this goes</p>
+                  <h4 id="quick-destination-title">Route the finding</h4>
+                  <p id="quick-destination-copy">Run the check to see how this result should move through review.</p>
+                </div>
+                <dl class="quick-destination-grid" aria-label="Where to use this ScribeBench finding">
+                  <div>
+                    <dt>Chart QA</dt>
+                    <dd id="quick-destination-chart">Use the finding during note review.</dd>
+                  </div>
+                  <div>
+                    <dt>Builder / vendor</dt>
+                    <dd id="quick-destination-builder">Use the finding as a reproducible source-vs-note defect.</dd>
+                  </div>
+                  <div>
+                    <dt>Public claim</dt>
+                    <dd id="quick-destination-claim">Use the finding with its evidence boundary.</dd>
+                  </div>
+                </dl>
+                <div class="quick-destination-actions">
+                  <button class="button secondary compact-button" id="quick-copy-route-note" type="button">Copy routing note</button>
+                  <span id="quick-route-copy-status" role="status" aria-live="polite"></span>
+                </div>
+                <textarea
+                  class="copy-fallback"
+                  id="quick-route-copy-fallback"
+                  readonly
+                  hidden
+                  aria-label="ScribeBench QA finding route"
+                ></textarea>
+              </section>
               <details class="quick-result-details">
                 <summary><span id="quick-result-details-summary">Show flagged source-note evidence</span></summary>
                 <ul id="quick-result-list"></ul>

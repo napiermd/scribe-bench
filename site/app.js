@@ -1492,6 +1492,7 @@ function bindQuickCheck() {
   document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-use-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-start-copy-receipt")?.addEventListener("click", copyQuickReceipt);
+  document.getElementById("quick-copy-route-note")?.addEventListener("click", copyQuickRouteNote);
   document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
   document.getElementById("copy-quick-smoke-packet")?.addEventListener("click", copyQuickSmokePacket);
   document.getElementById("copy-public-evidence-card")?.addEventListener("click", copyPublicEvidenceCard);
@@ -1615,6 +1616,7 @@ function renderQuickResult(result) {
   setText("quick-use-title", useGuidance.title);
   setText("quick-use-copy", useGuidance.copy);
   renderQuickUseActions(result);
+  renderQuickDestination(result, { dangerousCount, leakCount, issueTypes, verdict });
   const list = document.getElementById("quick-result-list");
   if (list) {
     list.innerHTML = "";
@@ -1736,6 +1738,56 @@ function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
   };
 }
 
+function renderQuickDestination(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
+  const destination = quickDestinationGuidance(result, { dangerousCount, leakCount, issueTypes, verdict });
+  const panel = document.querySelector(".quick-destination-panel");
+  if (panel) panel.dataset.tone = destination.tone;
+  setText("quick-destination-title", destination.title);
+  setText("quick-destination-copy", destination.copy);
+  setText("quick-destination-chart", destination.chart);
+  setText("quick-destination-builder", destination.builder);
+  setText("quick-destination-claim", destination.claim);
+  setQuickRouteCopyStatus("");
+  setQuickRouteCopyFallback("");
+}
+
+function quickDestinationGuidance(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
+  if (dangerousCount) {
+    const issueText = issueTypes ? ` (${issueTypes})` : "";
+    return {
+      tone: "danger",
+      title: "Route this before the note is trusted.",
+      copy: "This is useful only if it reaches the person who can hold, fix, or challenge the note.",
+      chart: `Hold or edit the note before signing; verify the flagged unsupported claim${issueText} against the source.`,
+      builder: "File a reproducible source-vs-note defect with the copied QA finding and note/source excerpts.",
+      claim: "Use as a concrete example only; ask for aggregate rows before making a system-level safety claim.",
+      next: "Copy the routing note and QA finding, then keep the source and generated note together.",
+    };
+  }
+
+  if (leakCount) {
+    return {
+      tone: "review",
+      title: "Route this to output cleanup.",
+      copy: "The note may need prompt, template, or metadata cleanup before anyone treats it as usable evidence.",
+      chart: "Do not share this as clean note output until the leak is fixed and the note is rechecked.",
+      builder: "Send to the prompt, template, or generation owner as an artifact leak defect.",
+      claim: "Treat as cleanup evidence, not proof that the note is faithful or that the system is unsafe.",
+      next: "Regenerate, recheck, then copy a fresh QA finding if the note is clean.",
+    };
+  }
+
+  return {
+    tone: "ok",
+    title: "Use this as narrow triage.",
+    copy: "A clean browser check can move one note along, but it should not become a broad safety claim.",
+    chart: "Continue ordinary human review; this check did not find a covered unsupported-care issue.",
+    builder: "Keep as a clean source-note sample, not as proof that the system is generally safe.",
+    claim: "Do not cite one clean note as safety proof; use powered aggregate rows for system claims.",
+    next: verdict?.action || "Use a second read or aggregate run before making a broader claim.",
+  };
+}
+
 function renderQuickUseActions(result) {
   const ownNote = document.querySelector(".quick-use-actions [data-quick-start-own]");
   const copy = document.getElementById("quick-use-copy-receipt");
@@ -1757,6 +1809,8 @@ function resetQuickResult() {
   setText("quick-receipt-preview-output", "");
   setQuickCopyStatus("");
   setQuickCopyFallback("");
+  setQuickRouteCopyStatus("");
+  setQuickRouteCopyFallback("");
   setQuickStatus("Ready to check this source-note pair in the browser.", "");
 }
 
@@ -1805,6 +1859,22 @@ async function copyQuickReceipt() {
   } catch (_) {
     setQuickCopyFallback(text);
     setQuickCopyStatus("Clipboard unavailable. QA finding shown here.");
+  }
+}
+
+async function copyQuickRouteNote() {
+  if (!lastQuickResult) {
+    setQuickRouteCopyStatus("Check the note first.");
+    return;
+  }
+  const text = buildQuickRouteText(lastQuickResult);
+  try {
+    await copyText(text);
+    setQuickRouteCopyFallback("");
+    setQuickRouteCopyStatus("Routing note copied.");
+  } catch (_) {
+    setQuickRouteCopyFallback(text);
+    setQuickRouteCopyStatus("Clipboard unavailable. Routing note shown here.");
   }
 }
 
@@ -1916,11 +1986,56 @@ function buildQuickReceiptText(result) {
   ].join("\n");
 }
 
+function buildQuickRouteText(result) {
+  const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
+  const leakCount = result.leaks?.filter(Boolean).length || 0;
+  const fidelity = Number(result.dimensions?.inputFidelity || 0);
+  const normalized = Number(result.normalized || 0);
+  const issueTypes = receiptIssueTypes(result);
+  const verdict = labVerdict({
+    dangerousCount,
+    leakCount,
+    fidelity,
+    normalized,
+    localResult: Boolean(result.localResult),
+    issueTypes,
+  });
+  const destination = quickDestinationGuidance(result, { dangerousCount, leakCount, issueTypes, verdict });
+  const handoff = quickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
+  const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
+  return [
+    "ScribeBench QA finding route",
+    `Decision: ${handoff.title}`,
+    `Case: ${caseLabel}`,
+    `Date: ${localDateStamp()}`,
+    "",
+    `Chart QA: ${destination.chart}`,
+    `Builder / vendor: ${destination.builder}`,
+    `Public claim boundary: ${destination.claim}`,
+    `Next: ${destination.next}`,
+    "",
+    "Attach the copied QA finding with note/source excerpts.",
+    "Reference: https://scribe-bench.vercel.app/#quick-check",
+  ].join("\n");
+}
+
 function setQuickCopyStatus(message) {
   ["quick-copy-status", "quick-start-copy-status"].forEach((id) => {
     const status = document.getElementById(id);
     if (status) status.textContent = message;
   });
+}
+
+function setQuickRouteCopyStatus(message) {
+  const status = document.getElementById("quick-route-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setQuickRouteCopyFallback(text) {
+  const fallback = document.getElementById("quick-route-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
 }
 
 function setQuickCopyFallback(text) {
