@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The repo handoff now matches the product contract",
+      "why": "The first screen now says one note becomes a review packet, but the guide and README still used older review-card and evidence-card language. That made the GitHub handoff feel like a different product.",
+      "proof": "Aligned the public guide, repo explanation, mobile proof note, and README around the same artifact model: one note becomes a review packet, one claim becomes an evidence ask, and many declared notes can become a scores-only aggregate row.",
+      "next": "Keep the site, README, and worklog using the same artifact names so public readers never have to infer what the repo is for.",
+      "links": [
+        { "label": "Public guide", "href": "#next-steps" },
+        { "label": "GitHub README", "href": "https://github.com/napiermd/scribe-bench" },
+        { "label": "Review packet", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now states the public contract",
       "why": "The opening panel still split purpose across what/who/point cards and a separate route chooser. A cold visitor could see the checker working without understanding the larger rule: one note gets a receipt, but broad AI-scribe claims need aggregate rows.",
       "proof": "Replaced the first-screen purpose cards with a compact public contract: one note becomes a QA packet, one claim becomes an evidence ask, and many notes become an aggregate row only after a declared run.",

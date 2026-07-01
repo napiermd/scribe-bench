@@ -4,6 +4,7 @@ import { describe, expect, it } from 'vitest';
 const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
 const app = readFileSync(new URL('../site/app.js', import.meta.url), 'utf8');
 const styles = readFileSync(new URL('../site/styles.css', import.meta.url), 'utf8');
+const readme = readFileSync(new URL('../README.md', import.meta.url), 'utf8');
 
 describe('site copy and labels', () => {
   it('keeps quick-check result ownership dynamic instead of demo-labeled', () => {
@@ -37,7 +38,7 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('only make');
     expect(summarySection).toContain('system claims after many notes are scored under the same rules');
     expect(summarySection).toContain('One note');
-    expect(summarySection).toContain('Find unsupported care and copy the QA packet.');
+    expect(summarySection).toContain('Find unsupported care and copy the review packet.');
     expect(summarySection).toContain('One claim');
     expect(summarySection).toContain('Turn vendor or model language into an evidence ask.');
     expect(summarySection).toContain('Many notes');
@@ -209,6 +210,7 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('<details class="quick-receipt-preview"');
     expect(quickSection).toContain('Preview copy-ready review packet');
     expect(quickSection).toContain('ScribeBench source-vs-note review packet');
+    expect(quickSection).toContain('Copy-ready ScribeBench review packet');
     expect(app).toContain('ScribeBench note review packet');
     expect(app).toContain('function renderQuickResultSnapshot');
     expect(app).toContain('setText("quick-result-issue-count", issueCountLabel(dangerousCount));');
@@ -281,8 +283,20 @@ describe('site copy and labels', () => {
     expect(guideSection).toContain('Submit a ScribeBench aggregate row');
     expect(guideSection).toContain('Copy row request');
     expect(guideSection).toContain('Copy what is scored, what is blocked, and the exact next run task.');
+    expect(guideSection).toContain('The reproducible harness behind the public artifacts.');
+    expect(guideSection).toContain('ScribeBench is not an AI scribe.');
+    expect(guideSection).toContain('browser receipt, claim ask, blocker receipt, optional Lab APIs');
+    expect(guideSection).toContain('evaluator, public cases, worklog, and scores-only ledger');
+    expect(guideSection).toContain('One note creates');
+    expect(guideSection).toContain('a review packet; many declared notes can become an aggregate row.');
     expect(guideSection).toContain('id="public-action-status"');
     expect(guideSection).toContain('id="public-action-fallback"');
+    expect(readme).toContain('one note becomes a review packet; one claim becomes an evidence ask; many declared notes can become a scores-only public row');
+    expect(readme).toContain('copy a reviewer-ready review packet');
+    expect(readme).toContain('A no-key, copy-ready review packet');
+    expect(readme).toContain('browser receipt, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger');
+    expect(readme).toContain('Share one bounded artifact');
+    expect(readme).toContain('copy-ready review packet with unsupported-care flags, excerpts, evidence boundary, and next ask');
     expect(styles).toContain('.artifact-list .code-block');
     expect(styles).toContain('.artifact-list article:nth-last-child(-n + 2)');
     expect(app).toContain('function bindPublicActionKit()');
@@ -293,6 +307,9 @@ describe('site copy and labels', () => {
     expect(guideSection).not.toContain('I can add evidence people can cite.');
     expect(guideSection).not.toContain('The repo is a public clinical-AI QA workbench');
     expect(guideSection).not.toContain('The site, APIs, TypeScript evaluator');
+    expect(guideSection).not.toContain('review card');
+    expect(readme).not.toContain('one note becomes a public evidence card');
+    expect(readme).not.toContain('Share one public card');
   });
 
   it('keeps claim-generated evidence cards in the public-claim context', () => {

@@ -4,11 +4,11 @@
 
 **A public source-vs-note QA workbench for AI-scribe claims.**
 
-Use the public site first: paste a source encounter and an AI-written note, copy a reviewer-ready QA packet, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
+Use the public site first: paste a source encounter and an AI-written note, copy a reviewer-ready review packet, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
-The system loop is simple: **one note becomes a public evidence card; many notes become a scores-only public row.** The repo contains the walk-up website, model-backed Lab APIs, TypeScript evaluator, public cases, and evidence ledger needed to make that loop reproducible.
+The system loop is simple: **one note becomes a review packet; one claim becomes an evidence ask; many declared notes can become a scores-only public row.** The repo contains the walk-up website, browser receipt, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger needed to make that loop reproducible.
 
 ## What you can do today
 
@@ -30,9 +30,9 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 
 | If you want to... | Go here | What you get |
 |-------------------|---------|--------------|
-| Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready review packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
-| Share one public artifact | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a QA packet, vendor evidence ask, blocker receipt, or current-row request. |
+| Share one public artifact | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a review packet, vendor evidence ask, blocker receipt, or current-row request. |
 | Understand what the rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored receipt, excluded-case boundary, and resume command for the public API row. |
 | Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
@@ -111,7 +111,7 @@ Use the website for six jobs:
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, medication changes, diagnoses, orders, and test results. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
 3. **Read today's answer.** The first screen and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
-4. **Share one public card.** Convert a note receipt, blocker receipt, Lab verdict, or claim ask into one copy-ready evidence card with what happened, evidence level, boundary, and next public ask.
+4. **Share one bounded artifact.** Convert a note receipt, blocker receipt, Lab verdict, or claim ask into copy-ready text with what happened, evidence level, boundary, and next public ask.
 5. **Run optional Lab checks.** Use configured provider models for generation and second-opinion judging when you want plumbing evidence. Treat those packets as smoke or review artifacts, not ranked results.
 6. **Publish aggregate evidence.** Use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
@@ -124,7 +124,7 @@ What the repo contains:
 | Piece | Files | Purpose |
 |-------|-------|---------|
 | Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, optional second-opinion Lab, and aggregate row builder. |
-| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, medication changes, invented orders/referrals/disposition, lab/imaging/ECG result claims, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
+| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage that turns one note into a copy-ready review packet with unsupported-care flags, excerpts, evidence boundary, and next ask. |
 | Live API | `api/generate.js`, `api/judge.js`, `api/models.js` | Optional model-backed generation and judging for the Lab through OpenRouter or Baseten-compatible APIs. |
 | Eval engine | `eval/` | TypeScript harness for narrative quality, input fidelity, dangerous fabrication, leak checks, repeats, and bootstrap intervals. |
 | Data | `data/synthetic/`, `data/primock57/` | Synthetic demos plus 57 public PriMock57 consults. No real patient data. |
