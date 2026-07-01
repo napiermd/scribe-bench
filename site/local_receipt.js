@@ -605,7 +605,7 @@ export function runLocalReceipt(source, note, metadata = {}) {
       dimensions: floorDimensions(),
       fabrication: { dangerous: [], standard: [] },
       leaks: detectLocalLeaks(noteText),
-      reasoning: "Local receipt needs both source and candidate note.",
+      reasoning: "Local check needs both source and candidate note.",
       model: "browser-local-receipt",
       provider: "local",
       rubric: "local-receipt-v1",
@@ -846,10 +846,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, procedures, medication changes, care-plan actions, urgent follow-up, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only check found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, procedures, medication changes, care-plan actions, urgent follow-up, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
-      ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, procedure, medication change, care-plan order/referral/disposition, urgent follow-up plan, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      ? `Browser-only check found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
+      : "Browser-only check found no obvious unsupported clinical claim, diagnosis, treatment action, procedure, medication change, care-plan order/referral/disposition, urgent follow-up plan, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),

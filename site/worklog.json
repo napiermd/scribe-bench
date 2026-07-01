@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The checker now exposes its real scope",
+      "why": "The browser checker could already catch more than the first-screen copy implied, which made the site feel smaller and vaguer than the actual tool.",
+      "proof": "The first checker now names the real users, clinical QA reviewers, buyers, and builders with source-note evidence in hand, and says it catches unsupported care plus chart-fact drift across meds, orders, diagnoses, procedures, results, demographics, side, allergies, leaks, and changed story.",
+      "next": "Keep making the useful detector behavior visible before asking visitors to care about benchmark rows or repo machinery.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The artifact names now line up",
       "why": "The first screen now promised a QA finding, but lower sections still used too many artifact names for the same visitor job. That made the product feel like separate demos instead of one public workflow.",
       "proof": "Standardized public-facing copy around three outputs: one-note QA finding, claim evidence ask, and multi-note aggregate row. The Lab is now a second-read review behind the QA finding, and the current run is a blocker status instead of pretending to be a leaderboard.",

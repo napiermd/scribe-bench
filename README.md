@@ -14,7 +14,7 @@ The system loop is simple: **one note becomes a QA finding; one claim becomes an
 
 ## What you can do today
 
-- **Check one AI-scribe note** in the browser and copy a reviewer-ready QA finding with excerpts, issue flags, boundaries, and the next proof step.
+- **Check one AI-scribe note** in the browser and copy a reviewer-ready QA finding with excerpts, issue flags, boundaries, and the next proof step. The no-key checker is built for clinical QA reviewers, buyers, and builders with a source encounter plus generated note in hand.
 - **Choose the smallest honest next step after a finding** — review one note, challenge a larger claim, finish a current row, or explain the repo.
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
 - **Explain the repo** as a public QA harness: browser checker, optional Lab APIs, evaluator, public cases, worklog, and scores-only evidence ledger.
@@ -113,7 +113,7 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 
 Use the website for six jobs:
 
-1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, procedures, medication changes, diagnoses, orders, and test results. No API key required.
+1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care and chart-fact drift: unsupported treatments, procedures, medication changes, diagnoses, orders, test results, demographics, laterality, allergies, and leaks. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
 3. **Read today's answer.** The checker, after-the-finding guide, and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Choose the next bounded action.** After a finding, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.

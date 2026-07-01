@@ -1,7 +1,7 @@
 {
   "name": "scribe-bench",
   "version": "0.1.0",
-  "description": "Public workbench for checking whether AI-scribe notes invent care, with receipts and aggregate evidence rows.",
+  "description": "Public workbench for checking whether AI-scribe notes invent care, with QA findings and aggregate evidence rows.",
   "license": "MIT",
   "author": "Andrew Napier, MD",
   "type": "module",

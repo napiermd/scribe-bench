@@ -22,16 +22,19 @@ describe('site copy and labels', () => {
 
     expect(quickCheckIndex).toBeGreaterThan(-1);
     expect(summarySection).toContain('Did the AI scribe make up care?');
-    expect(summarySection).toContain('Paste what happened and what the AI wrote.');
-    expect(summarySection).toContain('ScribeBench points to');
+    expect(summarySection).toContain('For clinical QA reviewers, buyers, and builders with evidence in');
+    expect(summarySection).toContain('hand: paste what happened and what the AI wrote.');
+    expect(summarySection).toContain('ScribeBench points');
+    expect(summarySection).toContain('to claims the source does not support');
     expect(summarySection).toContain('the source does not support');
-    expect(summarySection).toContain('QA finding for review');
+    expect(summarySection).toContain('then writes a copyable QA');
+    expect(summarySection).toContain('finding for review');
     expect(summarySection).toContain('quick-purpose-strip');
     expect(summarySection).toContain('What this checker is for');
     expect(summarySection).toContain('The real encounter + AI note');
     expect(summarySection).toContain('Transcript, source note, or encounter summary plus generated note.');
-    expect(summarySection).toContain('Unsupported clinical claims');
-    expect(summarySection).toContain('Made-up tests, orders, diagnoses, meds, procedures, or changed story.');
+    expect(summarySection).toContain('Unsupported care and chart facts');
+    expect(summarySection).toContain('Meds, orders, diagnoses, procedures, results, demographics, side, allergies, leaks, or changed story.');
     expect(summarySection).toContain('A copy-paste QA finding');
     expect(summarySection).toContain('The exact note claim, source contradiction, risk boundary, and next step.');
     expect(summarySection).toContain('<span>Do not use for</span>');
