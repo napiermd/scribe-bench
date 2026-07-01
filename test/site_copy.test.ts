@@ -326,6 +326,9 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('id="quick-evidence-next"');
     expect(quickSection).toContain('class="quick-result-actions"');
     expect(quickSection).toContain('id="quick-copy-receipt"');
+    expect(quickSection).toContain('class="quick-copy-contract"');
+    expect(quickSection).toContain('id="quick-copy-contract"');
+    expect(quickSection).toContain('Copied packet includes action, evidence, next step, and boundary.');
     expect(quickSection).toContain('class="quick-copy-panel"');
     expect(quickSection).toContain('id="quick-copy-panel"');
     expect(quickSection).toContain('Select this QA finding and paste it into the next review thread.');
@@ -360,6 +363,11 @@ describe('site copy and labels', () => {
     expect(destinationIndex).toBeGreaterThan(useRouterIndex);
     expect(destinationIndex).toBeLessThan(detailsIndex);
     expect(app).toContain('ScribeBench source-vs-note QA finding');
+    expect(app).toContain('setText("quick-copy-contract", quickCopyContract({ dangerousCount, leakCount, issueTypes }));');
+    expect(app).toContain('function quickCopyContract');
+    expect(app).toContain('Copied packet includes the hold/edit action');
+    expect(app).toContain('Copied packet includes the cleanup action');
+    expect(app).toContain('Copied packet includes the clean-triage decision');
     expect(app).toContain('function renderQuickReviewHandoff');
     expect(app).toContain('function quickReviewHandoff');
     expect(app).toContain('function renderQuickEvidencePreview');
@@ -388,6 +396,7 @@ describe('site copy and labels', () => {
     expect(app).toContain('form.addEventListener("submit", (event) => runQuickLocalReceipt(event, { revealResult: true }));');
     expect(app).toContain('function revealQuickResult()');
     expect(app).toContain('window.history.replaceState(null, "", "#quick-result");');
+    expect(styles).toContain('.quick-copy-contract');
     expect(app).toContain('scrollToAnchorTarget(panel, { behavior: "smooth" });');
     expect(app).toContain('ownNote.textContent = isSeeded ? "Check your own note" : "Check another note";');
     expect(app).toContain('copy.textContent = isSeeded ? "Copy QA finding" : "Copy this QA finding";');

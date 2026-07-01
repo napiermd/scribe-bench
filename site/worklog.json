@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The QA result now says what the copy button actually gives you",
+      "why": "The seeded result showed a strong first source-note gap and reviewer handoff, but the primary Copy QA finding button appeared before the visitor could see the full copied packet. That made the main action slightly trust-me-ish.",
+      "proof": "Added a compact copied-packet contract directly under the result actions. It changes with the result type and says whether the copied QA finding includes the hold/edit action, story change, note/source excerpts, next review step, cleanup action, or clean-triage boundary.",
+      "next": "Keep making every action button expose its artifact contract before the click.",
+      "links": [
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Paste my note", "href": "#quick-check-form" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The note checker now tells the truth in demo and paste-your-own modes",
       "why": "The plain homepage loaded a seeded failure, while the direct note-checker route opened empty fields. The form still talked about seeded text in both states, which made the first real interaction feel inconsistent.",
       "proof": "Changed the first route CTA to Paste my note and rewrote the source-note intake copy so it works for both states: paste your own source and AI note, or reload the seeded failure to see the exact catch. The output promise stays a reviewer handoff.",

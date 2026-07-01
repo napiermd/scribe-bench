@@ -1870,6 +1870,17 @@ h4 {
   font-weight: 750;
 }
 
+.quick-copy-contract {
+  border-left: 3px solid rgba(15, 118, 110, 0.28);
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 750;
+  line-height: 1.42;
+  margin: 0.68rem 0 0;
+  max-width: 56rem;
+  padding-left: 0.65rem;
+}
+
 .quick-copy-panel {
   display: grid;
   gap: 0.48rem;

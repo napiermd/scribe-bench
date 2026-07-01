@@ -1654,6 +1654,7 @@ function renderQuickResult(result) {
   setText("quick-result-title", verdict.title);
   setText("quick-result-summary", verdict.copy);
   const issueTypes = receiptIssueTypes(result);
+  setText("quick-copy-contract", quickCopyContract({ dangerousCount, leakCount, issueTypes }));
   renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes });
   renderQuickReviewHandoff(result, { dangerousCount, leakCount, issueTypes, verdict });
   renderQuickEvidencePreview(result, { dangerousCount, leakCount, issueTypes, verdict });
@@ -1834,6 +1835,17 @@ function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
     title: "Treat this as clean triage, not clearance.",
     copy: "A clean browser check can support a narrow QA note. Use the Lab or powered rows before saying the whole scribe system is safe or better.",
   };
+}
+
+function quickCopyContract({ dangerousCount, leakCount, issueTypes = "" }) {
+  if (dangerousCount) {
+    const typeText = issueTypes ? ` (${issueTypes})` : "";
+    return `Copied packet includes the hold/edit action, why the note changed the story${typeText}, note/source excerpts, next review step, and one-note boundary.`;
+  }
+  if (leakCount) {
+    return "Copied packet includes the cleanup action, leak excerpt, recheck step, and one-note boundary.";
+  }
+  return "Copied packet includes the clean-triage decision, covered checks, next review step, and one-note boundary.";
 }
 
 function renderQuickDestination(result, { dangerousCount, leakCount, issueTypes = "", verdict }) {
