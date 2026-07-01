@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Current PriMock57 public run advanced to 9 scored cases",
+      "why": "The strongest critique was still fair: old rows are not enough. A worthwhile public artifact needs fresh current-model evidence, even when the run is incomplete.",
+      "proof": "Raised the live judge payload limit from 18k to 60k characters so generated PriMock57 notes can be judged, then resumed the production public API runner against a 30-case selection. The current attempt now has 13 generated notes and 9 scored PriMock57 cases, with a partial 11.1% dangerous-fabrication signal and 21 errored or excluded cases from timeouts, parser failure, and OpenRouter free-model rate limits. It remains smoke-level current public-path evidence, not a ranked row.",
+      "next": "Resume the cached run with OpenRouter credits, a non-capped provider key, or a faster second judge until at least 30 PriMock57 cases are scored, then publish aggregate-only scores after method review.",
+      "links": [
+        { "label": "Current run status", "href": "#current-run" },
+        { "label": "Run builder", "href": "#run" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The public page now has one guide instead of five overlapping explanations",
       "why": "The site had become more useful, but the middle of the page still stacked Who, After receipt, Public action kit, Why, and What it is sections. That made the project feel overexplained and harder to understand.",
       "proof": "Those overlapping blocks are now consolidated into one Public guide that names the three visitor jobs, the repo loop, the evidence limits, and the next useful click. Legacy anchors still land on the guide so old links do not dead-end.",

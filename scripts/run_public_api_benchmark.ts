@@ -110,6 +110,16 @@ export type CurrentRunStatus = {
     dangerousFabrications: number;
     standardAssumptions: number;
   };
+  partialAggregate?: {
+    claimLevel: 'powered' | 'smoke';
+    scoredCases: number;
+    erroredCases: number;
+    narrativeMean: number;
+    fidelityMean: number;
+    dangerousFabricationRate: number;
+    leakRate: number;
+    note: string;
+  };
   blocker: string;
   next: string;
   unblockAsk: string;
@@ -409,6 +419,14 @@ export function buildCurrentRunStatus(args: {
   const latestScored = [...args.scores].reverse().find((score) => selectedIds.has(score.caseId) && !score.errored);
   const latestErrorRecord = latestErroredRecord(records, args.progress.repeats);
   const latestError = latestErrorRecord ? cleanRunError(latestErrorRecord.errors[latestErrorRecord.errors.length - 1]) : '';
+  const summary = aggregate(
+    args.progress.system,
+    datasetLabel(args.progress.dataset),
+    args.progress.judgeModel,
+    args.progress.repeats,
+    args.scores,
+  );
+  const claimLevel = summary.dataset === RANKED_DATASET && summary.n >= MIN_PUBLISHABLE_CASES ? 'powered' : 'smoke';
   const blockedIds = records
     .filter((record) => !completeJudgments(record, args.progress.repeats) && record.errors.length > 0)
     .map((record) => record.caseId);
@@ -457,6 +475,20 @@ export function buildCurrentRunStatus(args: {
         inputFidelity: latestScored.narrative.dimensions.inputFidelity,
         dangerousFabrications: latestScored.fabrication.dangerous.length,
         standardAssumptions: latestScored.fabrication.standard.length,
+      },
+    } : {}),
+    ...(summary.n ? {
+      partialAggregate: {
+        claimLevel,
+        scoredCases: summary.n,
+        erroredCases: summary.nErrored,
+        narrativeMean: summary.narrativeMean,
+        fidelityMean: summary.fidelityMean,
+        dangerousFabricationRate: summary.dangerousFabricationRate,
+        leakRate: summary.leakRate,
+        note: claimLevel === 'powered'
+          ? 'Meets the minimum case threshold, but still needs method review before publication.'
+          : `Partial current public-path evidence only: ${summary.n}/${args.targetCases} target cases scored, below the ${MIN_PUBLISHABLE_CASES}-case publishable threshold.`,
       },
     } : {}),
     blocker,

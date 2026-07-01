@@ -183,6 +183,13 @@ describe('public API benchmark helpers', () => {
       normalized: 100,
       inputFidelity: 3,
     });
+    expect(status.partialAggregate).toMatchObject({
+      claimLevel: 'smoke',
+      scoredCases: 1,
+      erroredCases: 1,
+      dangerousFabricationRate: 0,
+    });
+    expect(status.partialAggregate?.note).toContain('below the 30-case publishable threshold');
     expect(status.blocker).toContain('Blocked cases: PM57-d1c02');
     expect(status.blocker).toContain('PriMock57 cases');
     expect(status.blocker).toContain('Rate limit exceeded');

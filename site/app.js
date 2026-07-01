@@ -630,11 +630,13 @@ function renderCurrentRun(run) {
   const links = Array.isArray(run.links) ? run.links : [];
   const resumeCommand = String(run.resumeCommand || "").trim();
   const minimumPublishable = Number(run.minimumPublishableCases) || MIN_RANKED_CASES;
+  const partial = run.partialAggregate || null;
   const attempted = selected || target;
   const lastAttemptText = formatTimestamp(run.lastAttemptAt);
   const attemptText = lastAttemptText
     ? ` Last public retry: ${lastAttemptText}; ${scored}/${attempted} selected cases scored and ${errored}/${attempted} errored or blocked.`
     : "";
+  const partialText = partialAggregateText(partial);
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -643,7 +645,7 @@ function renderCurrentRun(run) {
   setText("current-run-title", run.title || "Current PriMock57 run attempt");
   setText(
     "current-run-copy",
-    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${attempted} selected cases have generated notes.${attemptText} ${run.rawNotesPolicy || "Raw generated notes are not published."}`
+    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${attempted} selected cases have generated notes.${attemptText}${partialText ? ` ${partialText}` : ""} ${run.rawNotesPolicy || "Raw generated notes are not published."}`
   );
   setText(
     "freshness-current-gap",
@@ -663,6 +665,7 @@ function renderCurrentRun(run) {
       ? `${last.caseId}: ${last.normalized}/100, fidelity ${last.inputFidelity}/5, dangerous ${last.dangerousFabrications || 0}`
       : "--"
   );
+  setText("current-run-partial", partialText || "No partial aggregate yet; the runner needs at least one scored case.");
   setText("current-run-blocker", run.blocker || "No blocker recorded.");
   setText("current-run-next", run.next || "Continue the run and publish only when the evidence threshold is met.");
   setText("current-run-unblock", run.unblockAsk || "Use the run builder to create a publishable powered row.");
@@ -673,7 +676,7 @@ function renderCurrentRun(run) {
   );
   setText(
     "hero-current-gap",
-    `${scored}/${target} current PriMock57 cases scored. Latest retry: ${scored}/${attempted} selected cases scored; free-model cap blocks the rest.`
+    `${scored}/${target} current PriMock57 cases scored. Latest retry: ${scored}/${attempted} selected cases scored and ${errored}/${attempted} blocked or errored. Not a current ranking yet.`
   );
   setElementHtml(
     "decision-current-action",
@@ -695,6 +698,26 @@ function renderCurrentRun(run) {
   }
 }
 
+function partialAggregateText(partial) {
+  if (!partial || !Number.isFinite(Number(partial.scoredCases))) return "";
+  const scored = Number(partial.scoredCases) || 0;
+  const errored = Number(partial.erroredCases) || 0;
+  const dangerous = Number(partial.dangerousFabricationRate);
+  const fidelity = Number(partial.fidelityMean);
+  const narrative = Number(partial.narrativeMean);
+  const pieces = [
+    `${scored} scored`,
+    `${errored} errored/excluded`,
+    Number.isFinite(dangerous) ? `${fmtPercent(dangerous)} dangerous-fabrication signal` : "",
+    Number.isFinite(fidelity) ? `fidelity ${fidelity.toFixed(2)}/5` : "",
+    Number.isFinite(narrative) ? `narrative ${narrative.toFixed(1)}/100` : "",
+  ].filter(Boolean);
+  const boundary = partial.claimLevel === "powered"
+    ? "Review method before publication."
+    : "Partial only; not ranked or publishable.";
+  return `${pieces.join("; ")}. ${boundary}`;
+}
+
 function renderCurrentRunError() {
   const status = document.getElementById("current-run-status");
   if (status) {
@@ -708,6 +731,7 @@ function renderCurrentRunError() {
   setText("current-run-errored", "--");
   setText("current-run-last-attempt", "--");
   setText("current-run-last-score", "--");
+  setText("current-run-partial", "--");
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
   setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
