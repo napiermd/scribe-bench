@@ -115,7 +115,7 @@ Use the website for six jobs:
 
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, procedures, medication changes, diagnoses, orders, and test results. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
-3. **Read today's answer.** The first screen and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
+3. **Read today's answer.** The checker, after-the-receipt guide, and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Choose the next bounded action.** After a receipt, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.
 5. **Run optional Lab checks.** Use configured provider models for generation and second-opinion judging when you want plumbing evidence. Treat those packets as smoke or review artifacts, not ranked results.
 6. **Publish aggregate evidence.** Use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.

@@ -202,53 +202,6 @@ const claimEvidencePaths = {
   },
 };
 
-const startRoutes = {
-  note: {
-    kicker: "Fastest useful path",
-    title: "Paste source plus note. Check for invented care.",
-    copy:
-      "Start with one encounter and one generated note. The browser check flags unsupported care, template leaks, and what this one note can actually support.",
-    input: "Source encounter and generated note.",
-    action: "Run the no-key browser check; open the Lab only if the receipt needs a second read.",
-    output: "A copyable QA receipt and a clear next proof step.",
-    primary: { label: "Check your note", href: "#quick-check-form" },
-    secondary: { label: "See the seeded catch", href: "#demo" },
-  },
-  buyer: {
-    kicker: "For buyers and clinical leaders",
-    title: "Turn vendor polish into an evidence ask.",
-    copy:
-      "Use ScribeBench when a demo note looks impressive or a vendor says the scribe is hallucination-free. It separates one-note catches from system-level claims.",
-    input: "A demo note, vendor claim, or internal pilot example.",
-    action: "Use the claim checker, then ask for aggregate PriMock57 or real-workflow scores.",
-    output: "A concrete public ask: dataset, n, judge, repeats, dangerous-fabrication rate, leak rate, and disclosure.",
-    primary: { label: "Check a claim", href: "#claim-check" },
-    secondary: { label: "Read evidence gaps", href: "#leaderboard" },
-  },
-  builder: {
-    kicker: "For candidate notes",
-    title: "Score the notes before turning them into a claim.",
-    copy:
-      "Use the Lab as a triage loop, then graduate useful candidates to a powered PriMock57 or real-workflow run. Smoke checks are not a crown.",
-    input: "Candidate notes from a model, prompt, or scribe workflow.",
-    action: "Run the seeded smoke path, paste your own note, then score a full candidate file when the smoke path survives.",
-    output: "A failure signal, judge summary, and a reproducible path to an aggregate benchmark row.",
-    primary: { label: "Run current smoke", href: "#lab" },
-    secondary: { label: "Add a row", href: "#run" },
-  },
-  contributor: {
-    kicker: "For current evidence gaps",
-    title: "Do not treat stale rows as today's answer.",
-    copy:
-      "The old rows are historical baselines. Useful public work means adding current rows or making the blocker visible.",
-    input: "A stale ranking claim, partial run, provider cap, or missing current system row.",
-    action: "Inspect the blocker, copy the resume command, or use the run builder to create the row people are asking for.",
-    output: "A visible blocker receipt or a public aggregate row with method details.",
-    primary: { label: "Review blocker", href: "#current-run" },
-    secondary: { label: "Build row command", href: "#run-builder" },
-  },
-};
-
 const runPresets = {
   "current-powered": {
     status: "Only for rows",
@@ -493,12 +446,6 @@ function renderEvidenceFreshness(results) {
       ? `${formatScoredAt(latestSmoke.scoredAt)} smoke row, n=${Number(latestSmoke.n) || "--"} synthetic cases. Good enough to prove the public path works; not enough to compare systems.`
       : "No smoke row is published yet; run the Lab smoke path before graduating a candidate to PriMock57."
   );
-  setText(
-    "hero-evidence-boundary",
-    latestPowered
-      ? `${ranked.length} historical powered row${ranked.length === 1 ? "" : "s"}; latest ${formatScoredAt(latestPowered.scoredAt)}. Cite the failure gradient, not a current winner.`
-      : "One-note receipts are live now. Model claims still need powered aggregate rows."
-  );
   renderFreshSmoke(latestSmoke);
 }
 
@@ -648,10 +595,6 @@ function renderCurrentRun(run) {
     "decision-current-proof",
     `${scored}/${target} current PriMock57 cases scored; latest retry selected ${selected || attempted}, attempted ${attempted}, and left ${errored} blocked or errored. Publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
   );
-  setText(
-    "hero-current-gap",
-    `${scored}/${target} current PriMock57 cases scored. Latest retry: ${attemptScope}, ${scored}/${attempted} scored, and ${errored}/${attempted} blocked or errored. Not a current ranking yet.`
-  );
   const evidenceTaskStatus = document.getElementById("evidence-task-status");
   if (evidenceTaskStatus) {
     evidenceTaskStatus.textContent = scored >= minimumPublishable ? "Ready for method review" : run.statusLabel || "Open public task";
@@ -754,7 +697,6 @@ function renderCurrentRunError() {
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
   setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
-  setText("hero-current-gap", "Current-run status did not load. Do not use the old rows as a current ranking.");
   currentPublicWorkTask = [
     "ScribeBench public contribution task",
     "Status: current-run status did not load from /assets/current-run.json.",
@@ -1285,7 +1227,6 @@ function setClaimCopyFallback(text) {
 function sendClaimToPublicCard() {
   const guide = selectedClaimGuide();
   const claim = currentClaimText();
-  selectStartRoute("buyer");
   renderPublicEvidenceCard(publicEvidenceCardFromClaim(guide, claim), { scroll: true });
   setClaimCopyStatus("Public evidence card ready.");
 }
@@ -1479,107 +1420,6 @@ function setPublicEvidenceCardFallback(text) {
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
-}
-
-function selectStartRoute(key = "note") {
-  const buttons = [...document.querySelectorAll("[data-start-route]")];
-  if (!buttons.length) return;
-
-  const normalizedKey = startRoutes[key] ? key : "note";
-  const route = startRoutes[normalizedKey] || startRoutes.note;
-  buttons.forEach((button) => {
-    const active = button.dataset.startRoute === normalizedKey;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", active ? "true" : "false");
-  });
-  setText("start-route-kicker", route.kicker);
-  setText("start-route-title", route.title);
-  setText("start-route-copy", route.copy);
-  setText("start-route-input", route.input);
-  setText("start-route-action", route.action);
-  setText("start-route-output", route.output);
-  setRouteLink("start-route-primary", route.primary);
-  setRouteLink("start-route-secondary", route.secondary);
-  setStartRouteCopyStatus("");
-  setStartRouteCopyFallback("");
-}
-
-function bindStartRouter() {
-  const buttons = [...document.querySelectorAll("[data-start-route]")];
-  if (!buttons.length) return;
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => selectStartRoute(button.dataset.startRoute || "note"));
-  });
-  document.getElementById("start-route-primary")?.addEventListener("click", (event) => {
-    const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
-    if (activeRoute === "note") {
-      startOwnQuickCheck(event);
-    }
-  });
-  document.getElementById("start-route-copy-plan")?.addEventListener("click", copyStartRoutePlan);
-  selectStartRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
-}
-
-function setRouteLink(id, link) {
-  const target = document.getElementById(id);
-  if (!target || !link) return;
-  target.textContent = link.label;
-  target.setAttribute("href", link.href);
-}
-
-async function copyStartRoutePlan() {
-  const text = startRoutePlanText();
-  if (!text) {
-    setStartRouteCopyStatus("Pick a route first.");
-    return;
-  }
-  try {
-    await copyText(text);
-    setStartRouteCopyFallback("");
-    setStartRouteCopyStatus("Route plan copied.");
-  } catch (_) {
-    setStartRouteCopyFallback(text);
-    setStartRouteCopyStatus("Clipboard unavailable. Route plan shown here.");
-  }
-}
-
-function startRoutePlanText() {
-  const activeKey = document.querySelector("[data-start-route].active")?.dataset.startRoute || "note";
-  const route = startRoutes[activeKey] || startRoutes.note;
-  const primaryHref = absoluteSiteHref(route.primary?.href || "#");
-  const secondaryHref = absoluteSiteHref(route.secondary?.href || "#");
-  return [
-    "ScribeBench route plan",
-    `Route: ${route.title}`,
-    `For: ${route.kicker}`,
-    `Bring: ${route.input}`,
-    `Do: ${route.action}`,
-    `Leave with: ${route.output}`,
-    `Primary next step: ${route.primary?.label || "Open ScribeBench"} (${primaryHref})`,
-    `Secondary next step: ${route.secondary?.label || "Review evidence"} (${secondaryHref})`,
-    "Boundary: one-note receipts are useful QA; system claims need scored aggregate rows under the same rules.",
-    "Site: https://scribe-bench.vercel.app/",
-  ].join("\n");
-}
-
-function absoluteSiteHref(href) {
-  if (!href) return "https://scribe-bench.vercel.app/";
-  if (/^https?:\/\//i.test(href)) return href;
-  if (href.startsWith("#")) return `https://scribe-bench.vercel.app/${href}`;
-  return `https://scribe-bench.vercel.app/${href.replace(/^\/+/, "")}`;
-}
-
-function setStartRouteCopyStatus(message) {
-  const status = document.getElementById("start-route-copy-status");
-  if (status) status.textContent = message;
-}
-
-function setStartRouteCopyFallback(text) {
-  const fallback = document.getElementById("start-route-copy-fallback");
-  const panel = document.getElementById("start-route-copy-panel");
-  if (fallback) fallback.value = text;
-  if (panel) panel.hidden = !text;
 }
 
 function stickyHeaderOffset() {
@@ -3527,7 +3367,6 @@ function setRunCopyFallback(text) {
 
 async function boot() {
   bindAnchorScrolling();
-  bindStartRouter();
   bindQuickCheck();
   bindCurrentRunCommand();
   bindPublicWorkTaskCopy();
