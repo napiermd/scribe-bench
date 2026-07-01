@@ -316,6 +316,72 @@ const CARE_PLAN_GROUPS = [
   },
 ];
 
+const RESULT_GROUPS = [
+  {
+    label: "lab result",
+    note: resultPatterns([
+      "labs?",
+      "blood\\s+work",
+      "CBC\\b",
+      "CMP\\b",
+      "WBC\\b",
+      "white\\s+blood\\s+cell",
+      "hemoglobin",
+      "Hgb\\b",
+      "creatinine",
+      "Cr\\b",
+      "glucose",
+      "troponin",
+      "BNP\\b",
+      "A1c\\b",
+      "HbA1c\\b",
+      "urinalysis",
+      "UA\\b",
+    ]),
+    support: resultPatterns([
+      "labs?",
+      "blood\\s+work",
+      "CBC\\b",
+      "CMP\\b",
+      "WBC\\b",
+      "white\\s+blood\\s+cell",
+      "hemoglobin",
+      "Hgb\\b",
+      "creatinine",
+      "Cr\\b",
+      "glucose",
+      "troponin",
+      "BNP\\b",
+      "A1c\\b",
+      "HbA1c\\b",
+      "urinalysis",
+      "UA\\b",
+    ]),
+    contradiction: [
+      /\bno\s+(?:labs?|blood\s+work|CBC|CMP|WBC|white\s+blood\s+cell|hemoglobin|Hgb|creatinine|Cr|glucose|troponin|BNP|A1c|HbA1c|urinalysis|UA)\s+(?:was\s+|were\s+)?(?:obtained|drawn|sent|performed|collected|run|resulted|ordered)\b/i,
+      /\b(?:labs?|blood\s+work|CBC|CMP|WBC|white\s+blood\s+cell|hemoglobin|Hgb|creatinine|Cr|glucose|troponin|BNP|A1c|HbA1c|urinalysis|UA)\s+(?:was\s+|were\s+)?not\s+(?:obtained|drawn|sent|performed|collected|run|resulted|ordered)\b/i,
+    ],
+  },
+  {
+    label: "imaging result",
+    note: resultPatterns(["x[- ]?rays?", "radiographs?", "plain\\s+films?", "imaging", "MRI", "CT", "ultrasounds?"]),
+    support: resultPatterns(["x[- ]?rays?", "radiographs?", "plain\\s+films?", "imaging", "MRI", "CT", "ultrasounds?"]),
+    contradiction: [
+      /\bno\s+(?:x[- ]?rays?|radiographs?|plain\s+films?|imaging|MRI|CT|ultrasounds?)\s+(?:was\s+|were\s+)?(?:obtained|performed|done|completed|ordered)\b/i,
+      /\b(?:x[- ]?rays?|radiographs?|plain\s+films?|imaging|MRI|CT|ultrasounds?)\s+(?:was\s+|were\s+)?not\s+(?:obtained|performed|done|completed|ordered)\b/i,
+    ],
+  },
+  {
+    label: "ECG result",
+    note: resultPatterns(["ECG\\b", "EKG\\b", "electrocardiogram"]),
+    support: resultPatterns(["ECG\\b", "EKG\\b", "electrocardiogram"]),
+    contradiction: [
+      /\bno\s+(?:ECG|EKG|electrocardiogram)\s+(?:was\s+|were\s+)?(?:obtained|performed|done|completed|ordered)\b/i,
+      /\b(?:ECG|EKG|electrocardiogram)\s+(?:was\s+|were\s+)?not\s+(?:obtained|performed|done|completed|ordered)\b/i,
+    ],
+  },
+];
+
 const SIDE_PART_RE = /\b(left|right)\s+(hip|knee|ankle|foot|wrist|hand|shoulder|elbow|arm|leg|eye|ear)\b/gi;
 
 const ALLERGY_TERMS = [
@@ -357,13 +423,32 @@ function sentenceExcerptAround(text, index, span = 72) {
   const normalized = normalize(text);
   const safeIndex = Math.max(0, Math.min(index, normalized.length));
   const before = normalized.slice(0, safeIndex);
-  const start = Math.max(before.lastIndexOf("."), before.lastIndexOf("?"), before.lastIndexOf("!"), before.lastIndexOf(";")) + 1;
+  const start = lastSentenceStartOffset(before);
   const after = normalized.slice(safeIndex);
-  const endOffsets = [after.indexOf("."), after.indexOf("?"), after.indexOf("!"), after.indexOf(";")]
-    .filter((value) => value >= 0);
-  const end = endOffsets.length ? safeIndex + Math.min(...endOffsets) + 1 : normalized.length;
+  const endOffset = firstSentenceEndOffset(after);
+  const end = endOffset >= 0 ? safeIndex + endOffset + 1 : normalized.length;
   const sentence = normalize(normalized.slice(start, end));
   return sentence && sentence.length <= 220 ? sentence : excerptAround(normalized, safeIndex, span);
+}
+
+function lastSentenceStartOffset(text) {
+  for (let index = text.length - 1; index >= 0; index -= 1) {
+    const char = text[index];
+    if (!/[.!?;]/.test(char)) continue;
+    if (char === "." && /\d/.test(text[index - 1] || "") && /\d/.test(text[index + 1] || "")) continue;
+    return index + 1;
+  }
+  return 0;
+}
+
+function firstSentenceEndOffset(text) {
+  for (let index = 0; index < text.length; index += 1) {
+    const char = text[index];
+    if (!/[.!?;]/.test(char)) continue;
+    if (char === "." && /\d/.test(text[index - 1] || "") && /\d/.test(text[index + 1] || "")) continue;
+    return index;
+  }
+  return -1;
 }
 
 function firstMatch(text, patterns) {
@@ -587,6 +672,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of RESULT_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching test-result support phrase found in the source text.",
+      });
+    }
+  }
+
   const structuredEvidence = detectStructuredMismatchEvidence(sourceText, noteText);
   dangerous.push(...structuredEvidence.map((item) => item.finding));
   dangerousEvidence.push(...structuredEvidence);
@@ -608,10 +717,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, medication changes, care-plan actions, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, medication changes, care-plan actions, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, medication change, care-plan order/referral/disposition, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, medication change, care-plan order/referral/disposition, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -671,6 +780,17 @@ function orderPatterns(terms) {
   return [
     new RegExp(`\\b(?:order(?:ed)?|schedule(?:d)?|arrange(?:d)?|sent\\s+(?:for|to))\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b${termGroup}\\b[^.!?;]{0,70}\\b(?:order(?:ed)?|schedule(?:d)?|arrange(?:d)?)\\b`, "i"),
+  ];
+}
+
+function resultPatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  const resultDescriptor = "(?:negative|positive|normal|abnormal|elevated|low|high|within\\s+normal\\s+limits|WNL|sinus\\s+rhythm|ST\\s+elevation|ischemi(?:a|c)|infiltrate|pneumonia|fracture|hemorrhage|DVT|stone|no\\s+(?:acute\\s+)?(?:fracture|hemorrhage|infiltrate|pneumonia|DVT|stone)|\\d+(?:\\.\\d+)?)";
+  return [
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,90}\\b(?:show(?:ed|s)?|reveal(?:ed|s)?|demonstrat(?:ed|es)?|returned|came\\s+back|result(?:ed)?|was|were|is|are)\\b[^.!?;]{0,90}\\b${resultDescriptor}\\b`, "i"),
+    new RegExp(`\\b(?:show(?:ed|s)?|reveal(?:ed|s)?|demonstrat(?:ed|es)?|returned|came\\s+back)\\b[^.!?;]{0,90}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b\\s*(?::|=)?\\s*\\d+(?:\\.\\d+)?\\b`, "i"),
+    new RegExp(`\\b${resultDescriptor}\\s+${termGroup}\\b`, "i"),
   ];
 }
 

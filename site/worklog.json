@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The no-key checker now catches invented test results",
+      "why": "The browser receipt could catch invented medication changes, diagnoses, treatments, and orders, but production still let a note claim lab, imaging, or ECG results when the source said no test happened.",
+      "proof": "The browser-only receipt now checks positive lab, imaging, and ECG result language against visible source support and explicit contradictions such as no labs obtained, no x-ray performed, or no ECG performed. Focused tests cover invented CBC/x-ray results, invented ECG/troponin results, and supported or negated non-catches.",
+      "next": "Keep expanding the instant receipt around concrete signer-risk facts: results, follow-up, medication changes, orders, diagnoses, treatments, and disposition.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Detailed receipt", "href": "#quick-check" },
+        { "label": "Fabrication taxonomy", "href": "https://github.com/napiermd/scribe-bench/blob/main/docs/fabrication-taxonomy.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The no-key checker now catches invented medication changes",
       "why": "The browser receipt could catch invented treatment actions and care-plan orders, but production still let a note claim a medication was started, stopped, held, resumed, increased, or decreased when the source did not support that change.",
       "proof": "The browser-only receipt now checks medication-change actions against visible source support and explicit contradictions such as no medication changes or no prescriptions. Focused tests cover invented antihypertensive changes, unsupported gabapentin prescriptions, and supported or negated non-catches.",

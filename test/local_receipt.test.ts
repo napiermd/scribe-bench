@@ -213,6 +213,54 @@ describe('browser local receipt', () => {
     expect(negated.fabrication.dangerous).toEqual([]);
   });
 
+  it('catches unsupported lab and imaging results without a model', () => {
+    const source = [
+      'Urgent care visit for right ankle pain after twisting injury.',
+      'Exam showed mild swelling and intact pulses.',
+      'No labs were obtained.',
+      'No x-ray was performed.',
+      'Patient was treated as a sprain with rest, ice, compression, elevation, and return precautions.',
+    ].join(' ');
+    const note = [
+      'Assessment: right ankle sprain.',
+      'Data: CBC showed WBC 15.2 and ankle x-ray showed no fracture.',
+      'Plan: RICE and return precautions.',
+    ].join(' ');
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/lab result/i);
+    expect(dangerous).toMatch(/imaging result/i);
+    expect(result.evidence.dangerous.some((item) => /lab result/i.test(item.finding) && /CBC showed WBC 15\.2/i.test(item.noteExcerpt) && /No labs were obtained/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /imaging result/i.test(item.finding) && /x-ray showed no fracture/i.test(item.noteExcerpt) && /No x-ray was performed/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('catches unsupported ECG results without a model', () => {
+    const source = 'Clinic visit for intermittent chest discomfort. No ECG was performed. No troponin was drawn.';
+    const note = 'Data: ECG showed normal sinus rhythm and troponin was negative.';
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/ECG result/i);
+    expect(dangerous).toMatch(/lab result/i);
+    expect(result.evidence.dangerous.some((item) => /ECG result/i.test(item.finding) && /ECG showed normal sinus rhythm/i.test(item.noteExcerpt) && /No ECG was performed/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /lab result/i.test(item.finding) && /troponin was negative/i.test(item.noteExcerpt) && /No troponin was drawn/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('does not flag supported or negated test-result language', () => {
+    const supported = runLocalReceipt(
+      'CBC showed WBC 15.2. Ankle x-ray showed no fracture. ECG showed normal sinus rhythm.',
+      'Data: CBC showed WBC 15.2, ankle x-ray showed no fracture, and ECG showed normal sinus rhythm.'
+    );
+    const negated = runLocalReceipt(
+      'No labs were obtained. No x-ray was performed. No ECG was performed.',
+      'No labs were obtained. No x-ray was performed. No ECG was performed.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+  });
+
   it('does not flag matching demographics, laterality, and allergy facts', () => {
     const source = '62-year-old woman with right knee pain. No known drug allergies.';
     const note = '62-year-old woman with right knee pain. Allergies: NKDA.';

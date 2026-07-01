@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 81](https://img.shields.io/badge/tests-81%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 94](https://img.shields.io/badge/tests-94%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -100,7 +100,7 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 
 Use the website for six jobs:
 
-1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. No API key required.
+1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, medication changes, diagnoses, orders, and test results. No API key required.
 2. **Try a current-model smoke.** Use the first-screen smoke action to generate and judge the seeded case with the configured OpenRouter free-model path. Treat the packet as plumbing evidence, not a ranked result.
 3. **Read today's answer.** The first screen says what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
@@ -116,7 +116,7 @@ What the repo contains:
 | Piece | Files | Purpose |
 |-------|-------|---------|
 | Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, Lab, and run builder. |
-| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, medication changes, invented orders/referrals/disposition, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
+| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, medication changes, invented orders/referrals/disposition, lab/imaging/ECG result claims, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
 | Live API | `api/generate.js`, `api/judge.js`, `api/models.js` | Optional model-backed generation and judging for the Lab through OpenRouter or Baseten-compatible APIs. |
 | Eval engine | `eval/` | TypeScript harness for narrative quality, input fidelity, dangerous fabrication, leak checks, repeats, and bootstrap intervals. |
 | Data | `data/synthetic/`, `data/primock57/` | Synthetic demos plus 57 public PriMock57 consults. No real patient data. |
