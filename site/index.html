@@ -67,6 +67,10 @@
           <div class="intro-panel">
             <p class="eyebrow">Public clinical AI QA</p>
             <h1>Check an AI-scribe note. Leave with evidence.</h1>
+            <p class="lede">
+              For clinical QA reviewers, buyers, operators, and builders who need
+              a source-vs-note receipt before trusting an AI-scribe claim.
+            </p>
 
             <div class="receipt-specimen" aria-label="Example ScribeBench receipt">
               <div class="receipt-specimen-head">
@@ -109,12 +113,6 @@
                 </div>
               </dl>
             </div>
-
-            <p class="lede">
-              ScribeBench is for clinical QA reviewers, buyers, operators, and builders
-              who need receipts before trusting an AI-scribe claim. One note gives a QA
-              receipt; many notes give aggregate evidence.
-            </p>
           </div>
 
           <section class="quick-check-panel" id="quick-check" aria-labelledby="quick-check-title">
@@ -126,8 +124,9 @@
               <span class="local-badge">No API key</span>
             </div>
             <p class="quick-check-help">
-              The seeded fall case is loaded so the artifact is visible immediately.
-              Switch to your own source-note pair when you want a usable QA packet.
+              For reviewers, buyers, and builders who need a source-vs-note receipt.
+              The seeded fall case is loaded so the artifact is visible immediately;
+              switch to your own pair when you want a usable QA packet.
             </p>
             <form class="quick-check-form" id="quick-check-form">
               <label class="field">
@@ -135,7 +134,7 @@
                 <textarea id="quick-source" rows="7" placeholder="Paste the transcript, source note, or encounter summary the AI note should match."></textarea>
               </label>
               <label class="field">
-                <span>Generated note</span>
+                <span>AI-scribe note</span>
                 <textarea id="quick-note" rows="7" placeholder="Paste the AI-scribe note you want to check against the source."></textarea>
               </label>
               <div class="quick-check-actions">
@@ -145,12 +144,12 @@
                   class="button secondary"
                   id="run-live-smoke-top"
                   type="button"
-                  data-default-label="Run current-model smoke"
+                  data-default-label="Smoke current models"
                   data-running-label="Running smoke check..."
                 >
-                  Run current-model smoke
+                  Smoke current models
                 </button>
-                <a class="button secondary" href="#lab">Open full Lab</a>
+                <a class="button secondary" href="#lab">Ask second opinion</a>
               </div>
               <p id="quick-check-status" role="status" aria-live="polite">Loading the seeded fall case...</p>
               <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
@@ -204,7 +203,7 @@
               </div>
               <div class="quick-result-actions">
                 <button class="button primary compact-button" id="quick-copy-receipt" type="button">Copy QA packet</button>
-                <button class="button secondary compact-button" id="quick-send-lab" type="button">Open in Lab with this pair</button>
+                <button class="button secondary compact-button" id="quick-send-lab" type="button">Ask second opinion</button>
                 <a class="button secondary compact-button" href="#next-steps">Next steps</a>
                 <span id="quick-copy-status" role="status" aria-live="polite"></span>
               </div>
@@ -385,7 +384,7 @@
                 >
                   Run smoke here
                 </button>
-                <a class="button secondary compact-button" href="#lab">Choose model in Lab</a>
+                <a class="button secondary compact-button" href="#lab">Choose second opinion</a>
               </div>
             </div>
           </section>
@@ -504,7 +503,7 @@
             <li>
               <span>3</span>
               <strong>Use the right artifact</strong>
-              <p>QA packet, claim ask, blocker receipt, Lab verdict, or aggregate row.</p>
+              <p>QA packet, claim ask, blocker receipt, second-opinion verdict, or aggregate row.</p>
             </li>
             <li>
               <span>4</span>
@@ -1112,7 +1111,7 @@
             <span>3</span>
             <div>
               <strong>Graduate only with volume</strong>
-              <p>Rows need many scored cases; one Lab verdict is not a ranking or safety claim.</p>
+              <p>Rows need many scored cases; one second-opinion verdict is not a ranking or safety claim.</p>
             </div>
           </article>
         </div>

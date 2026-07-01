@@ -95,9 +95,9 @@ const claimGuides = {
     summary:
       "ScribeBench can compare a source encounter with a generated note and return a concrete QA verdict. That verdict is useful triage, not a final clinical sign-off.",
     required:
-      "The source encounter, the generated note, a Lab verdict, flagged unsupported items, leak scan, and human clinical review for final use.",
+      "The source encounter, the generated note, a second-opinion verdict, flagged unsupported items, leak scan, and human clinical review for final use.",
     support:
-      "The Lab already supports this path and produces a copyable evidence packet.",
+      "The second-opinion Lab supports this path and produces a copyable evidence packet.",
     nextAction:
       "Paste the source and note in the Lab, run the judge, then review any flagged claims manually.",
     ask:
@@ -3066,7 +3066,7 @@ function liveSmokeButtons() {
 function setLiveSmokeBusy(isBusy) {
   liveSmokeButtons().forEach((button) => {
     button.disabled = isBusy;
-    const fallback = button.dataset.defaultLabel || "Run current-model smoke";
+    const fallback = button.dataset.defaultLabel || "Smoke current models";
     button.textContent = isBusy ? (button.dataset.runningLabel || fallback) : fallback;
   });
 }

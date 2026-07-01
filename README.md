@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 94](https://img.shields.io/badge/tests-94%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 99](https://img.shields.io/badge/tests-99%20passing-brightgreen)
 
 **A public workbench for finding invented care in AI-generated clinical notes.**
 
@@ -21,14 +21,14 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 
 | If you want to... | Go here | What you get |
 |-------------------|---------|--------------|
-| Check one AI-scribe note | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
-| Try a current free-model smoke | [Live checker](https://scribe-bench.vercel.app/#quick-check) | A first-screen smoke packet from the configured OpenRouter free-model path. Smoke only; not a ranked result. |
+| Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Try a current free-model smoke | [Smoke current models](https://scribe-bench.vercel.app/#quick-check) | A first-screen smoke packet from the configured OpenRouter free-model path. Smoke only; not a ranked result. |
 | See what is usable now | [Today's answer](https://scribe-bench.vercel.app/#main) | What one-note receipts can support today, what the current PriMock57 row is missing, and why old rows are not a current winner board. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
 | Share one public artifact | [Public evidence card](https://scribe-bench.vercel.app/#quick-check) | A single copy-ready card created from a note receipt, current smoke packet, or claim ask. |
 | Understand what the current rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Share what ScribeBench found | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a QA post, vendor evidence ask, or current-row request. |
-| Add a citable public row | [Add row](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
+| Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
 
 The public website is not a consumer app, a patient app, clinical clearance, or
 a current model buying guide. The existing rows are launch baselines and smoke
@@ -53,12 +53,12 @@ The historical table orders powered PriMock57 runs by **dangerous-fabrication ra
 
 The current ranked rows are **historical launch baselines from June 2, 2026**. They prove the powered PriMock57 path and show the failure gradient, but they are not a current buying guide. The next public work is to add current production, frontier, open-weight, and vendor-system rows as powered PriMock57 runs.
 
-On June 30, 2026, the production Vercel site also passed a live current-model
-PriMock57 smoke test: PM57-d1c01 was generated and judged through the public
-OpenRouter path with `nvidia/nemotron-3-ultra-550b-a55b:free`, returning a
-parseable score of `normalized=100`, `inputFidelity=5`, zero dangerous
-fabrications, and zero leaks. That is a plumbing proof, not a ranked claim; a
-full public row still needs all 57 cases with declared repeats.
+As of July 1, 2026, the production Vercel path has a public current-run blocker
+receipt, not a ranked current row: 30 PriMock57 cases were selected, 30 were
+attempted, 13 generated candidate notes, 9 scored, and 21 blocked or errored
+after the OpenRouter free-model cap was hit. The partial aggregate is useful
+plumbing evidence only; a citeable current row still needs at least 30 scored
+PriMock57 cases, preferably all 57, with declared repeats and exclusions.
 
 | System | Dataset | n | Narrative ↑ (95% CI) | Fidelity ↑ | Dangerous-fab ↓ (95% CI) | Leak ↓ | Judge |
 |--------|---------|---|----------------------|-----------|--------------------------|--------|-------|
@@ -101,7 +101,7 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 Use the website for six jobs:
 
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, medication changes, diagnoses, orders, and test results. No API key required.
-2. **Try a current-model smoke.** Use the first-screen smoke action to generate and judge the seeded case with the configured OpenRouter free-model path. Treat the packet as plumbing evidence, not a ranked result.
+2. **Smoke current models.** Use the first-screen smoke action to generate and judge the seeded case with the configured OpenRouter free-model path. Treat the packet as plumbing evidence, not a ranked result.
 3. **Read today's answer.** The first screen says what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
 5. **Share one public card.** Convert a note receipt, current smoke packet, or claim ask into one copy-ready evidence card with what happened, evidence level, boundary, and next public ask.
@@ -115,7 +115,7 @@ What the repo contains:
 
 | Piece | Files | Purpose |
 |-------|-------|---------|
-| Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, Lab, and run builder. |
+| Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, optional second-opinion Lab, and aggregate row builder. |
 | Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, medication changes, invented orders/referrals/disposition, lab/imaging/ECG result claims, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
 | Live API | `api/generate.js`, `api/judge.js`, `api/models.js` | Optional model-backed generation and judging for the Lab through OpenRouter or Baseten-compatible APIs. |
 | Eval engine | `eval/` | TypeScript harness for narrative quality, input fidelity, dangerous fabrication, leak checks, repeats, and bootstrap intervals. |
@@ -219,12 +219,13 @@ errored/excluded and can resume once credits or another judge backend are availa
 The public site exposes that blocker in `/assets/current-run.json` and gives a
 copyable resume command in the Evidence section.
 
-Current status: on **July 1, 2026 ICT** (**June 30, 2026 20:09 UTC**), the live
-public API runner was retried against the first five PriMock57 cases. PM57-d1c01
-is scored; PM57-d1c02 and PM57-d1c03 have cached generated notes but their judge
-calls hit OpenRouter's free-model daily cap; PM57-d1c04 and PM57-d1c05 could not
-generate for the same cap. That leaves the current row at **1/5 attempted** and
-**1/57 target cases scored**. It is a blocker receipt, not a model result.
+Current status: on **July 1, 2026 ICT** (**July 1, 2026 03:04 UTC**), the live
+public API runner selected and attempted 30 PriMock57 cases. It generated notes
+for **13/30**, scored **9/30 attempted cases** (**9/57 target cases**), and left
+**21/30 blocked or errored** after the OpenRouter free-model cap was hit. This is
+a blocker receipt and partial plumbing signal, not a model result or current
+ranking. Resume with credits, a non-capped provider key, or a second judge before
+publishing any ranked current row.
 
 ## Datasets
 
