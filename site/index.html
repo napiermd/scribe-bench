@@ -129,6 +129,33 @@
               The seeded fall case is loaded so the artifact is visible immediately.
               Switch to your own source-note pair when you want a usable QA packet.
             </p>
+            <div class="current-model-lane" aria-labelledby="current-model-lane-title">
+              <div class="current-model-lane-head">
+                <span class="queue-status open" id="current-model-lane-status">Loading</span>
+                <div>
+                  <p class="eyebrow">Current model lane</p>
+                  <h3 id="current-model-lane-title">Smoke-check live free models, then demand powered rows.</h3>
+                </div>
+              </div>
+              <p id="current-model-lane-copy">
+                Loading the configured OpenRouter free-model list. This is the fresh path; old rows stay historical until a powered run exists.
+              </p>
+              <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
+                <li>Loading current free models...</li>
+              </ul>
+              <div class="current-model-lane-actions">
+                <button
+                  class="button secondary compact-button"
+                  id="current-model-run-smoke"
+                  type="button"
+                  data-default-label="Run smoke here"
+                  data-running-label="Running smoke check..."
+                >
+                  Run smoke here
+                </button>
+                <a class="button secondary compact-button" href="#lab">Choose model in Lab</a>
+              </div>
+            </div>
             <p class="mobile-proof">
               <strong>Why this matters:</strong> a fluent AI note can add care that never happened.
               ScribeBench turns that gap into a review packet and copyable evidence card; one

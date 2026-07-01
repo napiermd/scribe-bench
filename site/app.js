@@ -2083,11 +2083,21 @@ async function loadLabModels(force = false) {
     const payload = await response.json();
     if (!response.ok) throw new Error(payload.error || `Models failed (${response.status})`);
     renderModelOptions(payload.models || config.defaultModels);
+    renderCurrentModelLane(payload.models || config.defaultModels, {
+      configured: Boolean(payload.configured),
+      provider,
+      warning: payload.warning || "",
+    });
     updateLiveSmokeReadiness(payload.models || config.defaultModels, payload.configured);
     if (payload.warning) setLabStatus(payload.warning);
     else if (force) setLabStatus(`${config.label} model list refreshed.`);
   } catch (_) {
     renderModelOptions(config.defaultModels);
+    renderCurrentModelLane(config.defaultModels, {
+      configured: false,
+      provider,
+      warning: `Could not reach ${config.label}; using the fallback list.`,
+    });
     updateLiveSmokeReadiness(config.defaultModels, false);
     if (force) setLabStatus(`Could not reach ${config.label} model list; using fallback models.`);
   }
@@ -2125,6 +2135,49 @@ function populateModelSelect(select, models, preferredId) {
   } else if (preferredId && options.some((option) => option.value === preferredId)) {
     select.value = preferredId;
   }
+}
+
+function renderCurrentModelLane(models, { configured = false, provider = "openrouter", warning = "" } = {}) {
+  const status = document.getElementById("current-model-lane-status");
+  const copy = document.getElementById("current-model-lane-copy");
+  const list = document.getElementById("current-model-list");
+  if (!status || !copy || !list) return;
+
+  const visibleModels = Array.isArray(models) ? models.filter((model) => model?.id).slice(0, 4) : [];
+  const providerLabel = providerConfigs[provider]?.label || provider;
+  const count = Array.isArray(models) ? models.filter((model) => model?.id).length : 0;
+
+  status.textContent = count ? `${count} live options` : "No models";
+  status.className = `queue-status ${configured && count ? "ready" : count ? "open" : "needed"}`;
+  copy.textContent = count
+    ? `${providerLabel} returned ${count} usable model${count === 1 ? "" : "s"} for smoke checks. Use this lane to test current behavior, then require a powered PriMock57 row before citing a winner.`
+    : `${providerLabel} did not return a usable model list. The browser receipt still works without a model call.`;
+  if (warning && count) {
+    copy.textContent += ` ${warning}`;
+  }
+
+  list.innerHTML = "";
+  if (!visibleModels.length) {
+    const item = document.createElement("li");
+    item.textContent = "No current model options loaded.";
+    list.appendChild(item);
+    return;
+  }
+
+  for (const model of visibleModels) {
+    const item = document.createElement("li");
+    const name = document.createElement("strong");
+    const meta = document.createElement("span");
+    name.textContent = readableModelName(model);
+    meta.textContent = model.id;
+    item.append(name, meta);
+    list.appendChild(item);
+  }
+}
+
+function readableModelName(model) {
+  const raw = String(model?.name || model?.id || "Current model").replace(/\s+/g, " ").trim();
+  return raw.replace(/\s*\([^)]*\)\s*$/, "").trim() || raw;
 }
 
 function modelSelects() {
@@ -2318,7 +2371,7 @@ function runSeededLocalReceipt(event) {
 
 async function runLiveSmokeCheck(event) {
   event?.preventDefault?.();
-  const launchedFromTop = event?.currentTarget?.id === "run-live-smoke-top";
+  const launchedFromTop = ["run-live-smoke-top", "current-model-run-smoke"].includes(event?.currentTarget?.id);
   const c = seededCase();
   if (!c) {
     setLiveSmokeStatus("Demo cases are still loading. Try again in a moment.", "review");
@@ -2980,7 +3033,7 @@ function setInstantReceiptStatus(message, tone = "") {
 }
 
 function liveSmokeButtons() {
-  return ["run-live-smoke-top", "run-live-smoke-lab"]
+  return ["current-model-run-smoke", "run-live-smoke-top", "run-live-smoke-lab"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 }

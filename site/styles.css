@@ -772,6 +772,77 @@ h4 {
   font-size: 0.92rem;
 }
 
+.current-model-lane {
+  display: grid;
+  gap: 0.75rem;
+  border: 1px solid rgba(37, 94, 143, 0.24);
+  border-left: 4px solid var(--blue);
+  background: #eef6fb;
+  padding: 0.9rem;
+}
+
+.current-model-lane-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.85rem;
+}
+
+.current-model-lane-head .eyebrow {
+  margin-bottom: 0.3rem;
+}
+
+.current-model-lane h3 {
+  color: var(--ink);
+  font-size: 1.04rem;
+  line-height: 1.2;
+}
+
+.current-model-lane p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.38;
+  margin: 0;
+}
+
+.current-model-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.55rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.current-model-list li {
+  display: grid;
+  min-width: 0;
+  gap: 0.18rem;
+  border: 1px solid rgba(37, 94, 143, 0.16);
+  background: var(--panel);
+  padding: 0.58rem 0.64rem;
+}
+
+.current-model-list strong {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.18;
+}
+
+.current-model-list span {
+  color: var(--blue);
+  font-size: 0.68rem;
+  font-weight: 750;
+  line-height: 1.24;
+  overflow-wrap: anywhere;
+}
+
+.current-model-lane-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
 .quick-proof-label {
   color: var(--accent-strong);
   font-size: 0.68rem;
@@ -4648,6 +4719,7 @@ h4 {
   .quick-paths,
   .quick-proof-modes,
   .quick-capability-grid,
+  .current-model-list,
   .quick-output-contract,
   .start-router-panel,
   .start-route-steps,
@@ -4735,6 +4807,7 @@ h4 {
   .instant-receipt-lane .button,
   .live-smoke-lane .button,
   .quick-check-actions .button,
+  .current-model-lane-actions .button,
   .quick-result-actions .button,
   .quick-use-actions .button,
   .quick-smoke-actions .button,
