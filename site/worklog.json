@@ -4,10 +4,23 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The artifact names now line up",
+      "why": "The first screen now promised a QA finding, but lower sections still used too many artifact names for the same visitor job. That made the product feel like separate demos instead of one public workflow.",
+      "proof": "Standardized public-facing copy around three outputs: one-note QA finding, claim evidence ask, and multi-note aggregate row. The Lab is now a second-read review behind the QA finding, and the current run is a blocker status instead of pretending to be a leaderboard.",
+      "next": "Keep checking every new section against the same vocabulary so visitors do not have to decode internal benchmark language before using the site.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Second-read review", "href": "#lab" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now asks the plain question",
-      "why": "The checker still led with internal artifact words like receipt, review packet, and evidence boundary before saying the simple job: did the AI scribe make up care?",
+      "why": "The checker still led with internal artifact language before saying the simple job: did the AI scribe make up care?",
       "proof": "Changed the opening headline to the plain question, rewrote the purpose strip around real encounter plus AI note, unsupported clinical claims, and a copy-paste QA finding, and renamed the primary actions to Check my note, Copy seeded finding, and Open demo finding.",
-      "next": "Keep benchmark, receipt, and row language below the first action so cold visitors understand the one-note QA job before the repo machinery.",
+      "next": "Keep benchmark and row language below the first action so cold visitors understand the one-note QA job before the repo machinery.",
       "links": [
         { "label": "Check one note", "href": "#quick-check" },
         { "label": "QA finding", "href": "#quick-result" },
@@ -19,11 +32,11 @@
       "status": "shipped",
       "title": "The duplicate intro layer is gone",
       "why": "Once the first checker explained who it is for and what artifact it produces, the old hero, role router, public contract, and proof-trail panel repeated the same promise before the visitor could use the tool.",
-      "proof": "Removed the duplicate intro panel, start-route buttons, copy-route fallback, and proof-trail wiring. The opening band now starts with the source-vs-note checker, and the after-the-receipt guide handles the next bounded actions.",
-      "next": "Keep one surface per job: checker first, receipt guide next, claim checker for broad promises, and aggregate-row tools only when someone is ready to publish evidence.",
+      "proof": "Removed the duplicate intro panel, start-route buttons, copy-route fallback, and proof-trail wiring. The opening band now starts with the source-vs-note checker, and the after-the-finding guide handles the next bounded actions.",
+      "next": "Keep one surface per job: checker first, finding guide next, claim checker for broad promises, and aggregate-row tools only when someone is ready to publish evidence.",
       "links": [
         { "label": "Check one note", "href": "#quick-check" },
-        { "label": "After the receipt", "href": "#next-steps" },
+        { "label": "After the finding", "href": "#next-steps" },
         { "label": "Claim checker", "href": "#claim-check" }
       ]
     },
@@ -32,11 +45,11 @@
       "status": "shipped",
       "title": "The checker now says who should use it",
       "why": "The first real viewport is the note checker, not the longer intro. That means the checker itself has to explain who it is for, why invented care matters, and what artifact a visitor leaves with.",
-      "proof": "Added a first-screen purpose strip for people holding evidence: clinical QA reviewers, buyers, and builders can catch unsupported care and leave with a copy-ready review packet. The same point is now mirrored in the README.",
-      "next": "Keep the first screen focused on the visitor's evidence-in-hand job: source plus note, unsupported-care contradiction, review packet, and boundary before any benchmark machinery.",
+      "proof": "Added a first-screen purpose strip for people holding evidence: clinical QA reviewers, buyers, and builders can catch unsupported care and leave with a copy-ready QA finding. The same point is now mirrored in the README.",
+      "next": "Keep the first screen focused on the visitor's evidence-in-hand job: source plus note, unsupported-care contradiction, QA finding, and boundary before any benchmark machinery.",
       "links": [
         { "label": "Check one note", "href": "#quick-check" },
-        { "label": "Review packet", "href": "#quick-result" },
+        { "label": "QA finding", "href": "#quick-result" },
         { "label": "GitHub README", "href": "https://github.com/napiermd/scribe-bench" }
       ]
     },
@@ -44,22 +57,22 @@
       "date": "2026-07-01",
       "status": "shipped",
       "title": "The repo handoff now matches the product contract",
-      "why": "The first screen now says one note becomes a review packet, but the guide and README still used older review-card and evidence-card language. That made the GitHub handoff feel like a different product.",
-      "proof": "Aligned the public guide, repo explanation, mobile proof note, and README around the same artifact model: one note becomes a review packet, one claim becomes an evidence ask, and many declared notes can become a scores-only aggregate row.",
+      "why": "The first screen now says one note becomes a QA finding, but the guide and README still used older artifact language. That made the GitHub handoff feel like a different product.",
+      "proof": "Aligned the public guide, repo explanation, mobile proof note, and README around the same artifact model: one note becomes a QA finding, one claim becomes an evidence ask, and many declared notes can become a scores-only aggregate row.",
       "next": "Keep the site, README, and worklog using the same artifact names so public readers never have to infer what the repo is for.",
       "links": [
         { "label": "Public guide", "href": "#next-steps" },
         { "label": "GitHub README", "href": "https://github.com/napiermd/scribe-bench" },
-        { "label": "Review packet", "href": "#quick-check" }
+        { "label": "QA finding", "href": "#quick-check" }
       ]
     },
     {
       "date": "2026-07-01",
       "status": "shipped",
       "title": "The first screen now states the public contract",
-      "why": "The opening panel still split purpose across what/who/point cards and a separate route chooser. A cold visitor could see the checker working without understanding the larger rule: one note gets a receipt, but broad AI-scribe claims need aggregate rows.",
-      "proof": "Replaced the first-screen purpose cards with a compact public contract: one note becomes a QA packet, one claim becomes an evidence ask, and many notes become an aggregate row only after a declared run.",
-      "next": "Keep measuring every first-screen block against the same question: does it help someone paste evidence, copy a packet, challenge a claim, or build a row?",
+      "why": "The opening panel still split purpose across what/who/point cards and a separate route chooser. A cold visitor could see the checker working without understanding the larger rule: one note gets a QA finding, but broad AI-scribe claims need aggregate rows.",
+      "proof": "Replaced the first-screen purpose cards with a compact public contract: one note becomes a QA finding, one claim becomes an evidence ask, and many notes become an aggregate row only after a declared run.",
+      "next": "Keep measuring every first-screen block against the same question: does it help someone paste evidence, copy a QA finding, challenge a claim, or build a row?",
       "links": [
         { "label": "Start here", "href": "#main" },
         { "label": "Check one note", "href": "#quick-check" },

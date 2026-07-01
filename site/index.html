@@ -243,16 +243,16 @@
             </form>
             <div class="public-evidence-card" id="public-evidence-card" hidden aria-live="polite">
               <div class="public-evidence-card-head">
-                <span class="queue-status open" id="public-evidence-card-status">Evidence card</span>
+                <span class="queue-status open" id="public-evidence-card-status">Evidence ask</span>
                 <div>
-                  <p class="eyebrow">Public evidence card</p>
-                  <h3 id="public-evidence-card-title">Create a public artifact from this result</h3>
+                  <p class="eyebrow">Public evidence ask</p>
+                  <h3 id="public-evidence-card-title">Turn this into an evidence ask</h3>
                 </div>
               </div>
               <p id="public-evidence-card-summary">
-                Challenge a claim or test the second-read path to create one concise public card.
+                Challenge a claim or test the second-read path to create one concise public ask.
               </p>
-              <dl class="public-evidence-card-grid" aria-label="ScribeBench public evidence card">
+              <dl class="public-evidence-card-grid" aria-label="ScribeBench public evidence ask">
                 <div>
                   <dt>What happened</dt>
                   <dd id="public-evidence-card-happened">--</dd>
@@ -276,13 +276,13 @@
               </div>
               <div class="public-evidence-card-actions">
                 <button class="button primary compact-button" id="quick-start-own-note" type="button">Check your own note</button>
-                <button class="button secondary compact-button" id="copy-public-evidence-card" type="button">Copy evidence card</button>
+                <button class="button secondary compact-button" id="copy-public-evidence-card" type="button">Copy evidence ask</button>
                 <a class="button secondary compact-button" id="public-card-claim-link" href="#claim-check">Challenge claim</a>
                 <a class="button secondary compact-button" id="public-card-row-link" href="#run">Add powered row</a>
                 <span id="public-evidence-card-copy-status" role="status" aria-live="polite"></span>
               </div>
               <div class="public-evidence-card-preview">
-                <strong>Copy-ready card</strong>
+                <strong>Copy-ready ask</strong>
                 <pre class="code-block"><code id="public-evidence-card-output"></code></pre>
               </div>
               <textarea
@@ -290,21 +290,21 @@
                 id="public-evidence-card-copy-fallback"
                 readonly
                 hidden
-                aria-label="ScribeBench public evidence card copy"
+                aria-label="ScribeBench public evidence ask copy"
               ></textarea>
             </div>
             <div class="quick-smoke-artifact" id="quick-smoke-artifact" hidden aria-live="polite">
               <div class="quick-smoke-head">
                 <span class="queue-status open" id="quick-smoke-status">Smoke</span>
                 <div>
-                  <p class="eyebrow">Second-read smoke packet</p>
+                  <p class="eyebrow">Second-read smoke review</p>
                   <h3 id="quick-smoke-title">Test the second-read path</h3>
                 </div>
               </div>
               <p id="quick-smoke-copy">
-                Generate a fresh note for the seeded case, judge it against the source, and leave with a smoke-only review packet.
+                Generate a fresh note for the seeded case, judge it against the source, and leave with a smoke-only second-read review.
               </p>
-              <dl class="quick-smoke-grid" aria-label="Second-read smoke packet details">
+              <dl class="quick-smoke-grid" aria-label="Second-read smoke review details">
                 <div>
                   <dt>Case</dt>
                   <dd id="quick-smoke-case">SYN-003</dd>
@@ -323,7 +323,7 @@
                 </div>
               </dl>
               <div class="quick-smoke-actions">
-                <button class="button primary compact-button" id="copy-quick-smoke-packet" type="button">Copy smoke packet</button>
+                <button class="button primary compact-button" id="copy-quick-smoke-packet" type="button">Copy smoke review</button>
                 <a class="button secondary compact-button" href="#lab">Open Lab result</a>
                 <a class="button secondary compact-button" href="#run">Add powered row</a>
                 <span id="quick-smoke-copy-status" role="status" aria-live="polite"></span>
@@ -333,7 +333,7 @@
                 id="quick-smoke-copy-fallback"
                 readonly
                 hidden
-                aria-label="ScribeBench second-read smoke evidence packet"
+                aria-label="ScribeBench second-read smoke review"
               ></textarea>
             </div>
             <p class="mobile-proof">
@@ -455,7 +455,7 @@
             <h3>If someone asks what this is, say: public QA harness.</h3>
             <p>
               The repo is the reproducible machinery behind the site: browser
-              receipt, optional Lab APIs, evaluator, public cases, worklog, and
+              checker, optional Lab APIs, evaluator, public cases, worklog, and
               scores-only evidence ledger.
             </p>
             <div class="after-receipt-actions">
@@ -514,7 +514,7 @@
             </label>
             <div class="claim-actions">
               <button class="button primary compact-button" id="copy-claim-ask" data-copy-claim-ask type="button">Copy public ask</button>
-              <button class="button secondary compact-button" id="claim-send-card" type="button">Make evidence card</button>
+              <button class="button secondary compact-button" id="claim-send-card" type="button">Make evidence ask</button>
               <p id="claim-copy-status" role="status" aria-live="polite"></p>
             </div>
             <textarea
@@ -648,8 +648,8 @@
             <p class="eyebrow">Public answer</p>
             <h3 id="evidence-answer-title">Use it now for note review; help finish the current row for comparisons.</h3>
             <p>
-              ScribeBench is worthwhile when it creates a receipt: source, note, flagged unsupported care,
-              evidence level, and the next public ask. The aggregate ledger is the audit trail behind that receipt,
+              ScribeBench is worthwhile when it creates a QA finding: source, note, flagged unsupported care,
+              evidence level, and the next public ask. The aggregate ledger is the audit trail behind that finding,
               and the current public task is to turn 9/57 scored cases into a publishable row.
             </p>
             <div class="evidence-answer-actions">
@@ -673,8 +673,8 @@
           <div class="evidence-answer-grid" aria-label="What ScribeBench evidence can support">
             <article>
               <span class="queue-status ready">Works today</span>
-              <h3>One-note review packet</h3>
-              <p>Use a source encounter plus generated note to catch unsupported care and copy a review packet.</p>
+              <h3>One-note QA finding</h3>
+              <p>Use a source encounter plus generated note to catch unsupported care and copy a QA finding.</p>
               <a href="#quick-check">Open checker</a>
             </article>
             <article>
@@ -721,7 +721,7 @@
           </div>
           <div class="current-run-task" aria-label="Open public task for the current row">
             <div class="current-run-task-copy">
-              <span class="queue-status needed">Blocker receipt</span>
+              <span class="queue-status needed">Current-row blocker</span>
               <h4 id="current-run-task-title">Finish the current row before ranking anyone.</h4>
               <p id="current-run-task-copy">Need 21 more scored PriMock57 cases to reach the 30-case publishable threshold; all public output stays aggregate-only.</p>
             </div>
@@ -740,7 +740,7 @@
               </div>
             </dl>
           </div>
-          <dl class="current-run-proof-strip" aria-label="Current PriMock57 run blocker receipt">
+          <dl class="current-run-proof-strip" aria-label="Current PriMock57 run blocker status">
             <div>
               <dt>Scored</dt>
               <dd id="current-run-scored">9/57 scored</dd>
@@ -926,13 +926,13 @@
             <p class="eyebrow">Optional second opinion</p>
             <h2>Use the Lab only when one note needs a second read.</h2>
             <p>
-              Start from the browser receipt. The Lab can ask a live judge for a
-              bounded second read, but every output remains a review packet, never
+              Start from the browser check. The Lab can ask a live judge for a
+              bounded second read, but every output remains a QA finding, never
               a ranking.
             </p>
           </div>
           <div class="split-actions">
-            <a class="button secondary compact-button" href="#quick-check">Start with browser receipt</a>
+            <a class="button secondary compact-button" href="#quick-check">Start with browser check</a>
           </div>
         </div>
 
@@ -944,7 +944,7 @@
           </article>
           <article>
             <span>Do first</span>
-            <strong>Run or copy the browser receipt.</strong>
+            <strong>Run or copy the browser check.</strong>
             <p>The deterministic check catches unsupported care before any provider model is involved.</p>
           </article>
           <article>
@@ -955,7 +955,7 @@
           <article>
             <span>Do not claim</span>
             <strong>No ranking from a Lab call.</strong>
-            <p>A Lab result is a review packet or smoke check. System claims still need aggregate rows.</p>
+            <p>A Lab result is a QA finding or smoke check. System claims still need aggregate rows.</p>
           </article>
         </div>
 
@@ -973,7 +973,7 @@
             </div>
 
             <div class="lab-actions">
-              <button class="button primary" id="run-local-receipt" type="button">Run no-key receipt</button>
+              <button class="button primary" id="run-local-receipt" type="button">Run no-key check</button>
               <button class="button secondary" id="run-lab" type="submit">Ask live judge for review</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
@@ -994,7 +994,7 @@
             <details class="lab-model-settings">
               <summary>
                 <span>Provider settings (optional)</span>
-                <small>Use only after a receipt needs a live second read.</small>
+                <small>Use only after a QA finding needs a live second read.</small>
               </summary>
 
               <div class="field-row lab-model-row">
@@ -1034,9 +1034,9 @@
           <aside class="lab-results" aria-live="polite">
             <div class="lab-empty" id="lab-empty">
               <p class="eyebrow">Next step</p>
-              <h3 id="lab-empty-title">Start with the no-key receipt</h3>
+              <h3 id="lab-empty-title">Start with the no-key check</h3>
               <p id="lab-empty-copy">
-                Run the browser receipt first. Ask a live judge only if this source-note
+                Run the browser check first. Ask a live judge only if this source-note
                 pair needs a stronger second opinion.
               </p>
               <p id="lab-empty-detail">
@@ -1044,7 +1044,7 @@
                 the text anytime for your own review.
               </p>
               <div class="lab-empty-actions">
-                <button class="button primary compact-button" id="lab-empty-local" type="button">Run no-key receipt</button>
+                <button class="button primary compact-button" id="lab-empty-local" type="button">Run no-key check</button>
                 <button class="button secondary compact-button" id="lab-empty-run" type="button">Ask live judge for review</button>
                 <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
               </div>
@@ -1074,7 +1074,7 @@
               <section class="evidence-packet" id="evidence-packet" aria-labelledby="evidence-packet-title">
                 <div class="evidence-packet-head">
                   <div>
-                    <p class="eyebrow">Review packet</p>
+                    <p class="eyebrow">Second-read review</p>
                     <h3 id="evidence-packet-title">What to do with this result</h3>
                   </div>
                   <span id="packet-scope">Smoke only</span>
@@ -1099,12 +1099,12 @@
                 </dl>
                 <div class="packet-finding">
                   <h4>Public finding</h4>
-                  <p id="packet-finding">Run the judge to create a packet.</p>
+                  <p id="packet-finding">Run the judge to create a review.</p>
                 </div>
               </section>
 
               <div class="result-actions">
-                <button class="button secondary compact-button" id="copy-evidence-packet" type="button">Copy review packet</button>
+                <button class="button secondary compact-button" id="copy-evidence-packet" type="button">Copy second-read review</button>
                 <button class="button secondary compact-button" id="copy-lab-summary" type="button">Copy detailed review</button>
                 <span id="lab-copy-status" role="status" aria-live="polite"></span>
               </div>
@@ -1147,8 +1147,8 @@
           <article>
             <span>1</span>
             <div>
-              <strong>Start with the receipt</strong>
-              <p>If one note is the evidence you have, keep the output scoped to a QA packet.</p>
+              <strong>Start with the QA finding</strong>
+              <p>If one note is the evidence you have, keep the output scoped to a QA finding.</p>
             </div>
           </article>
           <article>
@@ -1174,7 +1174,7 @@
               <h3>Show model status and smoke test</h3>
               <p>
                 Closed by default because provider readiness is plumbing. Open only
-                when a review packet needs a live second-read check.
+                when a QA finding needs a live second-read check.
               </p>
             </div>
             <span class="archive-summary-status">Open provider tools</span>
@@ -1185,12 +1185,12 @@
               <span class="queue-status open" id="current-model-lane-status">Loading</span>
               <div>
                 <p class="eyebrow">Current model lane</p>
-                <h3 id="current-model-lane-title">Second-opinion models stay behind the receipt.</h3>
+                <h3 id="current-model-lane-title">Second-opinion models stay behind the QA finding.</h3>
               </div>
             </div>
             <p id="current-model-lane-copy">
               Loading provider readiness for bounded second reads. Use this only after the
-              browser receipt shows a source-note issue that needs another look.
+              browser check shows a source-note issue that needs another look.
             </p>
             <ul class="current-model-list" id="current-model-list" aria-label="Provider status for second reads">
               <li>
@@ -1219,10 +1219,10 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Walk-up demo</p>
-            <h2>See the source-vs-note receipt on real examples</h2>
+            <h2>See the source-vs-note check on real examples</h2>
             <p>
               The bundled synthetic cases show the product mechanic without an API key:
-              compare the source with the candidate note, then read the browser receipt
+              compare the source with the candidate note, then read the browser check
               for unsupported care, leaks, and the next proof step.
             </p>
           </div>
@@ -1245,12 +1245,12 @@
             <article class="case-receipt-panel" id="case-receipt" aria-live="polite">
               <div class="case-receipt-head">
                 <div>
-                  <p class="eyebrow">Browser receipt</p>
-                  <h4 id="case-receipt-title">Loading receipt...</h4>
+                  <p class="eyebrow">Browser check</p>
+                  <h4 id="case-receipt-title">Loading check...</h4>
                 </div>
                 <span class="queue-status open" id="case-receipt-status">Checking</span>
               </div>
-              <dl class="case-receipt-metrics" aria-label="Selected demo local receipt metrics">
+              <dl class="case-receipt-metrics" aria-label="Selected demo local check metrics">
                 <div>
                   <dt>Score</dt>
                   <dd id="case-receipt-score">--</dd>

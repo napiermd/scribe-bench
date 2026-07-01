@@ -17,7 +17,7 @@ The system loop is simple: **one note becomes a QA finding; one claim becomes an
 - **Check one AI-scribe note** in the browser and copy a reviewer-ready QA finding with excerpts, issue flags, boundaries, and the next proof step.
 - **Choose the smallest honest next step after a finding** — review one note, challenge a larger claim, finish a current row, or explain the repo.
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
-- **Explain the repo** as a public QA harness: browser receipt, optional Lab APIs, evaluator, public cases, worklog, and scores-only evidence ledger.
+- **Explain the repo** as a public QA harness: browser checker, optional Lab APIs, evaluator, public cases, worklog, and scores-only evidence ledger.
 - **Read the evidence ledger** without mistaking historical launch baselines or smoke checks for a current model ranking.
 - **Copy the citation boundary** so old launch rows are discussed as failure-gradient evidence, not as today's best-model claim.
 - **Help finish the current PriMock57 row** by resuming the public API run or submitting a scores-only aggregate row from your own system.
@@ -38,8 +38,8 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 | Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. |
 | Decide what to do after a finding | [After-the-finding guide](https://scribe-bench.vercel.app/#public-action-kit) | Four bounded paths: hold or review the note, challenge a larger claim, finish a scored row, or explain the repo. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
-| Understand what the rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
-| Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored receipt, excluded-case boundary, and resume command for the public API row. |
+| Understand what the rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness boundary separating one-note proof, historical rows, smoke tests, and current-model gaps. |
+| Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored blocker status, excluded-case boundary, and resume command for the public API row. |
 | Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
 | Reuse or audit the machinery | [`site/`](site/), [`eval/`](eval/), [`leaderboard/results.json`](leaderboard/results.json) | The static site, evaluator, public cases, and scores-only ledger behind the public artifacts. |
 
@@ -54,7 +54,7 @@ such as [ACI-Bench](#prior-work), MEDIQA-Chat, and MedHallu:
 
 2. **An honest accounting of rater fragility.** In the calibration work behind ScribeBench, three board-certified physicians reviewed the same 36 blind A/B note pairs (84 total ratings). The primary overlapping rater pair agreed at **κ = 0.028** across 35 shared ratings (wide confidence interval), barely above chance. And in the same production data, binary structural completeness correlated with physician preference at **ρ = −0.077** (not significant): the *most complete* note is not the one physicians prefer. If your eval rests on a single rater or a checklist, you are measuring the rater or the checklist, not quality. ScribeBench reports aggregate rates with bootstrap confidence intervals for this reason.
 
-> Companion preprint: [*Closed-Loop Quality Assurance for Production Clinical AI Documentation*](https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1) (medRxiv, DOI: [10.64898/2026.05.27.26353977v1](https://doi.org/10.64898/2026.05.27.26353977v1)). ScribeBench is its open walk-up artifact: one-note receipts, aggregate evidence rows, and a public contribution path for testing whether AI-scribe notes stay faithful to the source. **Disclosure:** authored by a Sayvant co-founder; the judges and rubric are generalized from Sayvant's production QA system. See [Disclosure](#disclosure).
+> Companion preprint: [*Closed-Loop Quality Assurance for Production Clinical AI Documentation*](https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1) (medRxiv, DOI: [10.64898/2026.05.27.26353977v1](https://doi.org/10.64898/2026.05.27.26353977v1)). ScribeBench is its open walk-up artifact: one-note QA findings, aggregate evidence rows, and a public contribution path for testing whether AI-scribe notes stay faithful to the source. **Disclosure:** authored by a Sayvant co-founder; the judges and rubric are generalized from Sayvant's production QA system. See [Disclosure](#disclosure).
 
 ---
 
@@ -67,7 +67,7 @@ The historical table orders powered PriMock57 runs by **dangerous-fabrication ra
 The current ranked rows are **historical launch baselines from June 2, 2026**. They prove the powered PriMock57 path and show the failure gradient, but they are not a current buying guide. The next public work is to add current production, frontier, open-weight, and vendor-system rows as powered PriMock57 runs.
 
 As of July 1, 2026, the production Vercel path has a public current-run blocker
-receipt, not a ranked current row: 30 PriMock57 cases were selected, 30 were
+status, not a ranked current row: 30 PriMock57 cases were selected, 30 were
 attempted, 13 generated candidate notes, 9 scored, and 21 blocked or errored
 after the OpenRouter free-model cap was hit. The partial aggregate is useful
 plumbing evidence only; a citeable current row still needs at least 30 scored
@@ -115,9 +115,9 @@ Use the website for six jobs:
 
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, procedures, medication changes, diagnoses, orders, and test results. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
-3. **Read today's answer.** The checker, after-the-receipt guide, and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
+3. **Read today's answer.** The checker, after-the-finding guide, and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
 4. **Choose the next bounded action.** After a finding, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.
-5. **Run optional Lab checks.** Use configured provider models for generation and second-opinion judging when you want plumbing evidence. Treat those packets as smoke or review artifacts, not ranked results.
+5. **Run optional Lab checks.** Use configured provider models for generation and second-opinion judging when you want plumbing evidence. Treat those second-read reviews as smoke or review artifacts, not ranked results.
 6. **Publish aggregate evidence.** Use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
 The site is not the scribe product, not a patient app, not clinical clearance,
@@ -236,7 +236,7 @@ Current status: on **July 1, 2026 ICT** (**July 1, 2026 03:04 UTC**), the live
 public API runner selected and attempted 30 PriMock57 cases. It generated notes
 for **13/30**, scored **9/30 attempted cases** (**9/57 target cases**), and left
 **21/30 blocked or errored** after the OpenRouter free-model cap was hit. This is
-a blocker receipt and partial plumbing signal, not a model result or current
+a blocker status and partial plumbing signal, not a model result or current
 ranking. Resume with credits, a non-capped provider key, or a second judge before
 publishing any ranked current row.
 

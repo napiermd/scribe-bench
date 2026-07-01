@@ -176,12 +176,12 @@ describe('site copy and labels', () => {
     expect(labSection).toContain('Use the Lab only when one note needs a second read.');
     expect(labSection).toContain('lab-contract');
     expect(labSection).toContain('Use when');
-    expect(labSection).toContain('Start from the browser receipt.');
+    expect(labSection).toContain('Start from the browser check.');
     expect(labSection).toContain('A flagged source-note pair needs a second read.');
-    expect(labSection).toContain('Run or copy the browser receipt.');
+    expect(labSection).toContain('Run or copy the browser check.');
     expect(labSection).toContain('A live judge would help adjudicate the flagged claim.');
     expect(labSection).toContain('No ranking from a Lab call.');
-    expect(labSection).toContain('Start with browser receipt');
+    expect(labSection).toContain('Start with browser check');
     expect(labSection).toContain('Ask live judge for review');
     expect(labSection).toContain('lab-demo-tools');
     expect(labSection).toContain('Demo tools');
@@ -193,7 +193,7 @@ describe('site copy and labels', () => {
     expect(labSection).toContain('Provider diagnostics');
     expect(labSection).toContain('Show model status and smoke test');
     expect(labSection).toContain('Open provider tools');
-    expect(labSection).toContain('Second-opinion models stay behind the receipt.');
+    expect(labSection).toContain('Second-opinion models stay behind the QA finding.');
     expect(labSection).toContain('Provider status for second reads');
     expect(labSection).toContain('Test second-read path');
     expect(labSection).not.toContain('The Lab can ask a live judge or generate a');
@@ -202,12 +202,12 @@ describe('site copy and labels', () => {
     expect(labSection).not.toContain('Use live models only for a second opinion.');
     expect(labSection).not.toContain('Run one-note smoke');
     expect(labSection).not.toContain('Current free models available for smoke checks');
-    expect(html).toContain('Copy review packet');
+    expect(html).toContain('Copy second-read review');
     expect(html).toContain('Copy detailed review');
     expect(html).toContain('What to do with this result');
     expect(html).not.toContain('Copy evidence packet');
     expect(html).not.toContain('Copy full QA summary');
-    expect(app).toContain('ScribeBench note review packet');
+    expect(app).toContain('ScribeBench note QA review');
     expect(app).toContain('ScribeBench detailed note review');
     expect(app).toContain('Use now: ${packet.nextStep}');
     expect(app).toContain('Boundary: one source-note pair, not a leaderboard row, system certification, or clinical clearance.');
@@ -270,7 +270,7 @@ describe('site copy and labels', () => {
     expect(app).toContain('resetQuickArtifacts();');
     expect(app).not.toContain('publicEvidenceCardFromQuickResult');
     expect(app).not.toContain('renderPublicEvidenceCard(publicEvidenceCardFromQuickResult');
-    expect(html).toContain('Challenge a claim or test the second-read path to create one concise public card.');
+    expect(html).toContain('Challenge a claim or test the second-read path to create one concise public ask.');
   });
 
   it('answers the cold visitor question before repo machinery', () => {
@@ -338,7 +338,7 @@ describe('site copy and labels', () => {
     expect(readme).not.toContain('Share one public card');
   });
 
-  it('keeps claim-generated evidence cards in the public-claim context', () => {
+  it('keeps claim-generated evidence asks in the public-claim context', () => {
     const claimStart = html.indexOf('<section class="wrap section claim-section" id="claim-check">');
     const evidenceStart = html.indexOf('<section class="wrap section" id="leaderboard">', claimStart);
     const claimSection = claimStart >= 0 ? html.slice(claimStart, evidenceStart >= 0 ? evidenceStart : undefined) : '';
@@ -366,7 +366,7 @@ describe('site copy and labels', () => {
     expect(app).toContain('kind: "claim"');
     expect(app).toContain('document.querySelectorAll("[data-copy-claim-ask]").forEach((button) => {');
     expect(app).toContain('function renderPublicEvidenceCardActions(card)');
-    expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";');
+    expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim ask" : "Copy evidence ask";');
     expect(app).toContain('ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";');
     expect(html).not.toContain('id="current-challenge"');
     expect(html).not.toContain('Powered-row challenge');
@@ -439,7 +439,7 @@ describe('site copy and labels', () => {
     expect(leaderboardSection).toContain('id="citation-boundary-copy-panel"');
     expect(leaderboardSection).toContain('Copied ScribeBench citation boundary');
     expect(leaderboardSection).toContain('Select this citation boundary and paste it wherever the rows are being discussed.');
-    expect(leaderboardSection).toContain('Blocker receipt');
+    expect(leaderboardSection).toContain('Current-row blocker');
     expect(leaderboardSection).toContain('Finish the current row before ranking anyone.');
     expect(leaderboardSection).toContain('Need 21 more scored PriMock57 cases');
     expect(leaderboardSection).toContain('A non-capped OpenRouter key, credits, or another declared provider.');
@@ -470,8 +470,8 @@ describe('site copy and labels', () => {
     expect(app).toContain('setText("current-run-task-title"');
     expect(app).toContain('setText("current-run-task-copy"');
     expect(app).toContain('setText("current-run-task-done"');
-    expect(app).toContain('This is the public blocker receipt, not a current model result.');
-    expect(app).toContain('Use this as a blocker receipt, not as a ranking.');
+    expect(app).toContain('This is the public current-row blocker, not a current model result.');
+    expect(app).toContain('Use this as a blocker status, not as a ranking.');
     expect(app).not.toContain('setText("current-run-generated"');
     expect(app).not.toContain('setText("current-run-last-score"');
     expect(app).not.toContain('setText("current-run-next"');

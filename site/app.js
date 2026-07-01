@@ -83,7 +83,7 @@ const claimGuides = {
     required:
       "A powered run with case count, dataset, generator, judge, repeats, dangerous-fabrication rate, confidence interval, and tuning disclosure.",
     support:
-      "The Lab can expose one-note failures and the leaderboard can host aggregate scores. Second-read smoke rows only prove the path works.",
+      "The Lab can expose one-note failures and the evidence ledger can host aggregate scores. Second-read smoke rows only prove the path works.",
     nextAction:
       "Ask for a PriMock57 or real-workflow aggregate row before repeating the claim.",
     ask:
@@ -98,7 +98,7 @@ const claimGuides = {
     required:
       "The source encounter, the generated note, a second-opinion verdict, flagged unsupported items, leak scan, and human clinical review for final use.",
     support:
-      "The second-opinion Lab supports this path and produces a copyable evidence packet.",
+      "The browser checker supports this path and produces a copyable QA finding. The Lab can add a bounded second read.",
     nextAction:
       "Paste the source and note in the Lab, run the judge, then review any flagged claims manually.",
     ask:
@@ -168,11 +168,11 @@ const claimEvidencePaths = {
     secondary: { label: "Review current blocker", href: "#current-run" },
   },
   "one-note": {
-    title: "Close a one-note claim with a QA packet, not a row.",
+    title: "Close a one-note claim with a QA finding, not a row.",
     close:
       "The source encounter, generated note, flagged unsupported items, excerpts, leak scan, and human clinical review.",
     current:
-      "The browser checker can create the first QA packet immediately; the Lab can add a model-backed judge pass.",
+      "The browser checker can create the first QA finding immediately; the Lab can add a model-backed judge pass.",
     next:
       "Check the source-note pair, then use human review before trusting the note.",
     primary: { label: "Check source-note pair", href: "#quick-check-form" },
@@ -196,7 +196,7 @@ const claimEvidencePaths = {
     current:
       "The board has historical launch baselines and a visible current-run blocker. It is not a current buying guide yet.",
     next:
-      "Review the blocker receipt or add the powered row that would make the ranking claim citeable.",
+      "Review the current-row blocker or add the powered row that would make the ranking claim citeable.",
     primary: { label: "Review current blocker", href: "#current-run" },
     secondary: { label: "Open Add Row path", href: "#run" },
   },
@@ -512,7 +512,7 @@ function renderCurrentRun(run) {
   setText("current-run-title", run.title || "Current PriMock57 run attempt");
   setText(
     "current-run-copy",
-    `This is the public blocker receipt, not a current model result. ${run.system || "current public API run"} has ${scored}/${target} PriMock57 cases scored toward a publishable current row. Raw notes stay out of the public repo.`
+    `This is the public current-row blocker, not a current model result. ${run.system || "current public API run"} has ${scored}/${target} PriMock57 cases scored toward a publishable current row. Raw notes stay out of the public repo.`
   );
   setText(
     "current-run-task-title",
@@ -585,7 +585,7 @@ function renderCurrentRun(run) {
   setText(
     "current-run-partial",
     partialText
-      ? `${partialText} Use this as a blocker receipt, not as a ranking.`
+      ? `${partialText} Use this as a blocker status, not as a ranking.`
       : "No partial aggregate yet; the runner needs enough scored cases before any current comparison claim."
   );
   setText("current-run-blocker", blockerSummary);
@@ -755,7 +755,7 @@ function buildCitationBoundaryText() {
   const nextRow = textFrom("freshness-next-row", "Publish a powered aggregate row before making system-level claims.");
   return [
     "ScribeBench citation boundary",
-    "Use today: cite ScribeBench as a source-vs-note QA harness and use one-note review packets for unsupported-care review.",
+    "Use today: cite ScribeBench as a source-vs-note QA harness and use one-note QA findings for unsupported-care review.",
     `Historical rows: ${historyProof}`,
     `Current comparison: ${currentProof}`,
     `Current gap: ${currentGap}`,
@@ -1065,7 +1065,7 @@ function renderCaseReceipt(c) {
   }
   const items = leakCount
     ? (result.leaks || []).map((hit) => `${hit.marker}: ${hit.excerpt}`)
-    : ["No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak was found by the browser receipt."];
+    : ["No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak was found by the browser check."];
   for (const item of items.filter(Boolean)) {
     const li = document.createElement("li");
     li.textContent = item;
@@ -1228,7 +1228,7 @@ function sendClaimToPublicCard() {
   const guide = selectedClaimGuide();
   const claim = currentClaimText();
   renderPublicEvidenceCard(publicEvidenceCardFromClaim(guide, claim), { scroll: true });
-  setClaimCopyStatus("Public evidence card ready.");
+  setClaimCopyStatus("Public evidence ask ready.");
 }
 
 function publicEvidenceCardFromClaim(guide, claim) {
@@ -1238,7 +1238,7 @@ function publicEvidenceCardFromClaim(guide, claim) {
     kind: "claim",
     status: guide.status,
     statusClass: guide.statusClass,
-    title: "Claim evidence card",
+    title: "Claim evidence ask",
     summary: `For ${claimLine}, ScribeBench turns the claim into the evidence level it would actually require.`,
     happened: claim ? `Claim checked: ${shortClaim(claim)}` : "Claim checked from the selected preset.",
     level: guide.status,
@@ -1247,7 +1247,7 @@ function publicEvidenceCardFromClaim(guide, claim) {
     reference: "https://scribe-bench.vercel.app/#claim-check",
     rowAction: evidencePath.primary,
     copyText: [
-      "ScribeBench public evidence card",
+      "ScribeBench public evidence ask",
       `Date: ${localDateStamp()}`,
       "Type: claim evidence ask",
       claim ? `Claim: ${claim}` : "Claim: [paste exact claim]",
@@ -1265,11 +1265,11 @@ function publicEvidenceCardFromClaim(guide, claim) {
 }
 
 function publicEvidenceCardFromSmokeResult(result, packet = labEvidencePacket(result)) {
-  const status = packet.tone === "danger" ? "Smoke finding" : "Smoke packet";
+  const status = packet.tone === "danger" ? "Smoke finding" : "Smoke review";
   return {
     status,
     statusClass: packet.tone === "danger" ? "needed" : packet.tone === "review" ? "open" : "ready",
-    title: "Second-read smoke evidence card",
+    title: "Second-read smoke review",
     summary: `${packet.finding} This is one seeded synthetic case, so it can prove the public path works but cannot rank a scribe system.`,
     happened: `${packet.caseLabel}: generated with ${packet.generator}; judged by ${packet.judge}.`,
     level: packet.scope,
@@ -1277,9 +1277,9 @@ function publicEvidenceCardFromSmokeResult(result, packet = labEvidencePacket(re
     next: packet.nextStep,
     reference: "https://scribe-bench.vercel.app/#quick-check",
     copyText: [
-      "ScribeBench public evidence card",
+      "ScribeBench public evidence ask",
       `Date: ${localDateStamp()}`,
-      "Type: second-read smoke packet",
+      "Type: second-read smoke review",
       `Case: ${packet.caseLabel}`,
       `Generator: ${packet.generator}`,
       `Judge: ${packet.judge}`,
@@ -1302,10 +1302,10 @@ function renderPublicEvidenceCard(card, { scroll = false } = {}) {
   panel.hidden = false;
   const status = document.getElementById("public-evidence-card-status");
   if (status) {
-    status.textContent = card.status || "Evidence card";
+    status.textContent = card.status || "Evidence ask";
     status.className = `queue-status ${card.statusClass || "open"}`;
   }
-  setText("public-evidence-card-title", card.title || "Public evidence card");
+  setText("public-evidence-card-title", card.title || "Public evidence ask");
   setText("public-evidence-card-summary", card.summary || "");
   setText("public-evidence-card-happened", card.happened || "--");
   setText("public-evidence-card-level", card.level || "--");
@@ -1331,7 +1331,7 @@ function renderPublicEvidenceCardActions(card) {
     ownNote.className = `button ${isClaimCard ? "secondary" : "primary"} compact-button`;
   }
   if (copy) {
-    copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";
+    copy.textContent = isClaimCard ? "Copy claim ask" : "Copy evidence ask";
     copy.className = `button ${isClaimCard ? "primary" : "secondary"} compact-button`;
   }
   if (claim) {
@@ -1381,9 +1381,9 @@ function renderPublicEvidenceFindings(findings) {
 
 function buildPublicEvidenceCardText(card) {
   return [
-    "ScribeBench public evidence card",
+    "ScribeBench public evidence ask",
     `Date: ${localDateStamp()}`,
-    `Status: ${card.status || "Evidence card"}`,
+    `Status: ${card.status || "Evidence ask"}`,
     "",
     `What happened: ${card.happened || "--"}`,
     `Evidence level: ${card.level || "--"}`,
@@ -1396,17 +1396,17 @@ function buildPublicEvidenceCardText(card) {
 
 async function copyPublicEvidenceCard() {
   if (!lastPublicEvidenceCard) {
-    setPublicEvidenceCardCopyStatus("Create an evidence card first.");
+    setPublicEvidenceCardCopyStatus("Create an evidence ask first.");
     return;
   }
   const text = lastPublicEvidenceCard.copyText || buildPublicEvidenceCardText(lastPublicEvidenceCard);
   try {
     await copyText(text);
     setPublicEvidenceCardFallback("");
-    setPublicEvidenceCardCopyStatus("Evidence card copied.");
+    setPublicEvidenceCardCopyStatus("Evidence ask copied.");
   } catch (_) {
     setPublicEvidenceCardFallback(text);
-    setPublicEvidenceCardCopyStatus("Clipboard unavailable. Evidence card shown below.");
+    setPublicEvidenceCardCopyStatus("Clipboard unavailable. Evidence ask shown below.");
   }
 }
 
@@ -1787,7 +1787,7 @@ function sendQuickPairToLab() {
     noteChars: note.length,
   });
   renderLabResult(labResult);
-  setLabStatus("Loaded your checked pair. Use the local receipt for review, or ask the live judge for a second opinion.");
+  setLabStatus("Loaded your checked pair. Use the local check for review, or ask the live judge for a second opinion.");
   setQuickCopyStatus("Opened in Lab workbench.");
   if (window.location.hash !== "#lab-workbench") window.history.replaceState(null, "", "#lab-workbench");
   const workbench = document.getElementById("lab-workbench") || document.getElementById("lab");
@@ -1841,7 +1841,7 @@ function buildQuickReceiptText(result) {
       })
       : leakCount
         ? leaks.map((item) => `- ${item}`)
-        : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser receipt."];
+        : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser check."];
 
   return [
     "ScribeBench source-vs-note QA finding",
@@ -2069,8 +2069,8 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
   status.textContent = count ? "Provider ready" : "No provider list";
   status.className = `queue-status ${configured && count ? "ready" : count ? "open" : "needed"}`;
   copy.textContent = count
-    ? `${providerLabel} is ready for bounded second-read checks after a browser receipt. Keep any one-note output as a review packet; require a powered PriMock57 row before citing a system claim.`
-    : `${providerLabel} did not return a provider list. The browser receipt still works without a model call.`;
+    ? `${providerLabel} is ready for bounded second-read checks after a browser check. Keep any one-note output as a QA finding; require a powered PriMock57 row before citing a system claim.`
+    : `${providerLabel} did not return a provider list. The browser check still works without a model call.`;
   if (warning && count) {
     copy.textContent += ` ${warning}`;
   }
@@ -2080,7 +2080,7 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
     list.innerHTML = `
       <li>
         <strong>No provider list loaded</strong>
-        <span>The browser receipt still works without a model call.</span>
+        <span>The browser check still works without a model call.</span>
       </li>
     `;
     return;
@@ -2089,11 +2089,11 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
   list.innerHTML = `
     <li>
       <strong>Second-read models available</strong>
-      <span>${count} provider option${count === 1 ? "" : "s"} loaded; choose one in Provider settings only when a receipt needs escalation.</span>
+      <span>${count} provider option${count === 1 ? "" : "s"} loaded; choose one in Provider settings only when a QA finding needs escalation.</span>
     </li>
     <li>
       <strong>Smoke only</strong>
-      <span>One-note model calls create review packets, not rankings.</span>
+      <span>One-note model calls create QA findings, not rankings.</span>
     </li>
   `;
 }
@@ -2236,7 +2236,7 @@ function runLocalReceipt(event) {
   const note = noteEl.value.trim();
 
   if (!source || !note) {
-    setLabStatus("Source and note are required for the local receipt.");
+    setLabStatus("Source and note are required for the local check.");
     updateLabEmptyForInputs();
     return null;
   }
@@ -2249,7 +2249,7 @@ function runLocalReceipt(event) {
     noteChars: note.length,
   });
   renderLabResult(result);
-  setLabStatus("Local receipt complete. No API key or network call used.");
+  setLabStatus("Local check complete. No API key or network call used.");
   return result;
 }
 
@@ -2262,7 +2262,7 @@ function runSeededLocalReceipt(event) {
   }
 
   setInstantReceiptBusy(true);
-  setInstantReceiptStatus("Running: loading SYN-003 and creating a browser-only receipt...", "review");
+  setInstantReceiptStatus("Running: loading SYN-003 and creating a browser-only check...", "review");
   document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
   try {
     populateLab(c);
@@ -2270,7 +2270,7 @@ function runSeededLocalReceipt(event) {
     if (note) note.dataset.generatedModel = "bundled example candidate";
     const result = runLocalReceipt();
     if (!result) {
-      setInstantReceiptStatus("Could not create the local receipt. Check the Lab inputs.", "review");
+      setInstantReceiptStatus("Could not create the local check. Check the Lab inputs.", "review");
       return null;
     }
     const dangerCount = result.fabrication?.dangerous?.length || 0;
@@ -2279,7 +2279,7 @@ function runSeededLocalReceipt(event) {
       ? `Complete: ${dangerCount} unsupported item${dangerCount === 1 ? "" : "s"} flagged without an API call.`
       : leakCount
         ? `Complete: ${leakCount} leak${leakCount === 1 ? "" : "s"} flagged without an API call.`
-        : "Complete: no obvious unsupported item flagged in the browser-only receipt.";
+        : "Complete: no obvious unsupported item flagged in the browser-only check.";
     setInstantReceiptStatus(finding, dangerCount ? "danger" : leakCount ? "review" : "ok");
     return result;
   } finally {
@@ -2371,7 +2371,7 @@ async function runLiveSmokeCheck(event) {
         status: "Blocked",
         statusClass: "needed",
         title: "Judge did not finish",
-        copy: currentLabStatus() || "The selected judge did not return a usable verdict. The generated note remains in the Lab, but no smoke packet was created.",
+        copy: currentLabStatus() || "The selected judge did not return a usable verdict. The generated note remains in the Lab, but no smoke review was created.",
         caseLabel: c.id || "SYN-003",
         generator: generated.model || selectedModelLabel("lab-generate-model"),
         judge: selectedModelLabel("lab-judge-model"),
@@ -2482,7 +2482,7 @@ function updateLabEmptyForInputs() {
   if (source && note) {
     setLabEmptyState(
       "Ready to judge",
-      "Run the local receipt for an instant no-key triage result, or run the live judge for model-backed scoring.",
+      "Run the local check for an instant no-key triage result, or run the live judge for model-backed scoring.",
       "Both paths return flagged unsupported claims, leak scan, and a copyable QA summary."
     );
     return;
@@ -2519,7 +2519,7 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
     return {
       tone: "danger",
       title: "Do not trust this note without review",
-      copy: `${issueCountLabel(dangerousCount)} ${localResult ? "flagged by the browser-only receipt" : "changed what the reader would believe happened"}${issueTypes ? ` (${issueTypes})` : ""}.`,
+      copy: `${issueCountLabel(dangerousCount)} ${localResult ? "flagged by the browser-only check" : "changed what the reader would believe happened"}${issueTypes ? ` (${issueTypes})` : ""}.`,
       action: "Compare each flagged item against the source. Use this for note review now; use aggregate rows only if you want to compare systems.",
     };
   }
@@ -2535,7 +2535,7 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
     return {
       tone: "review",
       title: "No source-note issue flagged, but quality is not strong",
-      copy: `${localResult ? "The browser-only receipt estimated" : "The judge scored"} narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
+      copy: `${localResult ? "The browser-only check estimated" : "The judge scored"} narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
       action: "Use this as a triage signal, then inspect the note manually or ask for a second read before comparing systems.",
     };
   }
@@ -2543,7 +2543,7 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
     tone: "ok",
     title: "No source-note issue flagged in this sample",
     copy: localResult
-      ? `The browser-only receipt found no obvious source-note issues and estimated input fidelity at ${fidelity || "--"}/5.`
+      ? `The browser-only check found no obvious source-note issues and estimated input fidelity at ${fidelity || "--"}/5.`
       : `The judge found no obvious source-note issues and scored input fidelity at ${fidelity || "--"}/5.`,
     action: "Keep this as one-note evidence. Use a dataset run only for system-level claims.",
   };
@@ -2631,7 +2631,7 @@ function labEvidencePacket(result) {
   const scope = result.demoResult
     ? "Static demo"
     : result.localResult
-      ? "Local receipt"
+      ? "Local check"
       : result.caseId?.startsWith("SYN")
       ? "Live smoke"
       : "One-note triage";
@@ -2641,7 +2641,7 @@ function labEvidencePacket(result) {
     : "Custom pasted source";
   const generator = result.generatedModel || (result.demoResult ? "bundled example candidate" : "pasted candidate note");
   const judge = result.localResult
-    ? "browser-only local receipt"
+    ? "browser-only local check"
     : `${result.model || "unknown"}${result.provider ? ` via ${result.provider}` : ""}`;
   const nextStep = result.caseId?.startsWith("SYN") || result.demoResult
     ? "Treat as smoke evidence; run PriMock57 before making a system claim."
@@ -2674,10 +2674,10 @@ async function copyEvidencePacket() {
   try {
     await copyText(text);
     setSummaryFallback("");
-    setCopyStatus("Evidence packet copied.");
+    setCopyStatus("Second-read review copied.");
   } catch (_) {
     setSummaryFallback(text);
-    setCopyStatus("Clipboard unavailable. Evidence packet shown below.");
+    setCopyStatus("Clipboard unavailable. Second-read review shown below.");
   }
 }
 
@@ -2718,7 +2718,7 @@ function buildLabSummary(result) {
   const packet = labEvidencePacket(result);
   const methodDetails = [
     result.demoResult ? "- Result type: seeded static demo verdict" : "",
-    result.localResult ? "- Result type: browser-only local receipt (no API call; conservative triage)" : "",
+    result.localResult ? "- Result type: browser-only local check (no API call; conservative triage)" : "",
     `- Case: ${packet.caseLabel}`,
     `- Generator: ${packet.generator}`,
     `- Judge: ${packet.judge}`,
@@ -2794,7 +2794,7 @@ function buildEvidencePacketText(result) {
     "- URL: https://scribe-bench.vercel.app/#lab-workbench",
   ].filter(Boolean);
   const lines = [
-    "ScribeBench note review packet",
+    "ScribeBench note QA review",
     `Date: ${localDateStamp()}`,
     `Use now: ${packet.nextStep}`,
     `Verdict: ${packet.verdict.title}`,
@@ -2970,7 +2970,7 @@ function instantReceiptButtons() {
 function setInstantReceiptBusy(isBusy) {
   instantReceiptButtons().forEach((button) => {
     button.disabled = isBusy;
-    const fallback = button.dataset.defaultLabel || "Run instant receipt";
+    const fallback = button.dataset.defaultLabel || "Run instant check";
     button.textContent = isBusy ? (button.dataset.runningLabel || fallback) : fallback;
   });
 }
@@ -3022,7 +3022,7 @@ function showQuickSmokeArtifactStatus({
     statusEl.className = `queue-status ${statusClass}`;
   }
   setText("quick-smoke-title", title || "Second-read smoke check");
-  setText("quick-smoke-copy", copy || "Run the second-read smoke path to create a smoke-only review packet.");
+  setText("quick-smoke-copy", copy || "Run the second-read smoke path to create a smoke-only review.");
   setText("quick-smoke-case", caseLabel);
   setText("quick-smoke-generator", generator);
   setText("quick-smoke-judge", judge);
@@ -3036,7 +3036,7 @@ function renderQuickSmokeArtifact(result) {
   showQuickSmokeArtifactStatus({
     status: packet.tone === "danger" ? "Review" : "Smoke complete",
     statusClass,
-    title: packet.tone === "danger" ? "Second-read smoke found a source-note issue" : "Second-read smoke created a packet",
+    title: packet.tone === "danger" ? "Second-read smoke found a source-note issue" : "Second-read smoke created a review",
     copy: `${packet.finding} This is one seeded synthetic case, so it can prove the public path works but cannot rank a scribe system.`,
     caseLabel: packet.caseLabel,
     generator: packet.generator,
@@ -3057,10 +3057,10 @@ async function copyQuickSmokePacket() {
   try {
     await copyText(text);
     setQuickSmokeCopyFallback("");
-    setQuickSmokeCopyStatus("Smoke packet copied.");
+    setQuickSmokeCopyStatus("Smoke review copied.");
   } catch (_) {
     setQuickSmokeCopyFallback(text);
-    setQuickSmokeCopyStatus("Clipboard unavailable. Smoke packet shown below.");
+    setQuickSmokeCopyStatus("Clipboard unavailable. Smoke review shown below.");
   }
 }
 
