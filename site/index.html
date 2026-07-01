@@ -201,7 +201,7 @@
               <div class="quick-check-actions">
                 <button class="button primary" id="quick-run-local" type="submit">Check note now</button>
                 <button class="button secondary" id="quick-load-seeded" type="button">Reload seeded failure</button>
-                <a class="button secondary" href="#lab">Ask second opinion</a>
+                <a class="button secondary" href="#lab-workbench">Ask second opinion</a>
               </div>
               <p id="quick-check-status" role="status" aria-live="polite">Loading the seeded fall case...</p>
             </form>
@@ -1046,60 +1046,7 @@
           </div>
         </div>
 
-        <div class="current-model-lane" aria-labelledby="current-model-lane-title">
-          <div class="current-model-lane-head">
-            <span class="queue-status open" id="current-model-lane-status">Loading</span>
-            <div>
-              <p class="eyebrow">Current model lane</p>
-              <h3 id="current-model-lane-title">Use live models only for a second opinion.</h3>
-            </div>
-          </div>
-          <p id="current-model-lane-copy">
-            Loading the configured OpenRouter free-model list. Smoke checks can sharpen a QA packet, but a winner claim still needs a powered PriMock57 row.
-          </p>
-          <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
-            <li>Loading current free models...</li>
-          </ul>
-          <div class="current-model-lane-actions">
-            <button
-              class="button secondary compact-button"
-              id="current-model-run-smoke"
-              type="button"
-              data-default-label="Run smoke here"
-              data-running-label="Running smoke check..."
-            >
-              Run smoke here
-            </button>
-            <a class="button secondary compact-button" href="#run">Add powered row</a>
-          </div>
-          <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
-        </div>
-
-        <div class="lab-workflow" aria-label="Live lab workflow">
-          <article>
-            <span>1</span>
-            <div>
-              <strong>Start with the receipt</strong>
-              <p>If one note is the evidence you have, keep the output scoped to a QA packet.</p>
-            </div>
-          </article>
-          <article>
-            <span>2</span>
-            <div>
-              <strong>Use Lab for escalation</strong>
-              <p>Ask a live judge or generate a candidate only when the result needs a second read.</p>
-            </div>
-          </article>
-          <article>
-            <span>3</span>
-            <div>
-              <strong>Graduate only with volume</strong>
-              <p>Rows need many scored cases; one second-opinion verdict is not a ranking or safety claim.</p>
-            </div>
-          </article>
-        </div>
-
-        <div class="lab-shell">
+        <div class="lab-shell" id="lab-workbench">
           <form class="lab-form" id="lab-form">
             <div class="lab-textareas">
               <label class="field">
@@ -1270,6 +1217,59 @@
               <p class="lab-meta" id="lab-meta"></p>
             </div>
           </aside>
+        </div>
+
+        <div class="lab-workflow" aria-label="Live lab workflow">
+          <article>
+            <span>1</span>
+            <div>
+              <strong>Start with the receipt</strong>
+              <p>If one note is the evidence you have, keep the output scoped to a QA packet.</p>
+            </div>
+          </article>
+          <article>
+            <span>2</span>
+            <div>
+              <strong>Use Lab for escalation</strong>
+              <p>Ask a live judge or generate a candidate only when the result needs a second read.</p>
+            </div>
+          </article>
+          <article>
+            <span>3</span>
+            <div>
+              <strong>Graduate only with volume</strong>
+              <p>Rows need many scored cases; one second-opinion verdict is not a ranking or safety claim.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="current-model-lane" aria-labelledby="current-model-lane-title">
+          <div class="current-model-lane-head">
+            <span class="queue-status open" id="current-model-lane-status">Loading</span>
+            <div>
+              <p class="eyebrow">Current model lane</p>
+              <h3 id="current-model-lane-title">Use live models only for a second opinion.</h3>
+            </div>
+          </div>
+          <p id="current-model-lane-copy">
+            Loading the configured OpenRouter free-model list. Smoke checks can sharpen a QA packet, but a winner claim still needs a powered PriMock57 row.
+          </p>
+          <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
+            <li>Loading current free models...</li>
+          </ul>
+          <div class="current-model-lane-actions">
+            <button
+              class="button secondary compact-button"
+              id="current-model-run-smoke"
+              type="button"
+              data-default-label="Run smoke here"
+              data-running-label="Running smoke check..."
+            >
+              Run smoke here
+            </button>
+            <a class="button secondary compact-button" href="#run">Add powered row</a>
+          </div>
+          <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
         </div>
 
         <div class="lab-guide" aria-label="Live lab quick path">

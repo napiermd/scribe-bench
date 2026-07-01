@@ -1955,11 +1955,14 @@ function sendQuickPairToLab() {
     noteChars: note.length,
   });
   renderLabResult(labResult);
-  setLabStatus("Loaded this checked pair from the first-screen receipt. Run live judge if you need model-backed scoring.");
-  setQuickCopyStatus("Opened in Lab.");
-  if (window.location.hash !== "#lab") window.history.replaceState(null, "", "#lab");
-  const lab = document.getElementById("lab");
-  if (lab) scrollToAnchorTarget(lab, { behavior: "smooth" });
+  setLabStatus("Loaded your checked pair. Use the local receipt for review, or ask the live judge for a second opinion.");
+  setQuickCopyStatus("Opened in Lab workbench.");
+  if (window.location.hash !== "#lab-workbench") window.history.replaceState(null, "", "#lab-workbench");
+  const workbench = document.getElementById("lab-workbench") || document.getElementById("lab");
+  if (workbench) {
+    scrollToAnchorTarget(workbench, { behavior: "auto" });
+    window.setTimeout(() => scrollToAnchorTarget(workbench, { behavior: "auto" }), 80);
+  }
   document.getElementById("run-lab")?.focus({ preventScroll: true });
   return labResult;
 }
@@ -2675,7 +2678,7 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
       tone: "danger",
       title: "Do not trust this note without review",
       copy: `${issueCountLabel(dangerousCount)} ${localResult ? "flagged by the browser-only receipt" : "changed what the reader would believe happened"}${issueTypes ? ` (${issueTypes})` : ""}.`,
-      action: "Compare each flagged item against the source. A system with this pattern needs a powered benchmark run before any public claim.",
+      action: "Compare each flagged item against the source. Use this for note review now; use aggregate rows only if you want to compare systems.",
     };
   }
   if (leakCount > 0) {
@@ -2691,7 +2694,7 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
       tone: "review",
       title: "No source-note issue flagged, but quality is not strong",
       copy: `${localResult ? "The browser-only receipt estimated" : "The judge scored"} narrative quality at ${normalized || "--"}/100 and input fidelity at ${fidelity || "--"}/5.`,
-      action: "Use this as a triage signal, then inspect the note manually or run a larger benchmark before comparing systems.",
+      action: "Use this as a triage signal, then inspect the note manually or ask for a second read before comparing systems.",
     };
   }
   return {
@@ -2700,7 +2703,7 @@ function labVerdict({ dangerousCount, leakCount, fidelity, normalized, localResu
     copy: localResult
       ? `The browser-only receipt found no obvious source-note issues and estimated input fidelity at ${fidelity || "--"}/5.`
       : `The judge found no obvious source-note issues and scored input fidelity at ${fidelity || "--"}/5.`,
-    action: "This is one note, not a leaderboard claim. For a system-level answer, run the powered PriMock57 path.",
+    action: "Keep this as one-note evidence. Use a dataset run only for system-level claims.",
   };
 }
 
@@ -2799,7 +2802,7 @@ function labEvidencePacket(result) {
     : `${result.model || "unknown"}${result.provider ? ` via ${result.provider}` : ""}`;
   const nextStep = result.caseId?.startsWith("SYN") || result.demoResult
     ? "Treat as smoke evidence; run PriMock57 before making a system claim."
-    : "Use as QA triage; run a powered benchmark before comparing systems.";
+    : "Use for note review now; add aggregate rows only when comparing systems.";
   const finding = dangerous.length
     ? verdict.copy
     : `${verdict.title}. Narrative ${scoreDisplay}; input fidelity ${fidelityDisplay}.`;
@@ -2919,7 +2922,7 @@ function buildEvidencePacketText(result) {
     result.rubric ? `Rubric: ${result.rubric}` : "",
     result.sourceChars ? `Source length: ${result.sourceChars} chars` : "",
     result.noteChars ? `Note length: ${result.noteChars} chars` : "",
-    "URL: https://scribe-bench.vercel.app/#lab",
+    "URL: https://scribe-bench.vercel.app/#lab-workbench",
     "",
     "Public finding:",
     packet.finding,

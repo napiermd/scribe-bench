@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The Lab now opens on the review workbench, not model plumbing",
+      "why": "After a visitor clicked Ask second opinion, the page still made them pass through current-model lists and workflow cards before the actual source-note workspace. That made the Lab feel like benchmark machinery instead of a usable next step for one note.",
+      "proof": "The Lab section now puts the source/note/result workbench first, adds a stable Lab workbench anchor, and sends first-screen handoffs directly there. The Lab packet copy now starts with note-review use before mentioning aggregate system comparisons.",
+      "next": "Keep making every escalation path answer the user's immediate question first, then show broader evidence options only after the practical artifact is visible.",
+      "links": [
+        { "label": "Lab workbench", "href": "#lab-workbench" },
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Current model lane", "href": "#lab" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first checker no longer starts with model-smoke controls",
       "why": "A cold visitor should understand the first job without decoding benchmark plumbing. The old first-screen action row mixed Check note now with Smoke current models, which made the product feel like a vague leaderboard instead of a practical source-vs-note QA tool.",
       "proof": "The first checker now keeps only note-review actions: check the note, reload the seeded failure, or ask for a Lab second opinion. The live current-model lane moved into the Lab, where model-backed smoke checks belong as an escalation step.",

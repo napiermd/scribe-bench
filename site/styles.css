@@ -3628,7 +3628,7 @@ h4 {
 }
 
 .lab-workflow {
-  margin: 0 0 1rem;
+  margin: 1rem 0;
 }
 
 .lab-guide {
@@ -3680,6 +3680,7 @@ h4 {
   grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.72fr);
   gap: 18px;
   align-items: start;
+  scroll-margin-top: 98px;
 }
 
 .lab-form,
