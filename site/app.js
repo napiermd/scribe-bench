@@ -336,12 +336,12 @@ const startRoutes = {
 
 const runPresets = {
   "current-powered": {
-    status: "Publishable",
+    status: "Row-ready only",
     statusClass: "ready",
-    title: "Current powered row",
-    bring: "Candidate notes from the actual current model, vendor system, or scribe pipeline you want to discuss.",
-    run: "Run that system over all 57 PriMock57 cases outside ScribeBench, save candidate-note JSON, then score it with a declared judge and 2 repeats.",
-    submit: "Publish aggregate scores only: dangerous-fabrication rate, narrative mean, fidelity, leak rate, system date, judge, repeats, and tuning disclosure.",
+    title: "Powered row requirements",
+    bring: "Candidate notes from the actual current model, vendor system, or scribe pipeline across a declared dataset.",
+    run: "Run that system over all 57 PriMock57 cases when possible, save candidate-note JSON, then score it with a declared judge and 2 repeats.",
+    submit: "Publish aggregate scores only: dangerous-fabrication rate, narrative mean, fidelity, leak rate, confidence interval, system date, judge, repeats, and tuning disclosure.",
     fields: {
       dataset: "primock57",
       system: "current-system-under-test",
@@ -356,7 +356,7 @@ const runPresets = {
   "quick-smoke": {
     status: "Smoke only",
     statusClass: "open",
-    title: "Quick smoke test",
+    title: "Smoke check, not a row",
     bring: "A model or prompt you want to sanity-check before spending a full PriMock57 run.",
     run: "Score the 3 bundled synthetic cases first, especially the seeded SYN-003 unsupported-workup catch.",
     submit: "Keep it separate from ranked evidence. A smoke row proves the path works; it does not crown a system.",
@@ -377,7 +377,7 @@ const runPresets = {
     title: "Real workflow row",
     bring: "Candidate notes from an actual scribe workflow plus a dataset scope you can describe publicly.",
     run: "Save your pipeline output in the candidate-note JSON shape, then score it with a declared judge.",
-    submit: "Publish aggregate metrics, generation method, dataset scope, exclusions, repeats, judge, and tuning disclosure.",
+    submit: "Publish aggregate metrics only: generation method, dataset scope, exclusions, repeats, judge, confidence interval, and tuning disclosure.",
     fields: {
       dataset: "primock57",
       system: "real-workflow-scribe",

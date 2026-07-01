@@ -54,8 +54,8 @@
           <a href="#next-steps">Guide</a>
           <a href="#claim-check">Claim check</a>
           <a href="#leaderboard">Evidence</a>
-          <a href="#lab">Lab</a>
-          <a href="#run">Add row</a>
+          <a href="#lab">Second opinion</a>
+          <a href="#run">Contribute</a>
           <a href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">GitHub</a>
         </nav>
       </div>
@@ -1070,14 +1070,13 @@
       <section class="wrap section lab-section" id="lab">
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">Live lab</p>
-            <h2>Check one note, then decide whether it needs a bigger run</h2>
+            <p class="eyebrow">Optional second opinion</p>
+            <h2>Use the Lab when a one-note receipt needs a stronger read</h2>
             <p>
-              Bring a source encounter and an AI-written note. Start with the no-API-key
-              browser check for fast triage, then use the live judge when you want a model-backed
-              verdict or generate a fresh candidate from the same source. The seeded failure
-              is loaded so the first visit shows the point immediately: fluent notes can
-              invent care the source rules out. One note is triage, not leaderboard evidence.
+              The first-screen checker is the front door. The Lab is the escalation step:
+              reuse the same source-note pair, run the browser receipt again, ask a live
+              judge when you need model-backed language, then decide whether the result
+              stays a QA packet, becomes a claim ask, or deserves an aggregate run.
             </p>
           </div>
           <div class="split-actions">
@@ -1085,10 +1084,10 @@
               class="button primary compact-button"
               id="run-live-smoke-lab"
               type="button"
-              data-default-label="Run current-model smoke"
+              data-default-label="Smoke current models"
               data-running-label="Running smoke check..."
             >
-              Run current-model smoke
+              Smoke current models
             </button>
             <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
           </div>
@@ -1098,22 +1097,22 @@
           <article>
             <span>1</span>
             <div>
-              <strong>Paste source and note</strong>
-              <p>Use the seeded fall case or replace both fields with your own encounter and candidate note.</p>
+              <strong>Start with the receipt</strong>
+              <p>If one note is the evidence you have, keep the output scoped to a QA packet.</p>
             </div>
           </article>
           <article>
             <span>2</span>
             <div>
-              <strong>Run the browser check</strong>
-              <p>Catch obvious contradictions, invented workups, demographic mismatches, allergy conflicts, and leaks.</p>
+              <strong>Use Lab for escalation</strong>
+              <p>Ask a live judge or generate a candidate only when the result needs a second read.</p>
             </div>
           </article>
           <article>
             <span>3</span>
             <div>
-              <strong>Escalate only when needed</strong>
-              <p>Use the live judge or generate a fresh candidate when the one-note result deserves stronger evidence.</p>
+              <strong>Graduate only with volume</strong>
+              <p>Rows need many scored cases; one Lab verdict is not a ranking or safety claim.</p>
             </div>
           </article>
         </div>
@@ -1132,9 +1131,9 @@
             </div>
 
             <div class="lab-actions">
-              <button class="button primary" id="run-local-receipt" type="button">Check note locally</button>
-              <button class="button secondary" id="run-lab" type="submit">Run live judge</button>
-              <button class="button secondary" id="generate-note" type="button">Generate candidate note</button>
+              <button class="button primary" id="run-local-receipt" type="button">Run browser receipt</button>
+              <button class="button secondary" id="run-lab" type="submit">Ask live judge</button>
+              <button class="button secondary" id="generate-note" type="button">Generate candidate</button>
               <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
@@ -1185,14 +1184,15 @@
               <p class="eyebrow">Next step</p>
               <h3 id="lab-empty-title">Seeded demo ready</h3>
               <p id="lab-empty-copy">
-                Run the judge to see whether it catches the invented head CT and syncope workup.
+                Run the browser receipt or ask a live judge to see whether it catches the
+                invented head CT and syncope workup.
               </p>
               <p id="lab-empty-detail">
                 Edit either text area anytime; stale results clear automatically.
               </p>
               <div class="lab-empty-actions">
-                <button class="button primary compact-button" id="lab-empty-local" type="button">Check note locally</button>
-                <button class="button secondary compact-button" id="lab-empty-run" type="button">Run live judge</button>
+                <button class="button primary compact-button" id="lab-empty-local" type="button">Run browser receipt</button>
+                <button class="button secondary compact-button" id="lab-empty-run" type="button">Ask live judge</button>
                 <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
               </div>
             </div>
@@ -1295,21 +1295,21 @@
             <span>1</span>
             <div>
               <strong>Use it for review</strong>
-              <p>A one-note receipt is enough to flag unsupported care for human review or debugging.</p>
+              <p>Copy the packet when the goal is human review, debugging, or local QA.</p>
             </div>
           </article>
           <article>
             <span>2</span>
             <div>
-              <strong>Copy the packet</strong>
-              <p>The result names the scope, models, finding, and next proof step without copying raw encounter text.</p>
+              <strong>Turn claims into asks</strong>
+              <p>If someone says safe, best, or hallucination-free, route the result to the claim checker.</p>
             </div>
           </article>
           <article>
             <span>3</span>
             <div>
-              <strong>Do not overclaim</strong>
-              <p>Use PriMock57 powered runs before saying a scribe, vendor, or model is safer overall.</p>
+              <strong>Add rows only with a dataset</strong>
+              <p>Use the contributor path when you have many candidate notes and can publish aggregate scores.</p>
             </div>
           </article>
         </div>
@@ -1422,22 +1422,22 @@
 
       <section class="wrap section run-panel" id="run">
         <div class="run-intro">
-          <p class="eyebrow">Add evidence</p>
-          <h2>Add a row people can cite</h2>
+          <p class="eyebrow">Aggregate evidence</p>
+          <h2>Publish aggregate evidence, not another demo</h2>
           <p>
-            A public row is aggregate evidence: system, date, dataset, case count,
-            judge, repeats, failure rates, and tuning disclosure. If you only have
-            one note, a claim, or a blocked run, route that honestly before trying
-            to publish a row.
+            A citeable ScribeBench row starts only when you have candidate-note
+            outputs from a real system across a declared dataset. The public artifact
+            is the aggregate result: system, date, dataset, case count, judge, repeats,
+            failure rates, confidence interval, and tuning disclosure.
           </p>
         </div>
 
         <aside class="run-plan-card" aria-live="polite">
           <div class="run-plan-head">
-            <span class="queue-status ready" id="run-plan-status">Publishable</span>
+            <span class="queue-status ready" id="run-plan-status">Row-ready only</span>
             <div>
               <p class="eyebrow">Selected run</p>
-              <h3 id="run-plan-title">Current powered row</h3>
+              <h3 id="run-plan-title">Powered row requirements</h3>
             </div>
           </div>
           <dl class="run-plan-grid">
@@ -1458,36 +1458,36 @@
 
         <div class="contribution-intake" aria-labelledby="contribution-intake-title">
           <div class="contribution-intake-copy">
-            <p class="eyebrow">Start from what you have</p>
-            <h3 id="contribution-intake-title">Not everything is row-ready. Route it honestly.</h3>
+            <p class="eyebrow">Start from evidence in hand</p>
+            <h3 id="contribution-intake-title">Pick the artifact before touching the builder.</h3>
             <p>
-              ScribeBench is useful when the next artifact matches the evidence you actually have:
-              one-note QA, a claim ask, candidate notes, or a visible blocker.
+              One note becomes a QA packet. A claim becomes an evidence ask. Many
+              candidate notes become a row. A cap or partial run becomes a blocker receipt.
             </p>
           </div>
           <div class="contribution-paths" aria-label="Choose a contribution path">
             <article>
               <span class="queue-status open">One note</span>
               <h4>I have a source-note pair.</h4>
-              <p>Create a QA packet first. One note can expose a problem, but it is not a public row.</p>
+              <p>Create a QA packet first. Use the Lab only if the receipt needs a second opinion.</p>
               <a class="text-link" href="#quick-check-form" data-quick-start-own>Check the note</a>
             </article>
             <article>
               <span class="queue-status valuable">Claim</span>
               <h4>I have a vendor or model claim.</h4>
-              <p>Turn the claim into the dataset, n, judge, repeats, rates, and disclosure it requires.</p>
+              <p>Turn the slogan into the dataset, n, judge, repeats, rates, and disclosure it requires.</p>
               <a class="text-link" href="#claim-check">Build the evidence ask</a>
             </article>
             <article>
               <span class="queue-status ready">Candidate notes</span>
               <h4>I have outputs from a system.</h4>
-              <p>Use the row builder when you can score many cases and publish aggregate evidence.</p>
+              <p>Use the row builder when you can score a declared dataset and publish aggregate evidence.</p>
               <a class="text-link" href="#run-builder" data-run-jump-preset="current-powered">Build a powered row</a>
             </article>
             <article>
               <span class="queue-status needed">Blocked run</span>
               <h4>I hit a cap or partial run.</h4>
-              <p>Make the blocker public, copy the resume command, and show what evidence is missing.</p>
+              <p>Publish the missing denominator, copied resume command, and why the row is not ready.</p>
               <a class="text-link" href="#current-run">Review the blocker receipt</a>
             </article>
           </div>
@@ -1508,7 +1508,7 @@
           </article>
         </div>
 
-        <form class="run-builder" id="run-builder" aria-label="Contribution command builder">
+        <form class="run-builder" id="run-builder" aria-label="Aggregate row command builder">
           <div class="run-presets" aria-label="Common run builder presets">
             <button class="run-preset active" type="button" data-run-preset="current-powered" aria-pressed="true">
               <span>Current powered row</span>
