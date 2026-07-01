@@ -80,38 +80,58 @@
             <div class="quick-check-head">
               <div>
                 <p class="eyebrow">Check one note now</p>
-                <h1 id="quick-check-title">Did the AI scribe make up care?</h1>
+                <h1 id="quick-check-title">Check whether an AI scribe invented care.</h1>
               </div>
               <span class="local-badge">No API key</span>
             </div>
             <p class="quick-check-help">
-              For people with the evidence in hand: paste the encounter source
-              and AI note. ScribeBench flags unsupported care and writes the QA
-              finding a reviewer can act on.
+              Paste the encounter source and AI note. ScribeBench flags unsupported
+              care in the browser and gives you a copyable reviewer packet with
+              excerpts, a decision, and the boundary.
             </p>
             <div class="purpose-line" aria-label="ScribeBench public-use contract">
               <div>
-                <span>Use it for</span>
-                <strong>Check one AI-scribe note, challenge a public claim, or prepare aggregate evidence.</strong>
+                <span>Use when</span>
+                <strong>A note, vendor claim, or current-model row needs evidence.</strong>
+              </div>
+              <div>
+                <span>Best for</span>
+                <strong>Clinical QA, scribe buyers, builders, and public readers with source material.</strong>
               </div>
               <div>
                 <span>You leave with</span>
-                <strong>A copyable QA finding, evidence ask, blocker receipt, or scores-only row.</strong>
-              </div>
-              <div>
-                <span>Who this is for</span>
-                <strong>Clinical QA, AI-scribe buyers, builders, and NapierMD build-in-public readers with evidence in hand.</strong>
+                <strong>A hold/edit QA packet, evidence ask, blocker receipt, or aggregate-row recipe.</strong>
               </div>
               <div class="purpose-boundary">
-                <span>Do not use it for</span>
-                <strong>Patient advice, PHI storage, clinical clearance, or ranking current models from old rows.</strong>
+                <span>Boundary</span>
+                <strong>One pasted note supports review; system claims require aggregate rows.</strong>
               </div>
             </div>
+            <nav class="quick-paths quick-entry-paths" aria-label="Choose the ScribeBench job">
+              <article>
+                <span>I have source + note</span>
+                <strong>Check one AI-scribe note</strong>
+                <p>Find unsupported care before someone signs or forwards the note.</p>
+                <a href="#quick-check-form" data-quick-start-own>Paste my note</a>
+              </article>
+              <article>
+                <span>I heard a claim</span>
+                <strong>Challenge the promise</strong>
+                <p>Turn "safe," "hallucination-free," or "best" into a proof checklist.</p>
+                <a href="#claim-check">Build evidence ask</a>
+              </article>
+              <article>
+                <span>I can add proof</span>
+                <strong>Publish aggregate evidence</strong>
+                <p>Prepare a scores-only current-system row people can cite.</p>
+                <a href="#run">Prepare row</a>
+              </article>
+            </nav>
             <aside class="quick-artifact-preview" aria-label="Example ScribeBench QA finding">
               <div class="quick-artifact-preview-head">
-                <span>Example QA finding</span>
+                <span>Example QA packet</span>
                 <strong>Hold this note before signing.</strong>
-                <p>The copied packet is a review artifact, not a vague score.</p>
+                <p>The copied output is a reviewer handoff, not a vague score.</p>
               </div>
               <dl class="quick-artifact-preview-grid">
                 <div>
@@ -132,26 +152,6 @@
                 </div>
               </dl>
             </aside>
-            <nav class="quick-paths quick-entry-paths" aria-label="Choose the ScribeBench job">
-              <article>
-                <span>I have source + note</span>
-                <strong>Check one AI-scribe note</strong>
-                <p>Paste both sides and leave with a reviewer handoff plus QA finding.</p>
-                <a href="#quick-check-form" data-quick-start-own>Paste my note</a>
-              </article>
-              <article>
-                <span>I heard a claim</span>
-                <strong>Challenge the promise</strong>
-                <p>Turn "safe," "hallucination-free," or "best" into the evidence it would need.</p>
-                <a href="#claim-check">Build evidence ask</a>
-              </article>
-              <article>
-                <span>I can add proof</span>
-                <strong>Publish aggregate evidence</strong>
-                <p>Use the harness to submit a scores-only current-system row people can cite.</p>
-                <a href="#run">Prepare row</a>
-              </article>
-            </nav>
             <div class="quick-start-strip" aria-label="Start a ScribeBench note check">
               <div class="quick-start-proof">
                 <span>Seeded catch visible now</span>
