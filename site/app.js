@@ -203,6 +203,53 @@ const claimEvidencePaths = {
   },
 };
 
+const claimEvidenceRequests = {
+  "vendor-zero": {
+    title: "hold the hallucination-free claim until aggregate evidence is shared.",
+    sendTo: "Vendor, pilot owner, buyer, or public thread repeating the hallucination-free claim.",
+    proof: [
+      "Declared dataset and n, ideally PriMock57 or a named real-workflow sample.",
+      "Generator or vendor system, system date, judge model, repeats, and exclusions.",
+      "Dangerous-fabrication rate with confidence interval, leak rate, narrative mean, and tuning disclosure.",
+      "A scores-only aggregate row or equivalent method note that others can inspect.",
+    ],
+    boundary: "A demo, selected note, or smoke check cannot support a hallucination-free safety claim.",
+  },
+  "one-note": {
+    title: "turn this one note into a reviewer handoff before anyone trusts it.",
+    sendTo: "Chart QA, the note owner, the signing clinician, or the builder responsible for the generated note.",
+    proof: [
+      "The exact source encounter and the generated note being trusted.",
+      "Unsupported claims with note/source excerpts, plus leak or artifact findings.",
+      "A human review decision before signing, sharing, or treating the note as clean.",
+      "Optional second read only if the source-note gap is disputed.",
+    ],
+    boundary: "A one-note check can hold or route a note; it cannot certify a system or clear clinical use.",
+  },
+  "system-better": {
+    title: "require comparable rows before accepting a better-scribe claim.",
+    sendTo: "Buyer, evaluator, vendor, or public comparison thread making the better-than claim.",
+    proof: [
+      "Both systems run on the same cases under the same candidate-note policy.",
+      "Declared judge, repeats, confidence intervals, prompt/output exclusions, and tuning disclosure.",
+      "Dangerous-fabrication rate, narrative mean, input-fidelity score, and leak rate for each system.",
+      "Aggregate-only publication when closed-model outputs cannot be redistributed.",
+    ],
+    boundary: "Different demos, cherry-picked notes, or smoke rows cannot decide which system is better.",
+  },
+  "current-ranking": {
+    title: "do not cite a current winner until current powered rows exist.",
+    sendTo: "Anyone citing the leaderboard as today's model ranking or buying guide.",
+    proof: [
+      "Current model, vendor-system, or workflow rows with model date and run date.",
+      "Declared dataset, n, judge, repeats, confidence intervals, and exclusions.",
+      "Fresh aggregate scores for the models people actually use now, not launch baselines.",
+      "A visible blocker or row status when the scored-case threshold has not been met.",
+    ],
+    boundary: "Historical launch rows show a failure gradient; they do not crown today's best AI scribe.",
+  },
+};
+
 const runPresets = {
   "current-powered": {
     status: "Only for rows",
@@ -1198,20 +1245,37 @@ function shortClaim(value) {
   return text.length > 140 ? `${text.slice(0, 137)}...` : text;
 }
 
+function selectedClaimEvidenceRequest(type = selectedClaimType()) {
+  return claimEvidenceRequests[type] || claimEvidenceRequests["vendor-zero"];
+}
+
 function buildClaimAsk(guide = selectedClaimGuide(), claim = currentClaimText()) {
   const evidencePath = selectedClaimEvidencePath();
+  const request = selectedClaimEvidenceRequest();
   const claimLine = claim ? `Claim: "${claim}"` : "Claim: [paste the exact public or vendor claim here]";
+  const proofLines = request.proof.map((item, index) => `${index + 1}. ${item}`);
   return [
-    "ScribeBench evidence ask",
+    `ScribeBench evidence request: ${request.title}`,
+    `Date: ${localDateStamp()}`,
     claimLine,
-    `Current status: ${guide.status}`,
+    `Send to: ${request.sendTo}`,
     "",
-    guide.ask,
+    `Decision: ${guide.status}`,
+    `Bottom line: ${guide.summary}`,
     "",
-    `Why: ${guide.summary}`,
-    `Closing artifact: ${evidencePath.close}`,
+    "Ask for:",
+    ...proofLines,
+    "",
+    "Current ScribeBench support:",
+    `- ${guide.support}`,
+    `- Closing artifact: ${evidencePath.close}`,
+    "",
+    "Boundary:",
+    "- This is an evidence request, not proof that the claim is true or false.",
+    `- ${request.boundary}`,
+    "",
     `Next step: ${guide.nextAction}`,
-    "Reference: https://scribe-bench.vercel.app/#claim-check",
+    "Link: https://scribe-bench.vercel.app/#claim-check",
   ].join("\n");
 }
 
@@ -1267,33 +1331,20 @@ function sendClaimToPublicCard() {
 function publicEvidenceCardFromClaim(guide, claim) {
   const claimLine = claim ? `"${shortClaim(claim)}"` : "the pasted AI-scribe claim";
   const evidencePath = selectedClaimEvidencePath();
+  const request = selectedClaimEvidenceRequest();
   return {
     kind: "claim",
     status: guide.status,
     statusClass: guide.statusClass,
     title: "Claim evidence ask",
-    summary: `For ${claimLine}, ScribeBench turns the claim into the evidence level it would actually require.`,
+    summary: `For ${claimLine}, ScribeBench turns the claim into a paste-ready evidence request for ${request.sendTo.toLowerCase()}`,
     happened: claim ? `Claim checked: ${shortClaim(claim)}` : "Claim checked from the selected preset.",
     level: guide.status,
     boundary: "This is an evidence ask, not proof that the claim is true or false.",
     next: guide.nextAction,
     reference: "https://scribe-bench.vercel.app/#claim-check",
     rowAction: evidencePath.primary,
-    copyText: [
-      "ScribeBench public evidence ask",
-      `Date: ${localDateStamp()}`,
-      "Type: claim evidence ask",
-      claim ? `Claim: ${claim}` : "Claim: [paste exact claim]",
-      `Status: ${guide.status}`,
-      "",
-      `What happened: ${guide.summary}`,
-      `Evidence level needed: ${guide.required}`,
-      `Closing artifact: ${evidencePath.close}`,
-      `Boundary: This is an evidence ask, not a clinical safety result.`,
-      `Next public ask: ${guide.ask}`,
-      "",
-      "Reference: https://scribe-bench.vercel.app/#claim-check",
-    ].join("\n"),
+    copyText: buildClaimAsk(guide, claim),
   };
 }
 

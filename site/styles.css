@@ -2964,7 +2964,7 @@ h4 {
 }
 
 .claim-ask-preview .code-block {
-  max-height: 230px;
+  max-height: 340px;
   margin: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
