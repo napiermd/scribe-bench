@@ -128,32 +128,6 @@
               The seeded fall case opens with the actual artifact first; switch to
               your own pair when you want a usable QA packet.
             </p>
-            <form class="quick-check-form" id="quick-check-form">
-              <label class="field">
-                <span>Source encounter</span>
-                <textarea id="quick-source" rows="7" placeholder="Paste the transcript, source note, or encounter summary the AI note should match."></textarea>
-              </label>
-              <label class="field">
-                <span>AI-scribe note</span>
-                <textarea id="quick-note" rows="7" placeholder="Paste the AI-scribe note you want to check against the source."></textarea>
-              </label>
-              <div class="quick-check-actions">
-                <button class="button primary" id="quick-run-local" type="submit">Check note now</button>
-                <button class="button secondary" id="quick-load-seeded" type="button">Reload seeded failure</button>
-                <button
-                  class="button secondary"
-                  id="run-live-smoke-top"
-                  type="button"
-                  data-default-label="Smoke current models"
-                  data-running-label="Running smoke check..."
-                >
-                  Smoke current models
-                </button>
-                <a class="button secondary" href="#lab">Ask second opinion</a>
-              </div>
-              <p id="quick-check-status" role="status" aria-live="polite">Loading the seeded fall case...</p>
-              <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
-            </form>
             <div class="quick-result" id="quick-result" hidden>
               <div class="quick-result-head">
                 <span class="queue-status needed" id="quick-result-status">Review</span>
@@ -215,6 +189,32 @@
                 aria-label="ScribeBench source-vs-note QA packet"
               ></textarea>
             </div>
+            <form class="quick-check-form" id="quick-check-form">
+              <label class="field">
+                <span>Source encounter</span>
+                <textarea id="quick-source" rows="7" placeholder="Paste the transcript, source note, or encounter summary the AI note should match."></textarea>
+              </label>
+              <label class="field">
+                <span>AI-scribe note</span>
+                <textarea id="quick-note" rows="7" placeholder="Paste the AI-scribe note you want to check against the source."></textarea>
+              </label>
+              <div class="quick-check-actions">
+                <button class="button primary" id="quick-run-local" type="submit">Check note now</button>
+                <button class="button secondary" id="quick-load-seeded" type="button">Reload seeded failure</button>
+                <button
+                  class="button secondary"
+                  id="run-live-smoke-top"
+                  type="button"
+                  data-default-label="Smoke current models"
+                  data-running-label="Running smoke check..."
+                >
+                  Smoke current models
+                </button>
+                <a class="button secondary" href="#lab">Ask second opinion</a>
+              </div>
+              <p id="quick-check-status" role="status" aria-live="polite">Loading the seeded fall case...</p>
+              <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
+            </form>
             <div class="public-evidence-card" id="public-evidence-card" hidden aria-live="polite">
               <div class="public-evidence-card-head">
                 <span class="queue-status open" id="public-evidence-card-status">Evidence card</span>
