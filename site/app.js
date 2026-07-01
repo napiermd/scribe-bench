@@ -1192,7 +1192,9 @@ function bindClaimChecker() {
     setActiveClaimPreset(matchingClaimPresetKey());
     renderClaimCheck();
   });
-  document.getElementById("copy-claim-ask")?.addEventListener("click", copyClaimAsk);
+  document.querySelectorAll("[data-copy-claim-ask]").forEach((button) => {
+    button.addEventListener("click", copyClaimAsk);
+  });
   document.getElementById("claim-send-card")?.addEventListener("click", sendClaimToPublicCard);
   if (!currentClaimText()) applyClaimPreset("vendor-zero");
   else {

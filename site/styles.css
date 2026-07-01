@@ -2425,21 +2425,38 @@ h4 {
 }
 
 .claim-ask-preview {
-  border-top: 1px solid var(--line);
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
   margin-top: 1rem;
-  padding-top: 1rem;
+  padding: 0.9rem;
 }
 
-.claim-ask-preview p {
+.claim-ask-preview-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.claim-ask-preview-head .eyebrow {
+  margin-bottom: 0.32rem;
+}
+
+.claim-ask-preview-head h4 {
+  color: var(--ink);
+  font-size: 1rem;
+  line-height: 1.2;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.claim-ask-preview .code-block {
+  max-height: 230px;
+  margin: 0;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
-  font-family: var(--mono);
   font-size: 0.8rem;
-  line-height: 1.5;
-  color: #17312e;
-  background: var(--panel-soft);
-  border: 1px solid var(--line);
-  padding: 0.85rem;
 }
 
 .claim-evidence-path {

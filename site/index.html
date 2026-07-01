@@ -586,7 +586,7 @@
               ></textarea>
             </label>
             <div class="claim-actions">
-              <button class="button secondary compact-button" id="copy-claim-ask" type="button">Copy public ask</button>
+              <button class="button primary compact-button" id="copy-claim-ask" data-copy-claim-ask type="button">Copy public ask</button>
               <button class="button secondary compact-button" id="claim-send-card" type="button">Make evidence card</button>
               <p id="claim-copy-status" role="status" aria-live="polite"></p>
             </div>
@@ -608,6 +608,16 @@
               </div>
             </div>
             <p id="claim-summary"></p>
+            <div class="claim-ask-preview" aria-label="Copyable public claim ask">
+              <div class="claim-ask-preview-head">
+                <div>
+                  <p class="eyebrow">Copyable public ask</p>
+                  <h4>Paste this into the next diligence thread.</h4>
+                </div>
+                <button class="button primary compact-button" id="copy-claim-ask-output" data-copy-claim-ask type="button">Copy this ask</button>
+              </div>
+              <pre class="code-block"><code id="claim-public-ask"></code></pre>
+            </div>
             <dl class="claim-output-grid">
               <div>
                 <dt>What would count</dt>
@@ -645,10 +655,6 @@
                 <a class="button primary compact-button" id="claim-evidence-primary" href="#run">Open Add Row path</a>
                 <a class="button secondary compact-button" id="claim-evidence-secondary" href="#current-run">Review current blocker</a>
               </div>
-            </div>
-            <div class="claim-ask-preview">
-              <h4>Copyable public ask</h4>
-              <p id="claim-public-ask"></p>
             </div>
           </aside>
         </div>

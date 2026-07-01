@@ -149,10 +149,27 @@ describe('site copy and labels', () => {
   });
 
   it('keeps claim-generated evidence cards in the public-claim context', () => {
+    const claimStart = html.indexOf('<section class="wrap section claim-section" id="claim-check">');
+    const challengeStart = html.indexOf('<section class="wrap section challenge-section" id="current-challenge">', claimStart);
+    const claimSection = claimStart >= 0 ? html.slice(claimStart, challengeStart >= 0 ? challengeStart : undefined) : '';
+    const askIndex = claimSection.indexOf('claim-ask-preview');
+    const outputGridIndex = claimSection.indexOf('claim-output-grid');
+    const evidencePathIndex = claimSection.indexOf('claim-evidence-path');
+
+    expect(claimSection).toContain('Turn a vague AI-scribe claim into an evidence ask.');
+    expect(claimSection).toContain('data-copy-claim-ask');
+    expect(claimSection).toContain('Copyable public ask');
+    expect(claimSection).toContain('Paste this into the next diligence thread.');
+    expect(claimSection).toContain('id="copy-claim-ask-output"');
+    expect(claimSection).toContain('<pre class="code-block"><code id="claim-public-ask"></code></pre>');
+    expect(askIndex).toBeGreaterThan(-1);
+    expect(askIndex).toBeLessThan(outputGridIndex);
+    expect(askIndex).toBeLessThan(evidencePathIndex);
     expect(html).toContain('id="public-card-claim-link"');
     expect(html).toContain('id="public-card-row-link"');
     expect(app).toContain('selectStartRoute("buyer")');
     expect(app).toContain('kind: "claim"');
+    expect(app).toContain('document.querySelectorAll("[data-copy-claim-ask]").forEach((button) => {');
     expect(app).toContain('function renderPublicEvidenceCardActions(card)');
     expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";');
     expect(app).toContain('ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";');

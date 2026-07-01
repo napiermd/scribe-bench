@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The claim checker now makes the public ask the artifact",
+      "why": "The claim checker could generate a useful evidence ask, but the ask appeared after method cards and looked like supporting text instead of the thing a buyer or operator came to copy.",
+      "proof": "The claim answer now surfaces a Copyable public ask immediately after the claim summary, with a visible copy button inside the answer. The supporting evidence requirements and evidence path stay below the ask instead of competing with it.",
+      "next": "Keep claim checks focused on the practical handoff: paste the claim, copy the ask, then use aggregate rows only when the claim needs system-level proof.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Copyable public ask", "href": "#claim-public-ask" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first note result now makes the next action obvious",
       "why": "The first checker produced useful evidence, but the result action still said to use it as a QA finding. That was accurate, but too abstract for a cold visitor trying to decide what to do next.",
       "proof": "The result guidance now says to hold the note and copy the review packet when unsupported care is flagged. Seeded examples keep Check your own note as the primary action, while user-owned results promote Copy this review packet and move Check another note to the secondary action.",
