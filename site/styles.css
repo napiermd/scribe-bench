@@ -2517,6 +2517,117 @@ h4 {
   margin: 0.55rem 0 0;
 }
 
+.evidence-answer {
+  display: grid;
+  grid-template-columns: minmax(0, 0.44fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
+  margin: 0 0 1rem;
+  padding: 1rem;
+}
+
+.evidence-answer-main {
+  min-width: 0;
+  display: grid;
+  align-content: start;
+}
+
+.evidence-answer-main h3 {
+  font-size: 1.38rem;
+  max-width: 24rem;
+}
+
+.evidence-answer-main p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.96rem;
+  line-height: 1.45;
+  margin: 0.7rem 0 0;
+}
+
+.evidence-answer-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1rem;
+}
+
+.evidence-answer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.evidence-answer-grid article {
+  display: grid;
+  align-content: start;
+  gap: 0.45rem;
+  min-width: 0;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  background: var(--panel);
+  padding: 0.85rem;
+}
+
+.evidence-answer-grid h3 {
+  font-size: 1rem;
+}
+
+.evidence-answer-grid p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.evidence-answer-grid a {
+  color: var(--accent-strong);
+  font-weight: 850;
+}
+
+.evidence-answer-grid small {
+  color: var(--muted);
+  font-size: 0.78rem;
+  line-height: 1.34;
+}
+
+.evidence-answer-grid small strong {
+  color: var(--ink);
+  font-weight: 800;
+}
+
+.evidence-answer-foot {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  border-top: 1px solid rgba(15, 118, 110, 0.2);
+  padding-top: 0.9rem;
+}
+
+.evidence-answer-foot div {
+  min-width: 0;
+  border-left: 3px solid rgba(15, 118, 110, 0.32);
+  background: rgba(255, 255, 255, 0.55);
+  padding: 0.72rem 0.85rem;
+}
+
+.evidence-answer-foot strong {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.evidence-answer-foot p {
+  color: var(--muted);
+  font-size: 0.88rem;
+  line-height: 1.4;
+  margin: 0.28rem 0 0;
+}
+
 .evidence-decision {
   display: grid;
   grid-template-columns: minmax(0, 0.34fr) minmax(0, 1fr);
@@ -2847,6 +2958,7 @@ h4 {
   display: grid;
   grid-template-columns: repeat(5, minmax(112px, 1fr));
   gap: 10px;
+  align-self: start;
   margin: 0;
 }
 
@@ -4665,6 +4777,7 @@ h4 {
   .summary-grid,
   .claim-tool,
   .challenge-tool,
+  .evidence-answer,
   .evidence-decision,
   .evidence-digest,
   .freshness-receipt,
@@ -4696,6 +4809,8 @@ h4 {
   .repo-loop-steps,
   .evidence-ladder,
   .public-action-grid,
+  .evidence-answer-grid,
+  .evidence-answer-foot,
   .evidence-decision-list,
   .freshness-receipt-grid,
   .run-steps,

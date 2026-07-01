@@ -635,7 +635,7 @@ function renderCurrentRun(run) {
   const lastAttemptText = formatTimestamp(run.lastAttemptAt);
   const attemptScope = selected && selected !== attempted ? `${attempted}/${selected} selected cases attempted` : `${attempted} selected cases attempted`;
   const attemptText = lastAttemptText
-    ? ` Last public retry: ${lastAttemptText}; ${attemptScope}, ${scored}/${attempted} scored, and ${errored}/${attempted} errored or blocked.`
+    ? ` Last retry ${lastAttemptText}; ${attemptScope}.`
     : "";
   const partialText = partialAggregateText(partial);
 
@@ -646,7 +646,7 @@ function renderCurrentRun(run) {
   setText("current-run-title", run.title || "Current PriMock57 run attempt");
   setText(
     "current-run-copy",
-    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${attempted} attempted cases have generated notes.${attemptText}${partialText ? ` ${partialText}` : ""} ${run.rawNotesPolicy || "Raw generated notes are not published."}`
+    `${run.system || "current public API run"} has ${scored}/${target} PriMock57 cases scored toward a publishable current row. ${generated}/${attempted} attempted cases have generated notes.${attemptText} Raw notes stay out of the public repo.`
   );
   setText(
     "freshness-current-gap",
