@@ -17,16 +17,24 @@ describe('site copy and labels', () => {
   it('uses hero space to explain the product in plain English', () => {
     const summarySection = html.match(/<section class="summary-band">[\s\S]*?<\/section>/)?.[0] || '';
 
-    expect(summarySection).toContain('Paste what happened. Catch what the AI made up.');
-    expect(summarySection).toContain('ScribeBench is a public checker for AI-written clinical notes.');
+    expect(summarySection).toContain('NapierMD public clinical AI QA');
+    expect(summarySection).toContain('Check whether an AI scribe invented care.');
+    expect(summarySection).toContain('Paste the source encounter and the AI-written note.');
+    expect(summarySection).toContain('unsupported tests, diagnoses, medications, follow-up, and events');
+    expect(summarySection).toContain('Why this exists');
+    expect(summarySection).toContain('Documentation AI only matters if the signed record stays true.');
+    expect(summarySection).toMatch(/13 hospital sites,\s+42 tracked physician\s+complaints,\s+and 1,089 closed-loop iterations/);
+    expect(summarySection).toContain('Read the NapierMD proof trail');
     expect(summarySection).toContain('What this is');
     expect(summarySection).toContain('Who uses it');
-    expect(summarySection).toContain('Why care');
-    expect(summarySection).toContain('A no-account source-vs-note reviewer.');
-    expect(summarySection).toContain('Fluent notes can invent care.');
-    expect(summarySection).toContain('head CT and syncope workup that never happened');
-    expect(summarySection).toContain('Paste the source encounter and the AI-written note.');
+    expect(summarySection).toContain('What you leave with');
+    expect(summarySection).toContain('A no-account source-vs-note checker.');
+    expect(summarySection).toContain('People holding evidence, not spectators.');
+    expect(summarySection).toContain('A review packet first; aggregate rows only with many notes.');
     expect(summarySection).toContain('it catches made-up care');
+    expect(summarySection).toContain('signed clinical notes have to stay true');
+    expect(summarySection).toContain('Start with one review packet; make system claims only');
+    expect(summarySection).not.toContain('Paste what happened. Catch what the AI made up.');
     expect(summarySection).not.toContain('The first loaded case shows the point immediately.');
     expect(summarySection).not.toContain('CT head was negative; syncope workup started.');
   });

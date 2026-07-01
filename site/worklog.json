@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now says why ScribeBench exists",
+      "why": "The homepage could still read like a generic benchmark demo. It named source-vs-note QA, but it did not immediately connect the tool to the NapierMD production documentation QA thesis: signed clinical notes have to stay true after the demo ends.",
+      "proof": "The hero now leads with the literal job, Check whether an AI scribe invented care, and adds a NapierMD proof strip citing 13 hospital sites, 42 physician complaints, and 1,089 closed-loop iterations. The plain-English panel now names people holding evidence and the artifact they leave with.",
+      "next": "Keep reducing anything that feels like benchmark theater unless it helps a visitor produce a review packet, claim ask, blocker receipt, or aggregate row.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "NapierMD proof trail", "href": "https://napiermd.me/work#clinical-ai" },
+        { "label": "Check one note", "href": "#quick-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Evidence now starts with the current public task",
       "why": "The Evidence section had the blocker, but it appeared after broad interpretation cards and ledger framing. On mobile, visitors reached stale-row language before the task they could actually help finish.",
       "proof": "A new Make this citeable task card appears before the public answer grid. It copies the same public task as Contribute and mirrors the current-run counts, Bring, Do, and Done fields from current-run.json.",

@@ -65,30 +65,42 @@
       <section class="summary-band">
         <div class="wrap summary-grid">
           <div class="intro-panel">
-            <p class="eyebrow">Public clinical AI QA</p>
-            <h1>Paste what happened. Catch what the AI made up.</h1>
+            <p class="eyebrow">NapierMD public clinical AI QA</p>
+            <h1>Check whether an AI scribe invented care.</h1>
             <p class="lede">
-              ScribeBench is a public checker for AI-written clinical notes. Give it
-              the source encounter and the generated note; it returns a copyable review
-              packet naming unsupported care, source excerpts, and what the result can
-              actually prove.
+              Paste the source encounter and the AI-written note. ScribeBench flags
+              unsupported tests, diagnoses, medications, follow-up, and events, then
+              gives you a copyable review packet with source excerpts and evidence
+              boundaries.
             </p>
+
+            <div class="origin-proof" aria-label="Why ScribeBench exists">
+              <p class="eyebrow">Why this exists</p>
+              <strong>Documentation AI only matters if the signed record stays true.</strong>
+              <p>
+                NapierMD's production QA work spans 13 hospital sites, 42 tracked physician
+                complaints, and 1,089 closed-loop iterations. ScribeBench is the public
+                walk-up artifact for the same question: what did the note add that the
+                source does not support?
+              </p>
+              <a class="text-link" href="https://napiermd.me/work#clinical-ai" target="_blank" rel="noreferrer">Read the NapierMD proof trail</a>
+            </div>
 
             <div class="plain-answer" aria-label="ScribeBench in plain English">
               <div>
                 <span>What this is</span>
-                <strong>A no-account source-vs-note reviewer.</strong>
+                <strong>A no-account source-vs-note checker.</strong>
                 <p>It checks whether the note says tests, diagnoses, medications, follow-up, or events the source does not support.</p>
               </div>
               <div>
                 <span>Who uses it</span>
-                <strong>Reviewers, buyers, builders, and contributors.</strong>
-                <p>Anyone holding a source encounter, AI note, vendor claim, or batch of candidate notes that needs evidence.</p>
+                <strong>People holding evidence, not spectators.</strong>
+                <p>Clinicians, QA reviewers, buyers, and builders with a source encounter, AI note, public claim, or batch of candidate notes.</p>
               </div>
               <div>
-                <span>Why care</span>
-                <strong>Fluent notes can invent care.</strong>
-                <p>The seeded example catches a head CT and syncope workup that never happened, then turns that into a review packet.</p>
+                <span>What you leave with</span>
+                <strong>A review packet first; aggregate rows only with many notes.</strong>
+                <p>One note can guide QA. A system claim needs a declared dataset, scored rows, judge, repeats, date, CI, and exclusions.</p>
               </div>
             </div>
 
@@ -127,6 +139,11 @@
               case opens first so you can see the artifact: it catches made-up care,
               shows the exact note/source snippets, and explains what the finding
               can and cannot prove.
+            </p>
+            <p class="quick-origin-note">
+              <strong>Why this exists:</strong> signed clinical notes have to stay true
+              after the demo. Start with one review packet; make system claims only
+              after aggregate evidence.
             </p>
             <div class="quick-result" id="quick-result" hidden>
               <div class="quick-result-head">
