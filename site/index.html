@@ -515,12 +515,12 @@
         <span class="section-anchor" id="repo-map"></span>
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">Public guide</p>
-            <h2>Leave with one artifact, not another demo screenshot.</h2>
+            <p class="eyebrow">After the receipt</p>
+            <h2>One checked note tells you what to do next.</h2>
             <p>
-              The first screen already handles the note check. This guide is the short
-              map from evidence in hand to the public object worth sharing: packet, ask,
-              blocker receipt, repo receipt, or aggregate row.
+              ScribeBench is for people holding evidence: a source-note pair, a
+              public claim, a blocked run, or candidate notes. Start with the
+              receipt, then choose the smallest honest next step.
             </p>
           </div>
           <div class="split-actions">
@@ -529,139 +529,57 @@
           </div>
         </div>
 
-        <div class="guide-answer-strip" aria-label="Who ScribeBench is for and why it exists">
-          <article>
-            <span>For whom</span>
-            <strong>Someone with evidence in hand.</strong>
-            <p>Clinical QA, buyers, operators, builders, and contributors checking a real note, claim, run, or row.</p>
-          </article>
-          <article>
-            <span>What to bring</span>
-            <strong>A source-note pair, public claim, blocker, or candidate-note set.</strong>
-            <p>The site routes each input to the smallest public artifact that can honestly support it.</p>
-          </article>
-          <article>
-            <span>Why public</span>
-            <strong>AI-scribe claims should point back to source evidence.</strong>
-            <p>Every useful output carries a boundary: one-note QA, smoke evidence, blocker receipt, repo receipt, or aggregate row.</p>
-          </article>
-        </div>
-
-        <div class="artifact-kit" id="public-action-kit" aria-label="Public artifacts ScribeBench creates">
-          <div class="artifact-kit-head">
-            <p class="eyebrow">Public action kit</p>
-            <h3>Pick the artifact that matches the evidence you actually have.</h3>
+        <div class="after-receipt-grid" id="public-action-kit" aria-label="What to do after a ScribeBench receipt">
+          <article class="after-receipt-card after-receipt-primary">
+            <span>One note</span>
+            <h3>If the note is flagged, hold it and copy the review packet.</h3>
             <p>
-              ScribeBench is useful only when it turns a messy AI-scribe concern into
-              something a reviewer, buyer, builder, contributor, or skeptical reader can paste into the next thread.
+              Use ScribeBench for clinical QA when a generated note may have
+              invented care. The packet gives the flagged claim, source excerpt,
+              boundary, and next review step.
             </p>
-          </div>
-          <div class="artifact-list">
-            <article data-public-artifact>
-              <span>Review packet</span>
-              <strong>For one note that may have invented care.</strong>
-              <p>Bring source plus generated note. Copy flagged issues, excerpts, boundary, and next proof step.</p>
-              <pre class="code-block"><code>ScribeBench QA packet
-Finding: This AI-scribe note may have invented care not supported by the source.
-Evidence level: one source-note pair, not a system claim.
-Use next: review the flagged claim before trust or signing.
-Link: https://scribe-bench.vercel.app/#quick-check</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy>Copy packet post</button>
-              <a href="#quick-check">Create packet</a>
-            </article>
-            <article data-public-artifact>
-              <span>Claim ask</span>
-              <strong>For a vendor, model, or pilot claim.</strong>
-              <p>Bring the public claim. Copy the dataset, n, judge, repeats, rates, and disclosure it would need.</p>
-              <pre class="code-block"><code>Can you share ScribeBench-style evidence for this AI-scribe claim?
-Needed: dataset, n, generator/system date, judge, repeats, dangerous-fabrication rate with CI, leak rate, exclusions, and tuning disclosure.
-Boundary: one demo note is not proof of a safe system.
-Link: https://scribe-bench.vercel.app/#claim-check</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy>Copy claim ask</button>
-              <a href="#claim-check">Build ask</a>
-            </article>
-            <article data-public-artifact>
-              <span>Blocker receipt</span>
-              <strong>For build-in-public progress.</strong>
-              <p>Bring the current-run gap. Copy what is scored, what is blocked, and the exact next run task.</p>
-              <pre class="code-block"><code>ScribeBench current-row blocker
-Status: 9/57 PriMock57 cases scored; at least 30 scored cases are needed before a current row is publishable.
-Blocked by: free-model/provider cap.
-Ask: resume with a non-capped provider key, credits, or declared candidate notes.
-Boundary: aggregate scores only; no raw closed-model notes in the public repo.
-Link: https://scribe-bench.vercel.app/#current-run</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy>Copy blocker receipt</button>
-              <a href="#current-run">Open blocker</a>
-            </article>
-            <article data-public-artifact>
-              <span>Aggregate row</span>
-              <strong>For claims about a system, not one note.</strong>
-              <p>Bring many candidate notes. Publish scores only, with judge, repeats, date, CI, and exclusions.</p>
-              <pre class="code-block"><code>Submit a ScribeBench aggregate row
-Include: system name/date, dataset, n, judge, repeats, dangerous-fabrication rate with CI, narrative mean, fidelity mean, leak rate, exclusions, and method notes.
-Do not publish raw closed-model notes.
-Use this for system claims, not one-note QA.
-Link: https://scribe-bench.vercel.app/#run</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy>Copy row request</button>
-              <a href="#run">Prepare row</a>
-            </article>
-            <article class="artifact-wide" data-public-artifact>
-              <span>Repo receipt</span>
-              <strong>For explaining what this project is.</strong>
-              <p>Bring a skeptical reader. Copy the plain project contract, purpose, and boundary.</p>
-              <pre class="code-block"><code>ScribeBench repo receipt
-What it is: a public source-vs-note QA harness for AI-scribe evidence.
-Use it for: review packets, claim asks, blocker receipts, and scores-only aggregate rows.
-Not for: patient advice, billing, clinical clearance, or crowning a current winner from old rows.
-Repo: https://github.com/napiermd/scribe-bench
-Site: https://scribe-bench.vercel.app/</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy>Copy repo receipt</button>
-              <a href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">Open GitHub</a>
-            </article>
-          </div>
-          <p class="public-action-status" id="public-action-status" role="status" aria-live="polite"></p>
-          <textarea
-            class="copy-fallback"
-            id="public-action-fallback"
-            readonly
-            hidden
-            aria-label="Copied ScribeBench public action artifact"
-          ></textarea>
-        </div>
-
-        <div class="guide-system" aria-label="What the repository contains">
-          <div class="guide-system-copy">
-            <p class="eyebrow">What this repo is</p>
-            <h3>The reproducible harness behind the public artifacts.</h3>
+            <div class="after-receipt-actions">
+              <a class="button primary compact-button" href="#quick-result">Open receipt</a>
+              <a class="button secondary compact-button" href="#lab-workbench">Ask second opinion</a>
+            </div>
+          </article>
+          <article class="after-receipt-card">
+            <span>Public claim</span>
+            <h3>If the claim is bigger than one note, ask for evidence.</h3>
             <p>
-              ScribeBench is not an AI scribe. It is the public QA harness behind the
-              website: browser receipt, claim ask, blocker receipt, optional Lab APIs,
-              evaluator, public cases, worklog, repo receipt, and scores-only ledger. One note creates
-              a review packet; many declared notes can become an aggregate row.
+              Buyers, operators, and skeptics can turn "safe," "best," or
+              "hallucination-free" language into the dataset, n, judge, repeats,
+              CI, and exclusions it would need.
             </p>
-          </div>
-          <ol class="guide-loop">
-            <li>
-              <span>1</span>
-              <strong>Bring source plus note</strong>
-              <p>Transcript, source note, demo output, or candidate-note file.</p>
-            </li>
-            <li>
-              <span>2</span>
-              <strong>Check unsupported care</strong>
-              <p>Invented results, meds, procedures, follow-up, diagnoses, orders, demographics, and leaks.</p>
-            </li>
-            <li>
-              <span>3</span>
-              <strong>Use the right artifact</strong>
-              <p>QA packet, claim ask, blocker receipt, repo receipt, second-opinion verdict, or aggregate row.</p>
-            </li>
-            <li>
-              <span>4</span>
-              <strong>Do not overclaim</strong>
-              <p>One note is triage. Current rankings need powered rows.</p>
-            </li>
-          </ol>
+            <div class="after-receipt-actions">
+              <a class="button secondary compact-button" href="#claim-check">Build claim ask</a>
+            </div>
+          </article>
+          <article class="after-receipt-card">
+            <span>Public row</span>
+            <h3>If you want a ranking, finish a scored aggregate row.</h3>
+            <p>
+              One demo or smoke check cannot rank systems. Current rows need many
+              declared notes scored under the same rules, published as aggregate
+              metrics only.
+            </p>
+            <div class="after-receipt-actions">
+              <a class="button secondary compact-button" href="#current-run">Review blocker</a>
+              <a class="button secondary compact-button" href="#run">Prepare row</a>
+            </div>
+          </article>
+          <article class="after-receipt-card">
+            <span>Repo</span>
+            <h3>If someone asks what this is, say: public QA harness.</h3>
+            <p>
+              The repo is the reproducible machinery behind the site: browser
+              receipt, optional Lab APIs, evaluator, public cases, worklog, and
+              scores-only evidence ledger.
+            </p>
+            <div class="after-receipt-actions">
+              <a class="button secondary compact-button" href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">Open GitHub</a>
+            </div>
+          </article>
         </div>
 
         <div class="guide-limits" aria-label="ScribeBench evidence limits">

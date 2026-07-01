@@ -1714,41 +1714,6 @@ function bindQuickCheck() {
   });
 }
 
-function bindPublicActionKit() {
-  document.querySelectorAll("[data-public-copy]").forEach((button) => {
-    button.addEventListener("click", () => copyPublicAction(button));
-  });
-}
-
-async function copyPublicAction(button) {
-  const card = button.closest("[data-public-artifact]");
-  const text = card?.querySelector("code")?.textContent?.trim() || "";
-  if (!text) {
-    setPublicActionStatus("Nothing to copy yet.");
-    return;
-  }
-  try {
-    await copyText(text);
-    setPublicActionFallback("");
-    setPublicActionStatus(`${button.textContent.trim()} copied.`);
-  } catch (_) {
-    setPublicActionFallback(text);
-    setPublicActionStatus("Clipboard unavailable. Artifact shown below.");
-  }
-}
-
-function setPublicActionStatus(message) {
-  const status = document.getElementById("public-action-status");
-  if (status) status.textContent = message;
-}
-
-function setPublicActionFallback(text) {
-  const fallback = document.getElementById("public-action-fallback");
-  if (!fallback) return;
-  fallback.value = text;
-  fallback.hidden = !text;
-}
-
 function populateQuickCheck(c, { run = false } = {}) {
   if (!c) return null;
   const source = document.getElementById("quick-source");
@@ -3617,7 +3582,6 @@ async function boot() {
   bindAnchorScrolling();
   bindStartRouter();
   bindQuickCheck();
-  bindPublicActionKit();
   bindCurrentRunCommand();
   bindPublicWorkTaskCopy();
   bindCitationBoundaryCopy();

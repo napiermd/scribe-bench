@@ -1,6 +1,6 @@
 # ScribeBench
 
-![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 110](https://img.shields.io/badge/tests-110%20passing-brightgreen)
+![License: MIT](https://img.shields.io/badge/license-MIT-blue) ![Data: CC-BY-4.0](https://img.shields.io/badge/data-CC--BY--4.0-green) ![Ranked: PriMock57 n=57](https://img.shields.io/badge/ranked-PriMock57%20n%3D57-orange) ![Tests: 113](https://img.shields.io/badge/tests-113%20passing-brightgreen)
 
 **A public source-vs-note QA workbench for AI-scribe claims.**
 
@@ -13,10 +13,9 @@ The system loop is simple: **one note becomes a review packet; one claim becomes
 ## What you can do today
 
 - **Check one AI-scribe note** in the browser and copy a reviewer-ready packet with excerpts, issue flags, boundaries, and the next proof step.
-- **Pick a visitor route** and copy a short plan for what to bring, what to do, and what evidence artifact you should leave with.
-- **Choose the walk-up use case** — clinical QA, buyer/operator, or builder/contributor — before touching the demo.
+- **Choose the smallest honest next step after a receipt** — review one note, challenge a larger claim, finish a current row, or explain the repo.
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
-- **Explain the repo** with a copyable repo receipt that says what ScribeBench is, what it is not, and which public artifacts it creates.
+- **Explain the repo** as a public QA harness: browser receipt, optional Lab APIs, evaluator, public cases, worklog, and scores-only evidence ledger.
 - **Read the evidence ledger** without mistaking historical launch baselines or smoke checks for a current model ranking.
 - **Copy the citation boundary** so old launch rows are discussed as failure-gradient evidence, not as today's best-model claim.
 - **Help finish the current PriMock57 row** by resuming the public API run or submitting a scores-only aggregate row from your own system.
@@ -35,8 +34,8 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 | If you want to... | Go here | What you get |
 |-------------------|---------|--------------|
 | Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready review packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Decide what to do after a receipt | [After-the-receipt guide](https://scribe-bench.vercel.app/#public-action-kit) | Four bounded paths: hold or review the note, challenge a larger claim, finish a scored row, or explain the repo. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
-| Share one public artifact | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a review packet, vendor evidence ask, blocker receipt, repo receipt, or current-row request. |
 | Understand what the rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored receipt, excluded-case boundary, and resume command for the public API row. |
 | Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |
@@ -115,7 +114,7 @@ Use the website for six jobs:
 1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, procedures, medication changes, diagnoses, orders, and test results. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
 3. **Read today's answer.** The first screen and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
-4. **Share one bounded artifact.** Convert a note receipt, blocker receipt, Lab verdict, or claim ask into copy-ready text with what happened, evidence level, boundary, and next public ask.
+4. **Choose the next bounded action.** After a receipt, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.
 5. **Run optional Lab checks.** Use configured provider models for generation and second-opinion judging when you want plumbing evidence. Treat those packets as smoke or review artifacts, not ranked results.
 6. **Publish aggregate evidence.** Use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
