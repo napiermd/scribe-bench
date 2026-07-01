@@ -1972,6 +1972,7 @@ function renderQuickResult(result) {
   const useGuidance = quickUseGuidance({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
   setText("quick-use-title", useGuidance.title);
   setText("quick-use-copy", useGuidance.copy);
+  renderQuickUseActions(result);
   const list = document.getElementById("quick-result-list");
   if (list) {
     list.innerHTML = "";
@@ -2004,20 +2005,34 @@ function quickResultLabel(result) {
 function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
   if (dangerousCount) {
     return {
-      title: "Use this as a QA finding first.",
-      copy: `Copy the packet into review, then use the claim checker only if someone wants to turn this one-note issue${issueTypes ? ` (${issueTypes})` : ""} into a broader vendor or system claim.`,
+      title: "Hold the note and copy the review packet.",
+      copy: `Fix or verify the flagged claim${dangerousCount === 1 ? "" : "s"}${issueTypes ? ` (${issueTypes})` : ""} before signing or sharing the note. Use the claim checker only when turning this one-note issue into a broader vendor or system claim.`,
     };
   }
   if (leakCount) {
     return {
-      title: "Use this to fix the output pipeline.",
+      title: "Fix the output, then recheck.",
       copy: "Copy the packet for the team that owns prompts or templates. Recheck the note after cleanup before treating it as evidence.",
     };
   }
   return {
-    title: "Use this as clean triage, not clearance.",
+    title: "Treat this as clean triage, not clearance.",
     copy: "A clean browser check can support a narrow QA note. Use the Lab or powered rows before saying the whole scribe system is safe or better.",
   };
+}
+
+function renderQuickUseActions(result) {
+  const ownNote = document.querySelector(".quick-use-actions [data-quick-start-own]");
+  const copy = document.getElementById("quick-use-copy-receipt");
+  const isSeeded = quickResultLabel(result) === "Seeded example receipt";
+  if (ownNote) {
+    ownNote.textContent = isSeeded ? "Check your own note" : "Check another note";
+    ownNote.className = `button ${isSeeded ? "primary" : "secondary"} compact-button`;
+  }
+  if (copy) {
+    copy.textContent = isSeeded ? "Copy review packet" : "Copy this review packet";
+    copy.className = `button ${isSeeded ? "secondary" : "primary"} compact-button`;
+  }
 }
 
 function resetQuickResult() {

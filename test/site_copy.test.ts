@@ -93,6 +93,13 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('Copy-ready review packet');
     expect(quickSection).toContain('ScribeBench source-vs-note review packet');
     expect(app).toContain('ScribeBench note review packet');
+    expect(app).toContain('function renderQuickUseActions(result)');
+    expect(app).toContain('ownNote.textContent = isSeeded ? "Check your own note" : "Check another note";');
+    expect(app).toContain('copy.textContent = isSeeded ? "Copy review packet" : "Copy this review packet";');
+    expect(app).toContain('copy.className = `button ${isSeeded ? "secondary" : "primary"} compact-button`;');
+    expect(app).toContain('Hold the note and copy the review packet.');
+    expect(app).toContain('Fix or verify the flagged claim');
+    expect(app).toContain('Treat this as clean triage, not clearance.');
     expect(app).toContain('Use now: ${useNow}');
     expect(app).toContain('Verdict: ${verdict.title}');
     expect(app).toContain('What happened: ${verdict.copy}');

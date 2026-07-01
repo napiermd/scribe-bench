@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first note result now makes the next action obvious",
+      "why": "The first checker produced useful evidence, but the result action still said to use it as a QA finding. That was accurate, but too abstract for a cold visitor trying to decide what to do next.",
+      "proof": "The result guidance now says to hold the note and copy the review packet when unsupported care is flagged. Seeded examples keep Check your own note as the primary action, while user-owned results promote Copy this review packet and move Check another note to the secondary action.",
+      "next": "Keep testing the first screen as a review workflow: run the check, understand the decision, copy the artifact, then escalate only if a broader claim needs evidence.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Review packet", "href": "#quick-receipt-preview-output" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The guide now names the artifacts visitors can leave with",
       "why": "The public site explained the one-note and aggregate-row loop, but a visitor still had to connect the checker, claim tool, blocker receipt, and row builder into concrete public outputs.",
       "proof": "The Public guide now includes a Public action kit with four shareable artifacts: review packet, claim ask, blocker receipt, and aggregate row. Each artifact names what to bring, what to copy, and where that output belongs.",
