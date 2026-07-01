@@ -120,15 +120,32 @@ describe('site copy and labels', () => {
   });
 
   it('makes the public work queue copyable as a contribution task', () => {
-    const runSection = html.match(/<section class="wrap section run-panel" id="run">[\s\S]*?<\/section>/)?.[0] || '';
+    const runStart = html.indexOf('<section class="wrap section run-panel" id="run">');
+    const footerStart = html.indexOf('<footer', runStart);
+    const runSection = runStart >= 0 ? html.slice(runStart, footerStart >= 0 ? footerStart : undefined) : '';
+    const chooserIndex = runSection.indexOf('Choose your entry point');
+    const queueIndex = runSection.indexOf('Public work queue');
+    const builderIndex = runSection.indexOf('Aggregate row command builder');
 
+    expect(runSection).toContain('Help make ScribeBench worth citing.');
+    expect(runSection).toContain('You do not need to be a benchmark person.');
+    expect(runSection).toContain('Only many scored notes');
+    expect(runSection).toContain('What do you have in hand?');
+    expect(runSection).toContain('I can unblock the current run.');
+    expect(runSection).toContain('Open the blocker task');
+    expect(chooserIndex).toBeGreaterThan(-1);
+    expect(queueIndex).toBeGreaterThan(chooserIndex);
+    expect(builderIndex).toBeGreaterThan(queueIndex);
     expect(runSection).toContain('id="public-work-queue-task"');
     expect(runSection).toContain('Copyable public task');
     expect(runSection).toContain('id="copy-public-work-task"');
     expect(runSection).toContain('Generated ScribeBench public contribution task');
+    expect(runSection).not.toContain('Pick the artifact before touching the builder.');
+    expect(runSection).not.toContain('Start from evidence in hand');
     expect(app).toContain('let currentPublicWorkTask = "";');
     expect(app).toContain('function buildPublicWorkTask(run, counts)');
     expect(app).toContain('ScribeBench public contribution task');
+    expect(app).toContain('status: "Only for rows"');
     expect(app).toContain('Boundary: no raw closed-model notes in the public repo; this is not a current ranking until the row is complete and reviewed.');
     expect(app).toContain('bindPublicWorkTaskCopy();');
     expect(app).toContain('setPublicWorkQueueCopyStatus("Public task copied.");');

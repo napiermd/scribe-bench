@@ -4675,13 +4675,14 @@ h4 {
   display: grid;
   grid-template-columns: minmax(260px, 0.42fr) minmax(0, 1fr);
   gap: 0;
-  border: 1px solid var(--line);
-  background: var(--panel-soft);
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
 }
 
 .contribution-intake-copy {
   min-width: 0;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid rgba(15, 118, 110, 0.18);
   padding: 0.95rem 1rem;
 }
 
@@ -4711,7 +4712,8 @@ h4 {
   align-content: start;
   gap: 0.48rem;
   min-width: 0;
-  border-right: 1px solid var(--line);
+  border-right: 1px solid rgba(15, 118, 110, 0.18);
+  background: rgba(255, 255, 255, 0.62);
   padding: 0.9rem 0.85rem;
 }
 
@@ -5227,11 +5229,11 @@ h4 {
   }
 
   .run-panel > .public-work-queue {
-    order: 2;
+    order: 3;
   }
 
   .run-panel > .contribution-intake {
-    order: 3;
+    order: 2;
   }
 
   .run-panel > .run-plan-card {

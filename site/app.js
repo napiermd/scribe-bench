@@ -337,7 +337,7 @@ const startRoutes = {
 
 const runPresets = {
   "current-powered": {
-    status: "Row-ready only",
+    status: "Only for rows",
     statusClass: "ready",
     title: "Powered row requirements",
     bring: "Candidate notes from the actual current model, vendor system, or scribe pipeline across a declared dataset.",

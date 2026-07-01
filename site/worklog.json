@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Contribute now starts from what a visitor has in hand",
+      "why": "The Contribute section had the right queue and row builder, but it led with aggregate-evidence language and pushed the human entry points below the blocker details, especially on mobile.",
+      "proof": "The section now opens with plain contribution copy: one source-note pair, a public claim, a batch of candidate notes, or a provider key. The entry-point chooser appears before the public work queue, and the row builder is explicitly framed as only for many-note rows.",
+      "next": "Keep the builder useful for people with candidate notes while making the first contribution action clear for non-benchmark visitors.",
+      "links": [
+        { "label": "Contribute", "href": "#run" },
+        { "label": "Current blocker", "href": "#current-run" },
+        { "label": "Row builder", "href": "#run-builder" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The evidence ledger now opens as a public task board",
       "why": "The Evidence section had the right blocker details, but it still read like a dense ledger and could briefly open in a loading state even though the current-run facts already existed in the repo.",
       "proof": "The Evidence heading now asks what is useful now and what still needs public work. The current-run card ships with static 9/57 counts and an Open public task strip with Bring, Do, and Done steps; the renderer refreshes those fields from current-run.json when it loads.",
