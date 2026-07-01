@@ -167,8 +167,8 @@ describe('site copy and labels', () => {
 
   it('keeps claim-generated evidence cards in the public-claim context', () => {
     const claimStart = html.indexOf('<section class="wrap section claim-section" id="claim-check">');
-    const challengeStart = html.indexOf('<section class="wrap section challenge-section" id="current-challenge">', claimStart);
-    const claimSection = claimStart >= 0 ? html.slice(claimStart, challengeStart >= 0 ? challengeStart : undefined) : '';
+    const evidenceStart = html.indexOf('<section class="wrap section" id="leaderboard">', claimStart);
+    const claimSection = claimStart >= 0 ? html.slice(claimStart, evidenceStart >= 0 ? evidenceStart : undefined) : '';
     const askIndex = claimSection.indexOf('claim-ask-preview');
     const outputGridIndex = claimSection.indexOf('claim-output-grid');
     const evidencePathIndex = claimSection.indexOf('claim-evidence-path');
@@ -190,6 +190,10 @@ describe('site copy and labels', () => {
     expect(app).toContain('function renderPublicEvidenceCardActions(card)');
     expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";');
     expect(app).toContain('ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";');
+    expect(html).not.toContain('id="current-challenge"');
+    expect(html).not.toContain('Powered-row challenge');
+    expect(app).not.toContain('bindChallengePlanner');
+    expect(app).not.toContain('challengePlans');
   });
 
   it('makes the public work queue copyable as a contribution task', () => {

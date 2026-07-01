@@ -183,10 +183,10 @@ const claimEvidencePaths = {
     close:
       "Both systems scored on the same cases with the same publication policy, declared judge, repeats, confidence intervals, and method disclosure.",
     current:
-      "The powered path and challenge planner define the comparison contract; smoke rows cannot decide a winner.",
+      "The row builder defines the comparison contract; smoke rows cannot decide a winner.",
     next:
-      "Plan the comparable run, then publish aggregate rows for both systems.",
-    primary: { label: "Copy challenge plan", href: "#current-challenge" },
+      "Build the comparable row command, then publish aggregate rows for both systems.",
+    primary: { label: "Build row command", href: "#run-builder" },
     secondary: { label: "Open Add Row path", href: "#run" },
   },
   "current-ranking": {
@@ -199,92 +199,6 @@ const claimEvidencePaths = {
       "Review the blocker receipt or add the powered row that would make the ranking claim citeable.",
     primary: { label: "Review current blocker", href: "#current-run" },
     secondary: { label: "Open Add Row path", href: "#run" },
-  },
-};
-
-const challengePlans = {
-  "frontier-powered": {
-    label: "Current system under test",
-    status: "Needed now",
-    statusClass: "needed",
-    defaultSystem: "current-system-under-test",
-    title: "A powered current row makes the board useful again.",
-    run:
-      "Run the actual current model, vendor system, or scribe pipeline across all 57 PriMock57 cases, then score the same candidate file with a declared judge and 2 repeats.",
-    publish:
-      "Publish aggregate scores only: dangerous-fabrication rate with CI, narrative mean with CI, fidelity mean, leak rate, model/date, judge, prompt policy, and tuning disclosure.",
-    why:
-      "This directly answers the old-model criticism. It turns the page from historical baselines into a current comparison surface.",
-    evidence:
-      "n=57 PriMock57, repeats=2, current system/date declared, judge declared, aggregate-only row, no closed raw notes.",
-    next:
-      "Use the Run section to create the candidate-note JSON and benchmark command, then open a GitHub PR with the aggregate row.",
-  },
-  "open-free": {
-    label: "Open/free model candidate",
-    status: "Low friction",
-    statusClass: "open",
-    defaultSystem: "openrouter-free-candidate",
-    title: "A cheap model earns attention by surviving the smoke path first.",
-    run:
-      "Start with the seeded SYN-003 Lab flow and bundled synthetic smoke set. If it avoids obvious unsupported care, graduate it to all 57 PriMock57 cases.",
-    publish:
-      "Publish the smoke row separately from powered rows, then add a powered row only after the full PriMock57 run exists.",
-    why:
-      "This lets people test current open/free models without pretending three synthetic cases prove a system is best.",
-    evidence:
-      "Smoke first: n=3 synthetic cases. Powered next: n=57 PriMock57, repeats declared, judge declared, aggregate-only.",
-    next:
-      "Run the Lab smoke check, then use the powered path for any model worth discussing publicly.",
-  },
-  "real-workflow": {
-    label: "Real scribe workflow",
-    status: "High value",
-    statusClass: "valuable",
-    defaultSystem: "real-workflow-scribe",
-    title: "A real workflow row is more useful than another generic model demo.",
-    run:
-      "Score candidate notes from an actual scribe pipeline against a declared dataset. PriMock57 is public; real-workflow datasets can be aggregate-only if raw notes cannot be shared.",
-    publish:
-      "Publish aggregate metrics, generation method, whether prompts were tuned to ScribeBench, judge model, repeats, dataset scope, and any exclusions.",
-    why:
-      "Buyers and builders care about deployed behavior. This turns ScribeBench into a public evidence ledger for real systems, not just model names.",
-    evidence:
-      "Aggregate metrics, dataset scope, judge, repeats, generation method, tuning disclosure, data policy followed.",
-    next:
-      "Prepare a scores-only submission and link it to the public evidence ledger.",
-  },
-  "judge-robustness": {
-    label: "Second-judge robustness pass",
-    status: "Needed",
-    statusClass: "needed",
-    defaultSystem: "judge-robustness-pass",
-    title: "A second judge checks whether the ranking is judge-shaped.",
-    run:
-      "Reuse the exact same candidate notes from a promising row and re-score them with a second declared judge model.",
-    publish:
-      "Publish the changed dangerous-fabrication rate, narrative mean, rank movement, and any disagreements that would alter the public interpretation.",
-    why:
-      "A benchmark is weaker if one model silently grades another. Robustness rows make the evidence harder to dismiss.",
-    evidence:
-      "Same candidate notes, same dataset, second judge, changed metrics, changed ranking called out.",
-    next:
-      "Choose a second judge backend and submit the robustness row next to the original row.",
-  },
-};
-
-const challengePresets = {
-  "frontier-powered": {
-    target: "frontier-powered",
-  },
-  "open-free": {
-    target: "open-free",
-  },
-  "real-workflow": {
-    target: "real-workflow",
-  },
-  "judge-robustness": {
-    target: "judge-robustness",
   },
 };
 
@@ -331,7 +245,7 @@ const startRoutes = {
     action: "Inspect the blocker, copy the resume command, or use the run builder to create the row people are asking for.",
     output: "A visible blocker receipt or a public aggregate row with method details.",
     primary: { label: "Review blocker", href: "#current-run" },
-    secondary: { label: "Copy challenge plan", href: "#current-challenge" },
+    secondary: { label: "Build row command", href: "#run-builder" },
   },
 };
 
@@ -1562,141 +1476,6 @@ function setPublicEvidenceCardCopyStatus(message) {
 
 function setPublicEvidenceCardFallback(text) {
   const fallback = document.getElementById("public-evidence-card-copy-fallback");
-  if (!fallback) return;
-  fallback.value = text;
-  fallback.hidden = !text;
-}
-
-function bindChallengePlanner() {
-  const form = document.getElementById("challenge-form");
-  if (!form) return;
-  form.addEventListener("submit", (event) => event.preventDefault());
-  const target = document.getElementById("challenge-target");
-  const system = document.getElementById("challenge-system");
-  document.querySelectorAll("[data-challenge-preset]").forEach((button) => {
-    button.addEventListener("click", () => applyChallengePreset(button.dataset.challengePreset || "frontier-powered"));
-  });
-  target?.addEventListener("change", () => {
-    syncChallengeSystemDefault();
-    setActiveChallengePreset(matchingChallengePresetKey());
-    renderChallengePlan();
-  });
-  system?.addEventListener("input", () => {
-    setActiveChallengePreset(matchingChallengePresetKey());
-    renderChallengePlan();
-  });
-  document.getElementById("copy-challenge-plan")?.addEventListener("click", copyChallengePlan);
-  syncChallengeSystemDefault();
-  setActiveChallengePreset(matchingChallengePresetKey() || "frontier-powered");
-  renderChallengePlan();
-}
-
-function applyChallengePreset(key) {
-  const preset = challengePresets[key] || challengePresets["frontier-powered"];
-  const target = document.getElementById("challenge-target");
-  const system = document.getElementById("challenge-system");
-  if (target) target.value = preset.target;
-  const plan = selectedChallengePlan();
-  if (system) {
-    system.value = plan.defaultSystem;
-    system.dataset.defaultValue = plan.defaultSystem;
-  }
-  setActiveChallengePreset(preset.target);
-  renderChallengePlan();
-}
-
-function matchingChallengePresetKey() {
-  const target = document.getElementById("challenge-target")?.value || "";
-  const system = document.getElementById("challenge-system")?.value.trim() || "";
-  const plan = challengePlans[target];
-  if (!plan || system !== plan.defaultSystem) return "";
-  return challengePresets[target] ? target : "";
-}
-
-function setActiveChallengePreset(key) {
-  document.querySelectorAll("[data-challenge-preset]").forEach((button) => {
-    const active = Boolean(key) && button.dataset.challengePreset === key;
-    button.classList.toggle("active", active);
-    button.setAttribute("aria-pressed", active ? "true" : "false");
-  });
-}
-
-function selectedChallengePlan() {
-  const target = document.getElementById("challenge-target")?.value || "frontier-powered";
-  return challengePlans[target] || challengePlans["frontier-powered"];
-}
-
-function syncChallengeSystemDefault() {
-  const plan = selectedChallengePlan();
-  const input = document.getElementById("challenge-system");
-  if (!input) return;
-  const previousDefault = input.dataset.defaultValue || "";
-  const current = input.value.trim();
-  if (!current || current === previousDefault) input.value = plan.defaultSystem;
-  input.dataset.defaultValue = plan.defaultSystem;
-}
-
-function currentChallengeSystem() {
-  const plan = selectedChallengePlan();
-  return document.getElementById("challenge-system")?.value.trim() || plan.defaultSystem;
-}
-
-function renderChallengePlan() {
-  const plan = selectedChallengePlan();
-  const system = currentChallengeSystem();
-  const status = document.getElementById("challenge-status");
-  if (status) {
-    status.textContent = plan.status;
-    status.className = `queue-status ${plan.statusClass}`;
-  }
-  setText("challenge-title", plan.title);
-  setText("challenge-run", plan.run);
-  setText("challenge-publish", plan.publish);
-  setText("challenge-why", plan.why);
-  setText("challenge-public-plan", buildChallengePlan(plan, system));
-  setChallengeCopyStatus("");
-  setChallengeCopyFallback("");
-}
-
-function buildChallengePlan(plan = selectedChallengePlan(), system = currentChallengeSystem()) {
-  return [
-    "ScribeBench powered-row challenge",
-    `Target: ${plan.label}`,
-    `System label: ${system}`,
-    `Status: ${plan.status}`,
-    "",
-    `Why this matters: ${plan.why}`,
-    "",
-    `Run: ${plan.run}`,
-    `Evidence minimum: ${plan.evidence}`,
-    `Publish: ${plan.publish}`,
-    `Next step: ${plan.next}`,
-    "",
-    "Run builder: https://scribe-bench.vercel.app/#run",
-    "Evidence ledger: https://scribe-bench.vercel.app/#leaderboard",
-    "Submission guide: https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md",
-  ].join("\n");
-}
-
-async function copyChallengePlan() {
-  const text = buildChallengePlan();
-  try {
-    await copyText(text);
-    setChallengeCopyFallback("");
-    setChallengeCopyStatus("Run plan copied.");
-  } catch (_) {
-    setChallengeCopyFallback(text);
-    setChallengeCopyStatus("Clipboard unavailable. Run plan shown below.");
-  }
-}
-
-function setChallengeCopyStatus(message) {
-  const status = document.getElementById("challenge-copy-status");
-  if (status) status.textContent = message;
-}
-
-function setChallengeCopyFallback(text) {
-  const fallback = document.getElementById("challenge-copy-fallback");
   if (!fallback) return;
   fallback.value = text;
   fallback.hidden = !text;
@@ -3689,7 +3468,6 @@ async function boot() {
   bindCurrentRunCommand();
   bindPublicWorkTaskCopy();
   bindClaimChecker();
-  bindChallengePlanner();
   bindLab();
   bindRunBuilder();
   try {

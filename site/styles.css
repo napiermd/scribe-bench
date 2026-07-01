@@ -2465,151 +2465,6 @@ h4 {
   margin-top: 0.85rem;
 }
 
-.challenge-section {
-  padding-top: 56px;
-}
-
-.challenge-tool {
-  display: grid;
-  grid-template-columns: minmax(0, 0.82fr) minmax(0, 1fr);
-  gap: 18px;
-  align-items: start;
-}
-
-.challenge-form,
-.challenge-output {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  box-shadow: var(--shadow);
-  padding: 1rem;
-}
-
-.challenge-form {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.challenge-presets {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-}
-
-.challenge-preset {
-  display: grid;
-  min-width: 0;
-  min-height: 58px;
-  border: 1px solid var(--line-strong);
-  border-radius: 7px;
-  background: var(--panel-soft);
-  color: var(--ink);
-  font: inherit;
-  gap: 0.18rem;
-  padding: 0.58rem 0.66rem;
-  text-align: left;
-}
-
-.challenge-preset span {
-  font-size: 0.9rem;
-  font-weight: 850;
-  line-height: 1.15;
-}
-
-.challenge-preset small {
-  color: var(--muted);
-  font-size: 0.76rem;
-  line-height: 1.2;
-}
-
-.challenge-preset:hover,
-.challenge-preset.active {
-  border-color: rgba(15, 118, 110, 0.34);
-  background: var(--accent-soft);
-  color: var(--accent-strong);
-}
-
-.challenge-preset.active small {
-  color: var(--accent-strong);
-}
-
-.field-row.challenge-row {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-.challenge-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.7rem;
-}
-
-#challenge-copy-status {
-  color: var(--muted);
-  font-size: 0.9rem;
-  margin: 0;
-}
-
-.challenge-output-head {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 0.8rem;
-}
-
-.challenge-output-head .eyebrow {
-  margin-bottom: 0.35rem;
-}
-
-.challenge-output h3 {
-  font-size: 1.24rem;
-}
-
-.challenge-output-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 1rem;
-}
-
-.challenge-output-grid article {
-  min-width: 0;
-  border-left: 3px solid var(--line-strong);
-  background: var(--panel-soft);
-  padding: 0.78rem 0.85rem;
-}
-
-.challenge-output-grid h4 {
-  color: var(--accent-strong);
-  font-size: 0.68rem;
-}
-
-.challenge-output-grid p {
-  color: var(--muted);
-  font-size: 0.88rem;
-  line-height: 1.42;
-  margin: 0.28rem 0 0;
-}
-
-.challenge-plan-preview {
-  border-top: 1px solid var(--line);
-  margin-top: 1rem;
-  padding-top: 1rem;
-}
-
-.challenge-plan-preview p {
-  white-space: pre-wrap;
-  overflow-wrap: anywhere;
-  font-family: var(--mono);
-  font-size: 0.8rem;
-  line-height: 1.5;
-  color: #17312e;
-  background: var(--panel-soft);
-  border: 1px solid var(--line);
-  padding: 0.85rem;
-  margin: 0.55rem 0 0;
-}
-
 .evidence-task-card {
   display: grid;
   grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
@@ -5174,7 +5029,6 @@ h4 {
 
   .summary-grid,
   .claim-tool,
-  .challenge-tool,
   .evidence-task-card,
   .evidence-answer,
   .evidence-decision,
@@ -5226,7 +5080,6 @@ h4 {
   .submission-checklist,
   .claim-output-grid,
   .claim-evidence-grid,
-  .challenge-output-grid,
   .run-builder-actions,
   .agenda-grid,
   .current-run-metrics,
@@ -5257,7 +5110,6 @@ h4 {
   .live-smoke-lane,
   .field-row,
   .field-row.claim-row,
-  .field-row.challenge-row,
   .field-row.lab-model-row,
   .field-row.run-builder-row,
   .lab-textareas,
@@ -5525,10 +5377,6 @@ h4 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .challenge-presets {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
   .run-presets {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -5562,10 +5410,6 @@ h4 {
   }
 
   .claim-presets {
-    grid-template-columns: 1fr;
-  }
-
-  .challenge-presets {
     grid-template-columns: 1fr;
   }
 

@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The middle page no longer detours into a run-plan form",
+      "why": "After the claim checker, visitors hit a separate powered-row challenge planner before the evidence ledger and contribution tools. It repeated the same row-builder job and made the page feel like benchmark machinery again.",
+      "proof": "Removed the standalone challenge planner, its presets, copy logic, and CSS. Claim, evidence, queue, and historical-row actions now point directly to the current blocker, Lab smoke path, or aggregate row builder.",
+      "next": "Keep the middle journey linear: claim ask, evidence boundary, current blocker, then row builder only when the visitor has many notes.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Row builder", "href": "#run-builder" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first note path now has one artifact",
       "why": "The browser receipt already created a copy-ready review packet, but the page also rendered a separate public evidence card for the same one-note result. That repeated the same finding and made the first experience feel padded.",
       "proof": "Running the first checker now clears claim and smoke artifacts and leaves the review packet as the single output. Public evidence cards remain reserved for claim asks and second-read smoke packets, where a standalone handoff is useful.",
@@ -738,7 +751,7 @@
       "next": "Use the freshness receipt as the default public answer whenever someone asks whether ScribeBench proves today's best AI scribe.",
       "links": [
         { "label": "Evidence ledger", "href": "#leaderboard" },
-        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Current blocker", "href": "#current-run" },
         { "label": "Submission guide", "href": "https://github.com/napiermd/scribe-bench/blob/main/leaderboard/SUBMISSION.md" }
       ]
     },
@@ -1050,7 +1063,7 @@
       "next": "Keep separating quick plumbing demos from publishable evidence so the public site does not confuse a smoke path with a market claim.",
       "links": [
         { "label": "Run builder", "href": "#run" },
-        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Row builder", "href": "#run-builder" },
         { "label": "Evidence ledger", "href": "#leaderboard" }
       ]
     },
@@ -1102,7 +1115,7 @@
       "next": "Run and publish current powered PriMock57 rows so the historical board becomes comparison context instead of the main artifact.",
       "links": [
         { "label": "Evidence ledger", "href": "#leaderboard" },
-        { "label": "Current-model challenge", "href": "#current-challenge" },
+        { "label": "Current blocker", "href": "#current-run" },
         { "label": "Run builder", "href": "#run" }
       ]
     },
@@ -1128,7 +1141,7 @@
       "next": "Keep the exact tables as the audit trail, but make the public takeaway visible before visitors parse old launch-model names.",
       "links": [
         { "label": "Evidence ledger", "href": "#leaderboard" },
-        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Current blocker", "href": "#current-run" },
         { "label": "Run builder", "href": "#run" }
       ]
     },
@@ -1218,7 +1231,7 @@
       "proof": "Added one-click proof-run presets for updating a current hosted model row, trying an open/free model, scoring a real scribe workflow, and checking judge robustness. Each preset sets the run target and system label, updates the proof explanation, and keeps the copyable run plan. The target and system fields now use the full form width instead of a cramped three-column row.",
       "next": "Keep moving the deeper Evidence and Run sections from benchmark machinery toward task-first workflows with clear outputs.",
       "links": [
-        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Row builder", "href": "#run-builder" },
         { "label": "Run builder", "href": "#run" },
         { "label": "Evidence ledger", "href": "#leaderboard" }
       ]
@@ -1362,7 +1375,7 @@
       "next": "Run the full PriMock57 set with repeats and publish only aggregate scores once the row has enough cases to support a system-level claim.",
       "links": [
         { "label": "Run Lab", "href": "#lab" },
-        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Current blocker", "href": "#current-run" },
         { "label": "Evidence ledger", "href": "#leaderboard" }
       ]
     },
@@ -1375,7 +1388,7 @@
       "next": "Use the Ultra judge and compact fallback as the public OpenRouter default path, then rerun the PriMock57 current-row probe and graduate it into a full scores-only row once judge responses are stable.",
       "links": [
         { "label": "Run Lab", "href": "#lab" },
-        { "label": "Current challenge", "href": "#current-challenge" },
+        { "label": "Current blocker", "href": "#current-run" },
         { "label": "Evidence ledger", "href": "#leaderboard" }
       ]
     },
@@ -1387,7 +1400,7 @@
       "proof": "Added the Current-model challenge section with target switching, system-label input, live proof-plan rendering, and clipboard/fallback copy behavior for frontier, open/free, real-workflow, and second-judge runs.",
       "next": "Use the planner to turn public interest into actual powered PriMock57 rows for current models and real scribe workflows.",
       "links": [
-        { "label": "Copy challenge plan", "href": "#current-challenge" },
+        { "label": "Build row command", "href": "#run-builder" },
         { "label": "Run builder", "href": "#run" },
         { "label": "Evidence ledger", "href": "#leaderboard" }
       ]

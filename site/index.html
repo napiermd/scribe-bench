@@ -633,97 +633,6 @@
         </div>
       </section>
 
-      <section class="wrap section challenge-section" id="current-challenge">
-        <div class="section-head split-head">
-          <div>
-            <p class="eyebrow">Powered-row challenge</p>
-            <h2>Stop arguing about stale rows. Pick the next proof run.</h2>
-            <p>
-              The public board is only useful if people can see exactly what evidence is missing
-              and how to add it. Choose the run you can do, name the system, and copy the plan.
-            </p>
-          </div>
-          <a class="text-link" href="#run">Open the run builder</a>
-        </div>
-
-        <div class="challenge-tool" aria-label="Powered-row ScribeBench challenge planner">
-          <form class="challenge-form" id="challenge-form">
-            <div class="challenge-presets" aria-label="Common proof runs">
-              <button class="challenge-preset" type="button" data-challenge-preset="frontier-powered">
-                <span>Update current row</span>
-                <small>Actual system under test</small>
-              </button>
-              <button class="challenge-preset" type="button" data-challenge-preset="open-free">
-                <span>Try open/free</span>
-                <small>Smoke first, power later</small>
-              </button>
-              <button class="challenge-preset" type="button" data-challenge-preset="real-workflow">
-                <span>Score real workflow</span>
-                <small>Actual scribe output</small>
-              </button>
-              <button class="challenge-preset" type="button" data-challenge-preset="judge-robustness">
-                <span>Check the judge</span>
-                <small>Second scoring pass</small>
-              </button>
-            </div>
-            <div class="field-row challenge-row">
-              <label class="field">
-                <span>Run target</span>
-                <select id="challenge-target">
-                  <option value="frontier-powered">Current system under test</option>
-                  <option value="open-free">Open/free model candidate</option>
-                  <option value="real-workflow">Real scribe workflow</option>
-                  <option value="judge-robustness">Second-judge robustness pass</option>
-                </select>
-              </label>
-              <label class="field">
-                <span>System label</span>
-                <input id="challenge-system" type="text" value="current-system-under-test" />
-              </label>
-            </div>
-            <div class="challenge-actions">
-              <button class="button secondary compact-button" id="copy-challenge-plan" type="button">Copy run plan</button>
-              <p id="challenge-copy-status" role="status" aria-live="polite"></p>
-            </div>
-            <textarea
-              class="copy-fallback"
-              id="challenge-copy-fallback"
-              readonly
-              hidden
-              aria-label="Generated ScribeBench powered-row run plan"
-            ></textarea>
-          </form>
-
-          <aside class="challenge-output" aria-live="polite">
-            <div class="challenge-output-head">
-              <span class="queue-status needed" id="challenge-status">Needed now</span>
-              <div>
-                <p class="eyebrow">What this proves</p>
-                <h3 id="challenge-title">A current row makes the board useful again.</h3>
-              </div>
-            </div>
-            <div class="challenge-output-grid">
-              <article>
-                <h4>Run</h4>
-                <p id="challenge-run">--</p>
-              </article>
-              <article>
-                <h4>Publish</h4>
-                <p id="challenge-publish">--</p>
-              </article>
-              <article>
-                <h4>Why it matters</h4>
-                <p id="challenge-why">--</p>
-              </article>
-            </div>
-            <div class="challenge-plan-preview">
-              <h4>Copyable public plan</h4>
-              <p id="challenge-public-plan"></p>
-            </div>
-          </aside>
-        </div>
-      </section>
-
       <section class="wrap section" id="leaderboard">
         <div class="section-head">
           <div>
@@ -994,7 +903,7 @@
                 </div>
                 <div>
                   <dt>First action</dt>
-                  <dd><a href="#current-challenge">Copy a powered run plan</a></dd>
+                  <dd><a href="#current-run">Open the current blocker</a></dd>
                 </div>
               </dl>
             </article>
@@ -1011,7 +920,7 @@
                 </div>
                 <div>
                   <dt>First action</dt>
-                  <dd><a href="#current-challenge">Plan the open/free path</a></dd>
+                  <dd><a href="#lab">Run a second-read smoke check</a></dd>
                 </div>
               </dl>
             </article>
@@ -1064,8 +973,8 @@
               </p>
             </div>
             <div class="historical-baseline-actions">
-              <a class="button primary compact-button" href="#current-challenge">Add a current row</a>
-              <a class="button secondary compact-button" href="#run">Add evidence row</a>
+              <a class="button primary compact-button" href="#current-run">Open current blocker</a>
+              <a class="button secondary compact-button" href="#run-builder" data-run-jump-preset="current-powered">Build row command</a>
             </div>
           </div>
 
