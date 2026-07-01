@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The first screen now says exactly when ScribeBench is useful",
+      "why": "The homepage had a working note checker and clearer task routes, but a skeptical visitor still had to infer the product contract from several nearby blocks. That left room for the site to feel like generic AI-safety copy instead of a concrete public QA tool.",
+      "proof": "Replaced the first-screen purpose panel with a public-use contract: use it for one-note checks, claim challenges, or aggregate evidence; leave with a QA finding, evidence ask, blocker receipt, or scores-only row; and do not use it for patient advice, PHI storage, clinical clearance, or current rankings from old rows.",
+      "next": "Keep turning every public page section into a visible artifact contract: bring this, check this, leave with this, do not claim this.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The claim checker now shows the proof path before the copy block",
       "why": "A visitor challenging a vague AI-scribe claim should immediately see whether the claim is unsupported, what artifact would close it, and what to click next. Hiding that behind details made the claim checker feel like another text generator.",
       "proof": "Added a visible claim-boundary card above the copyable public ask with current status, closing artifact, next public step, and direct action links for the selected claim type. The manual-copy fallback now opens inside the public-ask output card instead of the intake form.",
