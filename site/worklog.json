@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The GitHub README now opens with the public job",
+      "why": "The website routes were clearer, but a visitor who clicked GitHub could still fall from the repo description into file trees and historical benchmark rows before seeing what to do with the project.",
+      "proof": "The README now has a Use this repo in public block that sends source-note users to the one-note checker, claim users to the claim checker, and ranking questions to the evidence ledger with the plain answer that a current ranking is not ready yet.",
+      "next": "Keep the GitHub entry point aligned with the site: live artifact first, repo machinery second, historical rows never framed as today's winner.",
+      "links": [
+        { "label": "GitHub README", "href": "https://github.com/napiermd/scribe-bench" },
+        { "label": "One-note checker", "href": "#quick-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The claim checker now has its own intake contract",
       "why": "The claim route had a clear output card, but the form still opened with presets and a textarea before saying what artifact the visitor was creating. That made the claim path feel less concrete than the note checker, Lab, and row builder.",
       "proof": "The claim form now starts with Claim-to-evidence intake, says to turn the claim into a public ask rather than a verdict, and shows Bring, Check, and Leave with steps before the presets.",

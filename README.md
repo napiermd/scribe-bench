@@ -12,6 +12,16 @@ ScribeBench measures whether an AI-generated clinical note is **faithful to the 
 
 The system loop is simple: **one note becomes a QA finding; one claim becomes an evidence ask; many declared notes can become a scores-only public row.** The repo contains the walk-up website, browser checker, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger needed to make that loop reproducible.
 
+## Use this repo in public
+
+Start with the live artifact, not the file tree:
+
+1. **Have a source encounter and an AI note?** Open the [one-note checker](https://scribe-bench.vercel.app/#quick-check), paste both sides, and copy the QA finding.
+2. **Have a vendor, model, or leaderboard claim?** Open the [claim checker](https://scribe-bench.vercel.app/#claim-check) and turn the claim into a public evidence ask.
+3. **Want a current ranking?** The honest answer is "not yet." The [evidence ledger](https://scribe-bench.vercel.app/#leaderboard) shows historical launch rows, smoke rows, and the current row blocker so nobody cites old rows as today's winner.
+
+What the repo adds is reproducibility: the checker, cases, scoring code, worklog, and aggregate-only ledger behind those public artifacts.
+
 ## What you can do today
 
 - **Check one AI-scribe note** in the browser and copy a reviewer-ready QA finding with excerpts, issue flags, boundaries, and the next proof step. The no-key checker is built for clinical QA reviewers, buyers, and builders with a source encounter plus generated note in hand.

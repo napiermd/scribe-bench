@@ -399,6 +399,13 @@ describe('site copy and labels', () => {
     expect(guideSection).toContain('browser');
     expect(guideSection).toContain('scores-only evidence ledger');
     expect(readme).toContain('one note becomes a QA finding; one claim becomes an evidence ask; many declared notes can become a scores-only public row');
+    expect(readme).toContain('Use this repo in public');
+    expect(readme).toContain('Start with the live artifact, not the file tree');
+    expect(readme).toContain('Open the [one-note checker](https://scribe-bench.vercel.app/#quick-check), paste both sides, and copy the QA finding.');
+    expect(readme).toContain('Open the [claim checker](https://scribe-bench.vercel.app/#claim-check) and turn the claim into a public evidence ask.');
+    expect(readme).toContain('The honest answer is "not yet."');
+    expect(readme).toContain('nobody cites old rows as today\'s winner');
+    expect(readme).toContain('the checker, cases, scoring code, worklog, and aggregate-only ledger behind those public artifacts');
     expect(readme).toContain('people holding evidence use ScribeBench to catch care the AI note claims but the source does not support');
     expect(readme).toContain('Clinical QA reviewers, buyers, and builders leave with a QA finding first; bigger claims have to earn aggregate rows');
     expect(readme).toContain('copy a reviewer-ready QA finding');
