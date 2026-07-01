@@ -45,8 +45,8 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('I have source + note');
     expect(summarySection).toContain('Check one AI-scribe note');
     expect(summarySection).toContain('Paste both sides and leave with a reviewer handoff plus QA finding.');
-    expect(summarySection).toContain('<a href="#quick-check-form" data-quick-start-own>Open note checker</a>');
-    expect(summarySection).toContain('Open note checker');
+    expect(summarySection).toContain('<a href="#quick-check-form" data-quick-start-own>Paste my note</a>');
+    expect(summarySection).toContain('Paste my note');
     expect(summarySection).toContain('I heard a claim');
     expect(summarySection).toContain('Challenge the promise');
     expect(summarySection).toContain('Turn "safe," "hallucination-free," or "best" into the evidence it would need.');
@@ -185,9 +185,10 @@ describe('site copy and labels', () => {
     expect(quickForm).toContain('quick-form-head');
     expect(quickForm).toContain('Source-note intake');
     expect(quickForm).toContain('Check one pasted note against one source.');
-    expect(quickForm).toContain('Paste your own source and AI note.');
-    expect(quickForm).toContain('The seeded text only keeps the checker');
-    expect(quickForm).toContain('usable immediately; the output is the reviewer handoff.');
+    expect(quickForm).toContain('Paste your own source and AI note,');
+    expect(quickForm).toContain('or reload the seeded failure');
+    expect(quickForm).toContain('to see the exact catch.');
+    expect(quickForm).toContain('Either path leaves a reviewer handoff.');
     expect(quickForm).toContain('quick-intake-steps');
     expect(quickForm).toContain('What the note checker needs and returns');
     expect(quickForm).toContain('Encounter source plus generated note.');
@@ -431,7 +432,7 @@ describe('site copy and labels', () => {
     expect(html).toContain('I have source + note');
     expect(html).toContain('Check one AI-scribe note');
     expect(html).toContain('Paste both sides and leave with a reviewer handoff plus QA finding.');
-    expect(html).toContain('Open note checker');
+    expect(html).toContain('Paste my note');
     expect(html).toContain('I heard a claim');
     expect(html).toContain('Challenge the promise');
     expect(html).toContain('Build evidence ask');

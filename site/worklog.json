@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The note checker now tells the truth in demo and paste-your-own modes",
+      "why": "The plain homepage loaded a seeded failure, while the direct note-checker route opened empty fields. The form still talked about seeded text in both states, which made the first real interaction feel inconsistent.",
+      "proof": "Changed the first route CTA to Paste my note and rewrote the source-note intake copy so it works for both states: paste your own source and AI note, or reload the seeded failure to see the exact catch. The output promise stays a reviewer handoff.",
+      "next": "Keep auditing every entry point for state-specific copy: no control should imply demo data is present when the visitor is looking at blank fields.",
+      "links": [
+        { "label": "Paste my note", "href": "#quick-check-form" },
+        { "label": "Seeded finding", "href": "#quick-result" },
+        { "label": "Start here", "href": "#main" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The first screen now says exactly when ScribeBench is useful",
       "why": "The homepage had a working note checker and clearer task routes, but a skeptical visitor still had to infer the product contract from several nearby blocks. That left room for the site to feel like generic AI-safety copy instead of a concrete public QA tool.",
       "proof": "Replaced the first-screen purpose panel with a public-use contract: use it for one-note checks, claim challenges, or aggregate evidence; leave with a QA finding, evidence ask, blocker receipt, or scores-only row; and do not use it for patient advice, PHI storage, clinical clearance, or current rankings from old rows.",
