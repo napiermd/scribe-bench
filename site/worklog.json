@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now asks the plain question",
+      "why": "The checker still led with internal artifact words like receipt, review packet, and evidence boundary before saying the simple job: did the AI scribe make up care?",
+      "proof": "Changed the opening headline to the plain question, rewrote the purpose strip around real encounter plus AI note, unsupported clinical claims, and a copy-paste QA finding, and renamed the primary actions to Check my note, Copy seeded finding, and Open demo finding.",
+      "next": "Keep benchmark, receipt, and row language below the first action so cold visitors understand the one-note QA job before the repo machinery.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "After the finding", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The duplicate intro layer is gone",
       "why": "Once the first checker explained who it is for and what artifact it produces, the old hero, role router, public contract, and proof-trail panel repeated the same promise before the visitor could use the tool.",
       "proof": "Removed the duplicate intro panel, start-route buttons, copy-route fallback, and proof-trail wiring. The opening band now starts with the source-vs-note checker, and the after-the-receipt guide handles the next bounded actions.",

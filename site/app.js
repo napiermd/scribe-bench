@@ -1655,28 +1655,28 @@ function renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes = "" 
   setText("quick-result-issue-count", "No obvious issue");
   setText("quick-result-issue-types", "covered checks clean");
   setText("quick-result-boundary", "Triage only; not clearance.");
-  setText("quick-result-details-summary", "Show receipt detail");
+  setText("quick-result-details-summary", "Show checked details");
 }
 
 function quickResultLabel(result) {
   const caseId = String(result?.caseId || "").trim();
-  if (!caseId) return "Your QA packet";
+  if (!caseId) return "Your QA finding";
   return result?.caseType === "synthetic" || /^SYN-/i.test(caseId)
-    ? "Seeded example receipt"
-    : "Loaded case receipt";
+    ? "Seeded example finding"
+    : "Loaded case finding";
 }
 
 function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
   if (dangerousCount) {
     return {
-      title: "Hold the note and copy the review packet.",
+      title: "Copy the finding and review the note.",
       copy: `Fix or verify the flagged claim${dangerousCount === 1 ? "" : "s"}${issueTypes ? ` (${issueTypes})` : ""} before signing or sharing the note. Use the claim checker only when turning this one-note issue into a broader vendor or system claim.`,
     };
   }
   if (leakCount) {
     return {
       title: "Fix the output, then recheck.",
-      copy: "Copy the packet for the team that owns prompts or templates. Recheck the note after cleanup before treating it as evidence.",
+      copy: "Copy the finding for the team that owns prompts or templates. Recheck the note after cleanup before treating it as evidence.",
     };
   }
   return {
@@ -1688,13 +1688,13 @@ function quickUseGuidance({ dangerousCount, leakCount, issueTypes = "" }) {
 function renderQuickUseActions(result) {
   const ownNote = document.querySelector(".quick-use-actions [data-quick-start-own]");
   const copy = document.getElementById("quick-use-copy-receipt");
-  const isSeeded = quickResultLabel(result) === "Seeded example receipt";
+  const isSeeded = quickResultLabel(result) === "Seeded example finding";
   if (ownNote) {
     ownNote.textContent = isSeeded ? "Check your own note" : "Check another note";
     ownNote.className = `button ${isSeeded ? "primary" : "secondary"} compact-button`;
   }
   if (copy) {
-    copy.textContent = isSeeded ? "Copy review packet" : "Copy this review packet";
+    copy.textContent = isSeeded ? "Copy QA finding" : "Copy this QA finding";
     copy.className = `button ${isSeeded ? "secondary" : "primary"} compact-button`;
   }
 }
@@ -1750,10 +1750,10 @@ async function copyQuickReceipt() {
   try {
     await copyText(text);
     setQuickCopyFallback("");
-    setQuickCopyStatus("Review packet copied.");
+    setQuickCopyStatus("QA finding copied.");
   } catch (_) {
     setQuickCopyFallback(text);
-    setQuickCopyStatus("Clipboard unavailable. Review packet shown here.");
+    setQuickCopyStatus("Clipboard unavailable. QA finding shown here.");
   }
 }
 
@@ -1844,7 +1844,7 @@ function buildQuickReceiptText(result) {
         : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser receipt."];
 
   return [
-    "ScribeBench note review packet",
+    "ScribeBench source-vs-note QA finding",
     `Use now: ${useNow}`,
     `Verdict: ${verdict.title}`,
     `What happened: ${verdict.copy}`,

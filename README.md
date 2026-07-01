@@ -4,18 +4,18 @@
 
 **A public source-vs-note QA workbench for AI-scribe claims.**
 
-Use the public site first: paste a source encounter and an AI-written note to check whether the note invented care, copy a reviewer-ready review packet, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
+Use the public site first: paste a source encounter and an AI-written note to check whether the note invented care, copy a reviewer-ready QA finding, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
 
-The shortest version: **people holding evidence use ScribeBench to catch care the AI note claims but the source does not support.** Clinical QA reviewers, buyers, and builders leave with a review packet first; bigger claims have to earn aggregate rows.
+The shortest version: **people holding evidence use ScribeBench to catch care the AI note claims but the source does not support.** Clinical QA reviewers, buyers, and builders leave with a QA finding first; bigger claims have to earn aggregate rows.
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
-The system loop is simple: **one note becomes a review packet; one claim becomes an evidence ask; many declared notes can become a scores-only public row.** The repo contains the walk-up website, browser receipt, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger needed to make that loop reproducible.
+The system loop is simple: **one note becomes a QA finding; one claim becomes an evidence ask; many declared notes can become a scores-only public row.** The repo contains the walk-up website, browser checker, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger needed to make that loop reproducible.
 
 ## What you can do today
 
-- **Check one AI-scribe note** in the browser and copy a reviewer-ready packet with excerpts, issue flags, boundaries, and the next proof step.
-- **Choose the smallest honest next step after a receipt** — review one note, challenge a larger claim, finish a current row, or explain the repo.
+- **Check one AI-scribe note** in the browser and copy a reviewer-ready QA finding with excerpts, issue flags, boundaries, and the next proof step.
+- **Choose the smallest honest next step after a finding** — review one note, challenge a larger claim, finish a current row, or explain the repo.
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
 - **Explain the repo** as a public QA harness: browser receipt, optional Lab APIs, evaluator, public cases, worklog, and scores-only evidence ledger.
 - **Read the evidence ledger** without mistaking historical launch baselines or smoke checks for a current model ranking.
@@ -35,8 +35,8 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 
 | If you want to... | Go here | What you get |
 |-------------------|---------|--------------|
-| Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready review packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
-| Decide what to do after a receipt | [After-the-receipt guide](https://scribe-bench.vercel.app/#public-action-kit) | Four bounded paths: hold or review the note, challenge a larger claim, finish a scored row, or explain the repo. |
+| Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. |
+| Decide what to do after a finding | [After-the-finding guide](https://scribe-bench.vercel.app/#public-action-kit) | Four bounded paths: hold or review the note, challenge a larger claim, finish a scored row, or explain the repo. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
 | Understand what the rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored receipt, excluded-case boundary, and resume command for the public API row. |
@@ -113,10 +113,10 @@ This repo builds a static public ScribeBench site for Vercel, currently live at
 
 Use the website for six jobs:
 
-1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a receipt with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, procedures, medication changes, diagnoses, orders, and test results. No API key required.
+1. **Check one note.** Paste a source encounter and an AI-written note. The browser-only checker returns a QA finding with source-note issues, excerpts, evidence boundaries, and the next proof step. It catches high-confidence invented care such as unsupported treatments, procedures, medication changes, diagnoses, orders, and test results. No API key required.
 2. **Challenge a claim.** Turn "hallucination-free," "safe note," "best model," or similar language into the evidence level it would actually require.
 3. **Read today's answer.** The checker, after-the-receipt guide, and evidence ledger say what ScribeBench can support today, what the current PriMock57 row is still missing, and why old rows should not be cited as a current winner board.
-4. **Choose the next bounded action.** After a receipt, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.
+4. **Choose the next bounded action.** After a finding, decide whether to review the note, challenge a broader claim, finish the current row, or explain the repo.
 5. **Run optional Lab checks.** Use configured provider models for generation and second-opinion judging when you want plumbing evidence. Treat those packets as smoke or review artifacts, not ranked results.
 6. **Publish aggregate evidence.** Use the run builder and submission path to add aggregate PriMock57 or real-workflow rows without publishing raw closed-model notes.
 
@@ -129,7 +129,7 @@ What the repo contains:
 | Piece | Files | Purpose |
 |-------|-------|---------|
 | Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, optional second-opinion Lab, and aggregate row builder. |
-| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage that turns one note into a copy-ready review packet with unsupported-care flags, excerpts, evidence boundary, and next ask. |
+| Browser checker | `site/local_receipt.js` | No-key source-vs-note triage that turns one note into a copy-ready QA finding with unsupported-care flags, excerpts, evidence boundary, and next ask. |
 | Live API | `api/generate.js`, `api/judge.js`, `api/models.js` | Optional model-backed generation and judging for the Lab through OpenRouter or Baseten-compatible APIs. |
 | Eval engine | `eval/` | TypeScript harness for narrative quality, input fidelity, dangerous fabrication, leak checks, repeats, and bootstrap intervals. |
 | Data | `data/synthetic/`, `data/primock57/` | Synthetic demos plus 57 public PriMock57 consults. No real patient data. |

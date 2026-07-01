@@ -22,7 +22,7 @@
     <meta property="og:image:height" content="720" />
     <meta
       property="og:image:alt"
-      content="ScribeBench first screen showing a clinical AI source-vs-note checker and receipt for invented care."
+      content="ScribeBench first screen showing a clinical AI source-vs-note checker and QA finding for invented care."
     />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ScribeBench" />
@@ -33,7 +33,7 @@
     <meta name="twitter:image" content="https://scribe-bench.vercel.app/og-image.jpg" />
     <meta
       name="twitter:image:alt"
-      content="ScribeBench first screen showing a clinical AI source-vs-note checker and receipt for invented care."
+      content="ScribeBench first screen showing a clinical AI source-vs-note checker and QA finding for invented care."
     />
     <link rel="canonical" href="https://scribe-bench.vercel.app/" />
     <link rel="stylesheet" href="/styles.css" />
@@ -80,35 +80,35 @@
             <div class="quick-check-head">
               <div>
                 <p class="eyebrow">Check one note now</p>
-                <h2 id="quick-check-title">Paste source + AI note. Get a receipt for invented care.</h2>
+                <h2 id="quick-check-title">Did the AI scribe make up care?</h2>
               </div>
               <span class="local-badge">No API key</span>
             </div>
             <p class="quick-check-help">
-              For clinical QA reviewers, buyers, and builders holding a source encounter
-              plus an AI note. ScribeBench does one job: catch care the note claims but
-              the source does not support.
+              Paste what happened and what the AI wrote. ScribeBench points to
+              clinical claims the source does not support, then writes a copyable
+              QA finding for review.
             </p>
             <div class="quick-purpose-strip" aria-label="What this checker is for">
               <div>
-                <span>For</span>
-                <strong>People holding evidence</strong>
-                <p>Review a note, challenge a claim, or debug a scribe pipeline.</p>
+                <span>You bring</span>
+                <strong>The real encounter + AI note</strong>
+                <p>Transcript, source note, or encounter summary plus generated note.</p>
               </div>
               <div>
-                <span>Catches</span>
-                <strong>Care the source never supports</strong>
-                <p>Invented tests, orders, diagnoses, meds, procedures, or changed clinical story.</p>
+                <span>It catches</span>
+                <strong>Unsupported clinical claims</strong>
+                <p>Made-up tests, orders, diagnoses, meds, procedures, or changed story.</p>
               </div>
               <div>
-                <span>Leave with</span>
-                <strong>A copy-ready review packet</strong>
-                <p>Flagged claim, note/source excerpts, evidence boundary, and next proof step.</p>
+                <span>You leave with</span>
+                <strong>A copy-paste QA finding</strong>
+                <p>The exact note claim, source contradiction, risk boundary, and next step.</p>
               </div>
               <div>
-                <span>Boundary</span>
-                <strong>Evidence, not clearance</strong>
-                <p>One checked note is QA evidence. Big claims need aggregate rows.</p>
+                <span>Do not use for</span>
+                <strong>Clearance or rankings</strong>
+                <p>One note can flag a problem. Big claims need many scored notes.</p>
               </div>
             </div>
             <div class="quick-start-strip" aria-label="Start a ScribeBench note check">
@@ -125,22 +125,22 @@
                     <dd>Mechanical rug trip; no head strike and no loss of consciousness.</dd>
                   </div>
                 </dl>
-                <p>Your useful output is a review packet: flagged claim, source contradiction, boundary, and next step.</p>
+                <p>Copyable finding: this note claims a workup the source never documents.</p>
               </div>
               <div class="quick-start-actions">
-                <button class="button primary compact-button" type="button" data-quick-start-own>Paste your note</button>
-                <button class="button secondary compact-button" id="quick-start-copy-receipt" type="button">Copy seeded packet</button>
-                <a class="button secondary compact-button" href="#quick-result">Inspect demo receipt</a>
+                <button class="button primary compact-button" type="button" data-quick-start-own>Check my note</button>
+                <button class="button secondary compact-button" id="quick-start-copy-receipt" type="button">Copy seeded finding</button>
+                <a class="button secondary compact-button" href="#quick-result">Open demo finding</a>
                 <span id="quick-start-copy-status" role="status" aria-live="polite"></span>
               </div>
               <div class="quick-start-copy-panel" id="quick-start-copy-panel" hidden>
                 <strong>Manual copy fallback</strong>
-                <p>Clipboard access is unavailable here. Select this packet and paste it into the next review thread.</p>
+                <p>Clipboard access is unavailable here. Select this finding and paste it into the next review thread.</p>
                 <textarea
                   class="copy-fallback quick-start-copy-fallback"
                   id="quick-start-copy-fallback"
                   readonly
-                  aria-label="ScribeBench demo review packet"
+                  aria-label="ScribeBench demo QA finding"
                 ></textarea>
               </div>
             </div>
@@ -148,12 +148,12 @@
               <div class="quick-result-head">
                 <span class="queue-status needed" id="quick-result-status">Review</span>
                 <div>
-                  <p class="eyebrow" id="quick-result-label">Receipt preview</p>
+                  <p class="eyebrow" id="quick-result-label">Finding preview</p>
                   <h3 id="quick-result-title">Run the check</h3>
                 </div>
               </div>
               <p id="quick-result-summary"></p>
-              <dl class="quick-result-snapshot" aria-label="Compact receipt summary">
+              <dl class="quick-result-snapshot" aria-label="Compact finding summary">
                 <div>
                   <dt>Flagged</dt>
                   <dd id="quick-result-issue-count">--</dd>
@@ -167,22 +167,22 @@
                   <dd id="quick-result-boundary">--</dd>
                 </div>
               </dl>
-              <details class="quick-receipt-preview" aria-label="Copy-ready ScribeBench review packet" open>
+              <details class="quick-receipt-preview" aria-label="Copy-ready ScribeBench QA finding" open>
                 <summary class="quick-receipt-preview-head">
-                  <strong>Review packet text</strong>
-                  <span>Visible before copy</span>
+                  <strong>QA finding text</strong>
+                  <span>Copy-ready</span>
                 </summary>
                 <pre class="code-block"><code id="quick-receipt-preview-output"></code></pre>
               </details>
               <div class="quick-use-router" aria-label="Use this ScribeBench result">
                 <div class="quick-use-copy">
                   <p class="eyebrow">Use this result</p>
-                  <h4 id="quick-use-title">Pick the next public artifact</h4>
-                  <p id="quick-use-copy">Run the check to see whether this is a QA finding, a claim ask, or evidence-row work.</p>
+                  <h4 id="quick-use-title">Use the finding</h4>
+                  <p id="quick-use-copy">Run the check to see what the AI note claimed, what the source supports, and what to review next.</p>
                 </div>
                 <div class="quick-use-actions">
                   <button class="button primary compact-button" type="button" data-quick-start-own>Check your own note</button>
-                  <button class="button secondary compact-button" id="quick-use-copy-receipt" type="button">Copy review packet</button>
+                  <button class="button secondary compact-button" id="quick-use-copy-receipt" type="button">Copy QA finding</button>
                   <a class="button secondary compact-button" id="quick-use-claim-link" href="#claim-check">Challenge a claim</a>
                 </div>
               </div>
@@ -192,7 +192,7 @@
               </details>
               <details class="quick-result-boundary-detail">
                 <summary>Show what this can and cannot prove</summary>
-                <dl class="quick-result-meaning" aria-label="What this receipt can and cannot prove">
+                <dl class="quick-result-meaning" aria-label="What this finding can and cannot prove">
                   <div>
                     <dt>Can support</dt>
                     <dd id="quick-result-can-support">--</dd>
@@ -212,7 +212,7 @@
                 </div>
               </details>
               <div class="quick-result-actions">
-                <button class="button primary compact-button" id="quick-copy-receipt" type="button">Copy review packet</button>
+                <button class="button primary compact-button" id="quick-copy-receipt" type="button">Copy QA finding</button>
                 <button class="button secondary compact-button" id="quick-send-lab" type="button">Ask second opinion</button>
                 <a class="button secondary compact-button" href="#next-steps">Next steps</a>
                 <span id="quick-copy-status" role="status" aria-live="polite"></span>
@@ -222,7 +222,7 @@
                 id="quick-copy-fallback"
                 readonly
                 hidden
-                aria-label="ScribeBench source-vs-note review packet"
+                aria-label="ScribeBench source-vs-note QA finding"
               ></textarea>
             </div>
             <form class="quick-check-form" id="quick-check-form">
@@ -338,11 +338,11 @@
             </div>
             <p class="mobile-proof">
               <strong>Why this matters:</strong> a fluent AI note can add care that never happened.
-              ScribeBench turns that gap into a copy-ready review packet; one note is QA,
+              ScribeBench turns that gap into a copy-ready QA finding; one note is QA,
               not a ranking.
             </p>
             <p class="quick-proof-label">Browser check catches</p>
-            <div class="quick-capability-grid" aria-label="What the browser receipt checks">
+            <div class="quick-capability-grid" aria-label="What the browser check catches">
               <div>
                 <span>Invented results</span>
                 <strong>Labs, imaging, ECGs</strong>
@@ -377,8 +377,8 @@
               </div>
               <div>
                 <span>Leave with</span>
-                <strong>Review packet</strong>
-                <p>Flagged issues, note/source excerpts, evidence boundary, and next ask.</p>
+                <strong>QA finding</strong>
+                <p>Flagged claim, note/source excerpts, risk boundary, and next ask.</p>
               </div>
               <div>
                 <span>Boundary</span>
@@ -397,12 +397,12 @@
         <span class="section-anchor" id="repo-map"></span>
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">After the receipt</p>
+            <p class="eyebrow">After the finding</p>
             <h2>One checked note tells you what to do next.</h2>
             <p>
               ScribeBench is for people holding evidence: a source-note pair, a
               public claim, a blocked run, or candidate notes. Start with the
-              receipt, then choose the smallest honest next step.
+              finding, then choose the smallest honest next step.
             </p>
           </div>
           <div class="split-actions">
@@ -411,17 +411,17 @@
           </div>
         </div>
 
-        <div class="after-receipt-grid" id="public-action-kit" aria-label="What to do after a ScribeBench receipt">
+        <div class="after-receipt-grid" id="public-action-kit" aria-label="What to do after a ScribeBench finding">
           <article class="after-receipt-card after-receipt-primary">
             <span>One note</span>
-            <h3>If the note is flagged, hold it and copy the review packet.</h3>
+            <h3>If the note is flagged, hold it and copy the QA finding.</h3>
             <p>
               Use ScribeBench for clinical QA when a generated note may have
-              invented care. The packet gives the flagged claim, source excerpt,
+              invented care. The finding gives the flagged claim, source excerpt,
               boundary, and next review step.
             </p>
             <div class="after-receipt-actions">
-              <a class="button primary compact-button" href="#quick-result">Open receipt</a>
+              <a class="button primary compact-button" href="#quick-result">Open finding</a>
               <a class="button secondary compact-button" href="#lab-workbench">Ask second opinion</a>
             </div>
           </article>
