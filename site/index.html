@@ -661,22 +661,87 @@
       <section class="wrap section" id="leaderboard">
         <div class="section-head">
           <div>
-            <p class="eyebrow">Evidence ledger</p>
-            <h2>What is useful now, and what still needs public work?</h2>
+            <p class="eyebrow">Public use ledger</p>
+            <h2>Use it for a QA finding first; use rows only to bound claims.</h2>
             <p>
-              Use ScribeBench today to review one source-note pair. To compare systems,
-              help finish a current aggregate row. The open blocker is visible here so the
-              project feels like work in public, not a frozen leaderboard.
+              A visitor can paste one source-note pair and leave with a QA finding. If
+              they came for model claims, this ledger says what is citable today, what
+              is historical, and what work would make a current comparison publishable.
             </p>
           </div>
           <a class="text-link" href="/assets/results.json">Raw results JSON</a>
+        </div>
+
+        <div class="evidence-answer" aria-labelledby="evidence-answer-title">
+          <div class="evidence-answer-main">
+            <p class="eyebrow">Useful now</p>
+            <h3 id="evidence-answer-title">The useful artifact is a one-note QA finding.</h3>
+            <p>
+              ScribeBench is worthwhile when it creates a QA finding: source, note, flagged unsupported care,
+              evidence level, and the next public ask. The rows exist to keep public claims honest: old rows stay
+              historical, smoke rows stay plumbing proof, and the current row stays blocked until enough cases are scored.
+            </p>
+            <div class="evidence-answer-actions">
+              <a class="button primary compact-button" href="#quick-check">Start note review</a>
+              <a class="button secondary compact-button" href="#claim-check">Check claim boundary</a>
+              <a class="button secondary compact-button" href="#current-run">Finish public row</a>
+              <button class="button secondary compact-button" id="copy-citation-boundary" type="button">Copy citation boundary</button>
+              <span id="citation-boundary-copy-status" role="status" aria-live="polite"></span>
+            </div>
+            <div class="citation-boundary-copy-panel" id="citation-boundary-copy-panel" hidden>
+              <strong>Manual copy fallback</strong>
+              <p>Clipboard access is unavailable here. Select this citation boundary and paste it wherever the rows are being discussed.</p>
+              <textarea
+                class="copy-fallback citation-boundary-copy-fallback"
+                id="citation-boundary-copy-fallback"
+                readonly
+                aria-label="Copied ScribeBench citation boundary"
+              ></textarea>
+            </div>
+          </div>
+          <div class="evidence-answer-grid" aria-label="What ScribeBench evidence can support">
+            <article>
+              <span class="queue-status ready">Works today</span>
+              <h3>One-note QA finding</h3>
+              <p>Use a source encounter plus generated note to catch unsupported care and copy a QA finding.</p>
+              <a href="#quick-check">Open checker</a>
+            </article>
+            <article>
+              <span class="queue-status open">Historical only</span>
+              <h3>Historical failure gradient</h3>
+              <p id="decision-history-proof">4 powered launch rows; latest scored June 2, 2026. Historical baseline, not a buying guide.</p>
+              <small>Latest powered row: <strong id="latest-powered-run">June 2, 2026 (4 powered rows)</strong></small>
+            </article>
+            <article>
+              <span class="queue-status needed">Not proven</span>
+              <h3>Current best-scribe ranking</h3>
+              <p id="decision-current-proof">9/57 current PriMock57 cases scored; 21/30 selected cases are blocked or errored. Not publishable yet.</p>
+              <small id="decision-current-action"><a href="#current-run">Resume the current row</a></small>
+            </article>
+            <article>
+              <span class="queue-status valuable">Next useful artifact</span>
+              <h3>Publishable current row</h3>
+              <p id="freshness-next-row">Run a current powered PriMock57 row with declared system, judge, repeats, date, and aggregate scores only.</p>
+              <small>Latest smoke row: <strong id="latest-smoke-run">June 30, 2026 (4 smoke rows)</strong></small>
+            </article>
+          </div>
+          <div class="evidence-answer-foot">
+            <div>
+              <strong>Current gap</strong>
+              <p id="freshness-current-gap">9/57 current PriMock57 cases scored. Publishable threshold is 30+ scored cases with declared system, date, judge, repeats, and exclusions.</p>
+            </div>
+            <div>
+              <strong>Smoke lane</strong>
+              <p id="decision-smoke-proof">Smoke rows prove the path works on tiny synthetic sets. They are useful plumbing proof, not ranking evidence.</p>
+            </div>
+          </div>
         </div>
 
         <div class="evidence-task-card" aria-label="Current public ScribeBench task">
           <div class="evidence-task-copy">
             <div class="evidence-task-head">
               <span class="queue-status needed" id="evidence-task-status">Open public task</span>
-              <p class="eyebrow">Make this citeable</p>
+              <p class="eyebrow">Make comparison citable</p>
             </div>
             <h3 id="evidence-task-title">Finish the current row before ranking anyone.</h3>
             <p id="evidence-task-copy">
@@ -709,71 +774,6 @@
               <dd id="evidence-task-done">Publish n>=30 aggregate scores with judge, repeats, date, CI, and exclusions.</dd>
             </div>
           </dl>
-        </div>
-
-        <div class="evidence-answer" aria-labelledby="evidence-answer-title">
-          <div class="evidence-answer-main">
-            <p class="eyebrow">Public answer</p>
-            <h3 id="evidence-answer-title">Use it now for note review; help finish the current row for comparisons.</h3>
-            <p>
-              ScribeBench is worthwhile when it creates a QA finding: source, note, flagged unsupported care,
-              evidence level, and the next public ask. The aggregate ledger is the audit trail behind that finding,
-              and the current public task is to turn 9/57 scored cases into a publishable row.
-            </p>
-            <div class="evidence-answer-actions">
-              <a class="button primary compact-button" href="#quick-check">Check one note</a>
-              <a class="button secondary compact-button" href="#current-run">Help finish row</a>
-              <a class="button secondary compact-button" href="#run">Add a row</a>
-              <button class="button secondary compact-button" id="copy-citation-boundary" type="button">Copy citation boundary</button>
-              <span id="citation-boundary-copy-status" role="status" aria-live="polite"></span>
-            </div>
-            <div class="citation-boundary-copy-panel" id="citation-boundary-copy-panel" hidden>
-              <strong>Manual copy fallback</strong>
-              <p>Clipboard access is unavailable here. Select this citation boundary and paste it wherever the rows are being discussed.</p>
-              <textarea
-                class="copy-fallback citation-boundary-copy-fallback"
-                id="citation-boundary-copy-fallback"
-                readonly
-                aria-label="Copied ScribeBench citation boundary"
-              ></textarea>
-            </div>
-          </div>
-          <div class="evidence-answer-grid" aria-label="What ScribeBench evidence can support">
-            <article>
-              <span class="queue-status ready">Works today</span>
-              <h3>One-note QA finding</h3>
-              <p>Use a source encounter plus generated note to catch unsupported care and copy a QA finding.</p>
-              <a href="#quick-check">Open checker</a>
-            </article>
-            <article>
-              <span class="queue-status open">Historical only</span>
-              <h3>Launch baseline rows</h3>
-              <p id="decision-history-proof">4 powered launch rows; latest scored June 2, 2026. Historical baseline, not a buying guide.</p>
-              <small>Latest powered row: <strong id="latest-powered-run">June 2, 2026 (4 powered rows)</strong></small>
-            </article>
-            <article>
-              <span class="queue-status needed">Not proven</span>
-              <h3>Current best-scribe claim</h3>
-              <p id="decision-current-proof">9/57 current PriMock57 cases scored; 21/30 selected cases are blocked or errored. Not publishable yet.</p>
-              <small id="decision-current-action"><a href="#current-run">Resume the current row</a></small>
-            </article>
-            <article>
-              <span class="queue-status valuable">Next useful artifact</span>
-              <h3>Powered current row</h3>
-              <p id="freshness-next-row">Run a current powered PriMock57 row with declared system, judge, repeats, date, and aggregate scores only.</p>
-              <small>Latest smoke row: <strong id="latest-smoke-run">June 30, 2026 (4 smoke rows)</strong></small>
-            </article>
-          </div>
-          <div class="evidence-answer-foot">
-            <div>
-              <strong>Current gap</strong>
-              <p id="freshness-current-gap">9/57 current PriMock57 cases scored. Publishable threshold is 30+ scored cases with declared system, date, judge, repeats, and exclusions.</p>
-            </div>
-            <div>
-              <strong>Smoke lane</strong>
-              <p id="decision-smoke-proof">Smoke rows prove the path works on tiny synthetic sets. They are useful plumbing proof, not ranking evidence.</p>
-            </div>
-          </div>
         </div>
 
         <div class="current-run-card" id="current-run" aria-labelledby="current-run-title">

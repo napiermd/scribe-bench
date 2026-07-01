@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The evidence ledger now starts with the useful artifact",
+      "why": "The lower evidence section still opened with a blocked aggregate row, which made ScribeBench feel like stalled benchmark machinery instead of a public tool someone can use today.",
+      "proof": "The ledger now leads with the one-note QA finding, claim-boundary actions, and explicit limits for historical, smoke, and current-ranking evidence before showing the current-row contribution task.",
+      "next": "Keep burying row mechanics behind the visitor's job: first produce a useful finding, then explain what larger claim that finding can and cannot support.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Source-note checker", "href": "#quick-check" },
+        { "label": "Current blocker", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "QA findings now say where they should be used",
       "why": "The checker could produce a strong source-vs-note finding, but visitors still had to infer whether it belonged in chart QA, a vendor defect thread, or a public evidence discussion.",
       "proof": "The result now includes a Where this goes panel and a copyable QA finding route for chart QA, builder/vendor handoff, and public claim boundaries.",
@@ -433,10 +446,10 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
-      "title": "Evidence now starts with the current public task",
+      "title": "Evidence exposed the current public task",
       "why": "The Evidence section had the blocker, but it appeared after broad interpretation cards and ledger framing. On mobile, visitors reached stale-row language before the task they could actually help finish.",
-      "proof": "A new Make this citeable task card appears before the public answer grid. It copies the same public task as Contribute and mirrors the current-run counts, Bring, Do, and Done fields from current-run.json.",
-      "next": "Keep the ledger behind the task; current claims still need the powered row completed before any ranking language is citeable.",
+      "proof": "A Make this citeable task card began copying the same public task as Contribute and mirrors the current-run counts, Bring, Do, and Done fields from current-run.json. It was later moved behind the useful-artifact card once the visitor job became clearer.",
+      "next": "Keep the public task visible without letting benchmark mechanics replace the visitor's first job: produce a QA finding.",
       "links": [
         { "label": "Evidence ledger", "href": "#leaderboard" },
         { "label": "Current public task", "href": "#current-run" },
