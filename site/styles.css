@@ -4398,6 +4398,78 @@ h4 {
   font-size: 1.18rem;
 }
 
+.public-work-queue {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 1rem;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
+  padding: 1rem;
+}
+
+.public-work-queue-head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.85rem;
+  align-items: start;
+}
+
+.public-work-queue-head .queue-status {
+  width: fit-content;
+}
+
+.public-work-queue h3 {
+  font-size: 1.22rem;
+  line-height: 1.2;
+}
+
+.public-work-queue p:not(.eyebrow) {
+  margin: 0.45rem 0 0;
+  color: var(--muted);
+  font-size: 0.93rem;
+  line-height: 1.42;
+}
+
+.public-work-queue-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid rgba(15, 118, 110, 0.16);
+  background: rgba(255, 255, 255, 0.62);
+}
+
+.public-work-queue-grid article {
+  min-width: 0;
+  border-right: 1px solid rgba(15, 118, 110, 0.16);
+  padding: 0.85rem;
+}
+
+.public-work-queue-grid article:last-child {
+  border-right: 0;
+}
+
+.public-work-queue-grid strong {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.public-work-queue-grid p {
+  margin-top: 0.38rem;
+  font-size: 0.86rem;
+  line-height: 1.38;
+}
+
+.public-work-queue-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
 .run-plan-grid {
   display: grid;
   gap: 0.62rem;
@@ -4789,6 +4861,8 @@ h4 {
   .public-action-kit,
   .current-run-card,
   .fresh-smoke-card,
+  .public-work-queue,
+  .public-work-queue-head,
   .worklog-board,
   .queue-board,
   .run-plan-card,
@@ -4816,6 +4890,7 @@ h4 {
   .freshness-receipt-grid,
   .run-steps,
   .run-contract,
+  .public-work-queue-grid,
   .contribution-paths,
   .run-output-grid,
   .submission-checklist,
@@ -4930,6 +5005,7 @@ h4 {
   .public-evidence-card-actions .button,
   .claim-evidence-actions .button,
   .current-run-command-actions .button,
+  .public-work-queue-actions .button,
   .case-receipt-actions .button,
   .historical-baseline-actions .button,
   .start-route-actions .button,
@@ -4991,32 +5067,45 @@ h4 {
     order: 1;
   }
 
-  .run-panel > .contribution-intake {
+  .run-panel > .public-work-queue {
     order: 2;
   }
 
-  .run-panel > .run-plan-card {
+  .run-panel > .contribution-intake {
     order: 3;
   }
 
-  .run-panel > .run-contract {
+  .run-panel > .run-plan-card {
     order: 4;
   }
 
-  .run-panel > .run-builder {
+  .run-panel > .run-contract {
     order: 5;
   }
 
-  .run-panel > .run-output-grid {
+  .run-panel > .run-builder {
     order: 6;
   }
 
-  .run-panel > .submission-checklist {
+  .run-panel > .run-output-grid {
     order: 7;
   }
 
-  .run-panel > .link-row {
+  .run-panel > .submission-checklist {
     order: 8;
+  }
+
+  .run-panel > .link-row {
+    order: 9;
+  }
+
+  .public-work-queue-grid article {
+    border-right: 0;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.16);
+  }
+
+  .public-work-queue-grid article:last-child {
+    border-bottom: 0;
   }
 
   .contribution-intake-copy {

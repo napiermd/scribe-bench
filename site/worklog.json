@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Contribute now starts with the next public job",
+      "why": "The site explained evidence levels, but the contribution surface still made visitors decode benchmark controls before seeing the one concrete public thing that would make the project more useful.",
+      "proof": "The Add Row section now opens with a Public work queue tied to the live current-run status: active job, blocker, done condition, why it matters, and direct actions into the blocker receipt or powered-row command builder.",
+      "next": "Use the queue to recruit a non-capped PriMock57 resume run, then replace the blocker receipt with a reviewed aggregate current row.",
+      "links": [
+        { "label": "Public work queue", "href": "#run" },
+        { "label": "Current blocker receipt", "href": "#current-run" },
+        { "label": "Build row command", "href": "#run-builder" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Current PriMock57 public run advanced to 9 scored cases",
       "why": "The strongest critique was still fair: old rows are not enough. A worthwhile public artifact needs fresh current-model evidence, even when the run is incomplete.",
       "proof": "Raised the live judge payload limit from 18k to 60k characters so generated PriMock57 notes can be judged, then resumed the production public API runner against a 30-case selection. The current attempt now has 13 generated notes and 9 scored PriMock57 cases, with a partial 11.1% dangerous-fabrication signal and 21 errored or excluded cases from timeouts, parser failure, and OpenRouter free-model rate limits. It remains smoke-level current public-path evidence, not a ranked row.",

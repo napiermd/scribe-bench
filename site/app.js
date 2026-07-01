@@ -638,6 +638,7 @@ function renderCurrentRun(run) {
     ? ` Last retry ${lastAttemptText}; ${attemptScope}.`
     : "";
   const partialText = partialAggregateText(partial);
+  const publishableRemaining = Math.max(minimumPublishable - scored, 0);
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -678,6 +679,39 @@ function renderCurrentRun(run) {
   setText(
     "hero-current-gap",
     `${scored}/${target} current PriMock57 cases scored. Latest retry: ${attemptScope}, ${scored}/${attempted} scored, and ${errored}/${attempted} blocked or errored. Not a current ranking yet.`
+  );
+  const queueStatus = document.getElementById("public-work-queue-status");
+  if (queueStatus) {
+    queueStatus.textContent = scored >= minimumPublishable ? "Ready for method review" : run.statusLabel || "Current public blocker";
+    queueStatus.className = `queue-status ${scored >= minimumPublishable ? "ready" : currentRunStatusClass(run.status)}`;
+  }
+  setText(
+    "public-work-queue-summary",
+    scored >= minimumPublishable
+      ? `${run.system || "The current run"} has reached the ${minimumPublishable}-case threshold. Review the method before publishing a ranked current row.`
+      : `${run.system || "The current run"} has ${scored}/${target} PriMock57 cases scored. It needs ${publishableRemaining} more scored cases before this page can support a current model row.`
+  );
+  setText(
+    "public-work-queue-job",
+    scored >= minimumPublishable
+      ? "Review the aggregate scores, confidence interval, exclusions, judge, repeats, and tuning notes before submitting the row."
+      : `Resume the cached run to at least ${minimumPublishable} scored PriMock57 cases, preferably all ${target}.`
+  );
+  setText(
+    "public-work-queue-blocker",
+    errored
+      ? `Latest public retry: ${scored}/${attempted} selected cases scored, ${generated}/${attempted} generated, and ${errored}/${attempted} blocked or errored.`
+      : run.blocker || "No blocker recorded; the row still needs enough scored cases to be publishable."
+  );
+  setText(
+    "public-work-queue-done",
+    `Aggregate-only row with n>=${minimumPublishable}, system/date, dataset, judge, repeats, failure rates, confidence interval, and exclusions.`
+  );
+  setText(
+    "public-work-queue-why",
+    scored >= minimumPublishable
+      ? "This is where the board can move from blocker receipt to current comparison evidence."
+      : "It turns the site from useful one-note QA plus historical baselines into current comparison evidence."
   );
   setElementHtml(
     "decision-current-action",
@@ -737,6 +771,11 @@ function renderCurrentRunError() {
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");
   setText("freshness-next-row", "Use the Add evidence path to create a current powered row with aggregate scores, declared judge, repeats, date, and exclusions.");
   setText("hero-current-gap", "Current-run status did not load. Do not use the old rows as a current ranking.");
+  setText("public-work-queue-summary", "The current-run status asset failed to load, so the public queue cannot prove a current model row from this page.");
+  setText("public-work-queue-job", "Use the row builder to create a fresh powered run with a declared dataset, judge, repeats, date, and exclusions.");
+  setText("public-work-queue-blocker", "Current-run status is unavailable.");
+  setText("public-work-queue-done", "Publish aggregate scores only after at least 30 PriMock57 cases are scored.");
+  setText("public-work-queue-why", "Without this row, the page remains useful for one-note QA but not for current model ranking claims.");
   setElementHtml("decision-current-action", `<a href="#run">Add a fresh powered row</a>`);
   const commandCard = document.getElementById("current-run-command-card");
   if (commandCard) commandCard.hidden = true;
