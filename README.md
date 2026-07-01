@@ -4,7 +4,7 @@
 
 **A public source-vs-note QA workbench for AI-scribe claims.**
 
-Use the public site first: paste a source encounter and an AI-written note, copy a reviewer-ready review packet, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
+Use the public site first: paste a source encounter and an AI-written note to check whether the note invented care, copy a reviewer-ready review packet, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
 
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
