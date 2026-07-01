@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Custom note checks now reveal the receipt",
+      "why": "The paste-your-own-note flow rendered the receipt above the form. After submit, a visitor could stay near the form status text and miss the actual review packet.",
+      "proof": "Changed form submit to reveal #quick-result, update the hash, and scroll to the receipt after the local browser check runs. Seeded demo loading still checks quietly without jumping the first screen.",
+      "next": "Keep the own-note path result-first: paste source and note, run the check, see the receipt, copy the packet.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Source-note form", "href": "#quick-check-form" },
+        { "label": "Receipt output", "href": "#quick-result" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The public guide now gives copy-ready artifacts",
       "why": "The Guide said ScribeBench was a public action kit, but the artifact cards were still mostly navigation links. That forced visitors to understand the site before they could use it in the next thread.",
       "proof": "Added copy-ready snippets for a one-note QA packet, vendor evidence ask, current-row blocker receipt, and aggregate-row request, wired into the existing public-action copy handler.",

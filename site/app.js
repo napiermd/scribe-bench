@@ -1590,7 +1590,7 @@ function realignCurrentHash() {
 function bindQuickCheck() {
   const form = document.getElementById("quick-check-form");
   if (!form) return;
-  form.addEventListener("submit", runQuickLocalReceipt);
+  form.addEventListener("submit", (event) => runQuickLocalReceipt(event, { revealResult: true }));
   document.getElementById("quick-load-seeded")?.addEventListener("click", () => populateQuickCheck(seededCase(), { run: true }));
   document.getElementById("quick-source")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-note")?.addEventListener("input", resetQuickAfterManualEdit);
@@ -1673,7 +1673,15 @@ function startOwnQuickCheck(event) {
   window.setTimeout(() => source.focus({ preventScroll: true }), 250);
 }
 
-function runQuickLocalReceipt(event) {
+function revealQuickResult() {
+  const panel = document.getElementById("quick-result");
+  if (!panel) return;
+  window.history.replaceState(null, "", "#quick-result");
+  scrollToAnchorTarget(panel, { behavior: "smooth" });
+  window.setTimeout(() => scrollToAnchorTarget(panel, { behavior: "auto" }), 520);
+}
+
+function runQuickLocalReceipt(event, { revealResult = false } = {}) {
   event?.preventDefault?.();
   const sourceEl = document.getElementById("quick-source");
   const noteEl = document.getElementById("quick-note");
@@ -1705,6 +1713,7 @@ function runQuickLocalReceipt(event) {
         : "No obvious source-note issue flagged by the browser check.",
     tone
   );
+  if (revealResult) revealQuickResult();
   return result;
 }
 

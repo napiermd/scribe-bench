@@ -203,6 +203,10 @@ describe('site copy and labels', () => {
     expect(app).toContain('setText("quick-result-issue-count", issueCountLabel(dangerousCount));');
     expect(app).toContain('setText("quick-result-details-summary", `Show ${issueCountLabel(dangerousCount)} with note/source excerpts`);');
     expect(app).toContain('function renderQuickUseActions(result)');
+    expect(app).toContain('form.addEventListener("submit", (event) => runQuickLocalReceipt(event, { revealResult: true }));');
+    expect(app).toContain('function revealQuickResult()');
+    expect(app).toContain('window.history.replaceState(null, "", "#quick-result");');
+    expect(app).toContain('scrollToAnchorTarget(panel, { behavior: "smooth" });');
     expect(app).toContain('ownNote.textContent = isSeeded ? "Check your own note" : "Check another note";');
     expect(app).toContain('copy.textContent = isSeeded ? "Copy review packet" : "Copy this review packet";');
     expect(app).toContain('copy.className = `button ${isSeeded ? "secondary" : "primary"} compact-button`;');
