@@ -14,6 +14,19 @@ describe('site copy and labels', () => {
     expect(app).toContain('"Seeded example receipt"');
   });
 
+  it('uses hero space to explain visitor jobs instead of duplicating the seeded receipt', () => {
+    const summarySection = html.match(/<section class="summary-band">[\s\S]*?<\/section>/)?.[0] || '';
+
+    expect(summarySection).toContain('What people do here');
+    expect(summarySection).toContain('Turn source-vs-note doubt into a shareable artifact.');
+    expect(summarySection).toContain('Clinical reviewer');
+    expect(summarySection).toContain('Buyer or operator');
+    expect(summarySection).toContain('Builder or contributor');
+    expect(summarySection).toContain('Paste one encounter and AI note');
+    expect(summarySection).not.toContain('The first loaded case shows the point immediately.');
+    expect(summarySection).not.toContain('CT head was negative; syncope workup started.');
+  });
+
   it('keeps model smoke out of the first note-checking task', () => {
     const quickForm = html.match(/<form class="quick-check-form"[\s\S]*?<\/form>/)?.[0] || '';
     const labSectionStart = html.indexOf('<section class="wrap section lab-section" id="lab">');

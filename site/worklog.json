@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The homepage now says what visitors do here",
+      "why": "The first screen had a useful seeded receipt, but the left hero repeated the same seeded example instead of answering the public-facing question: who visits ScribeBench and what do they leave with?",
+      "proof": "The hero now names the three practical jobs: clinical reviewers copy a QA packet from one source-note pair, buyers or operators turn claims into evidence asks, and builders or contributors add aggregate rows only when the batch and method are declared. The full seeded receipt remains in the checker where the artifact belongs.",
+      "next": "Keep using the first screen for action and purpose: one useful receipt first, then clear paths for claims and aggregate evidence.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Public guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The Guide now answers the cold-visitor question first",
       "why": "The Guide had the right pieces, but it still jumped from a high-level purpose into visitor roles, repo components, and public rows before plainly saying what someone should paste and what they get back.",
       "proof": "The Guide now opens with a one-pass answer strip: who this is for, what to paste, what artifact comes back, and what not to claim. The three Guide cards now use first-person visitor jobs instead of role labels, and the repo explanation starts from the evidence loop before naming implementation pieces.",
