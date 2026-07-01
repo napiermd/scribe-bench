@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The public page now has one guide instead of five overlapping explanations",
+      "why": "The site had become more useful, but the middle of the page still stacked Who, After receipt, Public action kit, Why, and What it is sections. That made the project feel overexplained and harder to understand.",
+      "proof": "Those overlapping blocks are now consolidated into one Public guide that names the three visitor jobs, the repo loop, the evidence limits, and the next useful click. Legacy anchors still land on the guide so old links do not dead-end.",
+      "next": "Keep pruning duplicate explanation and put the saved attention into stronger live evidence rows.",
+      "links": [
+        { "label": "Public guide", "href": "#next-steps" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The no-key checker now catches invented urgent follow-up",
       "why": "A practical source-vs-note review is not just diagnoses and test results. An AI note can also invent an urgent follow-up plan, turning routine discharge instructions into a new obligation for the clinician or patient.",
       "proof": "The browser-only receipt now checks urgent follow-up timing such as tomorrow, 24 hours, 48 hours, or 1-2 days against source support and explicit contradictions like follow up as needed or no scheduled follow-up. Focused tests cover unsupported urgent follow-up and supported or negated non-catches.",

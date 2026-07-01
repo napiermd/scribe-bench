@@ -51,9 +51,7 @@
         </a>
         <nav class="nav" aria-label="Primary navigation">
           <a href="#main">Start here</a>
-          <a href="#who-uses-this">Who</a>
-          <a href="#why-this-exists">Why</a>
-          <a href="#repo-map">What it is</a>
+          <a href="#next-steps">Guide</a>
           <a href="#claim-check">Claim check</a>
           <a href="#leaderboard">Evidence</a>
           <a href="#lab">Lab</a>
@@ -413,399 +411,86 @@
         </div>
       </section>
 
-      <section class="wrap section audience-section" id="who-uses-this">
+      <section class="wrap section public-guide-section" id="next-steps">
+        <span class="section-anchor" id="who-uses-this"></span>
+        <span class="section-anchor" id="why-this-exists"></span>
+        <span class="section-anchor" id="repo-map"></span>
+        <span class="section-anchor" id="public-action-kit"></span>
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">Who this is for</p>
-            <h2>Use it when someone needs evidence, not another demo.</h2>
+            <p class="eyebrow">Public guide</p>
+            <h2>Use ScribeBench for one job: prove what changed between source and note.</h2>
             <p>
-              ScribeBench is for the people who touch AI-scribe output before it becomes
-              trusted: reviewers checking one note, buyers testing vendor claims, builders
-              finding failures, and contributors turning runs into public aggregate evidence.
-            </p>
-          </div>
-          <a class="text-link" href="#quick-check">Start with one note</a>
-        </div>
-
-        <div class="audience-grid" aria-label="ScribeBench audiences">
-          <article class="audience-card audience-primary">
-            <span class="queue-status needed">Clinical QA reviewer</span>
-            <h3>You have one source encounter and one AI-written note.</h3>
-            <dl>
-              <div>
-                <dt>Bring</dt>
-                <dd>Transcript, source note, or encounter summary plus the generated note.</dd>
-              </div>
-              <div>
-                <dt>Leave with</dt>
-                <dd>A receipt naming unsupported care, contradictions, leaks, and the next proof step.</dd>
-              </div>
-            </dl>
-            <a href="#quick-check">Check one note</a>
-          </article>
-          <article class="audience-card">
-            <span>Buyer or operator</span>
-            <h3>You are judging a vendor, pilot, or "hallucination-free" claim.</h3>
-            <dl>
-              <div>
-                <dt>Bring</dt>
-                <dd>A demo note, marketing claim, pilot example, or model comparison.</dd>
-              </div>
-              <div>
-                <dt>Leave with</dt>
-                <dd>A copyable ask for dataset, n, judge, repeats, rates, confidence intervals, and tuning disclosure.</dd>
-              </div>
-            </dl>
-            <a href="#claim-check">Challenge a claim</a>
-          </article>
-          <article class="audience-card">
-            <span>AI-scribe builder</span>
-            <h3>You need to find failures before a fluent note becomes a promise.</h3>
-            <dl>
-              <div>
-                <dt>Bring</dt>
-                <dd>A model, prompt, workflow, or candidate-note file you can score honestly.</dd>
-              </div>
-              <div>
-                <dt>Leave with</dt>
-                <dd>A smoke result, Lab verdict, or powered PriMock57 path toward aggregate evidence.</dd>
-              </div>
-            </dl>
-            <a href="#lab">Run the Lab</a>
-          </article>
-          <article class="audience-card">
-            <span>Research contributor</span>
-            <h3>You want the public board to stop being stale.</h3>
-            <dl>
-              <div>
-                <dt>Bring</dt>
-                <dd>Current model, real-workflow, open/free, or second-judge runs with method details.</dd>
-              </div>
-              <div>
-                <dt>Leave with</dt>
-                <dd>A scores-only row or visible blocker that makes the next public evidence gap explicit.</dd>
-              </div>
-            </dl>
-            <a href="#run">Add evidence</a>
-          </article>
-        </div>
-
-        <div class="not-for-strip" aria-label="ScribeBench limits">
-          <span>Not for</span>
-          <strong>Patient advice, billing, clinical clearance, or crowning a current winner from old rows.</strong>
-          <p>It is a public QA workbench: useful for review and evidence, not a substitute for clinical sign-off.</p>
-        </div>
-      </section>
-
-      <section class="wrap section after-receipt-section" id="next-steps">
-        <div class="section-head split-head">
-          <div>
-            <p class="eyebrow">After the note check</p>
-            <h2>Use the result. Do not just admire the score.</h2>
-            <p>
-              ScribeBench is for the moment after an AI-scribe note or vendor claim looks
-              plausible. The first receipt tells you what to review; the next click depends
-              on whether you are fixing one note, challenging a claim, or publishing evidence.
-            </p>
-          </div>
-          <a class="text-link" href="#claim-check">Turn a claim into an evidence ask</a>
-        </div>
-
-        <div class="after-receipt-grid" aria-label="What to do after a ScribeBench receipt">
-          <article class="after-receipt-card after-receipt-primary">
-            <span class="queue-status needed">Flagged item</span>
-            <h3>Review the note before anyone trusts it.</h3>
-            <p>
-              Copy the receipt into QA or a vendor review. It names the unsupported care,
-              contradicted facts, or template leaks to check against the source encounter.
-              Open the same pair in the Lab when you need a model-backed judge or a fresh candidate.
-            </p>
-            <a href="#main">Run another note</a>
-          </article>
-          <article class="after-receipt-card">
-            <span class="queue-status ready">No obvious issue</span>
-            <h3>Treat it as triage, not clearance.</h3>
-            <p>
-              A clean browser receipt means the simple checks did not catch a fabrication.
-              Use the full Lab or human clinical review before you rely on the note.
-            </p>
-            <a href="#lab">Run model-backed scoring</a>
-          </article>
-          <article class="after-receipt-card">
-            <span class="queue-status valuable">Vendor claim</span>
-            <h3>Ask for the evidence level the claim requires.</h3>
-            <p>
-              Hallucination-free, best model, safe note, and system-comparison claims need
-              different proof. The claim checker turns vague language into a concrete ask.
-            </p>
-            <a href="#claim-check">Check a claim</a>
-          </article>
-          <article class="after-receipt-card">
-            <span class="queue-status open">Public proof</span>
-            <h3>Publish aggregate rows before crowning a system.</h3>
-            <p>
-              One note can expose a failure. System-level claims need current powered
-              PriMock57, real-workflow, or second-judge rows with aggregate scores.
-            </p>
-            <a href="#run">Add an evidence row</a>
-          </article>
-        </div>
-
-        <div class="evidence-ladder" aria-label="ScribeBench evidence levels">
-          <div>
-            <span>Level 1</span>
-            <strong>Browser receipt</strong>
-            <p>One note, no key. Catches obvious unsupported clinical content and leaks.</p>
-          </div>
-          <div>
-            <span>Level 2</span>
-            <strong>Lab verdict</strong>
-            <p>The same source-note pair escalated into a declared judge model and copyable QA summary.</p>
-          </div>
-          <div>
-            <span>Level 3</span>
-            <strong>Powered row</strong>
-            <p>Many cases, declared generator and judge, aggregate rates, public submission.</p>
-          </div>
-          <div>
-            <span>Not a claim</span>
-            <strong>Clinical clearance</strong>
-            <p>ScribeBench is evidence for review. It does not approve a note for care.</p>
-          </div>
-        </div>
-
-        <div class="public-action-kit" id="public-action-kit" aria-labelledby="public-action-kit-title">
-          <div class="public-action-copy">
-            <p class="eyebrow">Public action kit</p>
-            <h3 id="public-action-kit-title">Leave with something you can use in public.</h3>
-            <p>
-              The point is not to browse a benchmark page. Copy the artifact that matches
-              the moment: QA review, vendor claim, or the next evidence row.
-            </p>
-          </div>
-          <div class="public-action-grid">
-            <article data-public-artifact="qa">
-              <span class="queue-status needed">QA review</span>
-              <h4>When a note changed the source</h4>
-              <p>Use this in an internal QA ticket, vendor review, or build-in-public note.</p>
-              <pre class="code-block"><code>ScribeBench found a source-note issue in one AI-scribe note.
-Finding: unsupported care or contradicted source detail.
-Use next: review against the source before trusting the note.
-Boundary: one-note QA, not a system ranking.</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy="qa">Copy QA post</button>
-            </article>
-            <article data-public-artifact="claim">
-              <span class="queue-status valuable">Claim ask</span>
-              <h4>When someone says "hallucination-free"</h4>
-              <p>Use this when a sales deck, demo, or public post makes a safety claim.</p>
-              <pre class="code-block"><code>Can you share evidence behind this AI-scribe claim?
-Needed: dataset, n, generator, judge, repeats, dangerous-fab rate with CI, leak rate, and tuning disclosure.
-Until then: unproven claim, not a clinical safety result.</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy="claim">Copy claim ask</button>
-            </article>
-            <article data-public-artifact="row">
-              <span class="queue-status ready">Evidence row</span>
-              <h4>When old rows are not enough</h4>
-              <p>Use this to ask for the row that would make the project useful now.</p>
-              <pre class="code-block"><code>Next useful artifact: a current powered ScribeBench row.
-Needed: 57 PriMock57 or declared real-workflow cases, system/date, judge, repeats, aggregate scores only.
-Smoke tests are welcome, but they do not crown a model.</code></pre>
-              <button class="button secondary compact-button" type="button" data-public-copy="row">Copy row ask</button>
-            </article>
-          </div>
-          <p class="public-action-status" id="public-action-status" role="status" aria-live="polite"></p>
-          <textarea
-            class="copy-fallback"
-            id="public-action-fallback"
-            readonly
-            hidden
-            aria-label="Copied ScribeBench public action artifact"
-          ></textarea>
-        </div>
-      </section>
-
-      <section class="wrap section origin-section" id="why-this-exists">
-        <div class="section-head split-head">
-          <div>
-            <p class="eyebrow">Why this exists</p>
-            <h2>NapierMD's clinical AI lane starts after the demo.</h2>
-            <p>
-              The broader NapierMD site frames clinical AI around a simple test: can the
-              clinician sign the record without inheriting a fiction? ScribeBench is the
-              public, reusable artifact for that question, tied to a companion preprint
-              on closed-loop clinical documentation QA.
+              The repo is a public clinical-AI QA workbench. It is not the scribe product,
+              not patient advice, and not a current winner board. Bring the evidence you
+              actually have, then leave with the artifact that evidence can support.
             </p>
           </div>
           <div class="split-actions">
             <a class="text-link" href="https://napiermd.me/work#clinical-ai" target="_blank" rel="noreferrer">NapierMD clinical AI</a>
-            <a class="text-link" href="https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1" target="_blank" rel="noreferrer">Read preprint</a>
+            <a class="text-link" href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">Open GitHub</a>
           </div>
         </div>
 
-        <div class="origin-grid" aria-label="Why ScribeBench is public">
-          <article class="origin-card origin-primary">
-            <span class="queue-status valuable">The point</span>
-            <h3>This is not the scribe product. It is the public pressure test.</h3>
-            <p>
-              A demo note can sound fluent while adding care that never happened. ScribeBench
-              gives buyers, builders, and reviewers a shared way to ask what changed between
-              the source encounter and the signed note.
-            </p>
-          </article>
-          <article class="origin-card">
-            <span>Use it when</span>
-            <strong>A note looks plausible, but someone needs to know what the source actually supports.</strong>
+        <div class="guide-grid" aria-label="How to use ScribeBench">
+          <article class="guide-card guide-primary">
+            <span class="queue-status needed">One note</span>
+            <h3>Reviewer has source plus AI note.</h3>
+            <p>Run the browser checker. Leave with a QA packet naming unsupported care, excerpts, boundary, and next proof step.</p>
             <a href="#quick-check">Check one note</a>
           </article>
-          <article class="origin-card">
-            <span>Build in public</span>
-            <strong>The site exposes the receipt, evidence gaps, worklog, blocked current row, and contribution path.</strong>
-            <a href="#worklog">See shipped work</a>
+          <article class="guide-card">
+            <span class="queue-status valuable">Claim</span>
+            <h3>Buyer sees a vendor or model claim.</h3>
+            <p>Turn "hallucination-free" or "best model" into the dataset, n, judge, repeats, rates, and disclosure it requires.</p>
+            <a href="#claim-check">Challenge a claim</a>
           </article>
-          <article class="origin-card">
-            <span>Evidence boundary</span>
-            <strong>One-note receipts are triage. System claims need aggregate PriMock57 or real-workflow rows.</strong>
-            <a href="#leaderboard">Read evidence</a>
-          </article>
-          <article class="origin-card">
-            <span>Research context</span>
-            <strong>Companion preprint: Closed-Loop Quality Assurance for Production Clinical AI Documentation.</strong>
-            <a href="https://www.medrxiv.org/content/10.64898/2026.05.27.26353977v1" target="_blank" rel="noreferrer">Read medRxiv preprint</a>
+          <article class="guide-card">
+            <span class="queue-status open">Current gap</span>
+            <h3>Contributor wants a useful public row.</h3>
+            <p>Review the blocker, use a non-capped provider, or submit aggregate scores from current PriMock57 or real-workflow runs.</p>
+            <a href="#current-run">Review blocker</a>
           </article>
         </div>
-      </section>
 
-      <section class="wrap section repo-map-section" id="repo-map">
-        <div class="section-head split-head">
-          <div>
-            <p class="eyebrow">What it is</p>
-            <h2>What this repo actually is</h2>
+        <div class="guide-system" aria-label="What the repository contains">
+          <div class="guide-system-copy">
+            <p class="eyebrow">What this repo is</p>
+            <h3>One-note checker up front. Aggregate evidence behind it.</h3>
             <p>
-              ScribeBench is not a chatbot and not a current model leaderboard yet. It is a
-              public QA path for one clinical note plus a reproducible harness for turning many
-              note checks into aggregate evidence.
+              The site, APIs, TypeScript evaluator, public PriMock57 data, worklog, and
+              scores-only ledger all serve the same contract: one note can create a review
+              card; many scored notes can create a public row.
             </p>
           </div>
-          <a class="text-link" href="https://github.com/napiermd/scribe-bench" target="_blank" rel="noreferrer">Open GitHub</a>
-        </div>
-
-        <div class="repo-system-loop" aria-label="How ScribeBench turns notes into public evidence">
-          <div class="repo-loop-summary">
-            <span class="queue-status ready">System loop</span>
-            <h3>One note becomes a public card. Many notes become a public row.</h3>
-            <p>
-              That is the repo: a walk-up QA surface, a model-backed Lab, an evaluator,
-              and a scores-only ledger tied together by one evidence contract.
-            </p>
-          </div>
-          <ol class="repo-loop-steps">
+          <ol class="guide-loop">
             <li>
               <span>1</span>
-              <strong>Bring source plus AI note</strong>
-              <p>Use a transcript, source note, demo note, or candidate-note file.</p>
+              <strong>Bring source plus note</strong>
+              <p>Transcript, source note, demo output, or candidate-note file.</p>
             </li>
             <li>
               <span>2</span>
               <strong>Check unsupported care</strong>
-              <p>The receipt names invented workups, contradictions, leaks, and boundaries.</p>
+              <p>Invented results, meds, follow-up, diagnoses, orders, demographics, and leaks.</p>
             </li>
             <li>
               <span>3</span>
-              <strong>Share the evidence card</strong>
-              <p>A compact artifact says what happened, what it proves, and what it does not.</p>
+              <strong>Use the right artifact</strong>
+              <p>QA packet, claim ask, blocker receipt, Lab verdict, or aggregate row.</p>
             </li>
             <li>
               <span>4</span>
-              <strong>Graduate to aggregate rows</strong>
-              <p>Run enough public cases, then publish scores only: rates, dates, judge, repeats.</p>
+              <strong>Do not overclaim</strong>
+              <p>One note is triage. Current rankings need powered rows.</p>
             </li>
           </ol>
         </div>
 
-        <div class="repo-map-grid" aria-label="ScribeBench repository pieces">
-          <article class="repo-map-card repo-map-primary">
-            <span class="queue-status ready">Public website</span>
-            <h3>Walk-up checker</h3>
-            <p>
-              The Vercel site lets someone paste a source encounter and AI note, run a
-              browser-only receipt, escalate to the Lab, and copy a QA packet.
-            </p>
-            <dl>
-              <div>
-                <dt>Use when</dt>
-                <dd>You have one note or a vendor demo to sanity-check.</dd>
-              </div>
-              <div>
-                <dt>Leaves you with</dt>
-                <dd>A receipt that names unsupported claims and the next evidence level.</dd>
-              </div>
-            </dl>
-            <a href="#main">Check one note</a>
-          </article>
-
-          <article class="repo-map-card">
-            <span class="queue-status open">APIs</span>
-            <h3>Generate and judge endpoints</h3>
-            <p>
-              The Vercel functions wrap model providers for the Lab: generate a candidate note,
-              judge source fidelity, repair messy JSON, and fail closed when the judge breaks.
-            </p>
-            <dl>
-              <div>
-                <dt>Files</dt>
-                <dd><code>api/generate.js</code>, <code>api/judge.js</code>, <code>api/models.js</code></dd>
-              </div>
-            </dl>
-            <a href="#lab">Open Lab</a>
-          </article>
-
-          <article class="repo-map-card">
-            <span class="queue-status valuable">Eval engine</span>
-            <h3>Scoring harness</h3>
-            <p>
-              The TypeScript evaluator scores candidate-note JSON for narrative quality,
-              input fidelity, dangerous fabrication, and deterministic template leaks.
-            </p>
-            <dl>
-              <div>
-                <dt>Files</dt>
-                <dd><code>eval/run_benchmark.ts</code>, <code>eval/fabrication.ts</code>, <code>eval/narrative_judge.ts</code></dd>
-              </div>
-            </dl>
-            <a href="#run">Add a row</a>
-          </article>
-
-          <article class="repo-map-card">
-            <span class="queue-status open">Data</span>
-            <h3>Synthetic plus PriMock57 cases</h3>
-            <p>
-              The repo ships synthetic demo cases and 57 public PriMock57 consults so smoke
-              tests and powered rows can be reproduced without private patient data.
-            </p>
-            <dl>
-              <div>
-                <dt>Files</dt>
-                <dd><code>data/synthetic/cases</code>, <code>data/primock57/cases</code></dd>
-              </div>
-            </dl>
-            <a href="#demo">Inspect a case</a>
-          </article>
-
-          <article class="repo-map-card">
-            <span class="queue-status needed">Ledger</span>
-            <h3>Scores-only public evidence</h3>
-            <p>
-              The public board stores aggregate scores, worklog entries, and the current
-              blocked run status. It deliberately avoids publishing raw closed-model notes.
-            </p>
-            <dl>
-              <div>
-                <dt>Files</dt>
-                <dd><code>leaderboard/results.json</code>, <code>site/worklog.json</code>, <code>site/current-run.json</code></dd>
-              </div>
-            </dl>
-            <a href="#leaderboard">See evidence</a>
-          </article>
+        <div class="guide-limits" aria-label="ScribeBench evidence limits">
+          <span>Not for</span>
+          <strong>Patient advice, billing, clinical clearance, or crowning a current winner from old rows.</strong>
+          <p>Useful output means a reviewable artifact with evidence level and boundary, not another demo screenshot.</p>
         </div>
       </section>
 
