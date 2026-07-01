@@ -765,6 +765,45 @@
           <a class="text-link" href="/assets/results.json">Raw results JSON</a>
         </div>
 
+        <div class="evidence-task-card" aria-label="Current public ScribeBench task">
+          <div class="evidence-task-copy">
+            <div class="evidence-task-head">
+              <span class="queue-status needed" id="evidence-task-status">Open public task</span>
+              <p class="eyebrow">Make this citeable</p>
+            </div>
+            <h3 id="evidence-task-title">Finish the current row before ranking anyone.</h3>
+            <p id="evidence-task-copy">
+              Need 21 more scored PriMock57 cases to reach the 30-case publishable threshold; all public output stays aggregate-only.
+            </p>
+            <div class="evidence-task-actions">
+              <button class="button primary compact-button" id="copy-current-row-task" data-copy-public-work-task type="button">Copy public task</button>
+              <a class="button secondary compact-button" href="#current-run-command-card">Show resume command</a>
+              <span id="current-run-task-copy-status" role="status" aria-live="polite"></span>
+            </div>
+            <textarea
+              class="copy-fallback"
+              id="current-run-task-copy-fallback"
+              readonly
+              hidden
+              aria-label="ScribeBench current-row public task"
+            ></textarea>
+          </div>
+          <dl class="evidence-task-steps">
+            <div>
+              <dt>Bring</dt>
+              <dd id="evidence-task-bring">A non-capped OpenRouter key, credits, or another declared provider.</dd>
+            </div>
+            <div>
+              <dt>Do</dt>
+              <dd id="evidence-task-do">Copy the resume command and continue the cached public API run.</dd>
+            </div>
+            <div>
+              <dt>Done</dt>
+              <dd id="evidence-task-done">Publish n>=30 aggregate scores with judge, repeats, date, CI, and exclusions.</dd>
+            </div>
+          </dl>
+        </div>
+
         <div class="evidence-answer" aria-labelledby="evidence-answer-title">
           <div class="evidence-answer-main">
             <p class="eyebrow">Public answer</p>

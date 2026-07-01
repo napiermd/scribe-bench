@@ -2658,6 +2658,87 @@ h4 {
   margin: 0.55rem 0 0;
 }
 
+.evidence-task-card {
+  display: grid;
+  grid-template-columns: minmax(0, 0.42fr) minmax(0, 1fr);
+  gap: 12px;
+  border: 1px solid rgba(152, 111, 11, 0.34);
+  background: #fff9e8;
+  box-shadow: var(--shadow);
+  margin: 0 0 1rem;
+  padding: 1rem;
+}
+
+.evidence-task-copy {
+  min-width: 0;
+}
+
+.evidence-task-head {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 0.8rem;
+  margin-bottom: 0.5rem;
+}
+
+.evidence-task-head .eyebrow {
+  margin: 0.2rem 0 0;
+}
+
+.evidence-task-copy h3 {
+  font-size: 1.28rem;
+  max-width: 28rem;
+}
+
+.evidence-task-copy p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.42;
+  margin: 0.7rem 0 0;
+}
+
+.evidence-task-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem;
+  margin-top: 0.9rem;
+}
+
+.evidence-task-steps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+}
+
+.evidence-task-steps div {
+  min-width: 0;
+  border-left: 3px solid rgba(152, 111, 11, 0.34);
+  background: var(--panel);
+  padding: 0.72rem 0.78rem;
+}
+
+.evidence-task-steps dt {
+  color: var(--gold);
+  font-size: 0.66rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.evidence-task-steps dd {
+  color: var(--ink);
+  font-size: 0.86rem;
+  line-height: 1.34;
+  margin: 0.26rem 0 0;
+}
+
+#current-run-task-copy-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .evidence-answer {
   display: grid;
   grid-template-columns: minmax(0, 0.44fr) minmax(0, 1fr);
@@ -5142,6 +5223,7 @@ h4 {
   .summary-grid,
   .claim-tool,
   .challenge-tool,
+  .evidence-task-card,
   .evidence-answer,
   .evidence-decision,
   .evidence-digest,
@@ -5178,6 +5260,7 @@ h4 {
   .repo-map-grid,
   .repo-loop-steps,
   .evidence-ladder,
+  .evidence-task-steps,
   .public-action-grid,
   .evidence-answer-grid,
   .evidence-answer-foot,
@@ -5322,6 +5405,7 @@ h4 {
   .public-evidence-card-actions .button,
   .claim-evidence-actions .button,
   .current-run-command-actions .button,
+  .evidence-task-actions .button,
   .public-work-queue-task .button,
   .public-work-queue-actions .button,
   .case-receipt-actions .button,

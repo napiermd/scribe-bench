@@ -658,7 +658,19 @@ function renderCurrentRun(run) {
       : `Finish the current row: ${scored}/${target} scored.`
   );
   setText(
+    "evidence-task-title",
+    scored >= minimumPublishable
+      ? "Review this row before anyone ranks it."
+      : `Finish the current row: ${scored}/${target} scored.`
+  );
+  setText(
     "current-run-task-copy",
+    scored >= minimumPublishable
+      ? `The run has reached the ${minimumPublishable}-case threshold. It still needs method review before it becomes current comparison evidence.`
+      : `Need ${publishableRemaining} more scored PriMock57 cases to reach the ${minimumPublishable}-case publishable threshold; all public output stays aggregate-only.`
+  );
+  setText(
+    "evidence-task-copy",
     scored >= minimumPublishable
       ? `The run has reached the ${minimumPublishable}-case threshold. It still needs method review before it becomes current comparison evidence.`
       : `Need ${publishableRemaining} more scored PriMock57 cases to reach the ${minimumPublishable}-case publishable threshold; all public output stays aggregate-only.`
@@ -670,11 +682,25 @@ function renderCurrentRun(run) {
       : "A non-capped provider key, credits, or another declared provider/judge."
   );
   setText(
+    "evidence-task-bring",
+    run.provider
+      ? `A non-capped ${providerLabel} key, credits, or another declared provider/judge.`
+      : "A non-capped provider key, credits, or another declared provider/judge."
+  );
+  setText(
     "current-run-task-do",
     resumeCommand ? "Copy the resume command and continue the cached public API run." : "Use the run builder or benchmark CLI to produce a declared aggregate row."
   );
   setText(
+    "evidence-task-do",
+    resumeCommand ? "Copy the resume command and continue the cached public API run." : "Use the run builder or benchmark CLI to produce a declared aggregate row."
+  );
+  setText(
     "current-run-task-done",
+    `Publish n>=${minimumPublishable} aggregate scores with judge, repeats, date, CI, and exclusions.`
+  );
+  setText(
+    "evidence-task-done",
     `Publish n>=${minimumPublishable} aggregate scores with judge, repeats, date, CI, and exclusions.`
   );
   setText(
@@ -712,6 +738,11 @@ function renderCurrentRun(run) {
   if (queueStatus) {
     queueStatus.textContent = scored >= minimumPublishable ? "Ready for method review" : run.statusLabel || "Current public blocker";
     queueStatus.className = `queue-status ${scored >= minimumPublishable ? "ready" : currentRunStatusClass(run.status)}`;
+  }
+  const evidenceTaskStatus = document.getElementById("evidence-task-status");
+  if (evidenceTaskStatus) {
+    evidenceTaskStatus.textContent = scored >= minimumPublishable ? "Ready for method review" : run.statusLabel || "Open public task";
+    evidenceTaskStatus.className = `queue-status ${scored >= minimumPublishable ? "ready" : currentRunStatusClass(run.status)}`;
   }
   setText(
     "public-work-queue-summary",
@@ -837,9 +868,14 @@ function renderCurrentRunError() {
   setText("current-run-copy", "The public runner still exists in GitHub; the status asset failed to load.");
   setText("current-run-task-title", "Reload current-run status before ranking anyone.");
   setText("current-run-task-copy", "The current public task could not load from the status asset. Use the run builder to create a fresh aggregate row instead.");
+  setText("evidence-task-title", "Reload current-run status before ranking anyone.");
+  setText("evidence-task-copy", "The current public task could not load from the status asset. Use the run builder to create a fresh aggregate row instead.");
   setText("current-run-task-bring", "A declared provider key or existing candidate-note file.");
   setText("current-run-task-do", "Run the benchmark path and write a fresh status artifact.");
   setText("current-run-task-done", "Aggregate-only row with n, judge, repeats, date, CI, and exclusions.");
+  setText("evidence-task-bring", "A declared provider key or existing candidate-note file.");
+  setText("evidence-task-do", "Run the benchmark path and write a fresh status artifact.");
+  setText("evidence-task-done", "Aggregate-only row with n, judge, repeats, date, CI, and exclusions.");
   setText("current-run-generated", "--");
   setText("current-run-scored", "--");
   setText("current-run-errored", "--");
@@ -885,7 +921,9 @@ function bindCurrentRunCommand() {
 }
 
 function bindPublicWorkTaskCopy() {
-  document.getElementById("copy-public-work-task")?.addEventListener("click", copyPublicWorkTask);
+  document.querySelectorAll("#copy-public-work-task, [data-copy-public-work-task]").forEach((button) => {
+    button.addEventListener("click", copyPublicWorkTask);
+  });
 }
 
 async function copyPublicWorkTask() {
@@ -902,15 +940,19 @@ async function copyPublicWorkTask() {
 }
 
 function setPublicWorkQueueCopyStatus(message) {
-  const status = document.getElementById("public-work-queue-copy-status");
-  if (status) status.textContent = message;
+  ["public-work-queue-copy-status", "current-run-task-copy-status"].forEach((id) => {
+    const status = document.getElementById(id);
+    if (status) status.textContent = message;
+  });
 }
 
 function setPublicWorkQueueCopyFallback(text) {
-  const fallback = document.getElementById("public-work-queue-copy-fallback");
-  if (!fallback) return;
-  fallback.value = text;
-  fallback.hidden = !text;
+  ["public-work-queue-copy-fallback", "current-run-task-copy-fallback"].forEach((id) => {
+    const fallback = document.getElementById(id);
+    if (!fallback) return;
+    fallback.value = text;
+    fallback.hidden = !text;
+  });
 }
 
 async function copyCurrentRunCommand() {

@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Evidence now starts with the current public task",
+      "why": "The Evidence section had the blocker, but it appeared after broad interpretation cards and ledger framing. On mobile, visitors reached stale-row language before the task they could actually help finish.",
+      "proof": "A new Make this citeable task card appears before the public answer grid. It copies the same public task as Contribute and mirrors the current-run counts, Bring, Do, and Done fields from current-run.json.",
+      "next": "Keep the ledger behind the task; current claims still need the powered row completed before any ranking language is citeable.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current public task", "href": "#current-run" },
+        { "label": "Contribute", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The claim checker now makes the public ask the artifact",
       "why": "The claim checker could generate a useful evidence ask, but the ask appeared after method cards and looked like supporting text instead of the thing a buyer or operator came to copy.",
       "proof": "The claim answer now surfaces a Copyable public ask immediately after the claim summary, with a visible copy button inside the answer. The supporting evidence requirements and evidence path stay below the ask instead of competing with it.",

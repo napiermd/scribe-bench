@@ -209,8 +209,21 @@ describe('site copy and labels', () => {
 
   it('keeps the evidence tables framed as claim-boundary ledgers', () => {
     const leaderboardSection = html.match(/<section class="wrap section" id="leaderboard">[\s\S]*?<\/section>/)?.[0] || '';
+    const taskIndex = leaderboardSection.indexOf('evidence-task-card');
+    const answerIndex = leaderboardSection.indexOf('evidence-answer');
+    const currentRunIndex = leaderboardSection.indexOf('current-run-card');
 
     expect(leaderboardSection).toContain('What is useful now, and what still needs public work?');
+    expect(taskIndex).toBeGreaterThan(-1);
+    expect(answerIndex).toBeGreaterThan(taskIndex);
+    expect(currentRunIndex).toBeGreaterThan(taskIndex);
+    expect(leaderboardSection).toContain('Make this citeable');
+    expect(leaderboardSection).toContain('Copy public task');
+    expect(leaderboardSection).toContain('id="copy-current-row-task"');
+    expect(leaderboardSection).toContain('data-copy-public-work-task');
+    expect(leaderboardSection).toContain('id="evidence-task-title"');
+    expect(leaderboardSection).toContain('id="evidence-task-bring"');
+    expect(leaderboardSection).toContain('id="current-run-task-copy-status"');
     expect(leaderboardSection).toContain('Use it now for note review; help finish the current row for comparisons.');
     expect(leaderboardSection).toContain('Open public task');
     expect(leaderboardSection).toContain('Finish the current row before ranking anyone.');
@@ -226,6 +239,10 @@ describe('site copy and labels', () => {
     expect(app).toContain('setText("current-run-task-title"');
     expect(app).toContain('setText("current-run-task-copy"');
     expect(app).toContain('setText("current-run-task-done"');
+    expect(app).toContain('document.querySelectorAll("#copy-public-work-task, [data-copy-public-work-task]")');
+    expect(app).toContain('setText("evidence-task-title"');
+    expect(app).toContain('setText("evidence-task-bring"');
+    expect(app).toContain('const evidenceTaskStatus = document.getElementById("evidence-task-status");');
     expect(app).toContain('const statusLabel = ranked ? "Historical only" : "Smoke only";');
     expect(app).toContain('const statusDetail = ranked ? `Baseline ${index + 1}; not current ranking` : "Plumbing proof; not ranked";');
   });
