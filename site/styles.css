@@ -3739,6 +3739,51 @@ h4 {
   gap: 12px;
 }
 
+.lab-contract {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: #eef8f5;
+  box-shadow: var(--shadow);
+  margin-bottom: 1rem;
+}
+
+.lab-contract article {
+  min-width: 0;
+  border-right: 1px solid rgba(15, 118, 110, 0.18);
+  padding: 0.85rem;
+}
+
+.lab-contract article:last-child {
+  border-right: 0;
+}
+
+.lab-contract span {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  line-height: 1.25;
+  text-transform: uppercase;
+}
+
+.lab-contract strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.22;
+  margin-top: 0.25rem;
+}
+
+.lab-contract p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.36;
+  margin: 0.32rem 0 0;
+}
+
 .lab-workflow {
   margin: 1rem 0;
 }
@@ -5038,6 +5083,7 @@ h4 {
   .freshness-receipt-grid,
   .run-steps,
   .run-contract,
+  .lab-contract,
   .public-work-queue-task,
   .public-work-queue-grid,
   .contribution-paths,
@@ -5266,6 +5312,15 @@ h4 {
   }
 
   .public-work-queue-grid article:last-child {
+    border-bottom: 0;
+  }
+
+  .lab-contract article {
+    border-right: 0;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.18);
+  }
+
+  .lab-contract article:last-child {
     border-bottom: 0;
   }
 

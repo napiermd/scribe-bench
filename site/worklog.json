@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The Lab now starts with second-opinion boundaries",
+      "why": "The Lab had useful no-key and live-model actions, but the controls could still read like a generic model playground instead of a bounded review workflow for one source-note pair.",
+      "proof": "The Lab now opens with a Use when, Do first, Escalate if, and Do not claim contract. Button labels separate no-key receipt, live judge review, and demo candidate generation, while provider settings are marked optional and live models are framed as review aids rather than leaderboard rows.",
+      "next": "Keep the model-backed lane useful for second opinions and smoke checks while reserving public ranking claims for powered aggregate PriMock57 rows.",
+      "links": [
+        { "label": "Second opinion Lab", "href": "#lab" },
+        { "label": "Lab workbench", "href": "#lab-workbench" },
+        { "label": "Check one note", "href": "#quick-check-form" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Contribute now starts from what a visitor has in hand",
       "why": "The Contribute section had the right queue and row builder, but it led with aggregate-evidence language and pushed the human entry points below the blocker details, especially on mobile.",
       "proof": "The section now opens with plain contribution copy: one source-note pair, a public claim, a batch of candidate notes, or a provider key. The entry-point chooser appears before the public work queue, and the row builder is explicitly framed as only for many-note rows.",

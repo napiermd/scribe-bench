@@ -55,6 +55,24 @@ describe('site copy and labels', () => {
   });
 
   it('makes Lab copied packets reviewer-ready instead of benchmark-first', () => {
+    const labStart = html.indexOf('<section class="wrap section lab-section" id="lab">');
+    const demoStart = html.indexOf('<section class="wrap section split" id="demo">', labStart);
+    const labSection = labStart >= 0 ? html.slice(labStart, demoStart >= 0 ? demoStart : undefined) : '';
+
+    expect(labSection).toContain('Use the Lab when one note needs a second opinion');
+    expect(labSection).toContain('lab-contract');
+    expect(labSection).toContain('Use when');
+    expect(labSection).toContain('One note needs review.');
+    expect(labSection).toContain('Run the no-key receipt.');
+    expect(labSection).toContain('You need a live judge.');
+    expect(labSection).toContain('No ranking from one note.');
+    expect(labSection).toContain('Ask live judge for review');
+    expect(labSection).toContain('Generate demo candidate');
+    expect(labSection).toContain('Provider settings (optional)');
+    expect(labSection).toContain('Live models are review aids, not leaderboard rows.');
+    expect(labSection).not.toContain('Model settings and temporary key');
+    expect(labSection).not.toContain('Generate candidate</button>');
+    expect(labSection).not.toContain('Use live models only for a second opinion.');
     expect(html).toContain('Copy review packet');
     expect(html).toContain('Copy detailed review');
     expect(html).toContain('What to do with this result');

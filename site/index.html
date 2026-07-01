@@ -1081,17 +1081,39 @@
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Optional second opinion</p>
-            <h2>Use the Lab when a one-note receipt needs a stronger read</h2>
+            <h2>Use the Lab when one note needs a second opinion</h2>
             <p>
-              The first-screen checker is the front door. The Lab is the escalation step:
-              reuse the same source-note pair, run the browser receipt again, ask a live
-              judge when you need model-backed language, then decide whether the result
-              stays a QA packet, becomes a claim ask, or deserves an aggregate run.
+              Bring the same source encounter and candidate note. Start with the no-key
+              browser receipt, ask a live judge only when the result needs a stronger read,
+              then copy a review packet with the method boundary attached.
             </p>
           </div>
           <div class="split-actions">
             <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
           </div>
+        </div>
+
+        <div class="lab-contract" aria-label="How to use the ScribeBench Lab">
+          <article>
+            <span>Use when</span>
+            <strong>One note needs review.</strong>
+            <p>A source-note pair has an issue, a buyer asks for a second read, or a builder wants prompt QA.</p>
+          </article>
+          <article>
+            <span>Do first</span>
+            <strong>Run the no-key receipt.</strong>
+            <p>The browser check catches unsupported care instantly before any provider model is involved.</p>
+          </article>
+          <article>
+            <span>Escalate if</span>
+            <strong>You need a live judge.</strong>
+            <p>Use configured models or a temporary key for a second opinion on the same source-note pair.</p>
+          </article>
+          <article>
+            <span>Do not claim</span>
+            <strong>No ranking from one note.</strong>
+            <p>A Lab result is a review packet or smoke check. System claims need aggregate rows.</p>
+          </article>
         </div>
 
         <div class="lab-shell" id="lab-workbench">
@@ -1108,9 +1130,9 @@
             </div>
 
             <div class="lab-actions">
-              <button class="button primary" id="run-local-receipt" type="button">Run browser receipt</button>
-              <button class="button secondary" id="run-lab" type="submit">Ask live judge</button>
-              <button class="button secondary" id="generate-note" type="button">Generate candidate</button>
+              <button class="button primary" id="run-local-receipt" type="button">Run no-key receipt</button>
+              <button class="button secondary" id="run-lab" type="submit">Ask live judge for review</button>
+              <button class="button secondary" id="generate-note" type="button">Generate demo candidate</button>
               <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
@@ -1118,8 +1140,8 @@
 
             <details class="lab-model-settings">
               <summary>
-                <span>Model settings and temporary key</span>
-                <small>Defaults use the configured public Lab path.</small>
+                <span>Provider settings (optional)</span>
+                <small>Use only when the review needs a live model or smoke run.</small>
               </summary>
 
               <div class="field-row lab-model-row">
@@ -1159,17 +1181,18 @@
           <aside class="lab-results" aria-live="polite">
             <div class="lab-empty" id="lab-empty">
               <p class="eyebrow">Next step</p>
-              <h3 id="lab-empty-title">Seeded demo ready</h3>
+              <h3 id="lab-empty-title">Start with the no-key receipt</h3>
               <p id="lab-empty-copy">
-                Run the browser receipt or ask a live judge to see whether it catches the
-                invented head CT and syncope workup.
+                Run the browser receipt first. Ask a live judge only if this source-note
+                pair needs a stronger second opinion.
               </p>
               <p id="lab-empty-detail">
-                Edit either text area anytime; stale results clear automatically.
+                The seeded demo catches the invented head CT and syncope workup; replace
+                the text anytime for your own review.
               </p>
               <div class="lab-empty-actions">
-                <button class="button primary compact-button" id="lab-empty-local" type="button">Run browser receipt</button>
-                <button class="button secondary compact-button" id="lab-empty-run" type="button">Ask live judge</button>
+                <button class="button primary compact-button" id="lab-empty-local" type="button">Run no-key receipt</button>
+                <button class="button secondary compact-button" id="lab-empty-run" type="button">Ask live judge for review</button>
                 <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
               </div>
             </div>
@@ -1296,11 +1319,12 @@
             <span class="queue-status open" id="current-model-lane-status">Loading</span>
             <div>
               <p class="eyebrow">Current model lane</p>
-              <h3 id="current-model-lane-title">Use live models only for a second opinion.</h3>
+              <h3 id="current-model-lane-title">Live models are review aids, not leaderboard rows.</h3>
             </div>
           </div>
           <p id="current-model-lane-copy">
-            Loading the configured OpenRouter free-model list. Smoke checks can sharpen a QA packet, but a winner claim still needs a powered PriMock57 row.
+            Loading the configured OpenRouter free-model list. Use this lane for a second
+            read or one-note smoke check; a winner claim still needs a powered PriMock57 row.
           </p>
           <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
             <li>Loading current free models...</li>
@@ -1310,10 +1334,10 @@
               class="button secondary compact-button"
               id="current-model-run-smoke"
               type="button"
-              data-default-label="Run smoke here"
+              data-default-label="Run one-note smoke"
               data-running-label="Running smoke check..."
             >
-              Run smoke here
+              Run one-note smoke
             </button>
             <a class="button secondary compact-button" href="#run">Add powered row</a>
           </div>
