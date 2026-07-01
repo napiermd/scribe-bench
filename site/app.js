@@ -536,7 +536,6 @@ function renderCurrentRun(run) {
   const card = document.getElementById("current-run");
   if (!card || !run) return;
   const status = document.getElementById("current-run-status");
-  const last = run.lastScoredCase || {};
   const target = Number(run.targetCases) || 57;
   const selected = Number(run.selectedCases) || 0;
   const attempted = Number(run.attemptedCases) || selected || target;
@@ -555,6 +554,9 @@ function renderCurrentRun(run) {
   const partialText = partialAggregateText(partial);
   const publishableRemaining = Math.max(minimumPublishable - scored, 0);
   const providerLabel = (providerConfigs[run.provider]?.label || run.provider || "provider").replace(/\s+free$/i, "");
+  const blockerSummary = errored
+    ? `Provider limit stopped the latest public retry after ${scored}/${attempted} selected cases were scored; ${errored}/${attempted} are blocked or errored.`
+    : run.blocker || "No blocker recorded; the row still needs enough scored cases to be publishable.";
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -563,7 +565,7 @@ function renderCurrentRun(run) {
   setText("current-run-title", run.title || "Current PriMock57 run attempt");
   setText(
     "current-run-copy",
-    `${run.system || "current public API run"} has ${scored}/${target} PriMock57 cases scored toward a publishable current row. ${generated}/${attempted} attempted cases have generated notes.${attemptText} Raw notes stay out of the public repo.`
+    `This is the public blocker receipt, not a current model result. ${run.system || "current public API run"} has ${scored}/${target} PriMock57 cases scored toward a publishable current row. Raw notes stay out of the public repo.`
   );
   setText(
     "current-run-task-title",
@@ -625,19 +627,21 @@ function renderCurrentRun(run) {
     "freshness-next-row",
     `Resume ${run.system || "the current system"} to at least ${minimumPublishable} scored PriMock57 cases, preferably all ${target}, then publish aggregate scores only.`
   );
-  setText("current-run-generated", `${generated}/${attempted}`);
-  setText("current-run-scored", `${scored}/${target}`);
-  setText("current-run-errored", `${errored}/${attempted}`);
+  setText("current-run-scored", `${scored}/${target} scored`);
+  setText(
+    "current-run-errored",
+    scored >= minimumPublishable
+      ? "Method review before ranking"
+      : `${publishableRemaining} more scored cases`
+  );
   setText("current-run-last-attempt", lastAttemptText || "--");
   setText(
-    "current-run-last-score",
-    last.caseId
-      ? `${last.caseId}: ${last.normalized}/100, fidelity ${last.inputFidelity}/5, dangerous ${last.dangerousFabrications || 0}`
-      : "--"
+    "current-run-partial",
+    partialText
+      ? `${partialText} Use this as a blocker receipt, not as a ranking.`
+      : "No partial aggregate yet; the runner needs enough scored cases before any current comparison claim."
   );
-  setText("current-run-partial", partialText || "No partial aggregate yet; the runner needs at least one scored case.");
-  setText("current-run-blocker", run.blocker || "No blocker recorded.");
-  setText("current-run-next", run.next || "Continue the run and publish only when the evidence threshold is met.");
+  setText("current-run-blocker", blockerSummary);
   setText("current-run-unblock", run.unblockAsk || "Use the run builder to create a publishable powered row.");
   setText("current-run-resume-command", resumeCommand);
   setText(
@@ -790,11 +794,9 @@ function renderCurrentRunError() {
   setText("evidence-task-bring", "A declared provider key or existing candidate-note file.");
   setText("evidence-task-do", "Run the benchmark path and write a fresh status artifact.");
   setText("evidence-task-done", "Aggregate-only row with n, judge, repeats, date, CI, and exclusions.");
-  setText("current-run-generated", "--");
   setText("current-run-scored", "--");
-  setText("current-run-errored", "--");
+  setText("current-run-errored", "Status unavailable");
   setText("current-run-last-attempt", "--");
-  setText("current-run-last-score", "--");
   setText("current-run-partial", "--");
   setText("decision-current-proof", "Current-run status could not load from /assets/current-run.json.");
   setText("freshness-current-gap", "Current-run status could not load, so no current ranking claim is supported from this page.");

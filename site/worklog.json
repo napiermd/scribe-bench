@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The current blocker now reads like a receipt",
+      "why": "The current-run section still mixed the public blocker with runner diagnostics: generated counts, last score, partial aggregate, blocker text, next text, links, and the resume command all competed for attention.",
+      "proof": "Collapsed the visible current-run middle into a blocker receipt, three-field status strip, and short proof/blocker note. Removed the generated count, last-score line, and extra next panel from the public Evidence flow while keeping the resume command copyable.",
+      "next": "Keep turning status details into visitor-facing artifacts: receipt first, raw diagnostics only where they help someone act.",
+      "links": [
+        { "label": "Current blocker", "href": "#current-run" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Contribute", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Evidence now skips the generic backlog",
       "why": "The Evidence section still had a generic backlog after the work log, even though Contribute already carries the current public queue and copyable task. That made the middle page feel like roadmap clutter instead of proof.",
       "proof": "Removed the Evidence-only backlog and its dead layout styles. Evidence now moves from the current task, public answer, current blocker, smoke receipt, and work log straight into historical baselines.",

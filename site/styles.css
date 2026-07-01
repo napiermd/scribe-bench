@@ -3041,23 +3041,23 @@ h4 {
   margin: 0.26rem 0 0;
 }
 
-.current-run-metrics {
+.current-run-proof-strip {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(5, minmax(112px, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
   align-self: start;
   margin: 0;
 }
 
-.current-run-metrics div {
+.current-run-proof-strip div {
   min-width: 0;
   border: 1px solid rgba(152, 111, 11, 0.2);
   background: var(--panel);
   padding: 0.85rem;
 }
 
-.current-run-metrics dt {
+.current-run-proof-strip dt {
   color: var(--gold);
   font-size: 0.68rem;
   font-weight: 850;
@@ -3065,7 +3065,7 @@ h4 {
   text-transform: uppercase;
 }
 
-.current-run-metrics dd {
+.current-run-proof-strip dd {
   margin: 0.28rem 0 0;
   color: var(--ink);
   font-size: 0.9rem;
@@ -3073,26 +3073,26 @@ h4 {
   overflow-wrap: anywhere;
 }
 
-.current-run-detail {
+.current-run-proof-note {
   grid-column: 1 / -1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(0, 0.55fr) minmax(0, 1fr);
   gap: 10px;
 }
 
-.current-run-detail div {
+.current-run-proof-note div {
   min-width: 0;
   border-left: 3px solid rgba(152, 111, 11, 0.34);
   background: rgba(255, 255, 255, 0.55);
   padding: 0.8rem 0.9rem;
 }
 
-.current-run-detail h4 {
+.current-run-proof-note h4 {
   color: var(--gold);
   font-size: 0.68rem;
 }
 
-.current-run-detail p {
+.current-run-proof-note p {
   color: var(--muted);
   font-size: 0.9rem;
   line-height: 1.42;
@@ -4992,10 +4992,10 @@ h4 {
   .claim-evidence-grid,
   .run-builder-actions,
   .agenda-grid,
-  .current-run-metrics,
+  .current-run-proof-strip,
   .current-run-task,
   .current-run-task-steps,
-  .current-run-detail,
+  .current-run-proof-note,
   .current-run-command,
   .fresh-smoke-metrics,
   .lab-workflow,

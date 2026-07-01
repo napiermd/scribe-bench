@@ -752,7 +752,7 @@
           </div>
           <div class="current-run-task" aria-label="Open public task for the current row">
             <div class="current-run-task-copy">
-              <span class="queue-status needed">Open public task</span>
+              <span class="queue-status needed">Blocker receipt</span>
               <h4 id="current-run-task-title">Finish the current row before ranking anyone.</h4>
               <p id="current-run-task-copy">Need 21 more scored PriMock57 cases to reach the 30-case publishable threshold; all public output stays aggregate-only.</p>
             </div>
@@ -771,40 +771,28 @@
               </div>
             </dl>
           </div>
-          <dl class="current-run-metrics" aria-label="Current PriMock57 run status">
-            <div>
-              <dt>Generated</dt>
-              <dd id="current-run-generated">13/30</dd>
-            </div>
+          <dl class="current-run-proof-strip" aria-label="Current PriMock57 run blocker receipt">
             <div>
               <dt>Scored</dt>
-              <dd id="current-run-scored">9/57</dd>
+              <dd id="current-run-scored">9/57 scored</dd>
             </div>
             <div>
-              <dt>Errored</dt>
-              <dd id="current-run-errored">21/30</dd>
+              <dt>Still needed</dt>
+              <dd id="current-run-errored">21 more scored cases</dd>
             </div>
             <div>
               <dt>Latest retry</dt>
               <dd id="current-run-last-attempt">July 1, 2026 at 3:04 AM UTC</dd>
             </div>
-            <div>
-              <dt>Last score</dt>
-              <dd id="current-run-last-score">PM57-d1c11: 100/100, fidelity 5/5, dangerous 0</dd>
-            </div>
           </dl>
-          <div class="current-run-detail">
+          <div class="current-run-proof-note">
             <div>
-              <h4>Partial signal</h4>
+              <h4>What this proves</h4>
               <p id="current-run-partial">9 scored cases show the public path can generate, judge, and summarize, but this is below the publishable threshold.</p>
             </div>
             <div>
-              <h4>Blocker</h4>
+              <h4>Why it stopped</h4>
               <p id="current-run-blocker">OpenRouter free-model rate limits stopped the run before the remaining selected cases could be scored.</p>
-            </div>
-            <div>
-              <h4>Next</h4>
-              <p id="current-run-next">Resume with credits, a non-capped key, or another declared judge before publishing any ranked current row.</p>
             </div>
           </div>
           <div class="current-run-actions" id="current-run-links"></div>
