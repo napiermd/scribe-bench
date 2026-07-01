@@ -39,11 +39,11 @@ let quickOwnModeRequested = false;
 
 const providerConfigs = {
   openrouter: {
-    label: "OpenRouter free",
+    label: "OpenRouter",
     keyHeader: "x-openrouter-key",
     keyStorage: "scribebench-openrouter-key",
-    keyHint: "OpenRouter free models use the configured site key; paste a temporary key only to override it.",
-    slowNotice: "Still running. Free OpenRouter models can take about a minute on full notes.",
+    keyHint: "OpenRouter uses the configured site key; paste a temporary key only to override it.",
+    slowNotice: "Still running. Hosted OpenRouter models can take about a minute on full notes.",
     preferredGenerationModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
     preferredJudgeModel: "nvidia/nemotron-3-ultra-550b-a55b:free",
     defaultModels: [
@@ -2471,7 +2471,7 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
   status.textContent = count ? "Provider ready" : "No provider list";
   status.className = `queue-status ${configured && count ? "ready" : count ? "open" : "needed"}`;
   copy.textContent = count
-    ? `${providerLabel} is ready for bounded second-read checks after a browser check. Keep any one-note output as a QA finding; require a powered PriMock57 row before citing a system claim.`
+    ? `${providerLabel} is ready for bounded second reads after a browser finding. Keep any one-note output as a QA review packet; require a powered PriMock57 row before citing a system claim.`
     : `${providerLabel} did not return a provider list. The browser check still works without a model call.`;
   if (warning && count) {
     copy.textContent += ` ${warning}`;
@@ -2491,11 +2491,11 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
   list.innerHTML = `
     <li>
       <strong>Second-read models available</strong>
-      <span>${count} provider option${count === 1 ? "" : "s"} loaded; choose one in Provider settings only when a QA finding needs escalation.</span>
+      <span>${count} provider option${count === 1 ? "" : "s"} loaded; choose one in Live judge settings only when a QA finding needs escalation.</span>
     </li>
     <li>
       <strong>Smoke only</strong>
-      <span>One-note model calls create QA findings, not rankings.</span>
+      <span>One-note model calls create review packets, not rankings.</span>
     </li>
   `;
 }
@@ -2522,13 +2522,13 @@ function populateLab(c) {
   const seededResult = buildSeededLabResult(c);
   if (seededResult) {
     renderLabResult(seededResult);
-    setLabStatus(`Loaded ${c.id} with the seeded demo verdict. Run live judge to re-score with the selected model.`);
+    setLabStatus(`Loaded ${c.id} with the seeded demo finding. Run the local baseline to reproduce it, or escalate to live judge to re-score.`);
     return;
   }
   resetLabResult();
   setLabEmptyState(
     "Case ready",
-    `${c.id} is loaded. Run the live judge to review fabrication, fidelity, leaks, and narrative quality.`,
+    `${c.id} is loaded. Run the local baseline first, then escalate to live judge only if another reader is useful.`,
     "Use this first, then replace the text with your own source and note."
   );
   setLabStatus(`Loaded ${c.id}.`);
@@ -2546,7 +2546,7 @@ function populateLabForLiveSmoke(c) {
   resetLabResult();
   setLabEmptyState(
     "Ready for a live smoke check",
-    `${c.id} is loaded. ScribeBench will generate a fresh note with the selected free model, then judge it against the source.`,
+    `${c.id} is loaded. ScribeBench will generate a fresh note with the selected provider model, then judge it against the source.`,
     "This is a one-note smoke check, not a ranked leaderboard row."
   );
   setLabStatus(`Loaded ${c.id}. Generating with the selected model next.`);
@@ -2593,10 +2593,10 @@ async function runLabJudge(event) {
   runButton.disabled = true;
   setLabEmptyState(
     "Judge running",
-    "The live judge is reviewing the source and candidate note for fabrication, fidelity, leaks, and narrative quality.",
-    "Free hosted models can be slow on full notes."
+    "The live judge is giving this same source-note pair a bounded second read.",
+    "Hosted models can be slow on full notes."
   );
-  setLabStatus("Running judge...");
+  setLabStatus("Running live second read...");
   const slowNotice = window.setTimeout(() => {
     setLabStatus(providerConfigs[provider].slowNotice);
   }, 8000);
@@ -2618,7 +2618,7 @@ async function runLabJudge(event) {
     payload.sourceChars = source.length;
     payload.noteChars = note.length;
     renderLabResult(payload);
-    setLabStatus("Done.");
+    setLabStatus("Live second read complete.");
     return payload;
   } catch (error) {
     setLabStatus(error.message || "Judge failed.");
@@ -2651,7 +2651,7 @@ function runLocalReceipt(event) {
     noteChars: note.length,
   });
   renderLabResult(result);
-  setLabStatus("Local check complete. No API key or network call used.");
+  setLabStatus("Local baseline complete. No API key or network call used.");
   return result;
 }
 
@@ -2871,9 +2871,9 @@ function renderLabSecondReadBrief(result) {
     setBrief({
       statusText: "Start local",
       tone: "open",
-      title: "Run the no-key check before a live judge.",
-      copy: "Use the live judge only when a reviewer needs another read of the same source and note.",
-      local: "Use first; it does not call a provider.",
+      title: "Create the local baseline before escalating.",
+      copy: "Run the browser-only check first. Use the live judge only when a reviewer needs another read of the same evidence.",
+      local: "Use first; no provider call.",
       live: `Optional; sends this source and note to ${providerLabel}.`,
       boundary: "Still a one-note QA finding, not a system claim.",
     });
@@ -2884,6 +2884,19 @@ function renderLabSecondReadBrief(result) {
   const leakCount = result.leaks?.filter(Boolean).length || 0;
   const issueTypes = receiptIssueTypes(result);
   const issueText = dangerousCount ? `${issueCountLabel(dangerousCount)}${issueTypes ? ` (${issueTypes})` : ""}` : "";
+
+  if (result.demoResult) {
+    setBrief({
+      statusText: "Seeded example",
+      tone: dangerousCount ? "needed" : "open",
+      title: "This is the bundled demo finding, not a live second read.",
+      copy: "It shows what a review packet looks like for SYN-003. Run the local baseline to reproduce it, or escalate to live judge to re-score.",
+      local: "Use to see the unsupported head CT and syncope workup without a provider call.",
+      live: `Optional re-score; sends this source and note to ${providerLabel}.`,
+      boundary: "Demo smoke evidence only; not proof about a deployed scribe.",
+    });
+    return;
+  }
 
   if (result.localResult && dangerousCount) {
     setBrief({
@@ -2916,7 +2929,7 @@ function renderLabSecondReadBrief(result) {
       statusText: "Clean triage",
       tone: "ready",
       title: "A live second read is only for extra confidence.",
-      copy: "The no-key check did not catch a covered source-note issue. Run the live judge only if the note still needs another reader.",
+      copy: "The local baseline did not catch a covered source-note issue. Run the live judge only if the note still needs another reader.",
       local: "Use as narrow triage; keep normal review moving.",
       live: `Optional second read; sends this source and note to ${providerLabel}.`,
       boundary: "A clean local check is not clearance or system proof.",
@@ -2968,15 +2981,15 @@ function updateLabEmptyForInputs() {
     setLabEmptyState(
       "Waiting for a note",
       "Paste a source encounter and candidate note, or load the seeded demo.",
-      "The judge needs both sides before it can review fabrication and source fidelity."
+      "The local baseline needs both sides before it can flag unsupported care."
     );
     return;
   }
   if (source && note) {
     setLabEmptyState(
       "Ready to judge",
-      "Run the local check for an instant no-key triage result, or run the live judge for model-backed scoring.",
-      "Both paths return flagged unsupported claims, leak scan, and a copyable QA summary."
+      "Run the local baseline first, or escalate to a live judge when the same evidence needs another reader.",
+      "Both paths return flagged unsupported claims, leak scan, and a copyable review packet."
     );
     return;
   }

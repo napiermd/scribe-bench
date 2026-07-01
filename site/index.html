@@ -1158,12 +1158,12 @@
       <section class="wrap section lab-section" id="lab">
         <div class="section-head split-head">
           <div>
-            <p class="eyebrow">Optional second opinion</p>
-            <h2>Use the Lab only when one note needs a second read.</h2>
+            <p class="eyebrow">Escalation lane</p>
+            <h2>Escalate one disputed QA finding for a second read.</h2>
             <p>
-              Start from the browser check. The Lab can ask a live judge for a
-              bounded second read, but every output remains a QA finding, never
-              a ranking.
+              Start with the browser check. The Lab asks a live judge only when
+              that same source-note finding needs another reader. Rankings wait
+              for aggregate runs.
             </p>
           </div>
           <div class="split-actions">
@@ -1174,23 +1174,23 @@
         <div class="lab-contract" aria-label="How to use the ScribeBench Lab">
           <article>
             <span>Use when</span>
-            <strong>A flagged source-note pair needs a second read.</strong>
+            <strong>A copied QA finding is disputed.</strong>
             <p>A buyer, builder, or reviewer wants another read on the same source and note.</p>
           </article>
           <article>
             <span>Do first</span>
-            <strong>Run or copy the browser check.</strong>
-            <p>The deterministic check catches unsupported care before any provider model is involved.</p>
+            <strong>Create the browser finding.</strong>
+            <p>The local check catches unsupported care before any provider model is involved.</p>
           </article>
           <article>
             <span>Escalate if</span>
-            <strong>A live judge would help adjudicate the flagged claim.</strong>
-            <p>Use configured models or a temporary key for a bounded second opinion.</p>
+            <strong>A live judge would help adjudicate the gap.</strong>
+            <p>Use configured models or a temporary key for a bounded second read.</p>
           </article>
           <article>
-            <span>Do not claim</span>
-            <strong>No ranking from a Lab call.</strong>
-            <p>A Lab result is a QA finding or smoke check. System claims still need aggregate rows.</p>
+            <span>Leave with</span>
+            <strong>A second-read packet, not a rank.</strong>
+            <p>One Lab result can move a note review. System claims still need aggregate rows.</p>
           </article>
         </div>
 
@@ -1199,23 +1199,23 @@
             <div class="lab-workbench-head" aria-label="Second-read review intake">
               <div>
                 <p class="eyebrow">Second-read intake</p>
-                <h3>Re-read the same checked source and note.</h3>
+                <h3>Paste the disputed finding's source and note.</h3>
                 <p>
-                  Bring a flagged source-note pair from the browser check. Leave with a reviewer decision and boundary, not a score or leaderboard claim.
+                  Keep the source, candidate note, local baseline, and any live second read together so the next reviewer can decide what to do now.
                 </p>
               </div>
               <div class="lab-workbench-flow" aria-label="Second-read review contract">
                 <div>
                   <span>Input</span>
-                  <strong>Checked source + note</strong>
+                  <strong>Browser-checked pair</strong>
                 </div>
                 <div>
                   <span>Judge</span>
-                  <strong>No-key first, live optional</strong>
+                  <strong>Local baseline + optional live read</strong>
                 </div>
                 <div>
                   <span>Leave with</span>
-                  <strong>Second-read QA finding</strong>
+                  <strong>Forwardable review packet</strong>
                 </div>
               </div>
             </div>
@@ -1225,16 +1225,16 @@
                 <span class="queue-status open" id="lab-second-read-status">Start local</span>
                 <div>
                   <p class="eyebrow">Second-read decision</p>
-                  <h4 id="lab-second-read-title">Run the no-key check before a live judge.</h4>
+                  <h4 id="lab-second-read-title">Create the local baseline before escalating.</h4>
                   <p id="lab-second-read-copy">
-                    Use the live judge only when a reviewer needs another read of the same source and note.
+                    Run the browser-only check first. Use the live judge only when a reviewer needs another read of the same evidence.
                   </p>
                 </div>
               </div>
               <dl class="lab-second-read-grid" aria-label="How to decide whether to run a live second read">
                 <div>
-                  <dt>No-key result</dt>
-                  <dd id="lab-second-read-local">Use first; it does not call a provider.</dd>
+                  <dt>Local baseline</dt>
+                  <dd id="lab-second-read-local">Use first; no provider call.</dd>
                 </div>
                 <div>
                   <dt>Live judge</dt>
@@ -1259,35 +1259,35 @@
             </div>
 
             <div class="lab-actions">
-              <button class="button primary" id="run-local-receipt" type="button">Run no-key check</button>
-              <button class="button secondary" id="run-lab" type="submit">Ask live judge for review</button>
+              <button class="button primary" id="run-local-receipt" type="button">Run local baseline</button>
+              <button class="button secondary" id="run-lab" type="submit">Escalate to live judge</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
             </div>
 
             <details class="lab-demo-tools">
               <summary>
-                <span>Demo tools</span>
-                <small>Use only when you need the seeded case or a generated candidate.</small>
+                <span>Demo and smoke tools</span>
+                <small>Use only when you need SYN-003 or a one-note smoke candidate.</small>
               </summary>
               <div class="lab-demo-actions">
                 <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
-                <button class="button secondary compact-button" id="generate-note" type="button">Generate demo candidate</button>
+                <button class="button secondary compact-button" id="generate-note" type="button">Generate smoke candidate</button>
                 <button class="button secondary compact-button" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               </div>
             </details>
 
             <details class="lab-model-settings">
               <summary>
-                <span>Provider settings (optional)</span>
-                <small>Use only after a QA finding needs a live second read.</small>
+                <span>Live judge settings (optional)</span>
+                <small>Use only after a QA finding needs another reader.</small>
               </summary>
 
               <div class="field-row lab-model-row">
                 <label class="field">
                   <span>Provider</span>
                   <select id="lab-provider">
-                    <option value="openrouter">OpenRouter free</option>
+                    <option value="openrouter">OpenRouter</option>
                     <option value="baseten">Baseten Model APIs</option>
                   </select>
                 </label>
@@ -1311,7 +1311,7 @@
                   placeholder="Optional; uses the configured Vercel key when available"
                 />
                 <small class="field-hint" id="provider-hint">
-                  OpenRouter free models use the configured site key; paste a temporary key only to override it.
+                  OpenRouter uses the configured site key; paste a temporary key only to override it.
                 </small>
               </label>
             </details>
@@ -1320,18 +1320,18 @@
           <aside class="lab-results" aria-live="polite">
             <div class="lab-empty" id="lab-empty">
               <p class="eyebrow">Next step</p>
-              <h3 id="lab-empty-title">Start with the no-key check</h3>
+              <h3 id="lab-empty-title">Start with a local baseline</h3>
               <p id="lab-empty-copy">
-                Run the browser check first. Ask a live judge only if this source-note
-                pair needs a stronger second opinion.
+                Run the browser-only check first. Escalate to a live judge only if
+                this same source-note pair needs another reader.
               </p>
               <p id="lab-empty-detail">
                 The seeded demo catches the invented head CT and syncope workup; replace
                 the text anytime for your own review.
               </p>
               <div class="lab-empty-actions">
-                <button class="button primary compact-button" id="lab-empty-local" type="button">Run no-key check</button>
-                <button class="button secondary compact-button" id="lab-empty-run" type="button">Ask live judge for review</button>
+                <button class="button primary compact-button" id="lab-empty-local" type="button">Run local baseline</button>
+                <button class="button secondary compact-button" id="lab-empty-run" type="button">Escalate to live judge</button>
                 <button class="button secondary compact-button" id="lab-empty-load-demo" type="button">Load seeded demo</button>
               </div>
             </div>
@@ -1433,22 +1433,22 @@
           <article>
             <span>1</span>
             <div>
-              <strong>Start with the QA finding</strong>
-              <p>If one note is the evidence you have, keep the output scoped to a QA finding.</p>
+              <strong>Create the QA finding</strong>
+              <p>Use the browser check to produce a reproducible source-note gap.</p>
             </div>
           </article>
           <article>
             <span>2</span>
             <div>
-              <strong>Use Lab for escalation</strong>
-              <p>Ask a live judge or generate a candidate only when the result needs a second read.</p>
+              <strong>Escalate the dispute</strong>
+              <p>Ask a live judge only when the same evidence needs another reader.</p>
             </div>
           </article>
           <article>
             <span>3</span>
             <div>
-              <strong>Graduate only with volume</strong>
-              <p>Rows need many scored cases; one second-opinion verdict is not a ranking or safety claim.</p>
+              <strong>Compare systems with rows</strong>
+              <p>Use many scored cases for public claims; one second read moves one note review.</p>
             </div>
           </article>
         </div>
@@ -1456,10 +1456,10 @@
         <details class="lab-provider-archive" id="lab-provider-tools" aria-label="Second-read provider diagnostics">
           <summary class="lab-provider-archive-head">
             <div>
-              <p class="eyebrow">Provider diagnostics</p>
-              <h3>Show model status and smoke test</h3>
+              <p class="eyebrow">Live second-read plumbing</p>
+              <h3>Show provider status and smoke test</h3>
               <p>
-                Closed by default because provider readiness is plumbing. Open only
+                Closed by default because model readiness is not the product. Open
                 when a QA finding needs a live second-read check.
               </p>
             </div>
@@ -1471,7 +1471,7 @@
               <span class="queue-status open" id="current-model-lane-status">Loading</span>
               <div>
                 <p class="eyebrow">Current model lane</p>
-                <h3 id="current-model-lane-title">Second-opinion models stay behind the QA finding.</h3>
+                <h3 id="current-model-lane-title">Live models stay behind the QA finding.</h3>
               </div>
             </div>
             <p id="current-model-lane-copy">
