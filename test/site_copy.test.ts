@@ -84,6 +84,22 @@ describe('site copy and labels', () => {
     expect(summarySection).not.toContain('CT head was negative; syncope workup started.');
   });
 
+  it('keeps mobile navigation compact so the checker owns the first screen', () => {
+    const header = html.match(/<header class="topbar">[\s\S]*?<\/header>/)?.[0] || '';
+
+    expect(header).toContain('class="mobile-nav-menu"');
+    expect(header).toContain('<summary>Menu</summary>');
+    expect(header).toContain('aria-label="Mobile navigation"');
+    expect(header).toContain('Check note');
+    expect(styles).toContain('.mobile-nav-menu {\n  display: none;');
+    expect(styles).toContain('@media (max-width: 560px)');
+    expect(styles).toContain('.nav {\n    display: none;');
+    expect(styles).toContain('.mobile-nav-menu {\n    display: block;');
+    expect(styles).toContain('scroll-margin-top: 104px;');
+    expect(app).toContain('link.closest(".mobile-nav-menu")');
+    expect(app).toContain('mobileMenu.open = false;');
+  });
+
   it('keeps model smoke out of the first note-checking task', () => {
     const quickForm = html.match(/<form class="quick-check-form"[\s\S]*?<\/form>/)?.[0] || '';
     const labSectionStart = html.indexOf('<section class="wrap section lab-section" id="lab">');

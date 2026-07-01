@@ -157,6 +157,10 @@ button {
   text-decoration: none;
 }
 
+.mobile-nav-menu {
+  display: none;
+}
+
 .summary-band {
   padding: 34px 0 26px;
   border-bottom: 1px solid var(--line);
@@ -5576,18 +5580,91 @@ h4 {
 }
 
 @media (max-width: 560px) {
+  section[id],
+  #main,
+  #current-run,
+  #public-action-kit,
+  #worklog,
+  .quick-check-panel {
+    scroll-margin-top: 104px;
+  }
+
   .wrap {
     width: min(100% - 28px, 1180px);
   }
 
-  .nav {
-    justify-content: flex-start;
+  .topbar-inner {
+    min-height: 62px;
+    align-items: center;
+    flex-direction: row;
     gap: 0.75rem;
-    width: 100%;
+  }
+
+  .nav {
+    display: none;
+  }
+
+  .mobile-nav-menu {
+    display: block;
+    position: relative;
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
+
+  .mobile-nav-menu summary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 40px;
+    border: 1px solid var(--line-strong);
+    border-radius: 7px;
+    background: var(--panel);
+    color: var(--accent-strong);
+    cursor: pointer;
+    font-size: 0.86rem;
+    font-weight: 850;
+    letter-spacing: 0;
+    list-style: none;
+    padding: 0.5rem 0.72rem;
+  }
+
+  .mobile-nav-menu summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .mobile-nav-menu[open] summary {
+    border-color: rgba(15, 118, 110, 0.45);
+    background: var(--accent-soft);
+  }
+
+  .mobile-nav-links {
+    position: absolute;
+    z-index: 30;
+    top: calc(100% + 8px);
+    right: 0;
+    display: grid;
+    width: min(245px, calc(100vw - 28px));
+    border: 1px solid var(--line-strong);
+    background: var(--panel);
+    box-shadow: var(--shadow);
+  }
+
+  .mobile-nav-links a {
+    min-height: 42px;
+    border-bottom: 1px solid var(--line);
+    color: var(--ink);
+    font-size: 0.92rem;
+    font-weight: 760;
+    padding: 0.66rem 0.78rem;
+    text-decoration: none;
+  }
+
+  .mobile-nav-links a:last-child {
+    border-bottom: 0;
   }
 
   .brand {
-    align-items: flex-start;
+    align-items: center;
   }
 
   .brand small {

@@ -1548,6 +1548,10 @@ function bindAnchorScrolling() {
     if (!link) return;
     const href = link.getAttribute("href");
     if (!href || href === "#") return;
+    const mobileMenu = link.closest(".mobile-nav-menu");
+    if (mobileMenu instanceof HTMLDetailsElement) {
+      mobileMenu.open = false;
+    }
     let id = href.slice(1);
     try {
       id = decodeURIComponent(id);
