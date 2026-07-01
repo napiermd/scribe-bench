@@ -2039,10 +2039,10 @@ async function copyQuickReceipt() {
   try {
     await copyText(text);
     setQuickCopyFallback("");
-    setQuickCopyStatus("QA packet copied.");
+    setQuickCopyStatus("Review packet copied.");
   } catch (_) {
     setQuickCopyFallback(text);
-    setQuickCopyStatus("Clipboard unavailable. QA packet shown below.");
+    setQuickCopyStatus("Clipboard unavailable. Review packet shown below.");
   }
 }
 
@@ -2114,6 +2114,11 @@ function buildQuickReceiptText(result) {
   });
   const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
+  const useNow = dangerousCount
+    ? "Review the flagged claims against the source before this note is trusted or signed."
+    : leakCount
+      ? "Fix the prompt or template leak, regenerate the note, and recheck the source-note pair."
+      : "Use this as one-note triage, then review clinically before trusting the note.";
   const evidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
   const flaggedItems = dangerousCount
     ? dangerous.flatMap((item) => {
@@ -2123,26 +2128,27 @@ function buildQuickReceiptText(result) {
         if (detail?.sourceExcerpt) lines.push(`  Source check: ${detail.sourceExcerpt}`);
         return lines;
       })
-    : leakCount
-      ? leaks.map((item) => `- ${item}`)
-      : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser receipt."];
+      : leakCount
+        ? leaks.map((item) => `- ${item}`)
+        : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser receipt."];
 
   return [
-    "ScribeBench source-vs-note receipt",
-    `Date: ${localDateStamp()}`,
-    "Scope: one note, browser-only local check, not a system certification or clinical clearance",
+    "ScribeBench note review packet",
+    `Use now: ${useNow}`,
+    `Verdict: ${verdict.title}`,
+    `What happened: ${verdict.copy}`,
     `Case: ${caseLabel}`,
-    `Finding: ${verdict.title}`,
-    `Summary: ${verdict.copy}`,
+    `Date: ${localDateStamp()}`,
     "",
-    "Evidence meaning:",
-    `Can support: ${meaning.canSupport}`,
-    `Cannot support: ${meaning.cannotSupport}`,
-    `Use next: ${meaning.useNext}`,
-    "",
-    "Flagged source-note issues:",
+    "Flagged source-note evidence:",
     ...flaggedItems,
     "",
+    "What this can support:",
+    `- ${meaning.canSupport}`,
+    "What this cannot support:",
+    `- ${meaning.cannotSupport}`,
+    "",
+    "Boundary: one source-note pair, browser-only local check, not a leaderboard row, system certification, or clinical clearance.",
     `Next proof step: ${verdict.action}`,
     "",
     "Reference: https://scribe-bench.vercel.app/",

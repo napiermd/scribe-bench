@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first copied packet now reads like a review handoff",
+      "why": "The first-screen receipt showed the right source-note evidence, but the copied packet opened with title/date/scope metadata. That made the artifact feel more like benchmark output than something a reviewer could paste into a decision thread.",
+      "proof": "The first copy action now creates a review packet that starts with use-now, verdict, what happened, case, date, flagged source-note evidence, what it can and cannot support, the evidence boundary, and the next proof step. The first-screen buttons now say Copy review packet.",
+      "next": "Keep making each public artifact lead with the decision it helps, then the evidence and boundary that keep the claim honest.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Public evidence card", "href": "#public-evidence-card" },
+        { "label": "Public guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The public queue now gives contributors a copyable task",
       "why": "The Contribute section showed the current blocker and row builder, but a visitor still had to write their own public ask before recruiting help or posting a build-in-public update.",
       "proof": "The Public work queue now includes a copyable task generated from the live current-run status: scored/generated/blocked counts, the ask, blocker, done condition, no-raw-notes boundary, and the current-run reference.",

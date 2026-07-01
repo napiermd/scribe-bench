@@ -64,6 +64,22 @@ describe('site copy and labels', () => {
     expect(app).toContain('${label}: ${detail.sourceExcerpt}');
   });
 
+  it('makes the first copied note artifact reviewer-ready', () => {
+    const quickSection = html.match(/<div class="quick-result" id="quick-result"[\s\S]*?<form class="quick-check-form"/)?.[0] || '';
+
+    expect(quickSection).toContain('Copy review packet');
+    expect(quickSection).toContain('Copy-ready review packet');
+    expect(quickSection).toContain('ScribeBench source-vs-note review packet');
+    expect(app).toContain('ScribeBench note review packet');
+    expect(app).toContain('Use now: ${useNow}');
+    expect(app).toContain('Verdict: ${verdict.title}');
+    expect(app).toContain('What happened: ${verdict.copy}');
+    expect(app).toContain('Flagged source-note evidence:');
+    expect(app).toContain('What this can support:');
+    expect(app).toContain('Boundary: one source-note pair, browser-only local check, not a leaderboard row, system certification, or clinical clearance.');
+    expect(app).toContain('setQuickCopyStatus("Review packet copied.");');
+  });
+
   it('answers the cold visitor question before repo machinery', () => {
     const guideSection = html.match(/<section class="wrap section public-guide-section" id="next-steps">[\s\S]*?<\/section>/)?.[0] || '';
     const answerStripIndex = guideSection.indexOf('guide-answer-strip');
