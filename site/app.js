@@ -1208,6 +1208,7 @@ function setClaimCopyFallback(text) {
 function sendClaimToPublicCard() {
   const guide = selectedClaimGuide();
   const claim = currentClaimText();
+  selectStartRoute("buyer");
   renderPublicEvidenceCard(publicEvidenceCardFromClaim(guide, claim), { scroll: true });
   setClaimCopyStatus("Public evidence card ready.");
 }
@@ -1216,6 +1217,7 @@ function publicEvidenceCardFromClaim(guide, claim) {
   const claimLine = claim ? `"${shortClaim(claim)}"` : "the pasted AI-scribe claim";
   const evidencePath = selectedClaimEvidencePath();
   return {
+    kind: "claim",
     status: guide.status,
     statusClass: guide.statusClass,
     title: "Claim evidence card",
@@ -1225,6 +1227,7 @@ function publicEvidenceCardFromClaim(guide, claim) {
     boundary: "This is an evidence ask, not proof that the claim is true or false.",
     next: guide.nextAction,
     reference: "https://scribe-bench.vercel.app/#claim-check",
+    rowAction: evidencePath.primary,
     copyText: [
       "ScribeBench public evidence card",
       `Date: ${localDateStamp()}`,
@@ -1334,10 +1337,37 @@ function renderPublicEvidenceCard(card, { scroll = false } = {}) {
   setText("public-evidence-card-boundary", card.boundary || "--");
   setText("public-evidence-card-next", card.next || "--");
   renderPublicEvidenceFindings(card.findings || []);
+  renderPublicEvidenceCardActions(card);
   setText("public-evidence-card-output", card.copyText || buildPublicEvidenceCardText(card));
   setPublicEvidenceCardCopyStatus("");
   setPublicEvidenceCardFallback("");
   if (scroll) scrollToAnchorTarget(panel, { behavior: "smooth" });
+}
+
+function renderPublicEvidenceCardActions(card) {
+  const ownNote = document.getElementById("quick-start-own-note");
+  const copy = document.getElementById("copy-public-evidence-card");
+  const claim = document.getElementById("public-card-claim-link");
+  const row = document.getElementById("public-card-row-link");
+  const isClaimCard = card?.kind === "claim";
+
+  if (ownNote) {
+    ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";
+    ownNote.className = `button ${isClaimCard ? "secondary" : "primary"} compact-button`;
+  }
+  if (copy) {
+    copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";
+    copy.className = `button ${isClaimCard ? "primary" : "secondary"} compact-button`;
+  }
+  if (claim) {
+    claim.textContent = isClaimCard ? "Edit claim" : "Challenge claim";
+    claim.setAttribute("href", "#claim-check");
+  }
+  if (row) {
+    const rowAction = isClaimCard ? card?.rowAction : null;
+    row.textContent = rowAction?.label || "Add powered row";
+    row.setAttribute("href", rowAction?.href || "#run");
+  }
 }
 
 function publicEvidenceFindingsFromResult(result) {
@@ -1566,29 +1596,33 @@ function setChallengeCopyFallback(text) {
   fallback.hidden = !text;
 }
 
+function selectStartRoute(key = "note") {
+  const buttons = [...document.querySelectorAll("[data-start-route]")];
+  if (!buttons.length) return;
+
+  const normalizedKey = startRoutes[key] ? key : "note";
+  const route = startRoutes[normalizedKey] || startRoutes.note;
+  buttons.forEach((button) => {
+    const active = button.dataset.startRoute === normalizedKey;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-pressed", active ? "true" : "false");
+  });
+  setText("start-route-kicker", route.kicker);
+  setText("start-route-title", route.title);
+  setText("start-route-copy", route.copy);
+  setText("start-route-input", route.input);
+  setText("start-route-action", route.action);
+  setText("start-route-output", route.output);
+  setRouteLink("start-route-primary", route.primary);
+  setRouteLink("start-route-secondary", route.secondary);
+}
+
 function bindStartRouter() {
   const buttons = [...document.querySelectorAll("[data-start-route]")];
   if (!buttons.length) return;
 
-  const selectRoute = (key) => {
-    const route = startRoutes[key] || startRoutes.note;
-    buttons.forEach((button) => {
-      const active = button.dataset.startRoute === key;
-      button.classList.toggle("active", active);
-      button.setAttribute("aria-pressed", active ? "true" : "false");
-    });
-    setText("start-route-kicker", route.kicker);
-    setText("start-route-title", route.title);
-    setText("start-route-copy", route.copy);
-    setText("start-route-input", route.input);
-    setText("start-route-action", route.action);
-    setText("start-route-output", route.output);
-    setRouteLink("start-route-primary", route.primary);
-    setRouteLink("start-route-secondary", route.secondary);
-  };
-
   buttons.forEach((button) => {
-    button.addEventListener("click", () => selectRoute(button.dataset.startRoute || "note"));
+    button.addEventListener("click", () => selectStartRoute(button.dataset.startRoute || "note"));
   });
   document.getElementById("start-route-primary")?.addEventListener("click", (event) => {
     const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
@@ -1600,7 +1634,7 @@ function bindStartRouter() {
       setQuickStatus("Paste your source and generated note, or keep the seeded failure and check it again.");
     }
   });
-  selectRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
+  selectStartRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
 }
 
 function setRouteLink(id, link) {

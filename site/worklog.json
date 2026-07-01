@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Claim evidence cards now land in the claim path",
+      "why": "The claim checker could create a useful public evidence card, but the handoff landed beside the default source-plus-note router and kept note-checking as the primary card action. That made the output feel generic after a visitor had just challenged a public claim.",
+      "proof": "When a claim is turned into a public evidence card, the Start router now switches to the public-claim route, the card's primary action becomes copying the claim card, and the secondary actions point back to editing the claim or following the evidence path that would close it.",
+      "next": "Keep making every generated artifact carry the context that created it: one-note review, claim ask, blocker receipt, or aggregate evidence row.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Public evidence card", "href": "#public-evidence-card" },
+        { "label": "Start router", "href": "#main" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The homepage now says what visitors do here",
       "why": "The first screen had a useful seeded receipt, but the left hero repeated the same seeded example instead of answering the public-facing question: who visits ScribeBench and what do they leave with?",
       "proof": "The hero now names the three practical jobs: clinical reviewers copy a QA packet from one source-note pair, buyers or operators turn claims into evidence asks, and builders or contributors add aggregate rows only when the batch and method are declared. The full seeded receipt remains in the checker where the artifact belongs.",

@@ -88,4 +88,14 @@ describe('site copy and labels', () => {
     expect(guideSection).not.toContain('The repo is a public clinical-AI QA workbench');
     expect(guideSection).not.toContain('The site, APIs, TypeScript evaluator');
   });
+
+  it('keeps claim-generated evidence cards in the public-claim context', () => {
+    expect(html).toContain('id="public-card-claim-link"');
+    expect(html).toContain('id="public-card-row-link"');
+    expect(app).toContain('selectStartRoute("buyer")');
+    expect(app).toContain('kind: "claim"');
+    expect(app).toContain('function renderPublicEvidenceCardActions(card)');
+    expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";');
+    expect(app).toContain('ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";');
+  });
 });
