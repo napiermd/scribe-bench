@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The first screen now shows the actual checker before the brochure",
+      "why": "The headline and purpose copy said ScribeBench was a source-vs-note checker, but the first viewport still showed route cards and seeded-demo explanation before both paste boxes and the primary check action were visible.",
+      "proof": "The desktop and mobile first view now put the source box, AI-note box, and Check note now action ahead of the seeded demo, with the route and purpose material moved into the supporting rail or below the form.",
+      "next": "Keep the public site behaving like a tool first: every important route should show the input, action, and leave-with artifact before explanatory material.",
+      "links": [
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Build-in-public log", "href": "#worklog" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The evidence ledger now starts with a sharper claim boundary",
       "why": "The ledger first screen still offered too many competing actions: note review, claim boundary, finish row, citation boundary, raw JSON, historical rows, current blocker, and smoke proof. That made the public-evidence path feel like benchmark machinery again.",
       "proof": "The ledger now opens with three plain lanes: use the checker today, do not cite a current winner yet, and make comparison citable by finishing the current row. The copyable current-row task moved into that first decision area.",

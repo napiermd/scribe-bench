@@ -294,7 +294,7 @@ h4 {
 
 .purpose-line {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: 1fr;
   gap: 0.54rem;
   border: 1px solid rgba(15, 118, 110, 0.24);
   border-left: 4px solid var(--accent);
@@ -421,12 +421,15 @@ h4 {
 
 .quick-entry-paths {
   grid-column: 1 / -1;
+  grid-template-columns: 1fr;
   border: 1px solid rgba(15, 118, 110, 0.2);
   background: var(--panel-soft);
   margin: -0.08rem 0 0;
 }
 
 .quick-entry-paths article {
+  border-right: 0;
+  border-bottom: 1px solid var(--line);
   padding: 0.78rem 0.82rem;
 }
 
@@ -435,6 +438,7 @@ h4 {
 }
 
 .quick-entry-paths article:last-child {
+  border-bottom: 0;
   padding-right: 0.82rem;
 }
 
@@ -529,7 +533,6 @@ h4 {
 
 .quick-check-head,
 .quick-check-help,
-.purpose-line,
 .quick-proof-label,
 .quick-capability-grid,
 .quick-output-contract,
@@ -538,6 +541,8 @@ h4 {
 }
 
 .quick-start-strip,
+.purpose-line,
+.quick-entry-paths,
 .quick-result,
 .public-evidence-card,
 .quick-smoke-artifact {
@@ -911,7 +916,7 @@ h4 {
 .quick-check-form {
   display: grid;
   grid-column: 2;
-  grid-row: 5 / span 4;
+  grid-row: 3 / span 5;
   grid-template-columns: 1fr;
   gap: 0.76rem;
   align-self: start;
@@ -949,7 +954,7 @@ h4 {
 }
 
 .quick-intake-steps {
-  display: grid;
+  display: none;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   margin: 0;
   border: 1px solid var(--line);
@@ -982,7 +987,8 @@ h4 {
 }
 
 .quick-check-form .field textarea {
-  min-height: 150px;
+  height: 100px;
+  min-height: 100px;
 }
 
 .quick-check-actions {
@@ -5442,6 +5448,46 @@ h4 {
     order: 1;
   }
 
+  .quick-check-head {
+    order: 1;
+  }
+
+  .quick-check-help {
+    order: 2;
+  }
+
+  .quick-check-form {
+    order: 3;
+  }
+
+  .quick-result {
+    order: 4;
+  }
+
+  .quick-start-strip {
+    order: 5;
+  }
+
+  .purpose-line {
+    order: 6;
+  }
+
+  .quick-entry-paths {
+    order: 7;
+  }
+
+  .mobile-proof {
+    order: 8;
+  }
+
+  .quick-proof-label {
+    order: 9;
+  }
+
+  .quick-capability-grid {
+    order: 10;
+  }
+
   .quick-output-contract {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
@@ -5825,23 +5871,23 @@ h4 {
     order: 2;
   }
 
-  .purpose-line {
+  .quick-check-form {
     order: 3;
   }
 
-  .quick-entry-paths {
+  .quick-result {
     order: 4;
   }
 
-  .quick-check-form {
+  .quick-start-strip {
     order: 5;
   }
 
-  .quick-result {
+  .purpose-line {
     order: 6;
   }
 
-  .quick-start-strip {
+  .quick-entry-paths {
     order: 7;
   }
 

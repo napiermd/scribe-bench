@@ -33,7 +33,7 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('What ScribeBench is for');
     expect(summarySection).toContain('Point of this');
     expect(summarySection).toContain('Paste a source and AI note');
-    expect(summarySection).toContain('Leave with the claim, source check, and next review step');
+    expect(summarySection).toContain('Leave with a QA finding, source check, and next review step');
     expect(summarySection).toContain('Who uses it');
     expect(summarySection).toContain('Clinical QA, buyers, builders, and anyone challenging an AI-scribe claim.');
     expect(summarySection).toContain('Why the repo exists');
@@ -92,11 +92,11 @@ describe('site copy and labels', () => {
     expect(styles).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
     expect(styles).toContain('.quick-proof-pair div:last-child');
     expect(styles).toContain('.quick-check-panel {\n    order: 1;');
-    expect(styles).toContain('.purpose-line {\n    order: 3;');
-    expect(styles).toContain('.quick-entry-paths {\n    order: 4;');
-    expect(styles).toContain('.quick-check-form {\n    order: 5;');
-    expect(styles).toContain('.quick-result {\n    order: 6;');
-    expect(styles).toContain('.quick-start-strip {\n    order: 7;');
+    expect(styles).toContain('.quick-check-form {\n    order: 3;');
+    expect(styles).toContain('.quick-result {\n    order: 4;');
+    expect(styles).toContain('.quick-start-strip {\n    order: 5;');
+    expect(styles).toContain('.purpose-line {\n    order: 6;');
+    expect(styles).toContain('.quick-entry-paths {\n    order: 7;');
     expect(styles).toContain('.mobile-proof {\n    order: 8;');
     expect(styles).toContain('.quick-capability-grid {\n    order: 10;');
     expect(styles).toContain('.quick-entry-paths p {\n    display: none;');
@@ -111,7 +111,7 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.quick-check-form {\n  display: grid;\n  grid-column: 2;');
     expect(styles).toContain('grid-column: 1 / -1;');
     expect(styles).toContain('min-height: 220px;');
-    expect(styles).toContain('min-height: 150px;');
+    expect(styles).toContain('min-height: 100px;');
     expect(styles).not.toContain('.intro-panel');
     expect(styles).not.toContain('.use-case-strip');
     expect(styles).not.toContain('.public-contract');
@@ -176,7 +176,9 @@ describe('site copy and labels', () => {
     expect(quickForm).toContain('quick-form-head');
     expect(quickForm).toContain('Source-note intake');
     expect(quickForm).toContain('Check one pasted note against one source.');
-    expect(quickForm).toContain('Replace the seeded text when you have your own case.');
+    expect(quickForm).toContain('Paste your own source and AI note.');
+    expect(quickForm).toContain('The seeded text only keeps the checker');
+    expect(quickForm).toContain('usable immediately; the output is the reviewer handoff.');
     expect(quickForm).toContain('quick-intake-steps');
     expect(quickForm).toContain('What the note checker needs and returns');
     expect(quickForm).toContain('Encounter source plus generated note.');
@@ -190,6 +192,7 @@ describe('site copy and labels', () => {
     expect(modelLaneStart).toBeGreaterThan(labWorkbenchStart);
     expect(styles).toContain('.quick-form-head');
     expect(styles).toContain('.quick-intake-steps');
+    expect(styles).toContain('.quick-intake-steps {\n  display: none;');
     expect(styles).toContain('.quick-intake-steps div:last-child');
     expect(app).toContain('seeded example:');
     expect(app).toContain('Replace both boxes to review your own note.');
