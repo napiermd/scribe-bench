@@ -106,6 +106,7 @@ describe('site copy and labels', () => {
     expect(styles).not.toContain('.quick-origin-note');
     expect(styles).toContain('.quick-start-copy-fallback');
     expect(styles).toContain('.quick-start-copy-panel');
+    expect(styles).toContain('.quick-copy-panel');
     expect(styles).toContain('grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);');
     expect(styles).toContain('.quick-check-panel {\n  grid-column: 1;\n  grid-row: 1;');
     expect(styles).toContain('.quick-check-form {\n  display: grid;\n  grid-column: 2;');
@@ -120,8 +121,11 @@ describe('site copy and labels', () => {
     expect(styles).not.toContain('.start-route');
     expect(styles).not.toContain('.hero-proof-trail');
     expect(app).toContain('document.getElementById("quick-start-copy-receipt")?.addEventListener("click", copyQuickReceipt);');
-    expect(app).toContain('"quick-copy-status", "quick-start-copy-status"');
-    expect(app).toContain('"quick-copy-fallback", "quick-start-copy-fallback"');
+    expect(app).toContain('function quickCopyScope(event)');
+    expect(app).toContain('return event?.currentTarget?.id === "quick-start-copy-receipt" ? "start" : "result";');
+    expect(app).toContain('function quickCopyStatusIds(scope = "all")');
+    expect(app).toContain('setCopyPanel("quick-copy-panel", "quick-copy-fallback", text);');
+    expect(app).toContain('setCopyPanel("quick-start-copy-panel", "quick-start-copy-fallback", text);');
     expect(app).toContain('document.getElementById("quick-start-copy-panel")');
     expect(app).toContain('startPanel.hidden = !text;');
     expect(app).toContain('document.querySelectorAll("[data-quick-start-own]").forEach((link) => {');
@@ -276,6 +280,7 @@ describe('site copy and labels', () => {
     const evidenceIndex = quickSection.indexOf('class="quick-evidence-preview"');
     const resultActionsIndex = quickSection.indexOf('class="quick-result-actions"');
     const snapshotIndex = quickSection.indexOf('class="quick-result-snapshot"');
+    const copyPanelIndex = quickSection.indexOf('class="quick-copy-panel"');
     const useRouterIndex = quickSection.indexOf('class="quick-use-router"');
     const destinationIndex = quickSection.indexOf('class="quick-destination-panel"');
     const receiptPreviewIndex = quickSection.indexOf('class="quick-receipt-preview"');
@@ -299,6 +304,10 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('id="quick-evidence-next"');
     expect(quickSection).toContain('class="quick-result-actions"');
     expect(quickSection).toContain('id="quick-copy-receipt"');
+    expect(quickSection).toContain('class="quick-copy-panel"');
+    expect(quickSection).toContain('id="quick-copy-panel"');
+    expect(quickSection).toContain('Select this QA finding and paste it into the next review thread.');
+    expect(quickSection).toContain('id="quick-copy-fallback"');
     expect(quickSection).toContain('Ask second opinion');
     expect(quickSection).toContain('Next steps');
     expect(quickSection).toContain('<details class="quick-result-details">');
@@ -321,6 +330,8 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('id="quick-copy-route-note"');
     expect(quickSection).toContain('Copy routing note');
     expect(quickSection).toContain('ScribeBench QA finding route');
+    expect(copyPanelIndex).toBeGreaterThan(resultActionsIndex);
+    expect(copyPanelIndex).toBeLessThan(evidenceIndex);
     expect(receiptPreviewIndex).toBeGreaterThan(snapshotIndex);
     expect(receiptPreviewIndex).toBeLessThan(useRouterIndex);
     expect(receiptPreviewIndex).toBeLessThan(detailsIndex);
@@ -374,7 +385,8 @@ describe('site copy and labels', () => {
     expect(app).toContain('Use next: ${meaning.useNext}');
     expect(app).toContain('Not: leaderboard row, system certification, or clinical clearance.');
     expect(app).toContain('Reference: https://scribe-bench.vercel.app/#quick-check');
-    expect(app).toContain('setQuickCopyStatus("QA finding copied.");');
+    expect(app).toContain('setQuickCopyStatus("QA finding copied.", scope);');
+    expect(app).toContain('setQuickCopyStatus("Clipboard unavailable. QA finding shown below.", scope);');
     expect(app).toContain('resetQuickArtifacts();');
     expect(app).not.toContain('publicEvidenceCardFromQuickResult');
     expect(app).not.toContain('renderPublicEvidenceCard(publicEvidenceCardFromQuickResult');

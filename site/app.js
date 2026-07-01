@@ -1918,19 +1918,21 @@ function setQuickStatus(message, tone = "") {
   status.dataset.tone = tone;
 }
 
-async function copyQuickReceipt() {
+async function copyQuickReceipt(event) {
+  const scope = quickCopyScope(event);
   if (!lastQuickResult) {
-    setQuickCopyStatus("Check the note first.");
+    setQuickCopyStatus("Check the note first.", scope);
     return;
   }
   const text = buildQuickReceiptText(lastQuickResult);
   try {
     await copyText(text);
-    setQuickCopyFallback("");
-    setQuickCopyStatus("QA finding copied.");
+    setQuickCopyFallback("", "all");
+    setQuickCopyStatus("QA finding copied.", scope);
   } catch (_) {
-    setQuickCopyFallback(text);
-    setQuickCopyStatus("Clipboard unavailable. QA finding shown here.");
+    setQuickCopyFallback("", "all");
+    setQuickCopyFallback(text, scope);
+    setQuickCopyStatus("Clipboard unavailable. QA finding shown below.", scope);
   }
 }
 
@@ -2091,8 +2093,18 @@ function buildQuickRouteText(result) {
   ].join("\n");
 }
 
-function setQuickCopyStatus(message) {
-  ["quick-copy-status", "quick-start-copy-status"].forEach((id) => {
+function quickCopyScope(event) {
+  return event?.currentTarget?.id === "quick-start-copy-receipt" ? "start" : "result";
+}
+
+function quickCopyStatusIds(scope = "all") {
+  if (scope === "start") return ["quick-start-copy-status"];
+  if (scope === "result") return ["quick-copy-status"];
+  return ["quick-copy-status", "quick-start-copy-status"];
+}
+
+function setQuickCopyStatus(message, scope = "all") {
+  quickCopyStatusIds(scope).forEach((id) => {
     const status = document.getElementById(id);
     if (status) status.textContent = message;
   });
@@ -2110,15 +2122,18 @@ function setQuickRouteCopyFallback(text) {
   fallback.hidden = !text;
 }
 
-function setQuickCopyFallback(text) {
-  ["quick-copy-fallback", "quick-start-copy-fallback"].forEach((id) => {
-    const fallback = document.getElementById(id);
-    if (!fallback) return;
-    fallback.value = text;
-    fallback.hidden = !text;
-  });
+function setCopyPanel(panelId, fallbackId, text) {
+  const panel = document.getElementById(panelId);
+  const fallback = document.getElementById(fallbackId);
+  if (fallback) fallback.value = text;
+  if (panel) panel.hidden = !text;
+}
+
+function setQuickCopyFallback(text, scope = "all") {
+  if (scope === "result" || scope === "all") setCopyPanel("quick-copy-panel", "quick-copy-fallback", text);
+  if (scope === "start" || scope === "all") setCopyPanel("quick-start-copy-panel", "quick-start-copy-fallback", text);
   const startPanel = document.getElementById("quick-start-copy-panel");
-  if (startPanel) startPanel.hidden = !text;
+  if (scope === "all" && startPanel) startPanel.hidden = !text;
 }
 
 function escapeHtml(value) {

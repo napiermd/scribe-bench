@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The QA finding copy fallback now stays with the result",
+      "why": "The main user job is leaving with a reviewer-ready QA finding. If clipboard access fails and the manual fallback appears in the wrong part of the page, the core action feels broken.",
+      "proof": "The result panel now owns its own manual-copy fallback directly under the Copy QA finding action, while the first-screen seeded-copy fallback stays scoped to the seeded intro strip.",
+      "next": "Keep auditing the post-check path for anything that makes the copied finding feel generic, hidden, or disconnected from the evidence cards.",
+      "links": [
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Build-in-public log", "href": "#worklog" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The checked-note result now owns the work surface",
       "why": "After the first-screen fix, the paste-and-check workflow was clear, but the generated QA finding still rendered in the left rail while the right half of the page sat empty. That made the most important artifact feel secondary.",
       "proof": "A completed note check now spans the full checker panel: the status, title, copy action, first source-note gap, compact boundary, and reviewer handoff read as one artifact instead of a narrow side card.",

@@ -171,6 +171,16 @@
                 <a class="button secondary compact-button" href="#next-steps">Next steps</a>
                 <span id="quick-copy-status" role="status" aria-live="polite"></span>
               </div>
+              <div class="quick-copy-panel" id="quick-copy-panel" hidden>
+                <strong>Manual copy fallback</strong>
+                <p>Clipboard access is unavailable here. Select this QA finding and paste it into the next review thread.</p>
+                <textarea
+                  class="copy-fallback"
+                  id="quick-copy-fallback"
+                  readonly
+                  aria-label="ScribeBench source-vs-note QA finding"
+                ></textarea>
+              </div>
               <section class="quick-evidence-preview" aria-labelledby="quick-evidence-preview-title" hidden>
                 <div class="quick-evidence-head">
                   <p class="eyebrow" id="quick-evidence-preview-type">First source-note gap</p>
@@ -306,13 +316,6 @@
                   <p id="quick-result-next">--</p>
                 </div>
               </details>
-              <textarea
-                class="copy-fallback"
-                id="quick-copy-fallback"
-                readonly
-                hidden
-                aria-label="ScribeBench source-vs-note QA finding"
-              ></textarea>
             </div>
             <form class="quick-check-form" id="quick-check-form">
               <div class="quick-form-head">
