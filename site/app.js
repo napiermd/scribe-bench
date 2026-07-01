@@ -2223,7 +2223,7 @@ function renderCurrentModelLane(models, { configured = false, provider = "openro
   status.textContent = count ? `${count} live options` : "No models";
   status.className = `queue-status ${configured && count ? "ready" : count ? "open" : "needed"}`;
   copy.textContent = count
-    ? `${providerLabel} returned ${count} usable model${count === 1 ? "" : "s"} for smoke checks. Use this lane to test current behavior, then require a powered PriMock57 row before citing a winner.`
+    ? `${providerLabel} returned ${count} usable model${count === 1 ? "" : "s"} for second-opinion smoke checks. Use this after the browser receipt; require a powered PriMock57 row before citing a winner.`
     : `${providerLabel} did not return a usable model list. The browser receipt still works without a model call.`;
   if (warning && count) {
     copy.textContent += ` ${warning}`;
@@ -2444,7 +2444,7 @@ function runSeededLocalReceipt(event) {
 
 async function runLiveSmokeCheck(event) {
   event?.preventDefault?.();
-  const launchedFromTop = ["run-live-smoke-top", "current-model-run-smoke"].includes(event?.currentTarget?.id);
+  const launchedFromLab = event?.currentTarget?.id === "current-model-run-smoke";
   const c = seededCase();
   if (!c) {
     setLiveSmokeStatus("Demo cases are still loading. Try again in a moment.", "review");
@@ -2471,7 +2471,7 @@ async function runLiveSmokeCheck(event) {
     judge: "Waiting for generated note",
     boundary: "Smoke only; not a leaderboard row.",
   });
-  if (!launchedFromTop) document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!launchedFromLab) document.getElementById("lab")?.scrollIntoView({ behavior: "smooth", block: "start" });
   try {
     const providerSelect = document.getElementById("lab-provider");
     if (providerSelect) {
@@ -3106,7 +3106,7 @@ function setInstantReceiptStatus(message, tone = "") {
 }
 
 function liveSmokeButtons() {
-  return ["current-model-run-smoke", "run-live-smoke-top", "run-live-smoke-lab"]
+  return ["current-model-run-smoke"]
     .map((id) => document.getElementById(id))
     .filter(Boolean);
 }

@@ -13,4 +13,18 @@ describe('site copy and labels', () => {
     expect(app).toContain('"Your QA packet"');
     expect(app).toContain('"Seeded example receipt"');
   });
+
+  it('keeps model smoke out of the first note-checking task', () => {
+    const quickForm = html.match(/<form class="quick-check-form"[\s\S]*?<\/form>/)?.[0] || '';
+    const labSectionStart = html.indexOf('<section class="wrap section lab-section" id="lab">');
+    const modelLaneStart = html.indexOf('<div class="current-model-lane"');
+
+    expect(quickForm).toContain('id="quick-run-local"');
+    expect(quickForm).toContain('href="#lab"');
+    expect(quickForm).not.toContain('run-live-smoke-top');
+    expect(quickForm).not.toContain('Smoke current models');
+    expect(labSectionStart).toBeGreaterThan(-1);
+    expect(modelLaneStart).toBeGreaterThan(labSectionStart);
+    expect(app).toContain('return ["current-model-run-smoke"]');
+  });
 });

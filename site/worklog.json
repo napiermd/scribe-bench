@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first checker no longer starts with model-smoke controls",
+      "why": "A cold visitor should understand the first job without decoding benchmark plumbing. The old first-screen action row mixed Check note now with Smoke current models, which made the product feel like a vague leaderboard instead of a practical source-vs-note QA tool.",
+      "proof": "The first checker now keeps only note-review actions: check the note, reload the seeded failure, or ask for a Lab second opinion. The live current-model lane moved into the Lab, where model-backed smoke checks belong as an escalation step.",
+      "next": "Keep the front door anchored on one-note QA while using the Lab and Contribute sections for model-backed checks and powered evidence rows.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Optional second opinion", "href": "#lab" },
+        { "label": "Add powered row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Own-note results no longer look like the demo",
       "why": "The checker caught real pasted-note issues, but the result header still said Default artifact. That made a visitor-owned QA packet feel canned.",
       "proof": "Quick-check results now label pasted source-note pairs as Your QA packet, seeded examples as Seeded example receipt, and other loaded cases as Loaded case receipt. A regression test prevents the old demo label from returning.",
