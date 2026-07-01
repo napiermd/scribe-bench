@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The homepage now shows what a QA finding actually looks like",
+      "why": "The first screen said visitors leave with a QA finding, but a skeptical visitor still had to run the checker or open the demo before seeing the shape of that artifact. That kept the main promise a little abstract.",
+      "proof": "Added a compact example QA finding under the public-use contract with Decision, Evidence, Boundary, and Next fields. It shows that ScribeBench produces a reviewer action packet, not a vague score or generic AI answer.",
+      "next": "Keep showing concrete artifacts before asking visitors to trust new terms: QA finding, evidence ask, blocker receipt, or scores-only row.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Paste my note", "href": "#quick-check-form" },
+        { "label": "Demo finding", "href": "#quick-result" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The QA result now says what the copy button actually gives you",
       "why": "The seeded result showed a strong first source-note gap and reviewer handoff, but the primary Copy QA finding button appeared before the visitor could see the full copied packet. That made the main action slightly trust-me-ish.",
       "proof": "Added a compact copied-packet contract directly under the result actions. It changes with the result type and says whether the copied QA finding includes the hold/edit action, story change, note/source excerpts, next review step, cleanup action, or clean-triage boundary.",

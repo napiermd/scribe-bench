@@ -333,6 +333,80 @@ h4 {
   color: #8a5a14;
 }
 
+.quick-artifact-preview {
+  display: grid;
+  gap: 0.7rem;
+  border: 1px solid rgba(180, 35, 24, 0.22);
+  border-left: 4px solid var(--danger);
+  background: #fffaf8;
+  padding: 0.78rem 0.86rem;
+}
+
+.quick-artifact-preview-head {
+  display: grid;
+  gap: 0.26rem;
+}
+
+.quick-artifact-preview-head span {
+  color: var(--danger);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.quick-artifact-preview-head strong {
+  color: var(--ink);
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.quick-artifact-preview-head p {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.34;
+  margin: 0;
+}
+
+.quick-artifact-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid rgba(180, 35, 24, 0.16);
+  background: var(--panel);
+}
+
+.quick-artifact-preview-grid div {
+  min-width: 0;
+  border-right: 1px solid rgba(180, 35, 24, 0.12);
+  border-bottom: 1px solid rgba(180, 35, 24, 0.12);
+  padding: 0.58rem 0.64rem;
+}
+
+.quick-artifact-preview-grid div:nth-child(2n) {
+  border-right: 0;
+}
+
+.quick-artifact-preview-grid div:nth-child(n + 3) {
+  border-bottom: 0;
+}
+
+.quick-artifact-preview-grid dt {
+  color: var(--danger);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.quick-artifact-preview-grid dd {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.34;
+  margin: 0.24rem 0 0;
+  overflow-wrap: anywhere;
+}
+
 .thesis-strip {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -552,6 +626,7 @@ h4 {
 
 .quick-start-strip,
 .purpose-line,
+.quick-artifact-preview,
 .quick-entry-paths,
 .public-evidence-card,
 .quick-smoke-artifact {
@@ -5634,6 +5709,7 @@ h4 {
   .quick-output-contract,
   .thesis-strip,
   .purpose-line,
+  .quick-artifact-preview-grid,
   .proof-path,
   .quick-check-form,
   .quick-result-snapshot,
@@ -5670,6 +5746,7 @@ h4 {
   .quick-check-head,
   .quick-check-help,
   .purpose-line,
+  .quick-artifact-preview,
   .quick-entry-paths,
   .quick-start-strip,
   .quick-result,
@@ -5704,28 +5781,32 @@ h4 {
     order: 4;
   }
 
-  .quick-result {
+  .quick-artifact-preview {
     order: 5;
   }
 
-  .quick-start-strip {
+  .quick-result {
     order: 6;
   }
 
-  .quick-entry-paths {
+  .quick-start-strip {
     order: 7;
   }
 
-  .mobile-proof {
+  .quick-entry-paths {
     order: 8;
   }
 
-  .quick-proof-label {
+  .mobile-proof {
     order: 9;
   }
 
-  .quick-capability-grid {
+  .quick-proof-label {
     order: 10;
+  }
+
+  .quick-capability-grid {
+    order: 11;
   }
 
   .quick-output-contract {
@@ -5762,6 +5843,18 @@ h4 {
   }
 
   .quick-intake-steps div:last-child {
+    border-bottom: 0;
+  }
+
+  .quick-artifact-preview-grid div {
+    border-right: 0;
+  }
+
+  .quick-artifact-preview-grid div:nth-child(n + 3) {
+    border-bottom: 1px solid rgba(180, 35, 24, 0.12);
+  }
+
+  .quick-artifact-preview-grid div:last-child {
     border-bottom: 0;
   }
 
