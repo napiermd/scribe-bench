@@ -2064,39 +2064,62 @@ function buildQuickReceiptText(result) {
   const caseLabel = result.caseId ? `${result.caseId}${result.caseType ? ` (${result.caseType})` : ""}` : "pasted source-vs-note pair";
   const evidence = Array.isArray(result.evidence?.dangerous) ? result.evidence.dangerous : [];
   const flaggedItems = dangerousCount
-    ? dangerous.flatMap((item) => {
+    ? dangerous.flatMap((item, index) => {
         const detail = evidence.find((entry) => entry?.finding === item);
-        const lines = [`- ${item}`];
-        if (detail?.noteExcerpt) lines.push(`  Note excerpt: ${detail.noteExcerpt}`);
-        if (detail?.sourceExcerpt) lines.push(`  Source check: ${detail.sourceExcerpt}`);
+        const sourceLabel = detail?.reason === "source contradiction" ? "Source says" : "Source check";
+        const label = detail?.label || item;
+        const lines = [`${index + 1}. ${label}`];
+        if (detail?.noteExcerpt) lines.push(`   Note says: ${detail.noteExcerpt}`);
+        if (detail?.sourceExcerpt) lines.push(`   ${sourceLabel}: ${detail.sourceExcerpt}`);
         return lines;
       })
       : leakCount
-        ? leaks.map((item) => `- ${item}`)
-        : ["- No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser check."];
+        ? leaks.map((item, index) => `${index + 1}. ${item}`)
+        : ["1. No obvious unsupported care, demographic mismatch, laterality issue, allergy contradiction, or deterministic leak flagged by the browser check."];
+
+  const sendTo = dangerousCount
+    ? "Chart QA, the note owner, or the vendor/builder who can fix the generated note."
+    : leakCount
+      ? "The prompt, template, or note-generation owner who can remove the leaked artifact."
+      : "The reviewer as narrow triage, with ordinary clinical review still required.";
+  const reviewSteps = dangerousCount
+    ? [
+        "1. Hold or edit the note before signing, sharing, or citing it.",
+        `2. Verify the flagged claim${dangerousCount === 1 ? "" : "s"} against the source excerpts below.`,
+        "3. Ask for a second read only if the source-note gap is disputed.",
+      ]
+    : leakCount
+      ? [
+          "1. Fix the leaked template or metadata artifact.",
+          "2. Regenerate or edit the note.",
+          "3. Recheck the source-note pair before treating the output as usable.",
+        ]
+      : [
+          "1. Continue ordinary human review.",
+          "2. Treat this as a narrow clean-triage note, not clearance.",
+          "3. Use the Lab or aggregate rows before making a system-level claim.",
+        ];
 
   return [
-    "ScribeBench source-vs-note QA finding",
-    `Decision: ${handoff.title}`,
-    `Action: ${handoff.action}`,
-    `Why: ${handoff.why}`,
-    `Evidence: ${handoff.evidence}`,
-    `Next: ${handoff.next}`,
+    `ScribeBench QA handoff: ${handoff.title}`,
+    `Bottom line: ${handoff.why}`,
+    `Send to: ${sendTo}`,
     "",
-    `Case: ${caseLabel}`,
-    `Date: ${localDateStamp()}`,
-    "Check: browser-only local source-vs-note QA",
+    "Immediate review steps:",
+    ...reviewSteps,
     "",
-    "Flagged source-note evidence:",
+    "Evidence to review:",
     ...flaggedItems,
     "",
-    "Boundary: one source-note pair, browser-only local check.",
-    `Can support: ${meaning.canSupport}`,
-    `Cannot support: ${meaning.cannotSupport}`,
+    "Scope:",
+    `- Case: ${caseLabel}`,
+    `- Date: ${localDateStamp()}`,
+    "- Check: browser-only source-vs-note QA",
+    `- Supports: ${meaning.canSupport}`,
+    `- Does not support: ${meaning.cannotSupport}`,
     `Use next: ${meaning.useNext}`,
-    "Not: leaderboard row, system certification, or clinical clearance.",
     "",
-    "Reference: https://scribe-bench.vercel.app/#quick-check",
+    "Link: https://scribe-bench.vercel.app/#quick-check",
   ].join("\n");
 }
 
