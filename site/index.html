@@ -180,12 +180,21 @@
             <div class="quick-start-strip" aria-label="Start a ScribeBench note check">
               <div>
                 <span>Fastest path</span>
-                <strong>Paste your own source and AI note.</strong>
-                <p>The seeded catch shows the artifact; your useful output starts with a real source-note pair.</p>
+                <strong>Paste your own source and AI note, or copy the demo packet.</strong>
+                <p>Your useful output is a review packet: flagged claims, source snippets, boundary, and next step.</p>
               </div>
               <div class="quick-start-actions">
                 <button class="button primary compact-button" type="button" data-quick-start-own>Paste your note</button>
-                <a class="button secondary compact-button" href="#quick-result">Use demo receipt</a>
+                <button class="button secondary compact-button" id="quick-start-copy-receipt" type="button">Copy demo packet</button>
+                <a class="button secondary compact-button" href="#quick-result">Inspect demo receipt</a>
+                <span id="quick-start-copy-status" role="status" aria-live="polite"></span>
+                <textarea
+                  class="copy-fallback quick-start-copy-fallback"
+                  id="quick-start-copy-fallback"
+                  readonly
+                  hidden
+                  aria-label="ScribeBench demo review packet"
+                ></textarea>
               </div>
             </div>
             <div class="quick-result" id="quick-result" hidden>

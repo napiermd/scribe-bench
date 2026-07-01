@@ -1592,6 +1592,7 @@ function bindQuickCheck() {
   document.getElementById("quick-note")?.addEventListener("input", resetQuickAfterManualEdit);
   document.getElementById("quick-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-use-copy-receipt")?.addEventListener("click", copyQuickReceipt);
+  document.getElementById("quick-start-copy-receipt")?.addEventListener("click", copyQuickReceipt);
   document.getElementById("quick-send-lab")?.addEventListener("click", sendQuickPairToLab);
   document.getElementById("copy-quick-smoke-packet")?.addEventListener("click", copyQuickSmokePacket);
   document.getElementById("copy-public-evidence-card")?.addEventListener("click", copyPublicEvidenceCard);
@@ -1879,7 +1880,7 @@ async function copyQuickReceipt() {
     setQuickCopyStatus("Review packet copied.");
   } catch (_) {
     setQuickCopyFallback(text);
-    setQuickCopyStatus("Clipboard unavailable. Review packet shown below.");
+    setQuickCopyStatus("Clipboard unavailable. Review packet shown here.");
   }
 }
 
@@ -1993,15 +1994,19 @@ function buildQuickReceiptText(result) {
 }
 
 function setQuickCopyStatus(message) {
-  const status = document.getElementById("quick-copy-status");
-  if (status) status.textContent = message;
+  ["quick-copy-status", "quick-start-copy-status"].forEach((id) => {
+    const status = document.getElementById(id);
+    if (status) status.textContent = message;
+  });
 }
 
 function setQuickCopyFallback(text) {
-  const fallback = document.getElementById("quick-copy-fallback");
-  if (!fallback) return;
-  fallback.value = text;
-  fallback.hidden = !text;
+  ["quick-copy-fallback", "quick-start-copy-fallback"].forEach((id) => {
+    const fallback = document.getElementById(id);
+    if (!fallback) return;
+    fallback.value = text;
+    fallback.hidden = !text;
+  });
 }
 
 function escapeHtml(value) {

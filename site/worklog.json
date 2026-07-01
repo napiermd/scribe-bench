@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first mobile screen now exposes a copyable packet",
+      "why": "The checker was first on mobile, but the actual copy-review-packet action still sat far below the first viewport. A visitor could understand the tool without immediately feeling the artifact.",
+      "proof": "Added a first-screen Copy demo packet action to the checker start strip and mirrored copy status there, so the seeded example demonstrates the review-packet output before the visitor scrolls.",
+      "next": "Keep the first minute centered on tangible outputs: paste a real note, copy the demo packet, or inspect why the seeded note failed.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Demo receipt", "href": "#quick-result" },
+        { "label": "Source-note form", "href": "#quick-check-form" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Mobile visitors now hit the checker before the essay",
       "why": "The desktop first screen showed the working checker immediately, but mobile visitors had to scroll past the header, purpose cards, and route chooser before reaching the tool. That made the public site feel more like an explanation than something to use.",
       "proof": "Reordered the mobile first screen so the note checker appears before the guide rail, and added a top action strip inside the checker with a direct paste-your-note action plus the seeded demo receipt.",
