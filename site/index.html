@@ -1120,6 +1120,33 @@
               </div>
             </div>
 
+            <section class="lab-second-read-brief" aria-labelledby="lab-second-read-title">
+              <div class="lab-second-read-head">
+                <span class="queue-status open" id="lab-second-read-status">Start local</span>
+                <div>
+                  <p class="eyebrow">Second-read decision</p>
+                  <h4 id="lab-second-read-title">Run the no-key check before a live judge.</h4>
+                  <p id="lab-second-read-copy">
+                    Use the live judge only when a reviewer needs another read of the same source and note.
+                  </p>
+                </div>
+              </div>
+              <dl class="lab-second-read-grid" aria-label="How to decide whether to run a live second read">
+                <div>
+                  <dt>No-key result</dt>
+                  <dd id="lab-second-read-local">Use first; it does not call a provider.</dd>
+                </div>
+                <div>
+                  <dt>Live judge</dt>
+                  <dd id="lab-second-read-live">Optional; sends this source and note to the configured provider.</dd>
+                </div>
+                <div>
+                  <dt>Boundary</dt>
+                  <dd id="lab-second-read-boundary">Still a one-note QA finding, not a system claim.</dd>
+                </div>
+              </dl>
+            </section>
+
             <div class="lab-textareas">
               <label class="field">
                 <span>Source encounter</span>

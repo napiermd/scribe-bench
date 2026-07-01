@@ -2165,6 +2165,7 @@ function bindLab() {
       cacheProviderKey(providerSelect.dataset.previousProvider);
       providerSelect.dataset.previousProvider = providerSelect.value;
       syncProviderUi();
+      renderLabSecondReadBrief(lastLabResult);
       loadLabModels(true);
     });
   }
@@ -2660,6 +2661,7 @@ function renderLabResult(result) {
   document.getElementById("lab-danger").textContent = String(result.fabrication?.dangerous?.length ?? 0);
   renderLabVerdict(result);
   renderEvidencePacket(result);
+  renderLabSecondReadBrief(result);
 
   const dims = document.getElementById("lab-dimensions");
   dims.innerHTML = "";
@@ -2696,8 +2698,92 @@ function resetLabResult() {
   if (output) output.hidden = true;
   if (label) label.textContent = "Review result";
   updateLabEmptyForInputs();
+  renderLabSecondReadBrief(null);
   setCopyStatus("");
   setSummaryFallback("");
+}
+
+function renderLabSecondReadBrief(result) {
+  const status = document.getElementById("lab-second-read-status");
+  const providerLabel = providerConfigs[selectedProvider()]?.label || "the configured provider";
+  const setBrief = ({ statusText, tone = "open", title, copy, local, live, boundary }) => {
+    if (status) {
+      status.textContent = statusText;
+      status.className = `queue-status ${tone}`;
+    }
+    setText("lab-second-read-title", title);
+    setText("lab-second-read-copy", copy);
+    setText("lab-second-read-local", local);
+    setText("lab-second-read-live", live);
+    setText("lab-second-read-boundary", boundary);
+  };
+
+  if (!result) {
+    setBrief({
+      statusText: "Start local",
+      tone: "open",
+      title: "Run the no-key check before a live judge.",
+      copy: "Use the live judge only when a reviewer needs another read of the same source and note.",
+      local: "Use first; it does not call a provider.",
+      live: `Optional; sends this source and note to ${providerLabel}.`,
+      boundary: "Still a one-note QA finding, not a system claim.",
+    });
+    return;
+  }
+
+  const dangerousCount = result.fabrication?.dangerous?.filter(Boolean).length || 0;
+  const leakCount = result.leaks?.filter(Boolean).length || 0;
+  const issueTypes = receiptIssueTypes(result);
+  const issueText = dangerousCount ? `${issueCountLabel(dangerousCount)}${issueTypes ? ` (${issueTypes})` : ""}` : "";
+
+  if (result.localResult && dangerousCount) {
+    setBrief({
+      statusText: "Local finding ready",
+      tone: "needed",
+      title: "A live second read is optional, not required to hold this note.",
+      copy: `The local finding already gives a reviewer a concrete source-note gap: ${issueText}. Run the live judge only if the gap is disputed or you need a second-reader explanation.`,
+      local: "Enough to hold, edit, or route this note for review.",
+      live: `Use for another explanation; sends this source and note to ${providerLabel}.`,
+      boundary: "One checked note can support QA action, not a system-wide claim.",
+    });
+    return;
+  }
+
+  if (result.localResult && leakCount) {
+    setBrief({
+      statusText: "Cleanup signal",
+      tone: "open",
+      title: "Fix the artifact before asking for another read.",
+      copy: `${leakCount} template or metadata leak${leakCount === 1 ? "" : "s"} appeared in the output. A live judge can add prose, but cleanup is the first useful action.`,
+      local: "Use this to route the output back to prompt or template cleanup.",
+      live: `Optional after cleanup; sends this source and note to ${providerLabel}.`,
+      boundary: "Artifact cleanup evidence, not note fidelity proof.",
+    });
+    return;
+  }
+
+  if (result.localResult) {
+    setBrief({
+      statusText: "Clean triage",
+      tone: "ready",
+      title: "A live second read is only for extra confidence.",
+      copy: "The no-key check did not catch a covered source-note issue. Run the live judge only if the note still needs another reader.",
+      local: "Use as narrow triage; keep normal review moving.",
+      live: `Optional second read; sends this source and note to ${providerLabel}.`,
+      boundary: "A clean local check is not clearance or system proof.",
+    });
+    return;
+  }
+
+  setBrief({
+    statusText: "Live second read",
+    tone: dangerousCount ? "needed" : leakCount ? "open" : "ready",
+    title: "Use the live result as a second-reader note.",
+    copy: "Keep the local finding and live review together so the reviewer sees what was checked and what the provider judge added.",
+    local: "Attach the no-key finding as the reproducible baseline.",
+    live: "Copy the second-read review when reviewer prose or adjudication is needed.",
+    boundary: "Still one source-note pair, not a leaderboard row or system certification.",
+  });
 }
 
 function renderEvidencePacket(result) {

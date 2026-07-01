@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The Lab now says when a second read is actually useful",
+      "why": "The checker could hand a flagged note into the Lab, but the live-judge step still looked like generic model plumbing. Visitors need to know whether to stop at the no-key QA finding or ask for another read.",
+      "proof": "Added a second-read decision card above the Lab inputs. It changes with the current result: flagged no-key findings say they are enough to hold the note, live judges are optional for disputed gaps or reviewer prose, and every path keeps the boundary at one note.",
+      "next": "Keep reducing model-centered language until the public flow reads as source-note QA first and provider calls only as optional escalation.",
+      "links": [
+        { "label": "Second opinion", "href": "#lab-workbench" },
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Build-in-public log", "href": "#worklog" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The QA finding copy fallback now stays with the result",
       "why": "The main user job is leaving with a reviewer-ready QA finding. If clipboard access fails and the manual fallback appears in the wrong part of the page, the core action feels broken.",
       "proof": "The result panel now owns its own manual-copy fallback directly under the Copy QA finding action, while the first-screen seeded-copy fallback stays scoped to the seeded intro strip.",

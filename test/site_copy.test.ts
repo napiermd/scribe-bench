@@ -231,6 +231,15 @@ describe('site copy and labels', () => {
     expect(labSection).toContain('Checked source + note');
     expect(labSection).toContain('No-key first, live optional');
     expect(labSection).toContain('Second-read QA finding');
+    expect(labSection).toContain('lab-second-read-brief');
+    expect(labSection).toContain('Second-read decision');
+    expect(labSection).toContain('Run the no-key check before a live judge.');
+    expect(labSection).toContain('Use the live judge only when a reviewer needs another read of the same source and note.');
+    expect(labSection).toContain('How to decide whether to run a live second read');
+    expect(labSection).toContain('No-key result');
+    expect(labSection).toContain('Use first; it does not call a provider.');
+    expect(labSection).toContain('sends this source and note to the configured provider');
+    expect(labSection).toContain('Still a one-note QA finding, not a system claim.');
     expect(labSection).toContain('Ask live judge for review');
     expect(labSection).toContain('lab-demo-tools');
     expect(labSection).toContain('Demo tools');
@@ -264,6 +273,11 @@ describe('site copy and labels', () => {
     expect(app).toContain('Seeded QA finding');
     expect(app).toContain('No-key QA finding');
     expect(app).toContain('Live second-read result');
+    expect(app).toContain('function renderLabSecondReadBrief(result)');
+    expect(app).toContain('A live second read is optional, not required to hold this note.');
+    expect(app).toContain('The local finding already gives a reviewer a concrete source-note gap');
+    expect(app).toContain('Use for another explanation; sends this source and note to ${providerLabel}.');
+    expect(app).toContain('renderLabSecondReadBrief(lastLabResult);');
     expect(app).toContain('Use now: ${packet.nextStep}');
     expect(app).toContain('Boundary: one source-note pair, not a leaderboard row, system certification, or clinical clearance.');
     expect(app).toContain('Note says: ${detail.noteExcerpt}');
@@ -273,6 +287,9 @@ describe('site copy and labels', () => {
     expect(app).toContain('Provider ready');
     expect(app).not.toContain('returned ${count} usable model');
     expect(app).not.toContain('Smoke current models');
+    expect(styles).toContain('.lab-second-read-brief');
+    expect(styles).toContain('.lab-second-read-grid');
+    expect(styles).toContain('.lab-second-read-grid div:last-child');
   });
 
   it('makes the first copied note artifact reviewer-ready', () => {
