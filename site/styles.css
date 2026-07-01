@@ -821,6 +821,46 @@ h4 {
   line-height: 1.28;
 }
 
+.quick-capability-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+}
+
+.quick-capability-grid div {
+  display: grid;
+  gap: 0.18rem;
+  min-width: 0;
+  border-right: 1px solid var(--line);
+  padding: 0.62rem 0.72rem;
+}
+
+.quick-capability-grid div:last-child {
+  border-right: 0;
+}
+
+.quick-capability-grid span {
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.quick-capability-grid strong {
+  color: var(--ink);
+  font-size: 0.84rem;
+  line-height: 1.2;
+}
+
+.quick-capability-grid p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.73rem;
+  line-height: 1.28;
+}
+
 .quick-output-contract {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -4406,6 +4446,7 @@ h4 {
   .queue-list article,
   .quick-paths,
   .quick-proof-modes,
+  .quick-capability-grid,
   .quick-output-contract,
   .start-router-panel,
   .start-route-steps,
@@ -4587,6 +4628,7 @@ h4 {
 
   .quick-paths article,
   .quick-proof-modes a,
+  .quick-capability-grid div,
   .quick-smoke-grid div,
   .public-evidence-card-grid div,
   .thesis-strip div,
@@ -4605,6 +4647,7 @@ h4 {
 
   .quick-paths article:last-child,
   .quick-proof-modes a:last-child,
+  .quick-capability-grid div:last-child,
   .quick-smoke-grid div:last-child,
   .public-evidence-card-grid div:last-child,
   .thesis-strip div:last-child,
