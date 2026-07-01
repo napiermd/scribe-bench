@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Evidence now skips the generic backlog",
+      "why": "The Evidence section still had a generic backlog after the work log, even though Contribute already carries the current public queue and copyable task. That made the middle page feel like roadmap clutter instead of proof.",
+      "proof": "Removed the Evidence-only backlog and its dead layout styles. Evidence now moves from the current task, public answer, current blocker, smoke receipt, and work log straight into historical baselines.",
+      "next": "Keep tightening the Evidence and Contribute handoff so one public queue owns the next action.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current blocker", "href": "#current-run" },
+        { "label": "Contribute", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The middle page no longer detours into a run-plan form",
       "why": "After the claim checker, visitors hit a separate powered-row challenge planner before the evidence ledger and contribution tools. It repeated the same row-builder job and made the page feel like benchmark machinery again.",
       "proof": "Removed the standalone challenge planner, its presets, copy logic, and CSS. Claim, evidence, queue, and historical-row actions now point directly to the current blocker, Lab smoke path, or aggregate row builder.",

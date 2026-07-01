@@ -254,6 +254,9 @@ describe('site copy and labels', () => {
     expect(leaderboardSection).toContain('id="current-run-task-bring"');
     expect(leaderboardSection).not.toContain('Loading current PriMock57 run status');
     expect(leaderboardSection).not.toContain('Loading current-run status.');
+    expect(leaderboardSection).not.toContain('Public evidence queue');
+    expect(leaderboardSection).not.toContain('What we should run next');
+    expect(leaderboardSection).not.toContain('id="evidence-queue"');
     expect(leaderboardSection).toContain('Claim boundary');
     expect(leaderboardSection).toContain("Historical rows can support a failure-gradient claim only; they cannot crown today's best AI scribe.");
     expect(leaderboardSection).toContain('Smoke rows prove plumbing on tiny synthetic sets; they are never ranked evidence.');

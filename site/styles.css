@@ -35,8 +35,7 @@ section[id] {
 
 #current-run,
 #public-action-kit,
-#worklog,
-#evidence-queue {
+#worklog {
   scroll-margin-top: 86px;
 }
 
@@ -3214,60 +3213,6 @@ h4 {
   font-weight: 850;
 }
 
-.queue-board {
-  display: grid;
-  grid-template-columns: minmax(0, 0.35fr) minmax(0, 1fr);
-  gap: 12px;
-  margin: 0 0 1rem;
-  scroll-margin-top: 86px;
-}
-
-.queue-copy,
-.queue-list article {
-  border: 1px solid var(--line);
-  background: var(--panel);
-  box-shadow: var(--shadow);
-  padding: 1rem;
-}
-
-.queue-copy {
-  align-self: stretch;
-}
-
-.queue-copy h3 {
-  font-size: 1.24rem;
-}
-
-.queue-copy p:not(.eyebrow) {
-  color: var(--muted);
-  margin: 0.72rem 0 0;
-  font-size: 0.94rem;
-}
-
-.queue-list {
-  display: grid;
-  gap: 10px;
-}
-
-.queue-list article {
-  display: grid;
-  grid-template-columns: minmax(0, 0.9fr) minmax(260px, 0.72fr);
-  gap: 16px;
-  box-shadow: none;
-  background: var(--panel-soft);
-}
-
-.queue-list h3 {
-  font-size: 1.04rem;
-  margin-top: 0.48rem;
-}
-
-.queue-list p {
-  color: var(--muted);
-  margin: 0.45rem 0 0;
-  font-size: 0.92rem;
-}
-
 .queue-status {
   display: inline-flex;
   width: fit-content;
@@ -3299,35 +3244,6 @@ h4 {
   border-color: rgba(152, 111, 11, 0.3);
   background: #fff7df;
   color: var(--gold);
-}
-
-.queue-list dl {
-  display: grid;
-  gap: 0.55rem;
-  margin: 0;
-}
-
-.queue-list dl div {
-  border-left: 3px solid var(--line-strong);
-  padding-left: 0.75rem;
-}
-
-.queue-list dt {
-  color: var(--accent-strong);
-  font-size: 0.68rem;
-  font-weight: 850;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.queue-list dd {
-  margin: 0.18rem 0 0;
-  color: var(--muted);
-  font-size: 0.86rem;
-}
-
-.queue-list a {
-  font-weight: 850;
 }
 
 .worklog-board {
@@ -4982,14 +4898,9 @@ h4 {
 }
 
 @media (max-width: 920px) {
-  .queue-board {
-    scroll-margin-top: 156px;
-  }
-
   #current-run,
   #public-action-kit,
-  #worklog,
-  #evidence-queue {
+  #worklog {
     scroll-margin-top: 156px;
   }
 
@@ -5045,7 +4956,6 @@ h4 {
   .public-work-queue,
   .public-work-queue-head,
   .worklog-board,
-  .queue-board,
   .run-plan-card,
   .contribution-intake,
   .lab-shell,
@@ -5091,7 +5001,6 @@ h4 {
   .lab-workflow,
   .lab-guide,
   .worklog-list article,
-  .queue-list article,
   .quick-paths,
   .quick-proof-modes,
   .quick-capability-grid,
