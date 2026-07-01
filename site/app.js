@@ -842,6 +842,57 @@ function bindPublicWorkTaskCopy() {
   });
 }
 
+function bindCitationBoundaryCopy() {
+  document.getElementById("copy-citation-boundary")?.addEventListener("click", copyCitationBoundary);
+}
+
+async function copyCitationBoundary() {
+  const text = buildCitationBoundaryText();
+  try {
+    await copyText(text);
+    setCitationBoundaryFallback("");
+    setCitationBoundaryStatus("Citation boundary copied.");
+  } catch (_) {
+    setCitationBoundaryFallback(text);
+    setCitationBoundaryStatus("Clipboard unavailable. Citation boundary shown here.");
+  }
+}
+
+function buildCitationBoundaryText() {
+  const historyProof = textFrom("decision-history-proof", "Historical launch rows are failure-gradient evidence only, not a current buying guide.");
+  const currentProof = textFrom("decision-current-proof", "Current powered comparison evidence is not publishable yet.");
+  const smokeProof = textFrom("decision-smoke-proof", "Smoke rows prove plumbing only, not ranking evidence.");
+  const currentGap = textFrom("freshness-current-gap", "Current row status is not available from this page.");
+  const nextRow = textFrom("freshness-next-row", "Publish a powered aggregate row before making system-level claims.");
+  return [
+    "ScribeBench citation boundary",
+    "Use today: cite ScribeBench as a source-vs-note QA harness and use one-note review packets for unsupported-care review.",
+    `Historical rows: ${historyProof}`,
+    `Current comparison: ${currentProof}`,
+    `Current gap: ${currentGap}`,
+    `Smoke rows: ${smokeProof}`,
+    `Next proof step: ${nextRow}`,
+    "Do not cite: a current best-model ranking, safety certification, clinical clearance, or buying-guide winner from the old rows.",
+    "Site: https://scribe-bench.vercel.app/#leaderboard",
+  ].join("\n");
+}
+
+function textFrom(id, fallback = "") {
+  return document.getElementById(id)?.textContent?.replace(/\s+/g, " ").trim() || fallback;
+}
+
+function setCitationBoundaryStatus(message) {
+  const status = document.getElementById("citation-boundary-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setCitationBoundaryFallback(text) {
+  const panel = document.getElementById("citation-boundary-copy-panel");
+  const fallback = document.getElementById("citation-boundary-copy-fallback");
+  if (fallback) fallback.value = text;
+  if (panel) panel.hidden = !text;
+}
+
 async function copyPublicWorkTask() {
   const text = currentPublicWorkTask || document.getElementById("public-work-queue-task")?.textContent?.trim() || "";
   if (!text) return;
@@ -3568,6 +3619,7 @@ async function boot() {
   bindPublicActionKit();
   bindCurrentRunCommand();
   bindPublicWorkTaskCopy();
+  bindCitationBoundaryCopy();
   bindClaimChecker();
   bindLab();
   bindRunBuilder();

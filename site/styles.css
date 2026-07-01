@@ -2875,8 +2875,45 @@ h4 {
 .evidence-answer-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.7rem;
   margin-top: 1rem;
+}
+
+#citation-boundary-copy-status {
+  color: var(--accent-strong);
+  font-size: 0.84rem;
+  font-weight: 800;
+}
+
+.citation-boundary-copy-panel {
+  display: grid;
+  gap: 0.5rem;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  background: rgba(255, 255, 255, 0.72);
+  margin-top: 0.85rem;
+  padding: 0.75rem;
+}
+
+.citation-boundary-copy-panel[hidden] {
+  display: none;
+}
+
+.citation-boundary-copy-panel strong {
+  color: var(--ink);
+}
+
+.citation-boundary-copy-panel p {
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.36;
+  margin: 0;
+}
+
+.citation-boundary-copy-fallback {
+  min-height: 190px;
+  margin: 0;
+  background: #ffffff;
 }
 
 .evidence-answer-grid {

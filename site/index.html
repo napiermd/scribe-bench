@@ -840,6 +840,18 @@ Site: https://scribe-bench.vercel.app/</code></pre>
               <a class="button primary compact-button" href="#quick-check">Check one note</a>
               <a class="button secondary compact-button" href="#current-run">Help finish row</a>
               <a class="button secondary compact-button" href="#run">Add a row</a>
+              <button class="button secondary compact-button" id="copy-citation-boundary" type="button">Copy citation boundary</button>
+              <span id="citation-boundary-copy-status" role="status" aria-live="polite"></span>
+            </div>
+            <div class="citation-boundary-copy-panel" id="citation-boundary-copy-panel" hidden>
+              <strong>Manual copy fallback</strong>
+              <p>Clipboard access is unavailable here. Select this citation boundary and paste it wherever the rows are being discussed.</p>
+              <textarea
+                class="copy-fallback citation-boundary-copy-fallback"
+                id="citation-boundary-copy-fallback"
+                readonly
+                aria-label="Copied ScribeBench citation boundary"
+              ></textarea>
             </div>
           </div>
           <div class="evidence-answer-grid" aria-label="What ScribeBench evidence can support">

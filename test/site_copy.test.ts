@@ -331,6 +331,8 @@ describe('site copy and labels', () => {
     expect(readme).toContain('Pick a visitor route');
     expect(readme).toContain('copy a short plan for what to bring, what to do, and what evidence artifact you should leave with');
     expect(readme).toContain('Explain the repo');
+    expect(readme).toContain('Copy the citation boundary');
+    expect(readme).toContain("old launch rows are discussed as failure-gradient evidence, not as today's best-model claim");
     expect(readme).toContain('A no-key, copy-ready review packet');
     expect(readme).toContain('repo receipt, or current-row request');
     expect(readme).toContain('browser receipt, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger');
@@ -442,6 +444,12 @@ describe('site copy and labels', () => {
     expect(leaderboardSection).toContain('id="evidence-task-bring"');
     expect(leaderboardSection).toContain('id="current-run-task-copy-status"');
     expect(leaderboardSection).toContain('Use it now for note review; help finish the current row for comparisons.');
+    expect(leaderboardSection).toContain('Copy citation boundary');
+    expect(leaderboardSection).toContain('id="copy-citation-boundary"');
+    expect(leaderboardSection).toContain('id="citation-boundary-copy-status"');
+    expect(leaderboardSection).toContain('id="citation-boundary-copy-panel"');
+    expect(leaderboardSection).toContain('Copied ScribeBench citation boundary');
+    expect(leaderboardSection).toContain('Select this citation boundary and paste it wherever the rows are being discussed.');
     expect(leaderboardSection).toContain('Blocker receipt');
     expect(leaderboardSection).toContain('Finish the current row before ranking anyone.');
     expect(leaderboardSection).toContain('Need 21 more scored PriMock57 cases');
@@ -479,6 +487,11 @@ describe('site copy and labels', () => {
     expect(app).not.toContain('setText("current-run-last-score"');
     expect(app).not.toContain('setText("current-run-next"');
     expect(app).toContain('document.querySelectorAll("#copy-public-work-task, [data-copy-public-work-task]")');
+    expect(app).toContain('function bindCitationBoundaryCopy()');
+    expect(app).toContain('document.getElementById("copy-citation-boundary")?.addEventListener("click", copyCitationBoundary);');
+    expect(app).toContain('ScribeBench citation boundary');
+    expect(app).toContain('Do not cite: a current best-model ranking, safety certification, clinical clearance, or buying-guide winner from the old rows.');
+    expect(app).toContain('bindCitationBoundaryCopy();');
     expect(app).toContain('setText("evidence-task-title"');
     expect(app).toContain('setText("evidence-task-bring"');
     expect(app).toContain('const evidenceTaskStatus = document.getElementById("evidence-task-status");');

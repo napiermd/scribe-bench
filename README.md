@@ -17,6 +17,7 @@ The system loop is simple: **one note becomes a review packet; one claim becomes
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
 - **Explain the repo** with a copyable repo receipt that says what ScribeBench is, what it is not, and which public artifacts it creates.
 - **Read the evidence ledger** without mistaking historical launch baselines or smoke checks for a current model ranking.
+- **Copy the citation boundary** so old launch rows are discussed as failure-gradient evidence, not as today's best-model claim.
 - **Help finish the current PriMock57 row** by resuming the public API run or submitting a scores-only aggregate row from your own system.
 
 ## Who this is for
