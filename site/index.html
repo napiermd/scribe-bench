@@ -896,21 +896,22 @@
           </div>
         </div>
 
-        <div class="historical-baseline-board" aria-labelledby="historical-baselines-title">
-          <div class="historical-baseline-head">
+        <details class="historical-baseline-board evidence-archive" aria-label="Historical launch baselines">
+          <summary class="historical-baseline-head">
             <div>
               <p class="eyebrow">Historical baselines</p>
-              <h3 id="historical-baselines-title">Launch rows, not the current leaderboard</h3>
+              <h3 id="historical-baselines-title">Show launch rows, not the current leaderboard</h3>
               <p>
-                These rows are ordered by dangerous-fabrication rate so the failure gradient
-                stays visible. They are June 2026 generic-scribe baselines, not a ranking of
-                the systems people should choose today.
+                Closed by default because these are June 2026 generic-scribe baselines. Open
+                only when you need the historical failure gradient, not a current buying guide.
               </p>
             </div>
-            <div class="historical-baseline-actions">
-              <a class="button primary compact-button" href="#current-run">Open current blocker</a>
-              <a class="button secondary compact-button" href="#run-builder" data-run-jump-preset="current-powered">Build row command</a>
-            </div>
+            <span class="archive-summary-status">Open historical table</span>
+          </summary>
+
+          <div class="historical-baseline-actions">
+            <a class="button primary compact-button" href="#current-run">Open current blocker</a>
+            <a class="button secondary compact-button" href="#run-builder" data-run-jump-preset="current-powered">Build row command</a>
           </div>
 
           <div class="leaderboard-shell">
@@ -937,43 +938,45 @@
               </tbody>
             </table>
           </div>
-        </div>
+        </details>
 
-        <div class="subsection-head">
-          <div>
-            <p class="eyebrow">Synthetic smoke tests</p>
-            <h3>Visible, but not ranked</h3>
-            <p>
-              These rows use the bundled n=3 synthetic cases to exercise the scoring path
-              and demo behavior. A 0% or 33% rate at this size should never outrank a powered
-              benchmark run.
-            </p>
+        <details class="evidence-archive smoke-archive" aria-label="Synthetic smoke tests">
+          <summary class="subsection-head smoke-archive-head">
+            <div>
+              <p class="eyebrow">Synthetic smoke tests</p>
+              <h3>Show smoke rows, never ranked evidence</h3>
+              <p>
+                Closed by default because these n=3 synthetic rows only prove the scoring
+                path and demo behavior. They should never outrank a powered benchmark run.
+              </p>
+            </div>
+            <span class="archive-summary-status">Open smoke table</span>
+          </summary>
+          <div class="leaderboard-shell secondary-table">
+            <p class="leaderboard-table-note">Smoke rows prove plumbing on tiny synthetic sets; they are never ranked evidence.</p>
+            <table class="leaderboard-table">
+              <thead>
+                <tr>
+                  <th scope="col">Status</th>
+                  <th scope="col">System</th>
+                  <th scope="col">Dataset</th>
+                  <th scope="col">n</th>
+                  <th scope="col">Dangerous fab</th>
+                  <th scope="col">Narrative</th>
+                  <th scope="col">Fidelity</th>
+                  <th scope="col">Leak</th>
+                  <th scope="col">Scored</th>
+                  <th scope="col">Judge</th>
+                </tr>
+              </thead>
+              <tbody id="smoke-body">
+                <tr>
+                  <td colspan="10">Loading smoke tests...</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div class="leaderboard-shell secondary-table">
-          <p class="leaderboard-table-note">Smoke rows prove plumbing on tiny synthetic sets; they are never ranked evidence.</p>
-          <table class="leaderboard-table">
-            <thead>
-              <tr>
-                <th scope="col">Status</th>
-                <th scope="col">System</th>
-                <th scope="col">Dataset</th>
-                <th scope="col">n</th>
-                <th scope="col">Dangerous fab</th>
-                <th scope="col">Narrative</th>
-                <th scope="col">Fidelity</th>
-                <th scope="col">Leak</th>
-                <th scope="col">Scored</th>
-                <th scope="col">Judge</th>
-              </tr>
-            </thead>
-            <tbody id="smoke-body">
-              <tr>
-                <td colspan="10">Loading smoke tests...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+        </details>
       </section>
 
       <section class="wrap section lab-section" id="lab">

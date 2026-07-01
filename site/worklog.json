@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Old score tables now stay in evidence archives",
+      "why": "The Evidence page said the June 2026 rows were historical, but the full tables still sat open in the main path. On mobile they added thousands of pixels and horizontal scroll, making old models feel more important than the current blocker.",
+      "proof": "Moved the historical launch rows and n=3 smoke rows behind closed disclosure sections. The visible Evidence path now prioritizes the current public task, note-review answer, blocker receipt, smoke receipt, and worklog before anyone opens archived tables.",
+      "next": "Keep stale or tiny-n evidence visible for transparency, but closed unless the visitor asks for the raw ledger.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current blocker", "href": "#current-run" },
+        { "label": "Add a row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now answers who this is for",
       "why": "The public site was becoming more useful, but a cold visitor still had to infer the product contract from the checker, route chooser, and evidence language. That made ScribeBench feel like tool output before it felt like a public artifact.",
       "proof": "Added a first-screen answer strip that names what ScribeBench is, who uses it, and the point of leaving with a reviewable artifact. Added the same cold-visitor answer before the public action kit so the guide explains the audience and purpose before the repo machinery.",

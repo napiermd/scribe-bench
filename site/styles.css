@@ -2967,12 +2967,21 @@ h4 {
   margin: 0 0 1rem;
 }
 
+.evidence-archive summary {
+  cursor: pointer;
+}
+
+.evidence-archive summary::marker {
+  color: var(--gold);
+  font-weight: 900;
+}
+
 .historical-baseline-head {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 1rem;
   align-items: start;
-  margin-bottom: 1rem;
+  margin-bottom: 0;
 }
 
 .historical-baseline-head h3 {
@@ -2985,11 +2994,44 @@ h4 {
   margin: 0.55rem 0 0;
 }
 
+.archive-summary-status {
+  align-self: start;
+  border: 1px solid rgba(152, 111, 11, 0.26);
+  background: #fffdf4;
+  color: var(--gold);
+  font-size: 0.74rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  padding: 0.46rem 0.62rem;
+  text-transform: uppercase;
+}
+
 .historical-baseline-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
   gap: 0.7rem;
+  margin: 1rem 0;
+}
+
+.smoke-archive {
+  border: 1px solid var(--line);
+  background: var(--panel);
+  box-shadow: var(--shadow);
+  margin: 0 0 1rem;
+  padding: 1rem;
+}
+
+.smoke-archive .subsection-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+  margin: 0;
+}
+
+.smoke-archive .leaderboard-shell {
+  margin-top: 1rem;
 }
 
 .fresh-smoke-card {

@@ -283,11 +283,16 @@ describe('site copy and labels', () => {
     const taskIndex = leaderboardSection.indexOf('evidence-task-card');
     const answerIndex = leaderboardSection.indexOf('evidence-answer');
     const currentRunIndex = leaderboardSection.indexOf('current-run-card');
+    const worklogIndex = leaderboardSection.indexOf('worklog-board');
+    const historicalArchiveIndex = leaderboardSection.indexOf('historical-baseline-board evidence-archive');
+    const smokeArchiveIndex = leaderboardSection.indexOf('evidence-archive smoke-archive');
 
     expect(leaderboardSection).toContain('What is useful now, and what still needs public work?');
     expect(taskIndex).toBeGreaterThan(-1);
     expect(answerIndex).toBeGreaterThan(taskIndex);
     expect(currentRunIndex).toBeGreaterThan(taskIndex);
+    expect(historicalArchiveIndex).toBeGreaterThan(worklogIndex);
+    expect(smokeArchiveIndex).toBeGreaterThan(historicalArchiveIndex);
     expect(leaderboardSection).toContain('Make this citeable');
     expect(leaderboardSection).toContain('Copy public task');
     expect(leaderboardSection).toContain('id="copy-current-row-task"');
@@ -313,6 +318,14 @@ describe('site copy and labels', () => {
     expect(leaderboardSection).not.toContain('Public evidence queue');
     expect(leaderboardSection).not.toContain('What we should run next');
     expect(leaderboardSection).not.toContain('id="evidence-queue"');
+    expect(leaderboardSection).toContain('<details class="historical-baseline-board evidence-archive"');
+    expect(leaderboardSection).toContain('Show launch rows, not the current leaderboard');
+    expect(leaderboardSection).toContain('Open historical table');
+    expect(leaderboardSection).toContain('Closed by default because these are June 2026 generic-scribe baselines.');
+    expect(leaderboardSection).toContain('<details class="evidence-archive smoke-archive"');
+    expect(leaderboardSection).toContain('Show smoke rows, never ranked evidence');
+    expect(leaderboardSection).toContain('Open smoke table');
+    expect(leaderboardSection).toContain('Closed by default because these n=3 synthetic rows only prove the scoring');
     expect(leaderboardSection).toContain('Claim boundary');
     expect(leaderboardSection).toContain("Historical rows can support a failure-gradient claim only; they cannot crown today's best AI scribe.");
     expect(leaderboardSection).toContain('Smoke rows prove plumbing on tiny synthetic sets; they are never ranked evidence.');
