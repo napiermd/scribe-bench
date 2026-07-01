@@ -125,6 +125,50 @@ const TREATMENT_GROUPS = [
   },
 ];
 
+const DIAGNOSIS_GROUPS = [
+  {
+    label: "pneumonia diagnosis",
+    note: diagnosisPatterns(["pneumonia", "PNA\\b"]),
+    support: [/\bpneumonia\b/i, /\bPNA\b/],
+    contradiction: [
+      /\bno\s+(?:evidence\s+of\s+)?pneumonia\b/i,
+      /\bwithout\s+pneumonia\b/i,
+      /\bpneumonia\s+(?:was\s+)?(?:not\s+)?(?:diagnosed|suspected|seen)\b/i,
+    ],
+  },
+  {
+    label: "sepsis diagnosis",
+    note: diagnosisPatterns(["sepsis", "septic"]),
+    support: [/\bsepsis\b/i, /\bseptic\b/i],
+    contradiction: [
+      /\bno\s+(?:evidence\s+of\s+)?sepsis\b/i,
+      /\bnot\s+septic\b/i,
+      /\bwithout\s+sepsis\b/i,
+      /\bno\s+systemic\s+infection\b/i,
+    ],
+  },
+  {
+    label: "fracture diagnosis",
+    note: diagnosisPatterns(["fracture", "fractured", "broken"]),
+    support: [/\bfracture\b/i, /\bfractured\b/i, /\bbroken\b/i],
+    contradiction: [
+      /\bno\s+(?:acute\s+)?fracture\b/i,
+      /\bnegative\s+(?:x[- ]?ray|radiograph)\b/i,
+      /\bwithout\s+(?:acute\s+)?fracture\b/i,
+    ],
+  },
+  {
+    label: "stroke diagnosis",
+    note: diagnosisPatterns(["stroke", "CVA\\b", "TIA\\b", "transient\\s+ischemic\\s+attack"]),
+    support: [/\bstroke\b/i, /\bCVA\b/, /\bTIA\b/, /\btransient\s+ischemic\s+attack\b/i],
+    contradiction: [
+      /\bno\s+(?:evidence\s+of\s+)?(?:stroke|CVA|TIA)\b/i,
+      /\bwithout\s+(?:stroke|CVA|TIA)\b/i,
+      /\bneuro(?:logic|logical)?\s+exam\s+(?:was\s+)?(?:normal|nonfocal)\b/i,
+    ],
+  },
+];
+
 const SIDE_PART_RE = /\b(left|right)\s+(hip|knee|ankle|foot|wrist|hand|shoulder|elbow|arm|leg|eye|ear)\b/gi;
 
 const ALLERGY_TERMS = [
@@ -217,7 +261,7 @@ function splitSentences(text) {
 
 function hasLocalNegation(sentence, claimIndex = sentence.length) {
   const beforeClaim = sentence.slice(Math.max(0, claimIndex - 64), claimIndex);
-  return /\b(no|not|denies|denied|without|negative\s+for|free\s+of)\b/i.test(beforeClaim);
+  return /\b(no|not|denies|denied|without|negative\s+for|free\s+of|rule\s+out|r\/o|low\s+suspicion\s+for|unlikely)\b/i.test(beforeClaim);
 }
 
 export function detectLocalLeaks(note) {
@@ -324,6 +368,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of DIAGNOSIS_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching support phrase found in the source text.",
+      });
+    }
+  }
+
   const structuredEvidence = detectStructuredMismatchEvidence(sourceText, noteText);
   dangerous.push(...structuredEvidence.map((item) => item.finding));
   dangerousEvidence.push(...structuredEvidence);
@@ -345,10 +413,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, treatments, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, treatment action, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -381,6 +449,15 @@ function treatmentPatterns(terms) {
   return [
     new RegExp(`\\b(?:start(?:ed)?|give|gave|given|administer(?:ed)?|prescrib(?:ed|e)|treated\\s+with|placed\\s+(?:him|her|them|the\\s+patient)\\s+on)\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b${termGroup}\\b[^.!?;]{0,70}\\b(?:start(?:ed)?|given|administer(?:ed)?|prescrib(?:ed|e))\\b`, "i"),
+  ];
+}
+
+function diagnosisPatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  return [
+    new RegExp(`\\b(?:assessment|impression)\\s*:\\s*(?![^.!?;]{0,60}\\b(?:rule\\s+out|r\\/o|low\\s+suspicion\\s+for|unlikely|no)\\b)[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b(?:diagnos(?:is|ed\\s+with)?|dx|has|with|consistent\\s+with|treated\\s+for)\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,60}\\b(?:diagnos(?:is|ed)?|confirmed|present)\\b`, "i"),
   ];
 }
 

@@ -88,6 +88,42 @@ describe('browser local receipt', () => {
     expect(negated.fabrication.dangerous).toEqual([]);
   });
 
+  it('catches unsupported diagnosis escalations without a model', () => {
+    const source = [
+      'Clinic visit for cough and congestion.',
+      'Patient is afebrile, oxygen saturation 99%, lungs clear.',
+      'Clinician assessed likely viral upper respiratory infection.',
+      'No pneumonia diagnosed. No sepsis or systemic infection.',
+    ].join(' ');
+    const note = 'Assessment: community-acquired pneumonia with early sepsis.';
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/pneumonia diagnosis/i);
+    expect(dangerous).toMatch(/sepsis diagnosis/i);
+    expect(result.evidence.dangerous.some((item) => /pneumonia diagnosis/i.test(item.finding) && /pneumonia/i.test(item.noteExcerpt) && /No pneumonia diagnosed/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /sepsis diagnosis/i.test(item.finding) && /sepsis/i.test(item.noteExcerpt) && /No sepsis/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('does not flag supported, negated, or rule-out diagnosis language', () => {
+    const supported = runLocalReceipt(
+      'Chest x-ray showed right lower lobe pneumonia.',
+      'Assessment: community-acquired pneumonia.'
+    );
+    const negated = runLocalReceipt(
+      'Viral URI. No pneumonia diagnosed.',
+      'Assessment: viral URI. No pneumonia.'
+    );
+    const ruleOut = runLocalReceipt(
+      'Cough with clear lungs. Chest x-ray pending.',
+      'Assessment: rule out pneumonia.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+    expect(ruleOut.fabrication.dangerous).toEqual([]);
+  });
+
   it('does not flag matching demographics, laterality, and allergy facts', () => {
     const source = '62-year-old woman with right knee pain. No known drug allergies.';
     const note = '62-year-old woman with right knee pain. Allergies: NKDA.';
