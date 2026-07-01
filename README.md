@@ -6,6 +6,8 @@
 
 Use the public site first: paste a source encounter and an AI-written note to check whether the note invented care, copy a reviewer-ready review packet, or turn a broad vendor/model claim into the evidence it would actually need. The repo is the reproducible machinery behind that public surface: browser checker, optional model-backed Lab APIs, TypeScript evaluator, public cases, and scores-only evidence ledger.
 
+The shortest version: **people holding evidence use ScribeBench to catch care the AI note claims but the source does not support.** Clinical QA reviewers, buyers, and builders leave with a review packet first; bigger claims have to earn aggregate rows.
+
 ScribeBench measures whether an AI-generated clinical note is **faithful to the source encounter** — it rewards capturing what the clinician said and did, and penalizes **fabrication**: invented findings, escalated diagnoses, workups that never happened.
 
 The system loop is simple: **one note becomes a review packet; one claim becomes an evidence ask; many declared notes can become a scores-only public row.** The repo contains the walk-up website, browser receipt, model-backed Lab APIs, TypeScript evaluator, public cases, worklog, and evidence ledger needed to make that loop reproducible.

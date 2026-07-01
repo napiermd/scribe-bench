@@ -853,7 +853,6 @@ h4 {
 
 .quick-check-head,
 .quick-check-help,
-.quick-origin-note,
 .quick-proof-label,
 .quick-capability-grid,
 .quick-output-contract,
@@ -891,17 +890,46 @@ h4 {
   font-size: 0.92rem;
 }
 
-.quick-origin-note {
-  border-left: 3px solid var(--accent);
-  color: var(--muted);
-  font-size: 0.92rem;
-  line-height: 1.42;
-  margin: 0.85rem 0 1rem;
-  padding-left: 0.82rem;
+.quick-purpose-strip {
+  grid-column: 1;
+  display: grid;
+  grid-template-columns: 1fr;
+  border: 1px solid rgba(15, 118, 110, 0.18);
+  background: rgba(255, 255, 255, 0.74);
 }
 
-.quick-origin-note strong {
+.quick-purpose-strip div {
+  min-width: 0;
+  border-bottom: 1px solid rgba(15, 118, 110, 0.16);
+  padding: 0.7rem 0.78rem;
+}
+
+.quick-purpose-strip div:last-child {
+  border-bottom: 0;
+}
+
+.quick-purpose-strip span {
+  display: block;
   color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.quick-purpose-strip strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.2;
+  margin-top: 0.28rem;
+}
+
+.quick-purpose-strip p {
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.32;
+  margin: 0.3rem 0 0;
 }
 
 .quick-start-strip {
@@ -1247,7 +1275,7 @@ h4 {
 .quick-check-form {
   display: grid;
   grid-column: 2;
-  grid-row: 4 / span 2;
+  grid-row: 3 / span 4;
   grid-template-columns: 1fr;
   gap: 0.76rem;
   align-self: start;
@@ -5138,6 +5166,7 @@ h4 {
   .quick-capability-grid,
   .current-model-list,
   .quick-output-contract,
+  .quick-purpose-strip,
   .start-router-panel,
   .start-route-steps,
   .thesis-strip,
@@ -5181,7 +5210,6 @@ h4 {
   .intro-panel > .hero-proof-trail,
   .quick-check-head,
   .quick-check-help,
-  .quick-origin-note,
   .quick-start-strip,
   .quick-result,
   .quick-check-form,
@@ -5224,6 +5252,15 @@ h4 {
   }
 
   .quick-result-snapshot div:last-child {
+    border-bottom: 0;
+  }
+
+  .quick-purpose-strip div {
+    border-right: 0;
+    border-bottom: 1px solid rgba(15, 118, 110, 0.16);
+  }
+
+  .quick-purpose-strip div:last-child {
     border-bottom: 0;
   }
 
