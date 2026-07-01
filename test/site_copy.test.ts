@@ -105,16 +105,30 @@ describe('site copy and labels', () => {
   it('answers the cold visitor question before repo machinery', () => {
     const guideSection = html.match(/<section class="wrap section public-guide-section" id="next-steps">[\s\S]*?<\/section>/)?.[0] || '';
     const answerStripIndex = guideSection.indexOf('guide-answer-strip');
+    const artifactKitIndex = guideSection.indexOf('artifact-kit');
     const guideGridIndex = guideSection.indexOf('guide-grid');
     const repoSystemIndex = guideSection.indexOf('guide-system');
 
     expect(answerStripIndex).toBeGreaterThan(-1);
     expect(answerStripIndex).toBeLessThan(guideGridIndex);
     expect(answerStripIndex).toBeLessThan(repoSystemIndex);
+    expect(artifactKitIndex).toBeGreaterThan(answerStripIndex);
+    expect(artifactKitIndex).toBeLessThan(guideGridIndex);
     expect(guideSection).toContain('For whom');
     expect(guideSection).toContain('What to paste');
     expect(guideSection).toContain('What you get');
     expect(guideSection).toContain('What not to claim');
+    expect(guideSection).toContain('Public action kit');
+    expect(guideSection).toContain('People visit to leave with one shareable artifact.');
+    expect(guideSection).toContain('Review packet');
+    expect(guideSection).toContain('For one note that may have invented care.');
+    expect(guideSection).toContain('Claim ask');
+    expect(guideSection).toContain('For a vendor, model, or pilot claim.');
+    expect(guideSection).toContain('Blocker receipt');
+    expect(guideSection).toContain('For build-in-public progress.');
+    expect(guideSection).toContain('Aggregate row');
+    expect(guideSection).toContain('For claims about a system, not one note.');
+    expect(guideSection).toContain('Copy what is scored, what is blocked, and the exact next run task.');
     expect(guideSection).toContain('Paste a source encounter and generated note');
     expect(guideSection).toContain('Someone holding evidence.');
     expect(guideSection).toContain('Source plus generated note.');

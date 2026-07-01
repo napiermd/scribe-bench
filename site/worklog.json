@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The guide now names the artifacts visitors can leave with",
+      "why": "The public site explained the one-note and aggregate-row loop, but a visitor still had to connect the checker, claim tool, blocker receipt, and row builder into concrete public outputs.",
+      "proof": "The Public guide now includes a Public action kit with four shareable artifacts: review packet, claim ask, blocker receipt, and aggregate row. Each artifact names what to bring, what to copy, and where that output belongs.",
+      "next": "Keep every public path oriented around a useful artifact someone can paste into review, buyer diligence, build-in-public progress, or evidence submission.",
+      "links": [
+        { "label": "Public action kit", "href": "#public-action-kit" },
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Current blocker", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The Lab now starts with second-opinion boundaries",
       "why": "The Lab had useful no-key and live-model actions, but the controls could still read like a generic model playground instead of a bounded review workflow for one source-note pair.",
       "proof": "The Lab now opens with a Use when, Do first, Escalate if, and Do not claim contract. Button labels separate no-key receipt, live judge review, and demo candidate generation, while provider settings are marked optional and live models are framed as review aids rather than leaderboard rows.",
