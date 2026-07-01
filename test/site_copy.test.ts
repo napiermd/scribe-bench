@@ -36,4 +36,18 @@ describe('site copy and labels', () => {
     expect(app).toContain('Use for note review now; add aggregate rows only when comparing systems.');
     expect(app).toContain('URL: https://scribe-bench.vercel.app/#lab-workbench');
   });
+
+  it('makes Lab copied packets reviewer-ready instead of benchmark-first', () => {
+    expect(html).toContain('Copy review packet');
+    expect(html).toContain('Copy detailed review');
+    expect(html).toContain('What to do with this result');
+    expect(html).not.toContain('Copy evidence packet');
+    expect(html).not.toContain('Copy full QA summary');
+    expect(app).toContain('ScribeBench note review packet');
+    expect(app).toContain('ScribeBench detailed note review');
+    expect(app).toContain('Use now: ${packet.nextStep}');
+    expect(app).toContain('Boundary: one source-note pair, not a leaderboard row, system certification, or clinical clearance.');
+    expect(app).toContain('Note says: ${detail.noteExcerpt}');
+    expect(app).toContain('${label}: ${detail.sourceExcerpt}');
+  });
 });

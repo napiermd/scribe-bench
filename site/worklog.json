@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Lab copy now reads like a note-review packet",
+      "why": "The Lab result had become useful on the page, but the copied output still opened with scope, scores, rubric, and benchmark language. That made the public artifact feel like internal eval output instead of something a reviewer or buyer could paste into a decision thread.",
+      "proof": "The Lab buttons now copy a Review packet and Detailed review. The copied text starts with use-now, verdict, summary, boundary, and flagged source-note issues, including note and source excerpts, before method details such as judge, rubric, and scores.",
+      "next": "Keep making each copied artifact stand on its own: first what happened, then why it matters, then the method boundary.",
+      "links": [
+        { "label": "Lab workbench", "href": "#lab-workbench" },
+        { "label": "Review packet", "href": "#evidence-packet" },
+        { "label": "Check one note", "href": "#quick-check-form" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The Lab now opens on the review workbench, not model plumbing",
       "why": "After a visitor clicked Ask second opinion, the page still made them pass through current-model lists and workflow cards before the actual source-note workspace. That made the Lab feel like benchmark machinery instead of a usable next step for one note.",
       "proof": "The Lab section now puts the source/note/result workbench first, adds a stable Lab workbench anchor, and sends first-screen handoffs directly there. The Lab packet copy now starts with note-review use before mentioning aggregate system comparisons.",

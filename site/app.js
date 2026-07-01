@@ -2872,66 +2872,97 @@ function buildLabSummary(result) {
     localResult: Boolean(result.localResult),
     issueTypes: receiptIssueTypes(result),
   });
+  const packet = labEvidencePacket(result);
+  const methodDetails = [
+    result.demoResult ? "- Result type: seeded static demo verdict" : "",
+    result.localResult ? "- Result type: browser-only local receipt (no API call; conservative triage)" : "",
+    `- Case: ${packet.caseLabel}`,
+    `- Generator: ${packet.generator}`,
+    `- Judge: ${packet.judge}`,
+    result.provider ? `- Provider: ${result.provider}` : "",
+    result.rubric ? `- Rubric: ${result.rubric}` : "",
+    result.sourceChars ? `- Source length: ${result.sourceChars} chars` : "",
+    result.noteChars ? `- Note length: ${result.noteChars} chars` : "",
+    "- URL: https://scribe-bench.vercel.app/#lab-workbench",
+  ].filter(Boolean);
   const lines = [
-    "ScribeBench lab result",
-    result.demoResult ? "Result type: seeded static demo verdict" : "",
-    result.localResult ? "Result type: browser-only local receipt (no API call; conservative triage)" : "",
+    "ScribeBench detailed note review",
+    `Date: ${localDateStamp()}`,
+    `Use now: ${packet.nextStep}`,
     `Verdict: ${verdict.title}`,
+    `Summary: ${verdict.copy}`,
+    `Action: ${verdict.action}`,
+    "Boundary: one source-note pair, not a leaderboard row, system certification, or clinical clearance.",
+    "",
+    "Flagged source-note issues:",
+    ...labFlaggedIssueLines(result),
+    "",
+    "Scores for context:",
     `Narrative score: ${result.normalized ?? "--"}/100`,
     `Input fidelity: ${fidelityDisplay}/5`,
     `Flagged source-note issues: ${dangerousCount}`,
     `Leaks: ${leakCount}`,
-    result.generatedModel ? `Generator: ${result.generatedModel}` : "",
-    `Judge: ${result.localResult ? "browser-only local receipt" : result.model || "unknown"}`,
-    result.provider ? `Provider: ${result.provider}` : "",
-    result.rubric ? `Rubric: ${result.rubric}` : "",
-    result.sourceChars ? `Source length: ${result.sourceChars} chars` : "",
-    result.noteChars ? `Note length: ${result.noteChars} chars` : "",
-    "",
-    verdict.copy,
-    verdict.action,
-    "",
-    "Flagged source-note issues:",
-    ...(dangerous.length ? dangerous.map((item) => `- ${item}`) : ["- None flagged."]),
-    "",
-    "Standard / accepted items:",
-    ...(standard.length ? standard.map((item) => `- ${item}`) : ["- None listed."]),
     "",
     "Leak scan:",
     ...(leaks.length ? leaks.map((item) => `- ${item}`) : ["- No deterministic leaks."]),
     "",
+    "Standard / accepted items:",
+    ...(standard.length ? standard.map((item) => `- ${item}`) : ["- None listed."]),
+    "",
     "Reasoning:",
     result.reasoning || "No reasoning returned.",
+    "",
+    "Method details:",
+    ...methodDetails,
   ];
   return lines.filter((line, index, arr) => line || arr[index - 1]).join("\n").trim();
 }
 
+function labFlaggedIssueLines(result, emptyText = "- None flagged.") {
+  const findings = cleanStringArray(result?.fabrication?.dangerous);
+  if (!findings.length) return [emptyText];
+
+  const evidence = Array.isArray(result?.evidence?.dangerous) ? result.evidence.dangerous : [];
+  return findings.flatMap((finding) => {
+    const detail = evidence.find((entry) => entry?.finding === finding);
+    const lines = [`- ${finding}`];
+    if (detail?.noteExcerpt) lines.push(`  Note says: ${detail.noteExcerpt}`);
+    if (detail?.sourceExcerpt) {
+      const label = detail.reason === "source contradiction" ? "Source says" : "Source check";
+      lines.push(`  ${label}: ${detail.sourceExcerpt}`);
+    }
+    return lines;
+  });
+}
+
 function buildEvidencePacketText(result) {
   const packet = labEvidencePacket(result);
+  const methodDetails = [
+    `- Scope: ${packet.scope}`,
+    `- Case: ${packet.caseLabel}`,
+    `- Generator: ${packet.generator}`,
+    `- Judge: ${packet.judge}`,
+    `- Narrative score: ${packet.scoreDisplay}`,
+    `- Input fidelity: ${packet.fidelityDisplay}`,
+    `- Leaks: ${packet.leaks.length}`,
+    result.rubric ? `- Rubric: ${result.rubric}` : "",
+    result.sourceChars ? `- Source length: ${result.sourceChars} chars` : "",
+    result.noteChars ? `- Note length: ${result.noteChars} chars` : "",
+    "- URL: https://scribe-bench.vercel.app/#lab-workbench",
+  ].filter(Boolean);
   const lines = [
-    "ScribeBench evidence packet",
-    `Scope: ${packet.scope} (not a leaderboard row)`,
-    `Case: ${packet.caseLabel}`,
+    "ScribeBench note review packet",
+    `Date: ${localDateStamp()}`,
+    `Use now: ${packet.nextStep}`,
     `Verdict: ${packet.verdict.title}`,
-    `Narrative score: ${packet.scoreDisplay}`,
-    `Input fidelity: ${packet.fidelityDisplay}`,
-    `Flagged source-note issues: ${packet.dangerous.length}`,
-    `Leaks: ${packet.leaks.length}`,
-    `Generator: ${packet.generator}`,
-    `Judge: ${packet.judge}`,
-    result.rubric ? `Rubric: ${result.rubric}` : "",
-    result.sourceChars ? `Source length: ${result.sourceChars} chars` : "",
-    result.noteChars ? `Note length: ${result.noteChars} chars` : "",
-    "URL: https://scribe-bench.vercel.app/#lab-workbench",
-    "",
-    "Public finding:",
-    packet.finding,
-    "",
-    "What this supports:",
-    packet.nextStep,
+    `Summary: ${packet.finding}`,
+    "Boundary: one source-note pair, not a leaderboard row, system certification, or clinical clearance.",
     "",
     "Flagged source-note issues:",
-    ...(packet.dangerous.length ? packet.dangerous.map((item) => `- ${item}`) : ["- None flagged."]),
+    ...labFlaggedIssueLines(result),
+    "",
+    "Method details:",
+    ...methodDetails,
   ];
   return lines.filter((line, index, arr) => line || arr[index - 1]).join("\n").trim();
 }
