@@ -1492,10 +1492,27 @@
               <p id="public-work-queue-why">It converts the site from a useful one-note QA tool into current model evidence.</p>
             </article>
           </div>
+          <div class="public-work-queue-task" aria-label="Copyable public contribution task">
+            <div>
+              <strong>Copyable public task</strong>
+              <p id="public-work-queue-task">
+                Need someone with a non-capped provider key to resume the current PriMock57 run, score at least 30 cases, and publish aggregate-only results.
+              </p>
+            </div>
+            <button class="button secondary compact-button" id="copy-public-work-task" type="button">Copy public task</button>
+          </div>
           <div class="public-work-queue-actions" aria-label="Act on the current public queue item">
             <a class="button primary compact-button" href="#current-run">Open blocker receipt</a>
             <a class="button secondary compact-button" href="#run-builder" data-run-jump-preset="current-powered">Build the row command</a>
           </div>
+          <p id="public-work-queue-copy-status" role="status" aria-live="polite"></p>
+          <textarea
+            class="copy-fallback"
+            id="public-work-queue-copy-fallback"
+            readonly
+            hidden
+            aria-label="Generated ScribeBench public contribution task"
+          ></textarea>
         </section>
 
         <div class="contribution-intake" aria-labelledby="contribution-intake-title">

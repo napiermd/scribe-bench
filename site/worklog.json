@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The public queue now gives contributors a copyable task",
+      "why": "The Contribute section showed the current blocker and row builder, but a visitor still had to write their own public ask before recruiting help or posting a build-in-public update.",
+      "proof": "The Public work queue now includes a copyable task generated from the live current-run status: scored/generated/blocked counts, the ask, blocker, done condition, no-raw-notes boundary, and the current-run reference.",
+      "next": "Use the copied public task to recruit a non-capped provider resume run, then replace the blocker receipt with a reviewed aggregate current row.",
+      "links": [
+        { "label": "Public work queue", "href": "#run" },
+        { "label": "Current blocker receipt", "href": "#current-run" },
+        { "label": "Build row command", "href": "#run-builder" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Claim evidence cards now land in the claim path",
       "why": "The claim checker could create a useful public evidence card, but the handoff landed beside the default source-plus-note router and kept note-checking as the primary card action. That made the output feel generic after a visitor had just challenged a public claim.",
       "proof": "When a claim is turned into a public evidence card, the Start router now switches to the public-claim route, the card's primary action becomes copying the claim card, and the secondary actions point back to editing the claim or following the evidence path that would close it.",

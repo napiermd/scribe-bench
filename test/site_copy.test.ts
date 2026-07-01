@@ -98,4 +98,19 @@ describe('site copy and labels', () => {
     expect(app).toContain('copy.textContent = isClaimCard ? "Copy claim card" : "Copy evidence card";');
     expect(app).toContain('ownNote.textContent = isClaimCard ? "Check source-note pair" : "Check your own note";');
   });
+
+  it('makes the public work queue copyable as a contribution task', () => {
+    const runSection = html.match(/<section class="wrap section run-panel" id="run">[\s\S]*?<\/section>/)?.[0] || '';
+
+    expect(runSection).toContain('id="public-work-queue-task"');
+    expect(runSection).toContain('Copyable public task');
+    expect(runSection).toContain('id="copy-public-work-task"');
+    expect(runSection).toContain('Generated ScribeBench public contribution task');
+    expect(app).toContain('let currentPublicWorkTask = "";');
+    expect(app).toContain('function buildPublicWorkTask(run, counts)');
+    expect(app).toContain('ScribeBench public contribution task');
+    expect(app).toContain('Boundary: no raw closed-model notes in the public repo; this is not a current ranking until the row is complete and reviewed.');
+    expect(app).toContain('bindPublicWorkTaskCopy();');
+    expect(app).toContain('setPublicWorkQueueCopyStatus("Public task copied.");');
+  });
 });

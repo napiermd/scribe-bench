@@ -34,6 +34,7 @@ const demoFindings = {
 
 const RANKED_DATASET = "primock57";
 const MIN_RANKED_CASES = 30;
+let currentPublicWorkTask = "";
 
 const providerConfigs = {
   openrouter: {
@@ -713,6 +714,23 @@ function renderCurrentRun(run) {
       ? "This is where the board can move from blocker receipt to current comparison evidence."
       : "It turns the site from useful one-note QA plus historical baselines into current comparison evidence."
   );
+  currentPublicWorkTask = buildPublicWorkTask(run, {
+    attempted,
+    generated,
+    minimumPublishable,
+    publishableRemaining,
+    scored,
+    target,
+    errored,
+  });
+  setText("public-work-queue-task", publicWorkTaskSummary(run, {
+    minimumPublishable,
+    publishableRemaining,
+    scored,
+    target,
+  }));
+  setPublicWorkQueueCopyStatus("");
+  setPublicWorkQueueCopyFallback("");
   setElementHtml(
     "decision-current-action",
     scored >= minimumPublishable
@@ -731,6 +749,35 @@ function renderCurrentRun(run) {
       .map((link) => `<a href="${escapeHtml(link.href || "#")}"${externalLinkAttrs(link.href)}>${escapeHtml(link.label || "Open")}</a>`)
       .join("");
   }
+}
+
+function publicWorkTaskSummary(run, counts) {
+  const system = run?.system || "the current public API run";
+  if (counts.scored >= counts.minimumPublishable) {
+    return `${system} has reached ${counts.scored}/${counts.target} PriMock57 scored cases. The next public task is method review: confidence interval, exclusions, judge, repeats, tuning notes, and aggregate-only publication.`;
+  }
+  return `Need someone with a non-capped provider key or credits to resume ${system}; ${counts.publishableRemaining} more scored PriMock57 cases are needed before the page can support a current model row.`;
+}
+
+function buildPublicWorkTask(run, counts) {
+  const system = run?.system || "current-public-api-run";
+  const blocker = run?.blocker || "The current run has not reached the publishable case threshold.";
+  const next = run?.next || "Resume the run, then publish aggregate scores only after the evidence threshold is met.";
+  const done = `Done when: aggregate-only row with n>=${counts.minimumPublishable}, dataset, system/date, judge, repeats, failure rates, confidence interval, exclusions, and tuning disclosure.`;
+  const status = `${system}: ${counts.scored}/${counts.target} PriMock57 cases scored, ${counts.generated}/${counts.attempted} generated, ${counts.errored}/${counts.attempted} blocked or errored.`;
+  const ask = counts.scored >= counts.minimumPublishable
+    ? "Ask: review the method and aggregate row before anyone cites this as current comparison evidence."
+    : `Ask: resume the cached run with a non-capped provider key or credits until at least ${counts.minimumPublishable} PriMock57 cases are scored.`;
+  return [
+    "ScribeBench public contribution task",
+    status,
+    ask,
+    `Blocker: ${blocker}`,
+    `Next: ${next}`,
+    done,
+    "Boundary: no raw closed-model notes in the public repo; this is not a current ranking until the row is complete and reviewed.",
+    "Reference: https://scribe-bench.vercel.app/#current-run",
+  ].join("\n");
 }
 
 function partialAggregateText(partial) {
@@ -776,6 +823,17 @@ function renderCurrentRunError() {
   setText("public-work-queue-blocker", "Current-run status is unavailable.");
   setText("public-work-queue-done", "Publish aggregate scores only after at least 30 PriMock57 cases are scored.");
   setText("public-work-queue-why", "Without this row, the page remains useful for one-note QA but not for current model ranking claims.");
+  currentPublicWorkTask = [
+    "ScribeBench public contribution task",
+    "Status: current-run status did not load from /assets/current-run.json.",
+    "Ask: create or resume a powered run with a declared dataset, judge, repeats, date, and exclusions.",
+    "Done when: aggregate-only row with n>=30, confidence interval, failure rates, and method disclosure.",
+    "Boundary: no raw closed-model notes in the public repo.",
+    "Reference: https://scribe-bench.vercel.app/#run",
+  ].join("\n");
+  setText("public-work-queue-task", "Current-run status failed to load. Use the row builder to create or resume a fresh powered run with aggregate-only publication.");
+  setPublicWorkQueueCopyStatus("");
+  setPublicWorkQueueCopyFallback("");
   setElementHtml("decision-current-action", `<a href="#run">Add a fresh powered row</a>`);
   const commandCard = document.getElementById("current-run-command-card");
   if (commandCard) commandCard.hidden = true;
@@ -792,6 +850,35 @@ function currentRunStatusClass(status) {
 
 function bindCurrentRunCommand() {
   document.getElementById("copy-current-run-command")?.addEventListener("click", copyCurrentRunCommand);
+}
+
+function bindPublicWorkTaskCopy() {
+  document.getElementById("copy-public-work-task")?.addEventListener("click", copyPublicWorkTask);
+}
+
+async function copyPublicWorkTask() {
+  const text = currentPublicWorkTask || document.getElementById("public-work-queue-task")?.textContent?.trim() || "";
+  if (!text) return;
+  try {
+    await copyText(text);
+    setPublicWorkQueueCopyFallback("");
+    setPublicWorkQueueCopyStatus("Public task copied.");
+  } catch (_) {
+    setPublicWorkQueueCopyFallback(text);
+    setPublicWorkQueueCopyStatus("Clipboard unavailable. Task shown below.");
+  }
+}
+
+function setPublicWorkQueueCopyStatus(message) {
+  const status = document.getElementById("public-work-queue-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setPublicWorkQueueCopyFallback(text) {
+  const fallback = document.getElementById("public-work-queue-copy-fallback");
+  if (!fallback) return;
+  fallback.value = text;
+  fallback.hidden = !text;
 }
 
 async function copyCurrentRunCommand() {
@@ -3562,6 +3649,7 @@ async function boot() {
   bindQuickCheck();
   bindPublicActionKit();
   bindCurrentRunCommand();
+  bindPublicWorkTaskCopy();
   bindClaimChecker();
   bindChallengePlanner();
   bindLab();
