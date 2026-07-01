@@ -207,20 +207,20 @@ const startRoutes = {
     kicker: "Fastest useful path",
     title: "Paste source plus note. Check for invented care.",
     copy:
-      "Start with one encounter and one generated note. ScribeBench checks whether the note stayed faithful, invented unsupported care, leaked template junk, and what claim that result can actually support.",
+      "Start with one encounter and one generated note. The browser check flags unsupported care, template leaks, and what this one note can actually support.",
     input: "Source encounter and generated note.",
-    action: "Use the first-screen browser check instantly, then open the Lab only if you need model-backed scoring.",
+    action: "Run the no-key browser check; open the Lab only if the receipt needs a second read.",
     output: "A copyable QA receipt and a clear next proof step.",
-    primary: { label: "Check this note", href: "#quick-check" },
+    primary: { label: "Check your note", href: "#quick-check-form" },
     secondary: { label: "See the seeded catch", href: "#demo" },
   },
   buyer: {
     kicker: "For buyers and clinical leaders",
     title: "Turn vendor polish into an evidence ask.",
     copy:
-      "Use ScribeBench when a demo note looks impressive or a vendor says the scribe is hallucination-free. The site separates a one-note catch from a system-level claim.",
+      "Use ScribeBench when a demo note looks impressive or a vendor says the scribe is hallucination-free. It separates one-note catches from system-level claims.",
     input: "A demo note, vendor claim, or internal pilot example.",
-    action: "Use the claim checker, inspect the seeded failure, then ask for aggregate PriMock57 or real-workflow scores.",
+    action: "Use the claim checker, then ask for aggregate PriMock57 or real-workflow scores.",
     output: "A concrete public ask: dataset, n, judge, repeats, dangerous-fabrication rate, leak rate, and disclosure.",
     primary: { label: "Check a claim", href: "#claim-check" },
     secondary: { label: "Read evidence gaps", href: "#leaderboard" },
@@ -229,9 +229,9 @@ const startRoutes = {
     kicker: "For candidate notes",
     title: "Score the notes before turning them into a claim.",
     copy:
-      "Use the Lab as a fast triage loop, then graduate any notes worth discussing to a powered PriMock57 or real-workflow run. Smoke checks are useful, but they are not a crown.",
+      "Use the Lab as a triage loop, then graduate useful candidates to a powered PriMock57 or real-workflow run. Smoke checks are not a crown.",
     input: "Candidate notes from a model, prompt, or scribe workflow.",
-    action: "Run the seeded SYN-003 smoke path, paste your own note, then score a full candidate file when the smoke path survives.",
+    action: "Run the seeded smoke path, paste your own note, then score a full candidate file when the smoke path survives.",
     output: "A failure signal, judge summary, and a reproducible path to an aggregate benchmark row.",
     primary: { label: "Run current smoke", href: "#lab" },
     secondary: { label: "Add a row", href: "#run" },
@@ -240,7 +240,7 @@ const startRoutes = {
     kicker: "For current evidence gaps",
     title: "Do not treat stale rows as today's answer.",
     copy:
-      "The old rows are historical baselines. The useful public work is either adding current frontier, open/free, real-workflow, and second-judge rows, or making the blocker visible.",
+      "The old rows are historical baselines. Useful public work means adding current rows or making the blocker visible.",
     input: "A stale ranking claim, partial run, provider cap, or missing current system row.",
     action: "Inspect the blocker, copy the resume command, or use the run builder to create the row people are asking for.",
     output: "A visible blocker receipt or a public aggregate row with method details.",
@@ -1514,11 +1514,7 @@ function bindStartRouter() {
   document.getElementById("start-route-primary")?.addEventListener("click", (event) => {
     const activeRoute = buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute;
     if (activeRoute === "note") {
-      event.preventDefault();
-      const quickCheck = document.getElementById("quick-check");
-      if (quickCheck) scrollToAnchorTarget(quickCheck, { behavior: "smooth" });
-      document.getElementById("quick-source")?.focus({ preventScroll: true });
-      setQuickStatus("Paste your source and generated note, or keep the seeded failure and check it again.");
+      startOwnQuickCheck(event);
     }
   });
   selectStartRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");

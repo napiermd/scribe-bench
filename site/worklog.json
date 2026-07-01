@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now starts with visitor routes",
+      "why": "The opening rail still made visitors read why ScribeBench exists before it answered what they could do with the site. The useful path chooser was buried below the seeded receipt and felt like another section instead of the front door.",
+      "proof": "Moved the visitor route chooser next to the headline, removed the old plain-English explanation blocks from the first rail, and changed the primary note route to clear the demo and jump straight to the source-note form. The checker now labels the seeded receipt as the loaded state instead of repeating the project rationale.",
+      "next": "Keep the first viewport focused on action: note receipt, claim ask, candidate-note scoring, or current-row blocker.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Public guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The current blocker now reads like a receipt",
       "why": "The current-run section still mixed the public blocker with runner diagnostics: generated counts, last score, partial aggregate, blocker text, next text, links, and the resume command all competed for attention.",
       "proof": "Collapsed the visible current-run middle into a blocker receipt, three-field status strip, and short proof/blocker note. Removed the generated count, last-score line, and extra next panel from the public Evidence flow while keeping the resume command copyable.",
