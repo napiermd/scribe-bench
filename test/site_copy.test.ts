@@ -270,6 +270,7 @@ describe('site copy and labels', () => {
   it('makes the first copied note artifact reviewer-ready', () => {
     const quickSection = html.match(/<div class="quick-result" id="quick-result"[\s\S]*?<form class="quick-check-form"/)?.[0] || '';
     const evidenceIndex = quickSection.indexOf('class="quick-evidence-preview"');
+    const resultActionsIndex = quickSection.indexOf('class="quick-result-actions"');
     const snapshotIndex = quickSection.indexOf('class="quick-result-snapshot"');
     const useRouterIndex = quickSection.indexOf('class="quick-use-router"');
     const destinationIndex = quickSection.indexOf('class="quick-destination-panel"');
@@ -292,6 +293,10 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('id="quick-evidence-note"');
     expect(quickSection).toContain('id="quick-evidence-source"');
     expect(quickSection).toContain('id="quick-evidence-next"');
+    expect(quickSection).toContain('class="quick-result-actions"');
+    expect(quickSection).toContain('id="quick-copy-receipt"');
+    expect(quickSection).toContain('Ask second opinion');
+    expect(quickSection).toContain('Next steps');
     expect(quickSection).toContain('<details class="quick-result-details">');
     expect(quickSection).toContain('id="quick-result-details-summary"');
     expect(quickSection).toContain('<details class="quick-result-boundary-detail">');
@@ -371,6 +376,8 @@ describe('site copy and labels', () => {
     expect(app).not.toContain('renderPublicEvidenceCard(publicEvidenceCardFromQuickResult');
     expect(html).toContain('Challenge a claim or test the second-read path to create one concise public ask.');
     expect(evidenceIndex).toBeGreaterThan(-1);
+    expect(resultActionsIndex).toBeGreaterThan(-1);
+    expect(resultActionsIndex).toBeLessThan(evidenceIndex);
     expect(evidenceIndex).toBeLessThan(snapshotIndex);
   });
 

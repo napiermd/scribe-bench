@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The checked-note result now puts the leave-with action first",
+      "why": "After the first-evidence fix, the result proved the source-note gap but still buried the Copy QA finding action below multiple panels. A visitor could see the problem before seeing how to leave with the artifact.",
+      "proof": "The result action row now sits directly above the first source-note evidence card: Copy QA finding, Ask second opinion, and Next steps are visible before the evidence, compact metrics, and reviewer handoff.",
+      "next": "Keep each public path focused on the artifact a visitor can leave with: QA finding, evidence ask, or aggregate row task.",
+      "links": [
+        { "label": "QA finding", "href": "#quick-result" },
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Next steps", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The note checker result now opens with the usable evidence",
       "why": "A pasted source-note run did flag unsupported care, but the first result viewport still felt like an internal receipt and direct form links could be overwritten by the seeded demo after the JSON load finished.",
       "proof": "Direct #quick-check-form visits now stay in blank own-note mode, and each QA finding adds a first-evidence panel with the note claim, source check, and review step before the copy-ready finding text.",
