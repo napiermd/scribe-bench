@@ -14,6 +14,7 @@ The system loop is simple: **one note becomes a review packet; one claim becomes
 
 - **Check one AI-scribe note** in the browser and copy a reviewer-ready packet with excerpts, issue flags, boundaries, and the next proof step.
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
+- **Explain the repo** with a copyable repo receipt that says what ScribeBench is, what it is not, and which public artifacts it creates.
 - **Read the evidence ledger** without mistaking historical launch baselines or smoke checks for a current model ranking.
 - **Help finish the current PriMock57 row** by resuming the public API run or submitting a scores-only aggregate row from your own system.
 
@@ -32,7 +33,7 @@ It is **not** a patient app, billing tool, clinical-clearance engine, or current
 |-------------------|---------|--------------|
 | Check one AI-scribe note | [One-note checker](https://scribe-bench.vercel.app/#quick-check) | A no-key, copy-ready review packet with source-note issues, excerpts, evidence boundaries, and the next proof step. |
 | Challenge a vendor or model claim | [Claim checker](https://scribe-bench.vercel.app/#claim-check) | A plain-language evidence ask for claims like "hallucination-free," "safe note," or "best model." |
-| Share one public artifact | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a review packet, vendor evidence ask, blocker receipt, or current-row request. |
+| Share one public artifact | [Public action kit](https://scribe-bench.vercel.app/#public-action-kit) | Copyable language for a review packet, vendor evidence ask, blocker receipt, repo receipt, or current-row request. |
 | Understand what the rows prove | [Evidence ledger](https://scribe-bench.vercel.app/#leaderboard) | A freshness receipt separating one-note proof, historical rows, smoke tests, and current-model gaps. |
 | Review the current blocker | [Current run status](https://scribe-bench.vercel.app/#current-run) | The live 9/57 scored receipt, excluded-case boundary, and resume command for the public API row. |
 | Add a citable public row | [Contribute aggregate evidence](https://scribe-bench.vercel.app/#run) | The aggregate evidence package, candidate-note JSON shape, and benchmark command. |

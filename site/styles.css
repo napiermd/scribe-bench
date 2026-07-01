@@ -1824,7 +1824,7 @@ h4 {
   border-right: 0;
 }
 
-.artifact-list article:nth-last-child(-n + 2) {
+.artifact-list article:last-child {
   border-bottom: 0;
 }
 
@@ -1873,6 +1873,12 @@ h4 {
   font-size: 0.86rem;
   font-weight: 850;
   margin-top: 0.16rem;
+}
+
+.artifact-list .artifact-wide {
+  grid-column: 1 / -1;
+  border-right: 0;
+  border-bottom: 0;
 }
 
 .artifact-kit .public-action-status,
