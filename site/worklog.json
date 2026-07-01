@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "Mobile visitors now hit the checker before the essay",
+      "why": "The desktop first screen showed the working checker immediately, but mobile visitors had to scroll past the header, purpose cards, and route chooser before reaching the tool. That made the public site feel more like an explanation than something to use.",
+      "proof": "Reordered the mobile first screen so the note checker appears before the guide rail, and added a top action strip inside the checker with a direct paste-your-note action plus the seeded demo receipt.",
+      "next": "Keep mobile entry artifact-first: paste source plus note, inspect the seeded catch only when useful, then copy the packet or escalate to a second read.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Source-note form", "href": "#quick-check-form" },
+        { "label": "Public guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The Lab now hides model plumbing by default",
       "why": "The Lab said it was only for a second read, but the visible path still pushed seeded demos, candidate generation, provider readiness, and smoke testing. That made the site drift back toward model playground behavior.",
       "proof": "Changed the Lab header to send visitors back to the browser receipt first, left only receipt and live-judge review actions in the main workbench, and moved demo tools plus provider diagnostics into closed disclosure sections.",

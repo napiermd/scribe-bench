@@ -3,6 +3,7 @@ import { describe, expect, it } from 'vitest';
 
 const html = readFileSync(new URL('../site/index.html', import.meta.url), 'utf8');
 const app = readFileSync(new URL('../site/app.js', import.meta.url), 'utf8');
+const styles = readFileSync(new URL('../site/styles.css', import.meta.url), 'utf8');
 
 describe('site copy and labels', () => {
   it('keeps quick-check result ownership dynamic instead of demo-labeled', () => {
@@ -51,6 +52,14 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('Read the NapierMD proof trail');
     expect(summarySection).toContain('Seeded receipt loaded:');
     expect(summarySection).toContain('it catches made-up care');
+    expect(summarySection).toContain('quick-start-strip');
+    expect(summarySection).toContain('Fastest path');
+    expect(summarySection).toContain('Paste your own source and AI note.');
+    expect(summarySection).toContain('The seeded catch shows the artifact; your useful output starts with a real source-note pair.');
+    expect(summarySection).toContain('Paste your note');
+    expect(summarySection).toContain('Use demo receipt');
+    expect(styles).toContain('.quick-check-panel {\n    order: 1;');
+    expect(styles).toContain('.intro-panel {\n    order: 2;');
     expect(app).toContain('startOwnQuickCheck(event);');
     expect(app).toContain('Check your note');
     expect(summarySection).not.toContain('Why this exists');
