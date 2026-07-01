@@ -34,6 +34,7 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('I have source + note');
     expect(summarySection).toContain('Check one AI-scribe note');
     expect(summarySection).toContain('Paste both sides and leave with a reviewer handoff plus QA finding.');
+    expect(summarySection).toContain('<a href="#quick-check-form" data-quick-start-own>Open note checker</a>');
     expect(summarySection).toContain('Open note checker');
     expect(summarySection).toContain('I heard a claim');
     expect(summarySection).toContain('Challenge the promise');

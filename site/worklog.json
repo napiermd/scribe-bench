@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The source-note path now opens a clean checker",
+      "why": "The new first-screen chooser routed people with their own source and note to the form, but that form was still prefilled with the seeded demo and stale demo status.",
+      "proof": "The source + note entry now uses the same own-note start behavior as Check my note: it clears the seeded source and note, hides old artifacts, focuses the source field, and asks the visitor to paste their own evidence.",
+      "next": "Keep the live demo available, but never let demo state leak into the path for someone bringing real source-note evidence.",
+      "links": [
+        { "label": "Source-note checker", "href": "#quick-check-form" },
+        { "label": "Seeded demo", "href": "#quick-result" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now starts with the visitor's job",
       "why": "The site explained the checker, evidence ledger, and repo, but a cold visitor still had to infer whether they were here to review a note, challenge a claim, or publish proof.",
       "proof": "Replaced the four explanatory purpose blocks with a compact chooser for three real situations: I have source + note, I heard a claim, and I can add proof. Each path names the artifact the visitor should leave with and links to the right tool.",
