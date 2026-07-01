@@ -190,14 +190,24 @@
               packet, or clear it and paste your own source-note pair.
             </p>
             <div class="quick-start-strip" aria-label="Start a ScribeBench note check">
-              <div>
-                <span>Fastest path</span>
-                <strong>Paste your own source and AI note, or copy the demo packet.</strong>
-                <p>Your useful output is a review packet: flagged claims, source snippets, boundary, and next step.</p>
+              <div class="quick-start-proof">
+                <span>Seeded catch visible now</span>
+                <strong>The AI note invented a negative head CT and a syncope workup.</strong>
+                <dl class="quick-proof-pair" aria-label="Seeded source-note contradiction">
+                  <div>
+                    <dt>Note says</dt>
+                    <dd>CT head was negative; orthostatics, telemetry, and TSH were ordered for syncope.</dd>
+                  </div>
+                  <div>
+                    <dt>Source says</dt>
+                    <dd>Mechanical rug trip; no head strike and no loss of consciousness.</dd>
+                  </div>
+                </dl>
+                <p>Your useful output is a review packet: flagged claim, source contradiction, boundary, and next step.</p>
               </div>
               <div class="quick-start-actions">
                 <button class="button primary compact-button" type="button" data-quick-start-own>Paste your note</button>
-                <button class="button secondary compact-button" id="quick-start-copy-receipt" type="button">Copy demo packet</button>
+                <button class="button secondary compact-button" id="quick-start-copy-receipt" type="button">Copy seeded packet</button>
                 <a class="button secondary compact-button" href="#quick-result">Inspect demo receipt</a>
                 <span id="quick-start-copy-status" role="status" aria-live="polite"></span>
                 <textarea

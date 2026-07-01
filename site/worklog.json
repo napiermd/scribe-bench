@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first checker panel now shows the actual seeded catch",
+      "why": "The first screen said ScribeBench catches invented care, but desktop visitors still had to scroll or inspect the receipt to see the concrete failure. That made the site feel more like an explanation than a useful QA artifact.",
+      "proof": "Changed the first checker action strip into a compact source-vs-note contradiction: the note invents a negative head CT and syncope workup, while the source says mechanical rug trip with no head strike or loss of consciousness.",
+      "next": "Keep the first minute anchored on tangible artifacts: visible contradiction, copyable packet, then paste-your-own-note workflow.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Demo receipt", "href": "#quick-result" },
+        { "label": "Source-note form", "href": "#quick-check-form" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Mobile navigation no longer crowds the checker",
       "why": "After the first-screen packet work, the mobile header still showed seven navigation links before the checker. That consumed about 15% of the viewport and made the useful surface feel pushed down.",
       "proof": "Kept the full desktop nav, moved mobile links into a native Menu disclosure, preserved the key Check note path, and shortened mobile anchor offsets for the smaller header.",
