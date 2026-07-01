@@ -169,6 +169,20 @@
                 </div>
               </div>
               <p id="quick-result-summary"></p>
+              <dl class="quick-result-snapshot" aria-label="Compact receipt summary">
+                <div>
+                  <dt>Flagged</dt>
+                  <dd id="quick-result-issue-count">--</dd>
+                </div>
+                <div>
+                  <dt>Type</dt>
+                  <dd id="quick-result-issue-types">--</dd>
+                </div>
+                <div>
+                  <dt>Boundary</dt>
+                  <dd id="quick-result-boundary">--</dd>
+                </div>
+              </dl>
               <div class="quick-use-router" aria-label="Use this ScribeBench result">
                 <div class="quick-use-copy">
                   <p class="eyebrow">Use this result</p>
@@ -181,32 +195,38 @@
                   <a class="button secondary compact-button" id="quick-use-claim-link" href="#claim-check">Challenge a claim</a>
                 </div>
               </div>
-              <ul id="quick-result-list"></ul>
-              <dl class="quick-result-meaning" aria-label="What this receipt can and cannot prove">
-                <div>
-                  <dt>Can support</dt>
-                  <dd id="quick-result-can-support">--</dd>
+              <details class="quick-result-details">
+                <summary><span id="quick-result-details-summary">Show flagged source-note evidence</span></summary>
+                <ul id="quick-result-list"></ul>
+              </details>
+              <details class="quick-result-boundary-detail">
+                <summary>Show what this can and cannot prove</summary>
+                <dl class="quick-result-meaning" aria-label="What this receipt can and cannot prove">
+                  <div>
+                    <dt>Can support</dt>
+                    <dd id="quick-result-can-support">--</dd>
+                  </div>
+                  <div>
+                    <dt>Cannot support</dt>
+                    <dd id="quick-result-cannot-support">--</dd>
+                  </div>
+                  <div>
+                    <dt>Use next</dt>
+                    <dd id="quick-result-use-next">--</dd>
+                  </div>
+                </dl>
+                <div class="quick-result-next">
+                  <strong>Next</strong>
+                  <p id="quick-result-next">--</p>
                 </div>
-                <div>
-                  <dt>Cannot support</dt>
-                  <dd id="quick-result-cannot-support">--</dd>
-                </div>
-                <div>
-                  <dt>Use next</dt>
-                  <dd id="quick-result-use-next">--</dd>
-                </div>
-              </dl>
-              <div class="quick-result-next">
-                <strong>Next proof step</strong>
-                <p id="quick-result-next">--</p>
-              </div>
-              <div class="quick-receipt-preview" aria-label="Copy-ready ScribeBench QA packet">
-                <div class="quick-receipt-preview-head">
-                  <strong>Copy-ready review packet</strong>
-                  <span>Visible before copy</span>
-                </div>
+              </details>
+              <details class="quick-receipt-preview" aria-label="Copy-ready ScribeBench QA packet">
+                <summary class="quick-receipt-preview-head">
+                  <strong>Preview copy-ready review packet</strong>
+                  <span>Opens the full text before copy</span>
+                </summary>
                 <pre class="code-block"><code id="quick-receipt-preview-output"></code></pre>
-              </div>
+              </details>
               <div class="quick-result-actions">
                 <button class="button primary compact-button" id="quick-copy-receipt" type="button">Copy review packet</button>
                 <button class="button secondary compact-button" id="quick-send-lab" type="button">Ask second opinion</button>

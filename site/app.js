@@ -1730,11 +1730,13 @@ function renderQuickResult(result) {
   setText("quick-result-label", quickResultLabel(result));
   setText("quick-result-title", verdict.title);
   setText("quick-result-summary", verdict.copy);
-  const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
+  const issueTypes = receiptIssueTypes(result);
+  renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes });
+  const meaning = receiptEvidenceMeaning({ dangerousCount, leakCount, issueTypes });
   setText("quick-result-can-support", meaning.canSupport);
   setText("quick-result-cannot-support", meaning.cannotSupport);
   setText("quick-result-use-next", meaning.useNext);
-  const useGuidance = quickUseGuidance({ dangerousCount, leakCount, issueTypes: receiptIssueTypes(result) });
+  const useGuidance = quickUseGuidance({ dangerousCount, leakCount, issueTypes });
   setText("quick-use-title", useGuidance.title);
   setText("quick-use-copy", useGuidance.copy);
   renderQuickUseActions(result);
@@ -1756,6 +1758,30 @@ function renderQuickResult(result) {
   }
   setText("quick-result-next", verdict.action);
   setText("quick-receipt-preview-output", buildQuickReceiptText(result));
+}
+
+function renderQuickResultSnapshot({ dangerousCount, leakCount, issueTypes = "" }) {
+  if (dangerousCount) {
+    setText("quick-result-issue-count", issueCountLabel(dangerousCount));
+    setText("quick-result-issue-types", issueTypes || "unsupported care");
+    setText("quick-result-boundary", "One-note QA finding; not a system claim.");
+    setText("quick-result-details-summary", `Show ${issueCountLabel(dangerousCount)} with note/source excerpts`);
+    return;
+  }
+
+  if (leakCount) {
+    const leakLabel = `${leakCount} leak${leakCount === 1 ? "" : "s"}`;
+    setText("quick-result-issue-count", leakLabel);
+    setText("quick-result-issue-types", "template or metadata leak");
+    setText("quick-result-boundary", "Cleanup signal; not fidelity proof.");
+    setText("quick-result-details-summary", `Show ${leakLabel}`);
+    return;
+  }
+
+  setText("quick-result-issue-count", "No obvious issue");
+  setText("quick-result-issue-types", "covered checks clean");
+  setText("quick-result-boundary", "Triage only; not clearance.");
+  setText("quick-result-details-summary", "Show receipt detail");
 }
 
 function quickResultLabel(result) {

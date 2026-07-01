@@ -127,9 +127,21 @@ describe('site copy and labels', () => {
     const quickSection = html.match(/<div class="quick-result" id="quick-result"[\s\S]*?<form class="quick-check-form"/)?.[0] || '';
 
     expect(quickSection).toContain('Copy review packet');
-    expect(quickSection).toContain('Copy-ready review packet');
+    expect(quickSection).toContain('quick-result-snapshot');
+    expect(quickSection).toContain('id="quick-result-issue-count"');
+    expect(quickSection).toContain('id="quick-result-issue-types"');
+    expect(quickSection).toContain('id="quick-result-boundary"');
+    expect(quickSection).toContain('<details class="quick-result-details">');
+    expect(quickSection).toContain('id="quick-result-details-summary"');
+    expect(quickSection).toContain('<details class="quick-result-boundary-detail">');
+    expect(quickSection).toContain('Show what this can and cannot prove');
+    expect(quickSection).toContain('<details class="quick-receipt-preview"');
+    expect(quickSection).toContain('Preview copy-ready review packet');
     expect(quickSection).toContain('ScribeBench source-vs-note review packet');
     expect(app).toContain('ScribeBench note review packet');
+    expect(app).toContain('function renderQuickResultSnapshot');
+    expect(app).toContain('setText("quick-result-issue-count", issueCountLabel(dangerousCount));');
+    expect(app).toContain('setText("quick-result-details-summary", `Show ${issueCountLabel(dangerousCount)} with note/source excerpts`);');
     expect(app).toContain('function renderQuickUseActions(result)');
     expect(app).toContain('ownNote.textContent = isSeeded ? "Check your own note" : "Check another note";');
     expect(app).toContain('copy.textContent = isSeeded ? "Copy review packet" : "Copy this review packet";');

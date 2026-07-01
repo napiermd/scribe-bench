@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The seeded receipt no longer eats the first screen",
+      "why": "After the route chooser moved up, the seeded receipt still rendered every flagged excerpt and the full review packet before the form. It proved the checker worked, but it made the page feel like a long demo artifact.",
+      "proof": "Added a compact receipt strip for flagged count, issue type, and evidence boundary. Moved flagged source-note excerpts, proof-boundary detail, and the copy-ready packet preview behind native disclosure controls while keeping the primary copy and own-note actions visible.",
+      "next": "Keep making the first screen behave like a tool: summary first, details when asked, source-note form close enough to act.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check" },
+        { "label": "Source-note form", "href": "#quick-check-form" },
+        { "label": "Public guide", "href": "#next-steps" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The first screen now starts with visitor routes",
       "why": "The opening rail still made visitors read why ScribeBench exists before it answered what they could do with the site. The useful path chooser was buried below the seeded receipt and felt like another section instead of the front door.",
       "proof": "Moved the visitor route chooser next to the headline, removed the old plain-English explanation blocks from the first rail, and changed the primary note route to clear the demo and jump straight to the source-note form. The checker now labels the seeded receipt as the loaded state instead of repeating the project rationale.",
