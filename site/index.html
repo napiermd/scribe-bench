@@ -470,7 +470,6 @@
         <span class="section-anchor" id="who-uses-this"></span>
         <span class="section-anchor" id="why-this-exists"></span>
         <span class="section-anchor" id="repo-map"></span>
-        <span class="section-anchor" id="public-action-kit"></span>
         <div class="section-head split-head">
           <div>
             <p class="eyebrow">Public guide</p>
@@ -505,7 +504,7 @@
           </article>
         </div>
 
-        <div class="artifact-kit" aria-label="Public artifacts ScribeBench creates">
+        <div class="artifact-kit" id="public-action-kit" aria-label="Public artifacts ScribeBench creates">
           <div class="artifact-kit-head">
             <p class="eyebrow">Public action kit</p>
             <h3>Pick the artifact that matches the evidence you actually have.</h3>
@@ -515,31 +514,63 @@
             </p>
           </div>
           <div class="artifact-list">
-            <article>
+            <article data-public-artifact>
               <span>Review packet</span>
               <strong>For one note that may have invented care.</strong>
               <p>Bring source plus generated note. Copy flagged issues, excerpts, boundary, and next proof step.</p>
+              <pre class="code-block"><code>ScribeBench QA packet
+Finding: This AI-scribe note may have invented care not supported by the source.
+Evidence level: one source-note pair, not a system claim.
+Use next: review the flagged claim before trust or signing.
+Link: https://scribe-bench.vercel.app/#quick-check</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy>Copy packet post</button>
               <a href="#quick-check">Create packet</a>
             </article>
-            <article>
+            <article data-public-artifact>
               <span>Claim ask</span>
               <strong>For a vendor, model, or pilot claim.</strong>
               <p>Bring the public claim. Copy the dataset, n, judge, repeats, rates, and disclosure it would need.</p>
+              <pre class="code-block"><code>Can you share ScribeBench-style evidence for this AI-scribe claim?
+Needed: dataset, n, generator/system date, judge, repeats, dangerous-fabrication rate with CI, leak rate, exclusions, and tuning disclosure.
+Boundary: one demo note is not proof of a safe system.
+Link: https://scribe-bench.vercel.app/#claim-check</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy>Copy claim ask</button>
               <a href="#claim-check">Build ask</a>
             </article>
-            <article>
+            <article data-public-artifact>
               <span>Blocker receipt</span>
               <strong>For build-in-public progress.</strong>
               <p>Bring the current-run gap. Copy what is scored, what is blocked, and the exact next run task.</p>
+              <pre class="code-block"><code>ScribeBench current-row blocker
+Status: 9/57 PriMock57 cases scored; at least 30 scored cases are needed before a current row is publishable.
+Blocked by: free-model/provider cap.
+Ask: resume with a non-capped provider key, credits, or declared candidate notes.
+Boundary: aggregate scores only; no raw closed-model notes in the public repo.
+Link: https://scribe-bench.vercel.app/#current-run</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy>Copy blocker receipt</button>
               <a href="#current-run">Open blocker</a>
             </article>
-            <article>
+            <article data-public-artifact>
               <span>Aggregate row</span>
               <strong>For claims about a system, not one note.</strong>
               <p>Bring many candidate notes. Publish scores only, with judge, repeats, date, CI, and exclusions.</p>
+              <pre class="code-block"><code>Submit a ScribeBench aggregate row
+Include: system name/date, dataset, n, judge, repeats, dangerous-fabrication rate with CI, narrative mean, fidelity mean, leak rate, exclusions, and method notes.
+Do not publish raw closed-model notes.
+Use this for system claims, not one-note QA.
+Link: https://scribe-bench.vercel.app/#run</code></pre>
+              <button class="button secondary compact-button" type="button" data-public-copy>Copy row request</button>
               <a href="#run">Prepare row</a>
             </article>
           </div>
+          <p class="public-action-status" id="public-action-status" role="status" aria-live="polite"></p>
+          <textarea
+            class="copy-fallback"
+            id="public-action-fallback"
+            readonly
+            hidden
+            aria-label="Copied ScribeBench public action artifact"
+          ></textarea>
         </div>
 
         <div class="guide-system" aria-label="What the repository contains">
