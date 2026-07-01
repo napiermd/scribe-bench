@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The claim checker now leads with the ask",
+      "why": "The claim checker already generated a useful public ask, but the output panel also exposed proof requirements, current limits, and an evidence path all at once. That made the artifact compete with its own explanation.",
+      "proof": "Kept the copyable public ask visible as the primary artifact and moved proof requirements, current limits, and evidence-path detail behind native disclosure controls. Visitors can copy the ask first, then open the deeper method context when they need it.",
+      "next": "Keep every visitor path artifact-first: copy the thing, then expand the method only when the reader asks for more.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Contribute", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The seeded receipt no longer eats the first screen",
       "why": "After the route chooser moved up, the seeded receipt still rendered every flagged excerpt and the full review packet before the form. It proved the checker worked, but it made the page feel like a long demo artifact.",
       "proof": "Added a compact receipt strip for flagged count, issue type, and evidence boundary. Moved flagged source-note excerpts, proof-boundary detail, and the copy-ready packet preview behind native disclosure controls while keeping the primary copy and own-note actions visible.",

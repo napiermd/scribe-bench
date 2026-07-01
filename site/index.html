@@ -581,25 +581,28 @@
               </div>
               <pre class="code-block"><code id="claim-public-ask"></code></pre>
             </div>
-            <dl class="claim-output-grid">
-              <div>
-                <dt>What would count</dt>
-                <dd id="claim-required">--</dd>
-              </div>
-              <div>
-                <dt>What ScribeBench can do now</dt>
-                <dd id="claim-support">--</dd>
-              </div>
-              <div>
-                <dt>Next action</dt>
-                <dd id="claim-next-action">--</dd>
-              </div>
-            </dl>
-            <div class="claim-evidence-path" aria-label="Evidence path for this claim">
-              <div class="claim-evidence-path-head">
-                <p class="eyebrow">Evidence path</p>
-                <h4 id="claim-evidence-title">What would close this claim?</h4>
-              </div>
+            <details class="claim-proof-detail">
+              <summary>Show proof requirements and current limits</summary>
+              <dl class="claim-output-grid">
+                <div>
+                  <dt>What would count</dt>
+                  <dd id="claim-required">--</dd>
+                </div>
+                <div>
+                  <dt>What ScribeBench can do now</dt>
+                  <dd id="claim-support">--</dd>
+                </div>
+                <div>
+                  <dt>Next action</dt>
+                  <dd id="claim-next-action">--</dd>
+                </div>
+              </dl>
+            </details>
+            <details class="claim-evidence-path" aria-label="Evidence path for this claim">
+              <summary>
+                <span>Evidence path</span>
+                <strong id="claim-evidence-title">What would close this claim?</strong>
+              </summary>
               <div class="claim-evidence-grid">
                 <article>
                   <span>Closing artifact</span>
@@ -618,7 +621,7 @@
                 <a class="button primary compact-button" id="claim-evidence-primary" href="#run">Open Add Row path</a>
                 <a class="button secondary compact-button" id="claim-evidence-secondary" href="#current-run">Review current blocker</a>
               </div>
-            </div>
+            </details>
           </aside>
         </div>
       </section>

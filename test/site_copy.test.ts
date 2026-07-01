@@ -201,6 +201,7 @@ describe('site copy and labels', () => {
     const evidenceStart = html.indexOf('<section class="wrap section" id="leaderboard">', claimStart);
     const claimSection = claimStart >= 0 ? html.slice(claimStart, evidenceStart >= 0 ? evidenceStart : undefined) : '';
     const askIndex = claimSection.indexOf('claim-ask-preview');
+    const proofDetailIndex = claimSection.indexOf('claim-proof-detail');
     const outputGridIndex = claimSection.indexOf('claim-output-grid');
     const evidencePathIndex = claimSection.indexOf('claim-evidence-path');
 
@@ -210,8 +211,12 @@ describe('site copy and labels', () => {
     expect(claimSection).toContain('Paste this into the next diligence thread.');
     expect(claimSection).toContain('id="copy-claim-ask-output"');
     expect(claimSection).toContain('<pre class="code-block"><code id="claim-public-ask"></code></pre>');
+    expect(claimSection).toContain('<details class="claim-proof-detail">');
+    expect(claimSection).toContain('Show proof requirements and current limits');
+    expect(claimSection).toContain('<details class="claim-evidence-path"');
     expect(askIndex).toBeGreaterThan(-1);
-    expect(askIndex).toBeLessThan(outputGridIndex);
+    expect(proofDetailIndex).toBeGreaterThan(askIndex);
+    expect(outputGridIndex).toBeGreaterThan(proofDetailIndex);
     expect(askIndex).toBeLessThan(evidencePathIndex);
     expect(html).toContain('id="public-card-claim-link"');
     expect(html).toContain('id="public-card-row-link"');

@@ -2339,11 +2339,33 @@ h4 {
   margin: 0.65rem 0 0;
 }
 
+.claim-proof-detail,
+.claim-evidence-path {
+  border: 1px solid var(--line);
+  margin: 1rem 0 0;
+  background: var(--panel);
+}
+
+.claim-proof-detail summary,
+.claim-evidence-path summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 850;
+  padding: 0.72rem 0.85rem;
+}
+
+.claim-proof-detail[open] summary,
+.claim-evidence-path[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
 .claim-output-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-  margin: 1rem 0 0;
+  margin: 0;
+  padding: 0.85rem;
 }
 
 .claim-output-grid div {
@@ -2404,29 +2426,28 @@ h4 {
   font-size: 0.8rem;
 }
 
-.claim-evidence-path {
-  border-top: 1px solid var(--line);
-  margin-top: 1rem;
-  padding-top: 1rem;
-}
-
-.claim-evidence-path-head .eyebrow {
-  margin-bottom: 0.35rem;
-}
-
-.claim-evidence-path-head h4 {
-  color: var(--ink);
-  font-size: 1rem;
-  line-height: 1.18;
+.claim-evidence-path summary span {
+  display: block;
+  color: var(--accent-strong);
+  font-size: 0.66rem;
+  font-weight: 850;
   letter-spacing: 0;
-  text-transform: none;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+}
+
+.claim-evidence-path summary strong {
+  display: block;
+  color: var(--ink);
+  font-size: 0.96rem;
+  line-height: 1.2;
 }
 
 .claim-evidence-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 10px;
-  margin-top: 0.85rem;
+  padding: 0.85rem 0.85rem 0;
 }
 
 .claim-evidence-grid article {
@@ -2455,7 +2476,7 @@ h4 {
   display: flex;
   flex-wrap: wrap;
   gap: 0.65rem;
-  margin-top: 0.85rem;
+  padding: 0.85rem;
 }
 
 .evidence-task-card {
