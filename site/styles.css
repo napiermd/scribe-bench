@@ -6324,36 +6324,40 @@ h4 {
     order: 2;
   }
 
-  .purpose-line {
+  .quick-check-form {
     order: 3;
   }
 
-  .quick-check-form {
+  .purpose-line {
     order: 4;
   }
 
-  .quick-result {
+  .quick-artifact-preview {
     order: 5;
   }
 
-  .quick-start-strip {
+  .quick-result {
     order: 6;
   }
 
-  .quick-entry-paths {
+  .quick-start-strip {
     order: 7;
   }
 
-  .mobile-proof {
+  .quick-entry-paths {
     order: 8;
   }
 
-  .quick-proof-label {
+  .mobile-proof {
     order: 9;
   }
 
-  .quick-capability-grid {
+  .quick-proof-label {
     order: 10;
+  }
+
+  .quick-capability-grid {
+    order: 11;
   }
 
   .quick-check-head h1 {

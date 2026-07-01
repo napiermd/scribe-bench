@@ -192,6 +192,20 @@ describe('site copy and labels', () => {
     expect(app).toContain('mobileMenu.open = false;');
   });
 
+  it('puts the mobile note checker before the longer public contract', () => {
+    const mobileStyles = styles.match(/@media \(max-width: 560px\) \{[\s\S]*$/)?.[0] || '';
+    const formOrder = mobileStyles.indexOf('.quick-check-form {\n    order: 3;');
+    const contractOrder = mobileStyles.indexOf('.purpose-line {\n    order: 4;');
+    const artifactOrder = mobileStyles.indexOf('.quick-artifact-preview {\n    order: 5;');
+
+    expect(formOrder).toBeGreaterThan(-1);
+    expect(contractOrder).toBeGreaterThan(formOrder);
+    expect(artifactOrder).toBeGreaterThan(contractOrder);
+    expect(mobileStyles).toContain('.quick-result {\n    order: 6;');
+    expect(mobileStyles).toContain('.quick-start-strip {\n    order: 7;');
+    expect(mobileStyles).toContain('.quick-entry-paths {\n    order: 8;');
+  });
+
   it('keeps model smoke out of the first note-checking task', () => {
     const quickForm = html.match(/<form class="quick-check-form"[\s\S]*?<\/form>/)?.[0] || '';
     const labSectionStart = html.indexOf('<section class="wrap section lab-section" id="lab">');
