@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first-screen router now starts from what the visitor has",
+      "why": "The homepage named audiences, but a cold visitor still had to decide whether they were a buyer, reviewer, builder, or contributor before knowing what to click.",
+      "proof": "The first-screen router now starts from the actual input: source plus AI note, public claim, candidate notes, or current evidence gap. Each path names the artifact it creates: QA packet, evidence ask, citable row, or blocker receipt.",
+      "next": "Keep treating the site as an artifact router: input in hand first, public evidence output second, audience labels only as supporting context.",
+      "links": [
+        { "label": "Start here", "href": "#main" },
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Current blocker receipt", "href": "#current-run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Claim checks now point to the evidence artifact that would close them",
       "why": "The claim checker turned vague AI-scribe language into a public ask, but it still left visitors to infer which ScribeBench artifact would actually satisfy the claim.",
       "proof": "Each claim type now shows an Evidence path: the closing artifact, what the site can prove today, and the next click. Safety claims route toward powered aggregate rows, one-note claims route to QA packets, comparison claims route to comparable runs, and current-ranking claims route to the blocker or Add Row path.",

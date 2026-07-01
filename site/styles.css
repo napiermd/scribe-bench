@@ -772,9 +772,18 @@ h4 {
   font-size: 0.92rem;
 }
 
+.quick-proof-label {
+  color: var(--accent-strong);
+  font-size: 0.68rem;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  margin: 0 0 -0.55rem;
+  text-transform: uppercase;
+}
+
 .quick-proof-modes {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   border: 1px solid var(--line);
   background: var(--panel-soft);
 }
@@ -802,13 +811,13 @@ h4 {
 
 .quick-proof-modes strong {
   color: var(--ink);
-  font-size: 0.88rem;
+  font-size: 0.84rem;
   line-height: 1.2;
 }
 
 .quick-proof-modes small {
   color: var(--muted);
-  font-size: 0.76rem;
+  font-size: 0.73rem;
   line-height: 1.28;
 }
 

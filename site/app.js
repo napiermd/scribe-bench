@@ -311,26 +311,26 @@ const startRoutes = {
     secondary: { label: "Read evidence gaps", href: "#leaderboard" },
   },
   builder: {
-    kicker: "For scribe builders",
-    title: "Find failures before a note becomes a promise.",
+    kicker: "For candidate notes",
+    title: "Score the notes before turning them into a claim.",
     copy:
-      "Use the Lab as a fast triage loop, then graduate anything worth discussing to a powered PriMock57 run. Smoke checks are useful, but they are not a crown.",
-    input: "A model, prompt, or pipeline that generates clinical notes.",
+      "Use the Lab as a fast triage loop, then graduate any notes worth discussing to a powered PriMock57 or real-workflow run. Smoke checks are useful, but they are not a crown.",
+    input: "Candidate notes from a model, prompt, or scribe workflow.",
     action: "Run the seeded SYN-003 smoke path, paste your own note, then score a full candidate file when the smoke path survives.",
     output: "A failure signal, judge summary, and a reproducible path to an aggregate benchmark row.",
     primary: { label: "Run current smoke", href: "#lab" },
     secondary: { label: "Add a row", href: "#run" },
   },
   contributor: {
-    kicker: "For people improving the public board",
-    title: "Add the current rows the site is missing.",
+    kicker: "For current evidence gaps",
+    title: "Do not treat stale rows as today's answer.",
     copy:
-      "The old rows are kept as historical baselines. The useful public work is adding current frontier, open/free, real-workflow, and second-judge rows without publishing raw closed-model notes.",
-    input: "A system label, candidate-note file, dataset choice, generation model, judge, and repeats.",
-    action: "Copy a run plan, generate aggregate scores, and submit the scores-only row through GitHub.",
-    output: "A public evidence row or a visible blocker that explains what still needs to be run.",
-    primary: { label: "Copy challenge plan", href: "#current-challenge" },
-    secondary: { label: "See repo map", href: "#repo-map" },
+      "The old rows are historical baselines. The useful public work is either adding current frontier, open/free, real-workflow, and second-judge rows, or making the blocker visible.",
+    input: "A stale ranking claim, partial run, provider cap, or missing current system row.",
+    action: "Inspect the blocker, copy the resume command, or use the run builder to create the row people are asking for.",
+    output: "A visible blocker receipt or a public aggregate row with method details.",
+    primary: { label: "Review blocker", href: "#current-run" },
+    secondary: { label: "Copy challenge plan", href: "#current-challenge" },
   },
 };
 
