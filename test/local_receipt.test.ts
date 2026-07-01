@@ -124,6 +124,57 @@ describe('browser local receipt', () => {
     expect(ruleOut.fabrication.dangerous).toEqual([]);
   });
 
+  it('catches unsupported care-plan imaging orders and referrals without a model', () => {
+    const source = [
+      'Urgent care visit for right ankle sprain.',
+      'No x-ray was ordered.',
+      'No orthopedic referral was placed.',
+      'Patient was discharged home with rest, ice, compression, elevation, and return precautions.',
+    ].join(' ');
+    const note = [
+      'Assessment: right ankle sprain.',
+      'Plan: ankle x-ray ordered and orthopedic referral placed.',
+      'Patient discharged home with RICE instructions and return precautions.',
+    ].join(' ');
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/imaging order/i);
+    expect(dangerous).toMatch(/specialist referral/i);
+    expect(result.evidence.dangerous.some((item) => /imaging order/i.test(item.finding) && /x-ray ordered/i.test(item.noteExcerpt) && /No x-ray was ordered/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /specialist referral/i.test(item.finding) && /orthopedic referral placed/i.test(item.noteExcerpt) && /No orthopedic referral was placed/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('catches unsupported lab orders and admission or ED-transfer escalation without a model', () => {
+    const source = [
+      'Clinic visit for mild viral symptoms.',
+      'No labs were ordered.',
+      'Patient was discharged home with supportive care and return precautions.',
+    ].join(' ');
+    const note = 'Plan: CBC and troponin ordered, and patient transferred to the ED for hospital admission.';
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/lab order/i);
+    expect(dangerous).toMatch(/hospital admission or ED transfer/i);
+    expect(result.evidence.dangerous.some((item) => /lab order/i.test(item.finding) && /CBC and troponin ordered/i.test(item.noteExcerpt) && /No labs were ordered/i.test(item.sourceExcerpt))).toBe(true);
+    expect(result.evidence.dangerous.some((item) => /hospital admission or ED transfer/i.test(item.finding) && /transferred to the ED/i.test(item.noteExcerpt) && /discharged home/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('does not flag supported or negated care-plan actions', () => {
+    const supported = runLocalReceipt(
+      'X-ray was ordered, CBC was ordered, orthopedic referral placed, and patient transferred to the ED for admission.',
+      'Plan: x-ray ordered, CBC ordered, orthopedic referral placed, and transferred to the ED for admission.'
+    );
+    const negated = runLocalReceipt(
+      'No x-ray was ordered. No orthopedic referral was placed. No labs were ordered. Patient discharged home.',
+      'No x-ray was ordered. No orthopedic referral was placed. No labs were ordered. Patient discharged home.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+  });
+
   it('does not flag matching demographics, laterality, and allergy facts', () => {
     const source = '62-year-old woman with right knee pain. No known drug allergies.';
     const note = '62-year-old woman with right knee pain. Allergies: NKDA.';

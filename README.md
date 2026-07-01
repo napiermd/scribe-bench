@@ -116,7 +116,7 @@ What the repo contains:
 | Piece | Files | Purpose |
 |-------|-------|---------|
 | Public website | `site/` | Static Vercel site with the one-note checker, claim checker, evidence ledger, Lab, and run builder. |
-| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
+| Browser receipt | `site/local_receipt.js` | No-key source-vs-note triage for unsupported care, invented orders/referrals/disposition, demographic mismatches, laterality, allergies, transport mismatches, and template leaks. |
 | Live API | `api/generate.js`, `api/judge.js`, `api/models.js` | Optional model-backed generation and judging for the Lab through OpenRouter or Baseten-compatible APIs. |
 | Eval engine | `eval/` | TypeScript harness for narrative quality, input fidelity, dangerous fabrication, leak checks, repeats, and bootstrap intervals. |
 | Data | `data/synthetic/`, `data/primock57/` | Synthetic demos plus 57 public PriMock57 consults. No real patient data. |

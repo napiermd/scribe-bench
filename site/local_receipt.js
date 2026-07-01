@@ -169,6 +169,64 @@ const DIAGNOSIS_GROUPS = [
   },
 ];
 
+const CARE_PLAN_GROUPS = [
+  {
+    label: "imaging order",
+    note: orderPatterns(["x[- ]?rays?", "radiographs?", "plain\\s+films?", "imaging", "MRI", "CT", "ultrasounds?"]),
+    support: [/\b(x[- ]?rays?|radiographs?|plain\s+films?|imaging|MRI|CT|ultrasounds?)\b/i],
+    contradiction: [
+      /\bno\s+(?:x[- ]?rays?|radiographs?|plain\s+films?|imaging|MRI|CT|ultrasounds?)\s+(?:was\s+|were\s+)?(?:ordered|scheduled|arranged|needed|indicated)\b/i,
+      /\b(?:x[- ]?rays?|radiographs?|plain\s+films?|imaging|MRI|CT|ultrasounds?)\s+(?:was\s+|were\s+)?not\s+(?:ordered|scheduled|arranged|needed|indicated)\b/i,
+      /\bdeferred\s+(?:x[- ]?rays?|radiographs?|plain\s+films?|imaging|MRI|CT|ultrasounds?)\b/i,
+    ],
+  },
+  {
+    label: "specialist referral",
+    note: [
+      /\b(?:referr(?:ed|al)|consult(?:ed)?|consultation|follow(?:ed)?[-\s]?up\s+with)\b[^.!?;]{0,90}\b(?:orthopedic(?:s)?|ortho|cardiology|neurology|urology|dermatology|specialist)\b/i,
+      /\b(?:orthopedic(?:s)?|ortho|cardiology|neurology|urology|dermatology|specialist)\s+referral\s+(?:placed|ordered|made|arranged)\b/i,
+    ],
+    support: [
+      /\b(?:referr(?:ed|al)|consult(?:ed)?|consultation|follow(?:ed)?[-\s]?up\s+with)\b[^.!?;]{0,90}\b(?:orthopedic(?:s)?|ortho|cardiology|neurology|urology|dermatology|specialist)\b/i,
+      /\b(?:orthopedic(?:s)?|ortho|cardiology|neurology|urology|dermatology|specialist)\s+referral\b/i,
+    ],
+    contradiction: [
+      /\bno\s+(?:orthopedic(?:s)?\s+|ortho\s+|specialist\s+)?referral\s+(?:was\s+)?(?:placed|made|ordered|needed|indicated)\b/i,
+      /\b(?:referral|consultation|consult)\s+(?:was\s+)?not\s+(?:placed|made|ordered|needed|indicated)\b/i,
+      /\bno\s+(?:orthopedic(?:s)?|ortho|specialist)\s+(?:consult|follow[-\s]?up)\b/i,
+    ],
+  },
+  {
+    label: "lab order",
+    note: orderPatterns(["labs?", "blood\\s+work", "CBC\\b", "CMP\\b", "troponin", "urinalysis", "UA\\b"]),
+    support: [/\b(labs?|blood\s+work|CBC|CMP|troponin|urinalysis|UA)\b/i],
+    contradiction: [
+      /\bno\s+(?:labs?|blood\s+work|CBC|CMP|troponin|urinalysis|UA)\s+(?:was\s+|were\s+)?(?:ordered|sent|drawn|needed|indicated)\b/i,
+      /\b(?:labs?|blood\s+work|CBC|CMP|troponin|urinalysis|UA)\s+(?:was\s+|were\s+)?not\s+(?:ordered|sent|drawn|needed|indicated)\b/i,
+    ],
+  },
+  {
+    label: "hospital admission or ED transfer",
+    note: [
+      /\b(?:admit(?:ted)?|admission)\b[^.!?;]{0,70}\b(?:hospital|inpatient|medicine|floor|service)\b/i,
+      /\b(?:sent|referred|transferred)\s+(?:to\s+)?(?:the\s+)?(?:ED|ER|emergency\s+department)\b/i,
+      /\bhospitali[sz]ed\b/i,
+    ],
+    support: [
+      /\b(?:admit(?:ted)?|admission)\b[^.!?;]{0,70}\b(?:hospital|inpatient|medicine|floor|service)\b/i,
+      /\b(?:sent|referred|transferred)\s+(?:to\s+)?(?:the\s+)?(?:ED|ER|emergency\s+department)\b/i,
+      /\bhospitali[sz]ed\b/i,
+    ],
+    contradiction: [
+      /\bdischarged\s+home\b/i,
+      /\bmanaged\s+(?:as\s+)?outpatient\b/i,
+      /\bnot\s+admitted\b/i,
+      /\bno\s+(?:hospital\s+)?admission\b/i,
+      /\b(?:ED|ER|emergency\s+department)\s+(?:transfer|referral)\s+(?:was\s+)?not\s+(?:needed|indicated|placed|made)\b/i,
+    ],
+  },
+];
+
 const SIDE_PART_RE = /\b(left|right)\s+(hip|knee|ankle|foot|wrist|hand|shoulder|elbow|arm|leg|eye|ear)\b/gi;
 
 const ALLERGY_TERMS = [
@@ -392,6 +450,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of CARE_PLAN_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching support phrase found in the source text.",
+      });
+    }
+  }
+
   const structuredEvidence = detectStructuredMismatchEvidence(sourceText, noteText);
   dangerous.push(...structuredEvidence.map((item) => item.finding));
   dangerousEvidence.push(...structuredEvidence);
@@ -413,10 +495,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, care-plan actions, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, care-plan order/referral/disposition, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -458,6 +540,14 @@ function diagnosisPatterns(terms) {
     new RegExp(`\\b(?:assessment|impression)\\s*:\\s*(?![^.!?;]{0,60}\\b(?:rule\\s+out|r\\/o|low\\s+suspicion\\s+for|unlikely|no)\\b)[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b(?:diagnos(?:is|ed\\s+with)?|dx|has|with|consistent\\s+with|treated\\s+for)\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b${termGroup}\\b[^.!?;]{0,60}\\b(?:diagnos(?:is|ed)?|confirmed|present)\\b`, "i"),
+  ];
+}
+
+function orderPatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  return [
+    new RegExp(`\\b(?:order(?:ed)?|schedule(?:d)?|arrange(?:d)?|sent\\s+(?:for|to))\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,70}\\b(?:order(?:ed)?|schedule(?:d)?|arrange(?:d)?)\\b`, "i"),
   ];
 }
 

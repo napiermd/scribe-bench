@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The no-key checker now catches invented orders and referrals",
+      "why": "The browser receipt had become useful for symptoms, diagnoses, and treatment actions, but production still let a note claim an x-ray was ordered or an orthopedic referral was placed when the source explicitly said neither happened.",
+      "proof": "The browser-only receipt now checks positive care-plan actions for imaging orders, specialist referrals, lab orders, and admission or ED-transfer escalation. Focused tests cover unsupported order/referral catches, lab and ED-transfer catches, plus supported and negated non-catches.",
+      "next": "Keep turning the checker into a practical first-pass QA artifact by adding concrete, clinically meaningful invention classes instead of generic benchmark copy.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Detailed receipt", "href": "#quick-check" },
+        { "label": "Fabrication taxonomy", "href": "https://github.com/napiermd/scribe-bench/blob/main/docs/fabrication-taxonomy.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The no-key checker now catches diagnosis escalations",
       "why": "The checker had become useful for treatment inventions, but it could still miss an AI note that escalated a benign source encounter into pneumonia, sepsis, fracture, or stroke without support.",
       "proof": "The browser-only receipt now checks positive diagnosis-style phrasing for pneumonia, sepsis, fracture, and stroke. It flags explicit source contradictions and missing visible support, while ignoring supported, negated, and rule-out diagnosis language.",
