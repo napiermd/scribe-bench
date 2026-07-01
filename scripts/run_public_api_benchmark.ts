@@ -95,6 +95,7 @@ export type CurrentRunStatus = {
   dataset: string;
   targetCases: number;
   selectedCases: number;
+  attemptedCases: number;
   generatedCases: number;
   scoredCases: number;
   erroredCases: number;
@@ -240,6 +241,19 @@ export function providerKeyHeaders(
   }[provider];
   const value = keyEnvName ? env[keyEnvName] : undefined;
   return headerName && value ? { [headerName]: value } : {};
+}
+
+export function isProviderRateLimitError(value = '') {
+  return /rate limit|too many requests|HTTP 429|quota exceeded|free-models?-per-(?:day|min|minute)|free model/i.test(value);
+}
+
+export function attemptedRecord(record: PublicApiCaseRecord) {
+  return Boolean(record.note) || (record.judgments || []).length > 0 || (record.errors || []).length > 0;
+}
+
+export function summarizeIds(ids: string[], limit = 6) {
+  if (ids.length <= limit) return ids.join(', ');
+  return `${ids.slice(0, limit).join(', ')}; +${ids.length - limit} more`;
 }
 
 function floorDims(): NarrativeDimensions {
@@ -413,6 +427,7 @@ export function buildCurrentRunStatus(args: {
 }): CurrentRunStatus {
   const selectedIds = new Set(args.selectedCases.map((c) => c.id));
   const records = args.selectedCases.map((c) => ensureRecord(args.progress, c.id));
+  const attempted = records.filter(attemptedRecord).length;
   const generated = records.filter((record) => Boolean(record.note)).length;
   const scored = records.filter((record) => Boolean(record.note) && completeJudgments(record, args.progress.repeats)).length;
   const errored = records.filter((record) => !completeJudgments(record, args.progress.repeats) && record.errors.length > 0).length;
@@ -431,11 +446,12 @@ export function buildCurrentRunStatus(args: {
     .filter((record) => !completeJudgments(record, args.progress.repeats) && record.errors.length > 0)
     .map((record) => record.caseId);
   const status = scored >= MIN_PUBLISHABLE_CASES ? 'ready' : latestError ? 'needs-credit-or-second-judge' : 'running';
+  const rateLimited = isProviderRateLimitError(latestError);
   const statusLabel = status === 'ready'
     ? 'Ready for review'
     : status === 'running'
       ? 'Running'
-      : /free-models?-per-day|free model/i.test(latestError)
+      : rateLimited
         ? 'Free-model cap hit'
         : 'Needs credits or second judge';
   const datasetName = displayDatasetName(args.progress.dataset);
@@ -443,7 +459,8 @@ export function buildCurrentRunStatus(args: {
     ? [
       `Latest public API retry selected ${records.length} ${datasetName} cases through ${args.baseUrl}.`,
       `${scored}/${records.length} selected cases are scored and ${generated}/${records.length} have generated notes.`,
-      blockedIds.length ? `Blocked cases: ${blockedIds.join(', ')}.` : '',
+      rateLimited ? 'Provider rate limit stopped this attempt before the remaining selected cases could be scored.' : '',
+      blockedIds.length ? `Blocked/errored cases: ${summarizeIds(blockedIds)}.` : '',
       `Latest blocker: ${latestError}.`,
     ].filter(Boolean).join(' ')
     : scored >= MIN_PUBLISHABLE_CASES
@@ -460,6 +477,7 @@ export function buildCurrentRunStatus(args: {
     dataset: datasetLabel(args.progress.dataset) === RANKED_DATASET ? 'PriMock57' : datasetLabel(args.progress.dataset),
     targetCases: args.targetCases,
     selectedCases: records.length,
+    attemptedCases: attempted,
     generatedCases: generated,
     scoredCases: scored,
     erroredCases: errored,
@@ -497,7 +515,7 @@ export function buildCurrentRunStatus(args: {
       : 'Add OpenRouter credits, pass a non-capped local provider key with --key-env, or configure a faster second judge, then resume the cached run toward at least 30 completed PriMock57 cases before publishing any ranked current row.',
     unblockAsk: scored >= MIN_PUBLISHABLE_CASES
       ? 'This run has enough scored cases for aggregate review. Verify the method details and publish scores only, not raw closed-model notes.'
-      : `This is not a model result yet: ${scored}/${records.length} attempted cases and ${scored}/${args.targetCases} target cases are scored. Have a non-capped provider key or credits? Keep the key in your shell, resume the public API runner, and publish aggregate scores only after at least 30 PriMock57 cases are scored.`,
+      : `This is not a model result yet: ${scored}/${attempted || records.length} attempted cases and ${scored}/${args.targetCases} target cases are scored. Have a non-capped provider key or credits? Keep the key in your shell, resume the public API runner, and publish aggregate scores only after at least 30 PriMock57 cases are scored.`,
     resumeCommand: buildResumeCommand({
       baseUrl: args.baseUrl,
       dataset: args.progress.dataset,
@@ -657,10 +675,17 @@ async function main() {
       record.errors.push(message);
       writeProgress(progressFile, progress);
       console.log(`failed: ${message}`);
+      if (isProviderRateLimitError(message)) {
+        console.log('Stopping run: provider rate limit reached. Resume after adding credits, waiting for the cap, or forwarding a non-capped key.');
+        break;
+      }
     }
   }
 
-  const scores = cases.map((c) => caseScoreFromPublicApi(ensureRecord(progress, c.id), repeats));
+  const scores = cases
+    .map((c) => ensureRecord(progress, c.id))
+    .filter(attemptedRecord)
+    .map((record) => caseScoreFromPublicApi(record, repeats));
   const summary = aggregate(system, datasetLabel(datasetDir), judgeModel, repeats, scores);
   const output = buildOutput({
     summary,

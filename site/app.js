@@ -624,6 +624,7 @@ function renderCurrentRun(run) {
   const last = run.lastScoredCase || {};
   const target = Number(run.targetCases) || 57;
   const selected = Number(run.selectedCases) || 0;
+  const attempted = Number(run.attemptedCases) || selected || target;
   const generated = Number(run.generatedCases) || 0;
   const scored = Number(run.scoredCases) || 0;
   const errored = Number(run.erroredCases) || 0;
@@ -631,10 +632,10 @@ function renderCurrentRun(run) {
   const resumeCommand = String(run.resumeCommand || "").trim();
   const minimumPublishable = Number(run.minimumPublishableCases) || MIN_RANKED_CASES;
   const partial = run.partialAggregate || null;
-  const attempted = selected || target;
   const lastAttemptText = formatTimestamp(run.lastAttemptAt);
+  const attemptScope = selected && selected !== attempted ? `${attempted}/${selected} selected cases attempted` : `${attempted} selected cases attempted`;
   const attemptText = lastAttemptText
-    ? ` Last public retry: ${lastAttemptText}; ${scored}/${attempted} selected cases scored and ${errored}/${attempted} errored or blocked.`
+    ? ` Last public retry: ${lastAttemptText}; ${attemptScope}, ${scored}/${attempted} scored, and ${errored}/${attempted} errored or blocked.`
     : "";
   const partialText = partialAggregateText(partial);
 
@@ -645,11 +646,11 @@ function renderCurrentRun(run) {
   setText("current-run-title", run.title || "Current PriMock57 run attempt");
   setText(
     "current-run-copy",
-    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${attempted} selected cases have generated notes.${attemptText}${partialText ? ` ${partialText}` : ""} ${run.rawNotesPolicy || "Raw generated notes are not published."}`
+    `${run.system || "current public API run"} is ${scored}/${target} scored toward a publishable current row. ${generated}/${attempted} attempted cases have generated notes.${attemptText}${partialText ? ` ${partialText}` : ""} ${run.rawNotesPolicy || "Raw generated notes are not published."}`
   );
   setText(
     "freshness-current-gap",
-    `${scored}/${target} current PriMock57 cases scored; latest public retry attempted ${attempted} and left ${errored} errored or blocked. Publishable threshold is ${minimumPublishable}+ scored cases with declared system, date, judge, repeats, and exclusions.`
+    `${scored}/${target} current PriMock57 cases scored; latest public retry selected ${selected || attempted}, attempted ${attempted}, and left ${errored} errored or blocked. Publishable threshold is ${minimumPublishable}+ scored cases with declared system, date, judge, repeats, and exclusions.`
   );
   setText(
     "freshness-next-row",
@@ -672,11 +673,11 @@ function renderCurrentRun(run) {
   setText("current-run-resume-command", resumeCommand);
   setText(
     "decision-current-proof",
-    `${scored}/${target} current PriMock57 cases scored; latest retry attempted ${attempted} and left ${errored} blocked or errored. Publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
+    `${scored}/${target} current PriMock57 cases scored; latest retry selected ${selected || attempted}, attempted ${attempted}, and left ${errored} blocked or errored. Publishable threshold is ${minimumPublishable}+ scored cases with declared model, judge, repeats, and date.`
   );
   setText(
     "hero-current-gap",
-    `${scored}/${target} current PriMock57 cases scored. Latest retry: ${scored}/${attempted} selected cases scored and ${errored}/${attempted} blocked or errored. Not a current ranking yet.`
+    `${scored}/${target} current PriMock57 cases scored. Latest retry: ${attemptScope}, ${scored}/${attempted} scored, and ${errored}/${attempted} blocked or errored. Not a current ranking yet.`
   );
   setElementHtml(
     "decision-current-action",

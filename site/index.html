@@ -129,135 +129,6 @@
               The seeded fall case is loaded so the artifact is visible immediately.
               Switch to your own source-note pair when you want a usable QA packet.
             </p>
-            <div class="current-model-lane" aria-labelledby="current-model-lane-title">
-              <div class="current-model-lane-head">
-                <span class="queue-status open" id="current-model-lane-status">Loading</span>
-                <div>
-                  <p class="eyebrow">Current model lane</p>
-                  <h3 id="current-model-lane-title">Smoke-check live free models, then demand powered rows.</h3>
-                </div>
-              </div>
-              <p id="current-model-lane-copy">
-                Loading the configured OpenRouter free-model list. This is the fresh path; old rows stay historical until a powered run exists.
-              </p>
-              <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
-                <li>Loading current free models...</li>
-              </ul>
-              <div class="current-model-lane-actions">
-                <button
-                  class="button secondary compact-button"
-                  id="current-model-run-smoke"
-                  type="button"
-                  data-default-label="Run smoke here"
-                  data-running-label="Running smoke check..."
-                >
-                  Run smoke here
-                </button>
-                <a class="button secondary compact-button" href="#lab">Choose model in Lab</a>
-              </div>
-            </div>
-            <p class="mobile-proof">
-              <strong>Why this matters:</strong> a fluent AI note can add care that never happened.
-              ScribeBench turns that gap into a review packet and copyable evidence card; one
-              note is QA, not a ranking.
-            </p>
-            <p class="quick-proof-label">Browser check catches</p>
-            <div class="quick-capability-grid" aria-label="What the browser receipt checks">
-              <div>
-                <span>Invented results</span>
-                <strong>Labs, imaging, ECGs</strong>
-                <p>Flags results the source says were not done or does not support.</p>
-              </div>
-              <div>
-                <span>Invented care</span>
-                <strong>Meds, follow-up, orders</strong>
-                <p>Catches unsupported starts, stops, urgent follow-up, referrals, transfers, and treatments.</p>
-              </div>
-              <div>
-                <span>Changed story</span>
-                <strong>Diagnoses and workups</strong>
-                <p>Finds escalations like pneumonia, sepsis, syncope, or head CT claims.</p>
-              </div>
-              <div>
-                <span>Chart facts</span>
-                <strong>Demographics, side, allergy, leaks</strong>
-                <p>Checks high-risk identity, laterality, allergy, and template artifacts.</p>
-              </div>
-            </div>
-            <div class="quick-output-contract" aria-label="What the quick check returns">
-              <div>
-                <span>Bring</span>
-                <strong>Source + AI note</strong>
-                <p>Paste the encounter record and the note you want checked against it.</p>
-              </div>
-              <div>
-                <span>Run</span>
-                <strong>Browser QA</strong>
-                <p>No key required for the first pass; the check runs on the page.</p>
-              </div>
-              <div>
-                <span>Leave with</span>
-                <strong>Review packet</strong>
-                <p>Flagged issues, note/source excerpts, evidence boundary, and next ask.</p>
-              </div>
-              <div>
-                <span>Boundary</span>
-                <strong>Evidence, not clearance</strong>
-                <p>One note can guide QA. System claims still need aggregate rows.</p>
-              </div>
-            </div>
-            <div class="public-evidence-card" id="public-evidence-card" hidden aria-live="polite">
-              <div class="public-evidence-card-head">
-                <span class="queue-status open" id="public-evidence-card-status">Evidence card</span>
-                <div>
-                  <p class="eyebrow">Public evidence card</p>
-                  <h3 id="public-evidence-card-title">Create a public artifact from this result</h3>
-                </div>
-              </div>
-              <p id="public-evidence-card-summary">
-                Check a note, run current smoke, or challenge a claim to create one concise public card.
-              </p>
-              <dl class="public-evidence-card-grid" aria-label="ScribeBench public evidence card">
-                <div>
-                  <dt>What happened</dt>
-                  <dd id="public-evidence-card-happened">--</dd>
-                </div>
-                <div>
-                  <dt>Evidence level</dt>
-                  <dd id="public-evidence-card-level">--</dd>
-                </div>
-                <div>
-                  <dt>Boundary</dt>
-                  <dd id="public-evidence-card-boundary">--</dd>
-                </div>
-                <div>
-                  <dt>Next public ask</dt>
-                  <dd id="public-evidence-card-next">--</dd>
-                </div>
-              </dl>
-              <div class="public-evidence-findings" id="public-evidence-card-findings" hidden>
-                <strong>Flagged evidence</strong>
-                <ul id="public-evidence-card-finding-list"></ul>
-              </div>
-              <div class="public-evidence-card-actions">
-                <button class="button primary compact-button" id="quick-start-own-note" type="button">Check your own note</button>
-                <button class="button secondary compact-button" id="copy-public-evidence-card" type="button">Copy evidence card</button>
-                <a class="button secondary compact-button" href="#claim-check">Challenge claim</a>
-                <a class="button secondary compact-button" href="#run">Add powered row</a>
-                <span id="public-evidence-card-copy-status" role="status" aria-live="polite"></span>
-              </div>
-              <div class="public-evidence-card-preview">
-                <strong>Copy-ready card</strong>
-                <pre class="code-block"><code id="public-evidence-card-output"></code></pre>
-              </div>
-              <textarea
-                class="copy-fallback"
-                id="public-evidence-card-copy-fallback"
-                readonly
-                hidden
-                aria-label="ScribeBench public evidence card copy"
-              ></textarea>
-            </div>
             <form class="quick-check-form" id="quick-check-form">
               <label class="field">
                 <span>Source encounter</span>
@@ -284,49 +155,6 @@
               <p id="quick-check-status" role="status" aria-live="polite">Loading the seeded fall case...</p>
               <p id="live-smoke-status" role="status" aria-live="polite">Checking current free-model list...</p>
             </form>
-            <div class="quick-smoke-artifact" id="quick-smoke-artifact" hidden aria-live="polite">
-              <div class="quick-smoke-head">
-                <span class="queue-status open" id="quick-smoke-status">Smoke</span>
-                <div>
-                  <p class="eyebrow">Current smoke packet</p>
-                  <h3 id="quick-smoke-title">Run the current-model smoke check</h3>
-                </div>
-              </div>
-              <p id="quick-smoke-copy">
-                Generate a fresh note for the seeded case, judge it against the source, and leave with a smoke-only evidence packet.
-              </p>
-              <dl class="quick-smoke-grid" aria-label="Current-model smoke packet details">
-                <div>
-                  <dt>Case</dt>
-                  <dd id="quick-smoke-case">SYN-003</dd>
-                </div>
-                <div>
-                  <dt>Generator</dt>
-                  <dd id="quick-smoke-generator">Selected OpenRouter free model</dd>
-                </div>
-                <div>
-                  <dt>Judge</dt>
-                  <dd id="quick-smoke-judge">Selected OpenRouter free model</dd>
-                </div>
-                <div>
-                  <dt>Boundary</dt>
-                  <dd id="quick-smoke-boundary">Smoke only; not a leaderboard row.</dd>
-                </div>
-              </dl>
-              <div class="quick-smoke-actions">
-                <button class="button primary compact-button" id="copy-quick-smoke-packet" type="button">Copy smoke packet</button>
-                <a class="button secondary compact-button" href="#lab">Open Lab result</a>
-                <a class="button secondary compact-button" href="#run">Add powered row</a>
-                <span id="quick-smoke-copy-status" role="status" aria-live="polite"></span>
-              </div>
-              <textarea
-                class="copy-fallback"
-                id="quick-smoke-copy-fallback"
-                readonly
-                hidden
-                aria-label="ScribeBench current-smoke evidence packet"
-              ></textarea>
-            </div>
             <div class="quick-result" id="quick-result" hidden>
               <div class="quick-result-head">
                 <span class="queue-status needed" id="quick-result-status">Review</span>
@@ -387,6 +215,178 @@
                 hidden
                 aria-label="ScribeBench source-vs-note QA packet"
               ></textarea>
+            </div>
+            <div class="public-evidence-card" id="public-evidence-card" hidden aria-live="polite">
+              <div class="public-evidence-card-head">
+                <span class="queue-status open" id="public-evidence-card-status">Evidence card</span>
+                <div>
+                  <p class="eyebrow">Public evidence card</p>
+                  <h3 id="public-evidence-card-title">Create a public artifact from this result</h3>
+                </div>
+              </div>
+              <p id="public-evidence-card-summary">
+                Check a note, run current smoke, or challenge a claim to create one concise public card.
+              </p>
+              <dl class="public-evidence-card-grid" aria-label="ScribeBench public evidence card">
+                <div>
+                  <dt>What happened</dt>
+                  <dd id="public-evidence-card-happened">--</dd>
+                </div>
+                <div>
+                  <dt>Evidence level</dt>
+                  <dd id="public-evidence-card-level">--</dd>
+                </div>
+                <div>
+                  <dt>Boundary</dt>
+                  <dd id="public-evidence-card-boundary">--</dd>
+                </div>
+                <div>
+                  <dt>Next public ask</dt>
+                  <dd id="public-evidence-card-next">--</dd>
+                </div>
+              </dl>
+              <div class="public-evidence-findings" id="public-evidence-card-findings" hidden>
+                <strong>Flagged evidence</strong>
+                <ul id="public-evidence-card-finding-list"></ul>
+              </div>
+              <div class="public-evidence-card-actions">
+                <button class="button primary compact-button" id="quick-start-own-note" type="button">Check your own note</button>
+                <button class="button secondary compact-button" id="copy-public-evidence-card" type="button">Copy evidence card</button>
+                <a class="button secondary compact-button" href="#claim-check">Challenge claim</a>
+                <a class="button secondary compact-button" href="#run">Add powered row</a>
+                <span id="public-evidence-card-copy-status" role="status" aria-live="polite"></span>
+              </div>
+              <div class="public-evidence-card-preview">
+                <strong>Copy-ready card</strong>
+                <pre class="code-block"><code id="public-evidence-card-output"></code></pre>
+              </div>
+              <textarea
+                class="copy-fallback"
+                id="public-evidence-card-copy-fallback"
+                readonly
+                hidden
+                aria-label="ScribeBench public evidence card copy"
+              ></textarea>
+            </div>
+            <div class="quick-smoke-artifact" id="quick-smoke-artifact" hidden aria-live="polite">
+              <div class="quick-smoke-head">
+                <span class="queue-status open" id="quick-smoke-status">Smoke</span>
+                <div>
+                  <p class="eyebrow">Current smoke packet</p>
+                  <h3 id="quick-smoke-title">Run the current-model smoke check</h3>
+                </div>
+              </div>
+              <p id="quick-smoke-copy">
+                Generate a fresh note for the seeded case, judge it against the source, and leave with a smoke-only evidence packet.
+              </p>
+              <dl class="quick-smoke-grid" aria-label="Current-model smoke packet details">
+                <div>
+                  <dt>Case</dt>
+                  <dd id="quick-smoke-case">SYN-003</dd>
+                </div>
+                <div>
+                  <dt>Generator</dt>
+                  <dd id="quick-smoke-generator">Selected OpenRouter free model</dd>
+                </div>
+                <div>
+                  <dt>Judge</dt>
+                  <dd id="quick-smoke-judge">Selected OpenRouter free model</dd>
+                </div>
+                <div>
+                  <dt>Boundary</dt>
+                  <dd id="quick-smoke-boundary">Smoke only; not a leaderboard row.</dd>
+                </div>
+              </dl>
+              <div class="quick-smoke-actions">
+                <button class="button primary compact-button" id="copy-quick-smoke-packet" type="button">Copy smoke packet</button>
+                <a class="button secondary compact-button" href="#lab">Open Lab result</a>
+                <a class="button secondary compact-button" href="#run">Add powered row</a>
+                <span id="quick-smoke-copy-status" role="status" aria-live="polite"></span>
+              </div>
+              <textarea
+                class="copy-fallback"
+                id="quick-smoke-copy-fallback"
+                readonly
+                hidden
+                aria-label="ScribeBench current-smoke evidence packet"
+              ></textarea>
+            </div>
+            <p class="mobile-proof">
+              <strong>Why this matters:</strong> a fluent AI note can add care that never happened.
+              ScribeBench turns that gap into a review packet and copyable evidence card; one
+              note is QA, not a ranking.
+            </p>
+            <p class="quick-proof-label">Browser check catches</p>
+            <div class="quick-capability-grid" aria-label="What the browser receipt checks">
+              <div>
+                <span>Invented results</span>
+                <strong>Labs, imaging, ECGs</strong>
+                <p>Flags results the source says were not done or does not support.</p>
+              </div>
+              <div>
+                <span>Invented care</span>
+                <strong>Meds, follow-up, orders</strong>
+                <p>Catches unsupported starts, stops, urgent follow-up, referrals, transfers, and treatments.</p>
+              </div>
+              <div>
+                <span>Changed story</span>
+                <strong>Diagnoses and workups</strong>
+                <p>Finds escalations like pneumonia, sepsis, syncope, or head CT claims.</p>
+              </div>
+              <div>
+                <span>Chart facts</span>
+                <strong>Demographics, side, allergy, leaks</strong>
+                <p>Checks high-risk identity, laterality, allergy, and template artifacts.</p>
+              </div>
+            </div>
+            <div class="quick-output-contract" aria-label="What the quick check returns">
+              <div>
+                <span>Bring</span>
+                <strong>Source + AI note</strong>
+                <p>Paste the encounter record and the note you want checked against it.</p>
+              </div>
+              <div>
+                <span>Run</span>
+                <strong>Browser QA</strong>
+                <p>No key required for the first pass; the check runs on the page.</p>
+              </div>
+              <div>
+                <span>Leave with</span>
+                <strong>Review packet</strong>
+                <p>Flagged issues, note/source excerpts, evidence boundary, and next ask.</p>
+              </div>
+              <div>
+                <span>Boundary</span>
+                <strong>Evidence, not clearance</strong>
+                <p>One note can guide QA. System claims still need aggregate rows.</p>
+              </div>
+            </div>
+            <div class="current-model-lane" aria-labelledby="current-model-lane-title">
+              <div class="current-model-lane-head">
+                <span class="queue-status open" id="current-model-lane-status">Loading</span>
+                <div>
+                  <p class="eyebrow">Current model lane</p>
+                  <h3 id="current-model-lane-title">Smoke-check live free models, then demand powered rows.</h3>
+                </div>
+              </div>
+              <p id="current-model-lane-copy">
+                Loading the configured OpenRouter free-model list. This is the fresh path; old rows stay historical until a powered run exists.
+              </p>
+              <ul class="current-model-list" id="current-model-list" aria-label="Current free models available for smoke checks">
+                <li>Loading current free models...</li>
+              </ul>
+              <div class="current-model-lane-actions">
+                <button
+                  class="button secondary compact-button"
+                  id="current-model-run-smoke"
+                  type="button"
+                  data-default-label="Run smoke here"
+                  data-running-label="Running smoke check..."
+                >
+                  Run smoke here
+                </button>
+                <a class="button secondary compact-button" href="#lab">Choose model in Lab</a>
+              </div>
             </div>
           </section>
 

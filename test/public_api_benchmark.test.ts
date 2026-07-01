@@ -2,12 +2,15 @@
 import { describe, expect, it } from 'vitest';
 import {
   assertProgressConfig,
+  attemptedRecord,
   buildCurrentRunStatus,
   caseScoreFromPublicApi,
+  isProviderRateLimitError,
   parseArgs,
   providerKeyHeaders,
   publicApiDisclosure,
   slugify,
+  summarizeIds,
 } from '../scripts/run_public_api_benchmark';
 
 const dims = {
@@ -105,6 +108,26 @@ describe('public API benchmark helpers', () => {
     expect(providerKeyHeaders('openrouter', {})).toEqual({});
   });
 
+  it('recognizes provider cap errors and summarizes long blocker lists', () => {
+    expect(isProviderRateLimitError('Rate limit exceeded: free-models-per-min')).toBe(true);
+    expect(isProviderRateLimitError('HTTP 429 Too Many Requests')).toBe(true);
+    expect(isProviderRateLimitError('Judge response missing dimensions')).toBe(false);
+    expect(summarizeIds(['a', 'b', 'c', 'd'], 2)).toBe('a, b; +2 more');
+  });
+
+  it('distinguishes untouched selected cases from attempted records', () => {
+    expect(attemptedRecord({
+      caseId: 'PM57-d1c99',
+      judgments: [],
+      errors: [],
+    })).toBe(false);
+    expect(attemptedRecord({
+      caseId: 'PM57-d1c99',
+      judgments: [],
+      errors: ['2026-07-01T00:00:00.000Z Rate limit exceeded: free-models-per-min'],
+    })).toBe(true);
+  });
+
   it('rejects progress files from a different judge configuration', () => {
     const seed = {
       schemaVersion: 1 as const,
@@ -150,13 +173,14 @@ describe('public API benchmark helpers', () => {
           caseId: 'PM57-d1c02',
           note: 'note',
           judgments: [],
-          errors: ['2026-06-30T20:09:42.175Z Rate limit exceeded: free-models-per-day'],
+          errors: ['2026-06-30T20:09:42.175Z Rate limit exceeded: free-models-per-min'],
         },
       },
     };
     const selectedCases = [
       { id: 'PM57-d1c01', source: 'source 1', provenance: 'primock57' },
       { id: 'PM57-d1c02', source: 'source 2', provenance: 'primock57' },
+      { id: 'PM57-d1c03', source: 'source 3', provenance: 'primock57' },
     ];
     const scores = Object.values(progress.cases).map((record) => caseScoreFromPublicApi(record, 1));
 
@@ -174,7 +198,8 @@ describe('public API benchmark helpers', () => {
 
     expect(status.status).toBe('needs-credit-or-second-judge');
     expect(status.statusLabel).toBe('Free-model cap hit');
-    expect(status.selectedCases).toBe(2);
+    expect(status.selectedCases).toBe(3);
+    expect(status.attemptedCases).toBe(2);
     expect(status.generatedCases).toBe(2);
     expect(status.scoredCases).toBe(1);
     expect(status.erroredCases).toBe(1);
@@ -190,7 +215,8 @@ describe('public API benchmark helpers', () => {
       dangerousFabricationRate: 0,
     });
     expect(status.partialAggregate?.note).toContain('below the 30-case publishable threshold');
-    expect(status.blocker).toContain('Blocked cases: PM57-d1c02');
+    expect(status.blocker).toContain('Provider rate limit stopped this attempt');
+    expect(status.blocker).toContain('Blocked/errored cases: PM57-d1c02');
     expect(status.blocker).toContain('PriMock57 cases');
     expect(status.blocker).toContain('Rate limit exceeded');
     expect(status.unblockAsk).toContain('This is not a model result yet: 1/2 attempted cases');
