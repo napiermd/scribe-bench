@@ -3871,6 +3871,47 @@ h4 {
   padding: 0.9rem;
 }
 
+.lab-demo-tools {
+  border: 1px solid var(--line);
+  background: var(--panel-soft);
+  margin-top: 1rem;
+  padding: 0.8rem;
+}
+
+.lab-demo-tools summary {
+  cursor: pointer;
+  color: var(--ink);
+  font-weight: 850;
+}
+
+.lab-demo-tools summary::marker {
+  color: var(--accent-strong);
+}
+
+.lab-demo-tools summary span {
+  display: inline;
+  color: var(--ink);
+  font-size: 0.9rem;
+  font-weight: 850;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.lab-demo-tools summary small {
+  display: block;
+  margin: 0.2rem 0 0 1.05rem;
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.lab-demo-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0.85rem;
+}
+
 .lab-model-settings summary {
   cursor: pointer;
   color: var(--ink);
@@ -3993,6 +4034,53 @@ h4 {
   flex-wrap: wrap;
   gap: 0.7rem;
   margin-top: 0.4rem;
+}
+
+.lab-provider-archive {
+  border: 1px solid rgba(37, 94, 143, 0.24);
+  background: #eef6fb;
+  box-shadow: var(--shadow);
+  margin-top: 1rem;
+  padding: 0.95rem;
+}
+
+.lab-provider-archive summary {
+  cursor: pointer;
+}
+
+.lab-provider-archive summary::marker {
+  color: var(--blue);
+  font-weight: 900;
+}
+
+.lab-provider-archive-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  align-items: start;
+}
+
+.lab-provider-archive-head h3 {
+  color: var(--ink);
+  font-size: 1.08rem;
+}
+
+.lab-provider-archive-head p:not(.eyebrow) {
+  color: var(--muted);
+  font-size: 0.86rem;
+  line-height: 1.38;
+  margin: 0.5rem 0 0;
+}
+
+.lab-provider-archive .archive-summary-status {
+  border-color: rgba(37, 94, 143, 0.24);
+  background: var(--panel);
+  color: var(--blue);
+}
+
+.lab-provider-archive .current-model-lane {
+  box-shadow: none;
+  margin-top: 1rem;
 }
 
 .result-hero {
@@ -5222,6 +5310,7 @@ h4 {
   .live-smoke-lane .button,
   .quick-check-actions .button,
   .current-model-lane-actions .button,
+  .lab-demo-actions .button,
   .quick-result-actions .button,
   .quick-use-actions .button,
   .quick-smoke-actions .button,
@@ -5278,6 +5367,10 @@ h4 {
 
   .historical-baseline-actions {
     justify-content: stretch;
+  }
+
+  .lab-provider-archive-head {
+    grid-template-columns: 1fr;
   }
 
   .run-builder-actions .button {

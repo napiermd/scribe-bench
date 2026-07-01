@@ -985,13 +985,13 @@
             <p class="eyebrow">Optional second opinion</p>
             <h2>Use the Lab only when one note needs a second read.</h2>
             <p>
-              Start from the browser receipt. The Lab can ask a live judge or generate a
-              demo candidate, but every output remains a review packet or smoke check,
-              never a ranking.
+              Start from the browser receipt. The Lab can ask a live judge for a
+              bounded second read, but every output remains a review packet, never
+              a ranking.
             </p>
           </div>
           <div class="split-actions">
-            <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
+            <a class="button secondary compact-button" href="#quick-check">Start with browser receipt</a>
           </div>
         </div>
 
@@ -1034,11 +1034,21 @@
             <div class="lab-actions">
               <button class="button primary" id="run-local-receipt" type="button">Run no-key receipt</button>
               <button class="button secondary" id="run-lab" type="submit">Ask live judge for review</button>
-              <button class="button secondary" id="generate-note" type="button">Generate demo candidate</button>
-              <button class="button secondary" id="show-seeded-verdict" type="button">Show seeded verdict</button>
               <button class="button secondary" id="clear-lab" type="button">Clear</button>
               <span id="lab-status" role="status" aria-live="polite"></span>
             </div>
+
+            <details class="lab-demo-tools">
+              <summary>
+                <span>Demo tools</span>
+                <small>Use only when you need the seeded case or a generated candidate.</small>
+              </summary>
+              <div class="lab-demo-actions">
+                <button class="button secondary compact-button" id="load-seeded-lab" type="button">Load seeded demo</button>
+                <button class="button secondary compact-button" id="generate-note" type="button">Generate demo candidate</button>
+                <button class="button secondary compact-button" id="show-seeded-verdict" type="button">Show seeded verdict</button>
+              </div>
+            </details>
 
             <details class="lab-model-settings">
               <summary>
@@ -1216,62 +1226,52 @@
           </article>
         </div>
 
-        <div class="current-model-lane" aria-labelledby="current-model-lane-title">
-          <div class="current-model-lane-head">
-            <span class="queue-status open" id="current-model-lane-status">Loading</span>
+        <details class="lab-provider-archive" id="lab-provider-tools" aria-label="Second-read provider diagnostics">
+          <summary class="lab-provider-archive-head">
             <div>
-              <p class="eyebrow">Current model lane</p>
-              <h3 id="current-model-lane-title">Second-opinion models stay behind the receipt.</h3>
+              <p class="eyebrow">Provider diagnostics</p>
+              <h3>Show model status and smoke test</h3>
+              <p>
+                Closed by default because provider readiness is plumbing. Open only
+                when a review packet needs a live second-read check.
+              </p>
             </div>
-          </div>
-          <p id="current-model-lane-copy">
-            Loading provider readiness for bounded second reads. Use this only after the
-            browser receipt shows a source-note issue that needs another look.
-          </p>
-          <ul class="current-model-list" id="current-model-list" aria-label="Provider status for second reads">
-            <li>
-              <strong>Second-read status</strong>
-              <span>Loading provider availability...</span>
-            </li>
-          </ul>
-          <div class="current-model-lane-actions">
-            <button
-              class="button secondary compact-button"
-              id="current-model-run-smoke"
-              type="button"
-              data-default-label="Test second-read path"
-              data-running-label="Testing second-read path..."
-            >
-              Test second-read path
-            </button>
-            <a class="button secondary compact-button" href="#run">Add powered row</a>
-          </div>
-          <p id="live-smoke-status" role="status" aria-live="polite">Checking second-read provider status...</p>
-        </div>
+            <span class="archive-summary-status">Open provider tools</span>
+          </summary>
 
-        <div class="lab-guide" aria-label="Live lab quick path">
-          <article>
-            <span>1</span>
-            <div>
-              <strong>Use it for review</strong>
-              <p>Copy the packet when the goal is human review, debugging, or local QA.</p>
+          <div class="current-model-lane" aria-labelledby="current-model-lane-title">
+            <div class="current-model-lane-head">
+              <span class="queue-status open" id="current-model-lane-status">Loading</span>
+              <div>
+                <p class="eyebrow">Current model lane</p>
+                <h3 id="current-model-lane-title">Second-opinion models stay behind the receipt.</h3>
+              </div>
             </div>
-          </article>
-          <article>
-            <span>2</span>
-            <div>
-              <strong>Turn claims into asks</strong>
-              <p>If someone says safe, best, or hallucination-free, route the result to the claim checker.</p>
+            <p id="current-model-lane-copy">
+              Loading provider readiness for bounded second reads. Use this only after the
+              browser receipt shows a source-note issue that needs another look.
+            </p>
+            <ul class="current-model-list" id="current-model-list" aria-label="Provider status for second reads">
+              <li>
+                <strong>Second-read status</strong>
+                <span>Loading provider availability...</span>
+              </li>
+            </ul>
+            <div class="current-model-lane-actions">
+              <button
+                class="button secondary compact-button"
+                id="current-model-run-smoke"
+                type="button"
+                data-default-label="Test second-read path"
+                data-running-label="Testing second-read path..."
+              >
+                Test second-read path
+              </button>
+              <a class="button secondary compact-button" href="#run">Add powered row</a>
             </div>
-          </article>
-          <article>
-            <span>3</span>
-            <div>
-              <strong>Add rows only with a dataset</strong>
-              <p>Use the contributor path when you have many candidate notes and can publish aggregate scores.</p>
-            </div>
-          </article>
-        </div>
+            <p id="live-smoke-status" role="status" aria-live="polite">Checking second-read provider status...</p>
+          </div>
+        </details>
       </section>
 
       <section class="wrap section split" id="demo">

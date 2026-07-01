@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The Lab now hides model plumbing by default",
+      "why": "The Lab said it was only for a second read, but the visible path still pushed seeded demos, candidate generation, provider readiness, and smoke testing. That made the site drift back toward model playground behavior.",
+      "proof": "Changed the Lab header to send visitors back to the browser receipt first, left only receipt and live-judge review actions in the main workbench, and moved demo tools plus provider diagnostics into closed disclosure sections.",
+      "next": "Keep Lab useful as an escalation path: one source-note pair, one review packet, provider details only when the reviewer asks for them.",
+      "links": [
+        { "label": "Second opinion Lab", "href": "#lab" },
+        { "label": "Browser receipt", "href": "#quick-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Old score tables now stay in evidence archives",
       "why": "The Evidence page said the June 2026 rows were historical, but the full tables still sat open in the main path. On mobile they added thousands of pixels and horizontal scroll, making old models feel more important than the current blocker.",
       "proof": "Moved the historical launch rows and n=3 smoke rows behind closed disclosure sections. The visible Evidence path now prioritizes the current public task, note-review answer, blocker receipt, smoke receipt, and worklog before anyone opens archived tables.",
