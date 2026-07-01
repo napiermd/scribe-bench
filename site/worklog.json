@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now starts with the visitor's job",
+      "why": "The site explained the checker, evidence ledger, and repo, but a cold visitor still had to infer whether they were here to review a note, challenge a claim, or publish proof.",
+      "proof": "Replaced the four explanatory purpose blocks with a compact chooser for three real situations: I have source + note, I heard a claim, and I can add proof. Each path names the artifact the visitor should leave with and links to the right tool.",
+      "next": "Keep reducing explanation into useful routes: every first-screen block should either start note review, create an evidence ask, or prepare aggregate proof.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Prepare row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The QA result now starts with a reviewer handoff",
       "why": "The checker produced a useful copyable QA finding, but the result still exposed the long finding text before giving a reviewer the actual decision: hold, fix, or continue with bounded triage.",
       "proof": "Added a compact Reviewer handoff with Action, Why, Evidence, and Next fields. Flagged notes say to hold before signing, leak-only output says to fix the artifact, and clean browser checks stay scoped to triage. The full QA finding text is still available, but closed until someone wants to copy it.",

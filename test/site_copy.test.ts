@@ -16,7 +16,7 @@ describe('site copy and labels', () => {
     expect(app).toContain('"Seeded example finding"');
   });
 
-  it('keeps the first screen centered on the note checker, not a duplicate router', () => {
+  it('keeps the first screen centered on the note checker with clear public jobs', () => {
     const summarySection = html.match(/<section class="summary-band">[\s\S]*?<\/section>/)?.[0] || '';
     const quickCheckIndex = summarySection.indexOf('class="quick-check-panel"');
 
@@ -29,17 +29,20 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('the source does not support');
     expect(summarySection).toContain('then writes a copyable QA');
     expect(summarySection).toContain('finding for review');
-    expect(summarySection).toContain('quick-purpose-strip');
-    expect(summarySection).toContain('What this checker is for');
-    expect(summarySection).toContain('The real encounter + AI note');
-    expect(summarySection).toContain('Transcript, source note, or encounter summary plus generated note.');
-    expect(summarySection).toContain('Unsupported care and chart facts');
-    expect(summarySection).toContain('Meds, orders, diagnoses, procedures, results, demographics, side, allergies, leaks, or changed story.');
-    expect(summarySection).toContain('A copy-paste QA finding');
-    expect(summarySection).toContain('The exact note claim, source contradiction, risk boundary, and next step.');
-    expect(summarySection).toContain('<span>Do not use for</span>');
-    expect(summarySection).toContain('Clearance or rankings');
-    expect(summarySection).toContain('One note can flag a problem. Big claims need many scored notes.');
+    expect(summarySection).toContain('quick-entry-paths');
+    expect(summarySection).toContain('Choose the ScribeBench job');
+    expect(summarySection).toContain('I have source + note');
+    expect(summarySection).toContain('Check one AI-scribe note');
+    expect(summarySection).toContain('Paste both sides and leave with a reviewer handoff plus QA finding.');
+    expect(summarySection).toContain('Open note checker');
+    expect(summarySection).toContain('I heard a claim');
+    expect(summarySection).toContain('Challenge the promise');
+    expect(summarySection).toContain('Turn "safe," "hallucination-free," or "best" into the evidence it would need.');
+    expect(summarySection).toContain('Build evidence ask');
+    expect(summarySection).toContain('I can add proof');
+    expect(summarySection).toContain('Publish aggregate evidence');
+    expect(summarySection).toContain('Use the harness to submit a scores-only current-system row people can cite.');
+    expect(summarySection).toContain('Prepare row');
     expect(summarySection).toContain('quick-start-strip');
     expect(summarySection).toContain('Seeded catch visible now');
     expect(summarySection).toContain('The AI note invented a negative head CT and a syncope workup.');
@@ -73,17 +76,17 @@ describe('site copy and labels', () => {
     expect(summarySection).not.toContain('Copy route plan');
     expect(summarySection).not.toContain('Read the NapierMD proof trail');
     expect(styles).toContain('.quick-proof-pair');
-    expect(styles).toContain('.quick-purpose-strip');
-    expect(styles).toContain('.quick-purpose-strip div');
-    expect(styles).toContain('.quick-purpose-strip div:last-child');
+    expect(styles).toContain('.quick-entry-paths');
+    expect(styles).toContain('.quick-entry-paths article');
+    expect(styles).toContain('.quick-entry-paths article:last-child');
     expect(styles).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
     expect(styles).toContain('.quick-proof-pair div:last-child');
     expect(styles).toContain('.quick-check-panel {\n    order: 1;');
-    expect(styles).toContain('.quick-start-strip {\n    order: 3;');
-    expect(styles).toContain('.quick-purpose-strip {\n    order: 4;');
+    expect(styles).toContain('.quick-entry-paths {\n    order: 3;');
+    expect(styles).toContain('.quick-start-strip {\n    order: 4;');
     expect(styles).toContain('.mobile-proof {\n    order: 7;');
     expect(styles).toContain('.quick-capability-grid {\n    order: 9;');
-    expect(styles).toContain('.quick-purpose-strip div {\n    border-right: 0;');
+    expect(styles).not.toContain('.quick-purpose-strip');
     expect(styles).not.toContain('.quick-origin-note');
     expect(styles).toContain('.quick-start-copy-fallback');
     expect(styles).toContain('.quick-start-copy-panel');
@@ -295,6 +298,17 @@ describe('site copy and labels', () => {
     expect(guideGridIndex).toBe(-1);
     expect(guideSection).toContain('After the finding');
     expect(guideSection).toContain('One checked note tells you what to do next.');
+    expect(html).toContain('aria-label="Choose the ScribeBench job"');
+    expect(html).toContain('I have source + note');
+    expect(html).toContain('Check one AI-scribe note');
+    expect(html).toContain('Paste both sides and leave with a reviewer handoff plus QA finding.');
+    expect(html).toContain('Open note checker');
+    expect(html).toContain('I heard a claim');
+    expect(html).toContain('Challenge the promise');
+    expect(html).toContain('Build evidence ask');
+    expect(html).toContain('I can add proof');
+    expect(html).toContain('Publish aggregate evidence');
+    expect(html).toContain('Prepare row');
     expect(guideSection).toContain('ScribeBench is for people holding evidence');
     expect(guideSection).toContain('choose the smallest honest next step');
     expect(guideSection).toContain('id="public-action-kit"');
@@ -330,6 +344,7 @@ describe('site copy and labels', () => {
     expect(readme).toContain('copy-ready QA finding with unsupported-care flags, excerpts, evidence boundary, and next ask');
     expect(styles).toContain('.after-receipt-grid');
     expect(styles).toContain('.after-receipt-actions');
+    expect(styles).toContain('.quick-entry-paths');
     expect(app).not.toContain('function bindPublicActionKit()');
     expect(app).not.toContain('document.querySelectorAll("[data-public-copy]")');
     expect(app).not.toContain('button.closest("[data-public-artifact]")');

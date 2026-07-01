@@ -418,6 +418,38 @@ h4 {
   font-weight: 850;
 }
 
+.quick-entry-paths {
+  grid-column: 1 / -1;
+  border: 1px solid rgba(15, 118, 110, 0.2);
+  background: var(--panel-soft);
+  margin: -0.08rem 0 0;
+}
+
+.quick-entry-paths article {
+  padding: 0.78rem 0.82rem;
+}
+
+.quick-entry-paths article:first-child {
+  padding-left: 0.82rem;
+}
+
+.quick-entry-paths article:last-child {
+  padding-right: 0.82rem;
+}
+
+.quick-entry-paths strong {
+  font-size: 0.98rem;
+}
+
+.quick-entry-paths p {
+  max-width: 24rem;
+}
+
+.quick-entry-paths a {
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.24em;
+}
+
 .instant-receipt-lane,
 .live-smoke-lane {
   display: grid;
@@ -531,48 +563,6 @@ h4 {
   margin: -0.25rem 0 0;
   color: var(--muted);
   font-size: 0.92rem;
-}
-
-.quick-purpose-strip {
-  grid-column: 1;
-  display: grid;
-  grid-template-columns: 1fr;
-  border: 1px solid rgba(15, 118, 110, 0.18);
-  background: rgba(255, 255, 255, 0.74);
-}
-
-.quick-purpose-strip div {
-  min-width: 0;
-  border-bottom: 1px solid rgba(15, 118, 110, 0.16);
-  padding: 0.7rem 0.78rem;
-}
-
-.quick-purpose-strip div:last-child {
-  border-bottom: 0;
-}
-
-.quick-purpose-strip span {
-  display: block;
-  color: var(--accent-strong);
-  font-size: 0.66rem;
-  font-weight: 900;
-  letter-spacing: 0;
-  text-transform: uppercase;
-}
-
-.quick-purpose-strip strong {
-  display: block;
-  color: var(--ink);
-  font-size: 0.9rem;
-  line-height: 1.2;
-  margin-top: 0.28rem;
-}
-
-.quick-purpose-strip p {
-  color: var(--muted);
-  font-size: 0.8rem;
-  line-height: 1.32;
-  margin: 0.3rem 0 0;
 }
 
 .quick-start-strip {
@@ -918,7 +908,7 @@ h4 {
 .quick-check-form {
   display: grid;
   grid-column: 2;
-  grid-row: 3 / span 4;
+  grid-row: 4 / span 4;
   grid-template-columns: 1fr;
   gap: 0.76rem;
   align-self: start;
@@ -4919,7 +4909,6 @@ h4 {
   .quick-capability-grid,
   .current-model-list,
   .quick-output-contract,
-  .quick-purpose-strip,
   .thesis-strip,
   .proof-path,
   .quick-check-form,
@@ -4952,6 +4941,7 @@ h4 {
 
   .quick-check-head,
   .quick-check-help,
+  .quick-entry-paths,
   .quick-start-strip,
   .quick-result,
   .quick-check-form,
@@ -5002,15 +4992,6 @@ h4 {
   }
 
   .quick-review-grid div:last-child {
-    border-bottom: 0;
-  }
-
-  .quick-purpose-strip div {
-    border-right: 0;
-    border-bottom: 1px solid rgba(15, 118, 110, 0.16);
-  }
-
-  .quick-purpose-strip div:last-child {
     border-bottom: 0;
   }
 
@@ -5145,6 +5126,12 @@ h4 {
     border-bottom: 1px solid var(--line);
     padding-left: 0;
     padding-right: 0;
+  }
+
+  .quick-entry-paths article,
+  .quick-entry-paths article:first-child,
+  .quick-entry-paths article:last-child {
+    padding: 0.68rem 0.78rem;
   }
 
   .evidence-ladder div,
@@ -5309,11 +5296,11 @@ h4 {
     order: 2;
   }
 
-  .quick-start-strip {
+  .quick-entry-paths {
     order: 3;
   }
 
-  .quick-purpose-strip {
+  .quick-start-strip {
     order: 4;
   }
 
