@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The no-key checker now catches invented medication changes",
+      "why": "The browser receipt could catch invented treatment actions and care-plan orders, but production still let a note claim a medication was started, stopped, held, resumed, increased, or decreased when the source did not support that change.",
+      "proof": "The browser-only receipt now checks medication-change actions against visible source support and explicit contradictions such as no medication changes or no prescriptions. Focused tests cover invented antihypertensive changes, unsupported gabapentin prescriptions, and supported or negated non-catches.",
+      "next": "Keep expanding the instant receipt around concrete things a signer inherits: medication changes, follow-up, results, diagnoses, orders, and disposition.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Detailed receipt", "href": "#quick-check" },
+        { "label": "Fabrication taxonomy", "href": "https://github.com/napiermd/scribe-bench/blob/main/docs/fabrication-taxonomy.md" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "The no-key checker now catches invented orders and referrals",
       "why": "The browser receipt had become useful for symptoms, diagnoses, and treatment actions, but production still let a note claim an x-ray was ordered or an orthopedic referral was placed when the source explicitly said neither happened.",
       "proof": "The browser-only receipt now checks positive care-plan actions for imaging orders, specialist referrals, lab orders, and admission or ED-transfer escalation. Focused tests cover unsupported order/referral catches, lab and ED-transfer catches, plus supported and negated non-catches.",

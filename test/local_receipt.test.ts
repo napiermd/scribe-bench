@@ -88,6 +88,44 @@ describe('browser local receipt', () => {
     expect(negated.fabrication.dangerous).toEqual([]);
   });
 
+  it('catches unsupported medication changes without a model', () => {
+    const source = [
+      'Primary care visit for elevated blood pressure.',
+      'Patient takes lisinopril 10 mg daily.',
+      'No medication changes were made today.',
+      'Continue home medications and follow up in one month.',
+    ].join(' ');
+    const note = 'Assessment: hypertension. Plan: start amlodipine 5 mg daily and stop lisinopril. Follow up in one month.';
+    const result = runLocalReceipt(source, note);
+    const dangerous = result.fabrication.dangerous.join(' ');
+
+    expect(dangerous).toMatch(/medication change/i);
+    expect(result.evidence.dangerous.some((item) => /medication change/i.test(item.finding) && /start amlodipine/i.test(item.noteExcerpt) && /No medication changes were made/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('catches unsupported medication prescriptions when the source gives no medication support', () => {
+    const source = 'Visit for mild back strain. Recommended heat, stretching, and physical therapy. No prescriptions were provided.';
+    const note = 'Plan: prescribe gabapentin at bedtime and continue physical therapy.';
+    const result = runLocalReceipt(source, note);
+
+    expect(result.fabrication.dangerous.join(' ')).toMatch(/medication change/i);
+    expect(result.evidence.dangerous.some((item) => /medication change/i.test(item.finding) && /gabapentin/i.test(item.noteExcerpt) && /No prescriptions were provided/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('does not flag supported or negated medication-change language', () => {
+    const supported = runLocalReceipt(
+      'Hypertension follow-up. Amlodipine was started and lisinopril was stopped because of cough.',
+      'Plan: start amlodipine and stop lisinopril due to cough.'
+    );
+    const negated = runLocalReceipt(
+      'Hypertension follow-up. No medication changes were made today.',
+      'No medication changes were made today.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+  });
+
   it('catches unsupported diagnosis escalations without a model', () => {
     const source = [
       'Clinic visit for cough and congestion.',

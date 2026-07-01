@@ -2579,6 +2579,7 @@ function classifyIssueType(label, finding) {
   if (text.includes("sex/gender") || text.includes("gender mismatch")) return "sex/gender";
   if (text.includes("laterality")) return "laterality";
   if (text.includes("allergy") || text.includes("nkda")) return "allergy";
+  if (text.includes("medication change") || text.includes("prescription")) return "unsupported medication change";
   if (text.includes("order") || text.includes("referral") || text.includes("admission") || text.includes("transfer")) return "unsupported care plan";
   if (text.includes("workup") || text.includes("head ct") || text.includes("head imaging")) return "unsupported care";
   if (text.includes("ems") || text.includes("ambulance")) return "arrival mismatch";

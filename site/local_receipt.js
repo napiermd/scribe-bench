@@ -125,6 +125,95 @@ const TREATMENT_GROUPS = [
   },
 ];
 
+const MEDICATION_CHANGE_GROUPS = [
+  {
+    label: "medication change",
+    note: medicationChangePatterns([
+      "amlodipine",
+      "lisinopril",
+      "losartan",
+      "metoprolol",
+      "hydrochlorothiazide",
+      "furosemide",
+      "atorvastatin",
+      "rosuvastatin",
+      "metformin",
+      "glipizide",
+      "semaglutide",
+      "albuterol",
+      "inhaler",
+      "gabapentin",
+      "sertraline",
+      "fluoxetine",
+      "omeprazole",
+      "pantoprazole",
+      "oxycodone",
+      "hydrocodone",
+      "tramadol",
+      "acetaminophen",
+      "tylenol",
+      "ibuprofen",
+      "naproxen",
+      "apixaban",
+      "eliquis",
+      "rivaroxaban",
+      "xarelto",
+      "warfarin",
+      "aspirin",
+      "clopidogrel",
+      "plavix",
+      "(?:new\\s+)?medications?",
+      "prescriptions?",
+    ]),
+    support: medicationChangePatterns([
+      "amlodipine",
+      "lisinopril",
+      "losartan",
+      "metoprolol",
+      "hydrochlorothiazide",
+      "furosemide",
+      "atorvastatin",
+      "rosuvastatin",
+      "metformin",
+      "glipizide",
+      "semaglutide",
+      "albuterol",
+      "inhaler",
+      "gabapentin",
+      "sertraline",
+      "fluoxetine",
+      "omeprazole",
+      "pantoprazole",
+      "oxycodone",
+      "hydrocodone",
+      "tramadol",
+      "acetaminophen",
+      "tylenol",
+      "ibuprofen",
+      "naproxen",
+      "apixaban",
+      "eliquis",
+      "rivaroxaban",
+      "xarelto",
+      "warfarin",
+      "aspirin",
+      "clopidogrel",
+      "plavix",
+      "(?:new\\s+)?medications?",
+      "prescriptions?",
+    ]),
+    contradiction: [
+      /\bno\s+(?:medication|med|prescription)s?\s+changes?\s+(?:were\s+|was\s+)?(?:made|needed|indicated)\b/i,
+      /\bmedications?\s+(?:were\s+|was\s+)?(?:unchanged|not\s+changed)\b/i,
+      /\bcontinue\s+(?:home\s+|current\s+)?medications?\s+(?:without\s+changes?|unchanged)\b/i,
+      /\bno\s+new\s+(?:medications?|prescriptions?)\b/i,
+      /\bno\s+(?:medications?|prescriptions?)\s+(?:were\s+|was\s+)?(?:provided|given|written|sent|prescribed)\b/i,
+      /\bnot\s+(?:started|prescribed|given)\s+(?:any\s+)?(?:new\s+)?(?:medications?|prescriptions?)\b/i,
+      /\b(?:did\s+not|no\s+plan\s+to)\s+(?:start|stop|change|adjust|increase|decrease|prescribe)\s+(?:any\s+)?(?:medications?|prescriptions?)\b/i,
+    ],
+  },
+];
+
 const DIAGNOSIS_GROUPS = [
   {
     label: "pneumonia diagnosis",
@@ -426,6 +515,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of MEDICATION_CHANGE_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching medication-change support phrase found in the source text.",
+      });
+    }
+  }
+
   for (const group of DIAGNOSIS_GROUPS) {
     const noteMatch = firstPositiveHit(noteText, group.note);
     if (!noteMatch) continue;
@@ -495,10 +608,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, care-plan actions, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, medication changes, care-plan actions, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, care-plan order/referral/disposition, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, medication change, care-plan order/referral/disposition, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -531,6 +644,16 @@ function treatmentPatterns(terms) {
   return [
     new RegExp(`\\b(?:start(?:ed)?|give|gave|given|administer(?:ed)?|prescrib(?:ed|e)|treated\\s+with|placed\\s+(?:him|her|them|the\\s+patient)\\s+on)\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b${termGroup}\\b[^.!?;]{0,70}\\b(?:start(?:ed)?|given|administer(?:ed)?|prescrib(?:ed|e))\\b`, "i"),
+  ];
+}
+
+function medicationChangePatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  const actionGroup = "(?:start(?:ed)?|begin|began|prescrib(?:ed|e)|add(?:ed)?|initiat(?:ed|e)|increase(?:d)?|decrease(?:d)?|reduce(?:d)?|stop(?:ped|ping)?|discontinu(?:ed|e)|hold(?:ing)?|held|resume(?:d)?)";
+  return [
+    new RegExp(`\\b${actionGroup}\\b[^.!?;]{0,90}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,80}\\b${actionGroup}\\b`, "i"),
+    /\b(?:new|changed|adjusted)\s+(?:medications?|prescriptions?)\b/i,
   ];
 }
 
