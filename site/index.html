@@ -142,6 +142,8 @@
                 <div class="start-route-actions">
                   <a class="button primary compact-button" id="start-route-primary" href="#quick-check-form">Check your note</a>
                   <a class="button secondary compact-button" id="start-route-secondary" href="#demo">See the seeded catch</a>
+                  <button class="button secondary compact-button" id="start-route-copy-plan" type="button">Copy route plan</button>
+                  <span id="start-route-copy-status" role="status" aria-live="polite"></span>
                 </div>
                 <dl class="start-route-steps">
                   <div>
@@ -157,6 +159,16 @@
                     <dd id="start-route-output">A copyable QA receipt and a clear next proof step.</dd>
                   </div>
                 </dl>
+                <div class="start-route-copy-panel" id="start-route-copy-panel" hidden>
+                  <strong>Manual copy fallback</strong>
+                  <p>Clipboard access is unavailable here. Select this route plan and paste it into the next thread.</p>
+                  <textarea
+                    class="copy-fallback start-route-copy-fallback"
+                    id="start-route-copy-fallback"
+                    readonly
+                    aria-label="Copied ScribeBench route plan"
+                  ></textarea>
+                </div>
               </div>
             </div>
 

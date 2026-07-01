@@ -1502,6 +1502,8 @@ function selectStartRoute(key = "note") {
   setText("start-route-output", route.output);
   setRouteLink("start-route-primary", route.primary);
   setRouteLink("start-route-secondary", route.secondary);
+  setStartRouteCopyStatus("");
+  setStartRouteCopyFallback("");
 }
 
 function bindStartRouter() {
@@ -1517,6 +1519,7 @@ function bindStartRouter() {
       startOwnQuickCheck(event);
     }
   });
+  document.getElementById("start-route-copy-plan")?.addEventListener("click", copyStartRoutePlan);
   selectStartRoute(buttons.find((button) => button.classList.contains("active"))?.dataset.startRoute || "note");
 }
 
@@ -1525,6 +1528,60 @@ function setRouteLink(id, link) {
   if (!target || !link) return;
   target.textContent = link.label;
   target.setAttribute("href", link.href);
+}
+
+async function copyStartRoutePlan() {
+  const text = startRoutePlanText();
+  if (!text) {
+    setStartRouteCopyStatus("Pick a route first.");
+    return;
+  }
+  try {
+    await copyText(text);
+    setStartRouteCopyFallback("");
+    setStartRouteCopyStatus("Route plan copied.");
+  } catch (_) {
+    setStartRouteCopyFallback(text);
+    setStartRouteCopyStatus("Clipboard unavailable. Route plan shown here.");
+  }
+}
+
+function startRoutePlanText() {
+  const activeKey = document.querySelector("[data-start-route].active")?.dataset.startRoute || "note";
+  const route = startRoutes[activeKey] || startRoutes.note;
+  const primaryHref = absoluteSiteHref(route.primary?.href || "#");
+  const secondaryHref = absoluteSiteHref(route.secondary?.href || "#");
+  return [
+    "ScribeBench route plan",
+    `Route: ${route.title}`,
+    `For: ${route.kicker}`,
+    `Bring: ${route.input}`,
+    `Do: ${route.action}`,
+    `Leave with: ${route.output}`,
+    `Primary next step: ${route.primary?.label || "Open ScribeBench"} (${primaryHref})`,
+    `Secondary next step: ${route.secondary?.label || "Review evidence"} (${secondaryHref})`,
+    "Boundary: one-note receipts are useful QA; system claims need scored aggregate rows under the same rules.",
+    "Site: https://scribe-bench.vercel.app/",
+  ].join("\n");
+}
+
+function absoluteSiteHref(href) {
+  if (!href) return "https://scribe-bench.vercel.app/";
+  if (/^https?:\/\//i.test(href)) return href;
+  if (href.startsWith("#")) return `https://scribe-bench.vercel.app/${href}`;
+  return `https://scribe-bench.vercel.app/${href.replace(/^\/+/, "")}`;
+}
+
+function setStartRouteCopyStatus(message) {
+  const status = document.getElementById("start-route-copy-status");
+  if (status) status.textContent = message;
+}
+
+function setStartRouteCopyFallback(text) {
+  const fallback = document.getElementById("start-route-copy-fallback");
+  const panel = document.getElementById("start-route-copy-panel");
+  if (fallback) fallback.value = text;
+  if (panel) panel.hidden = !text;
 }
 
 function stickyHeaderOffset() {

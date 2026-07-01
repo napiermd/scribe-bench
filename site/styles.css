@@ -666,7 +666,44 @@ h4 {
 .start-route-actions {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 0.58rem;
+}
+
+#start-route-copy-status {
+  color: var(--accent-strong);
+  font-size: 0.8rem;
+  font-weight: 800;
+  min-height: 1rem;
+}
+
+.start-route-copy-panel {
+  display: grid;
+  gap: 0.48rem;
+  border: 1px solid rgba(15, 118, 110, 0.22);
+  background: var(--panel-soft);
+  padding: 0.72rem;
+}
+
+.start-route-copy-panel[hidden] {
+  display: none;
+}
+
+.start-route-copy-panel strong {
+  color: var(--ink);
+}
+
+.start-route-copy-panel p {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.34;
+  margin: 0;
+}
+
+.start-route-copy-fallback {
+  min-height: 150px;
+  margin: 0;
+  background: #ffffff;
 }
 
 .instant-receipt-lane,
