@@ -2657,6 +2657,80 @@ h4 {
   margin: 0.28rem 0 0;
 }
 
+.claim-artifact-preview {
+  display: grid;
+  gap: 0.7rem;
+  border: 1px solid rgba(37, 94, 143, 0.22);
+  border-left: 4px solid var(--blue);
+  background: #eef6fb;
+  padding: 0.78rem 0.86rem;
+}
+
+.claim-artifact-preview-head {
+  display: grid;
+  gap: 0.26rem;
+}
+
+.claim-artifact-preview-head span {
+  color: var(--blue-strong);
+  font-size: 0.7rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.claim-artifact-preview-head strong {
+  color: var(--ink);
+  font-size: 0.98rem;
+  line-height: 1.2;
+}
+
+.claim-artifact-preview-head p {
+  color: var(--muted);
+  font-size: 0.82rem;
+  line-height: 1.34;
+  margin: 0;
+}
+
+.claim-artifact-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  margin: 0;
+  border: 1px solid rgba(37, 94, 143, 0.16);
+  background: var(--panel);
+}
+
+.claim-artifact-preview-grid div {
+  min-width: 0;
+  border-right: 1px solid rgba(37, 94, 143, 0.12);
+  border-bottom: 1px solid rgba(37, 94, 143, 0.12);
+  padding: 0.58rem 0.64rem;
+}
+
+.claim-artifact-preview-grid div:nth-child(2n) {
+  border-right: 0;
+}
+
+.claim-artifact-preview-grid div:nth-child(n + 3) {
+  border-bottom: 0;
+}
+
+.claim-artifact-preview-grid dt {
+  color: var(--blue-strong);
+  font-size: 0.66rem;
+  font-weight: 900;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.claim-artifact-preview-grid dd {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.34;
+  margin: 0.24rem 0 0;
+  overflow-wrap: anywhere;
+}
+
 .claim-presets {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -5676,6 +5750,7 @@ h4 {
   .public-action-grid,
   .quick-intake-steps,
   .claim-intake-steps,
+  .claim-artifact-preview-grid,
   .evidence-answer-grid,
   .evidence-answer-foot,
   .evidence-decision-list,
@@ -5864,6 +5939,18 @@ h4 {
   }
 
   .claim-intake-steps div:last-child {
+    border-bottom: 0;
+  }
+
+  .claim-artifact-preview-grid div {
+    border-right: 0;
+  }
+
+  .claim-artifact-preview-grid div:nth-child(n + 3) {
+    border-bottom: 1px solid rgba(37, 94, 143, 0.12);
+  }
+
+  .claim-artifact-preview-grid div:last-child {
     border-bottom: 0;
   }
 

@@ -4,6 +4,19 @@
     {
       "date": "2026-07-02",
       "status": "shipped",
+      "title": "The claim checker now previews the evidence ask before the form work",
+      "why": "The claim checker could already generate a useful public ask, but a skeptical visitor had to scan the result panel or a long copy block before understanding what an evidence ask actually contains.",
+      "proof": "Added a compact example evidence ask inside the claim intake with Claim, Ask, Boundary, and Next fields. It shows that ScribeBench turns a slogan like hallucination-free into a concrete proof request, not a verdict.",
+      "next": "Keep making every named artifact visible before the visitor has to trust the name: QA finding, evidence ask, blocker receipt, and aggregate row.",
+      "links": [
+        { "label": "Claim checker", "href": "#claim-check" },
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Add row", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-02",
+      "status": "shipped",
       "title": "The homepage now shows what a QA finding actually looks like",
       "why": "The first screen said visitors leave with a QA finding, but a skeptical visitor still had to run the checker or open the demo before seeing the shape of that artifact. That kept the main promise a little abstract.",
       "proof": "Added a compact example QA finding under the public-use contract with Decision, Evidence, Boundary, and Next fields. It shows that ScribeBench produces a reviewer action packet, not a vague score or generic AI answer.",

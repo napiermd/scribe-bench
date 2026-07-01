@@ -535,6 +535,9 @@ describe('site copy and labels', () => {
     const claimSection = claimStart >= 0 ? html.slice(claimStart, evidenceStart >= 0 ? evidenceStart : undefined) : '';
     const decisionIndex = claimSection.indexOf('claim-decision-card');
     const askIndex = claimSection.indexOf('claim-ask-preview');
+    const artifactPreviewIndex = claimSection.indexOf('claim-artifact-preview');
+    const intakeStepsIndex = claimSection.indexOf('claim-intake-steps');
+    const presetsIndex = claimSection.indexOf('claim-presets');
     const proofDetailIndex = claimSection.indexOf('claim-proof-detail');
     const outputGridIndex = claimSection.indexOf('claim-output-grid');
     const evidencePathIndex = claimSection.indexOf('claim-evidence-path');
@@ -545,6 +548,16 @@ describe('site copy and labels', () => {
     expect(claimSection).toContain('One public claim or buying-room promise.');
     expect(claimSection).toContain('What the claim can support now.');
     expect(claimSection).toContain('Copyable evidence ask plus next proof step.');
+    expect(claimSection).toContain('class="claim-artifact-preview"');
+    expect(claimSection).toContain('Example ScribeBench evidence ask');
+    expect(claimSection).toContain('Example evidence ask');
+    expect(claimSection).toContain('Do not repeat "hallucination-free" without a powered row.');
+    expect(claimSection).toContain('what proof would close the claim');
+    expect(claimSection).toContain('class="claim-artifact-preview-grid"');
+    expect(claimSection).toContain('AI scribe is hallucination-free.');
+    expect(claimSection).toContain('dangerous-fabrication rate with CI');
+    expect(claimSection).toContain('Evidence request, not a safety verdict.');
+    expect(claimSection).toContain('Add or request a powered aggregate row.');
     expect(claimSection).toContain('data-copy-claim-ask');
     expect(claimSection).toContain('class="claim-decision-card"');
     expect(claimSection).toContain('Claim boundary');
@@ -569,6 +582,9 @@ describe('site copy and labels', () => {
     expect(claimSection).toContain('<details class="claim-proof-detail">');
     expect(claimSection).toContain('Show proof requirements and current limits');
     expect(claimSection).toContain('<details class="claim-evidence-path"');
+    expect(artifactPreviewIndex).toBeGreaterThan(-1);
+    expect(intakeStepsIndex).toBeGreaterThan(artifactPreviewIndex);
+    expect(presetsIndex).toBeGreaterThan(intakeStepsIndex);
     expect(decisionIndex).toBeGreaterThan(-1);
     expect(askIndex).toBeGreaterThan(-1);
     expect(decisionIndex).toBeLessThan(askIndex);
@@ -594,6 +610,9 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.claim-form-head');
     expect(styles).toContain('.claim-intake-steps');
     expect(styles).toContain('.claim-intake-steps div:last-child');
+    expect(styles).toContain('.claim-artifact-preview');
+    expect(styles).toContain('.claim-artifact-preview-grid');
+    expect(styles).toContain('.claim-artifact-preview-grid div:nth-child(2n)');
     expect(styles).toContain('.claim-decision-card');
     expect(styles).toContain('.claim-decision-grid');
     expect(styles).toContain('.claim-decision-grid div:last-child');
