@@ -334,6 +334,7 @@ describe('site copy and labels', () => {
     const resultActionsIndex = quickSection.indexOf('class="quick-result-actions"');
     const snapshotIndex = quickSection.indexOf('class="quick-result-snapshot"');
     const copyPanelIndex = quickSection.indexOf('class="quick-copy-panel"');
+    const handoffIndex = quickSection.indexOf('class="quick-review-handoff"');
     const useRouterIndex = quickSection.indexOf('class="quick-use-router"');
     const destinationIndex = quickSection.indexOf('class="quick-destination-panel"');
     const receiptPreviewIndex = quickSection.indexOf('class="quick-receipt-preview"');
@@ -387,7 +388,9 @@ describe('site copy and labels', () => {
     expect(quickSection).toContain('Copy routing note');
     expect(quickSection).toContain('ScribeBench QA finding route');
     expect(copyPanelIndex).toBeGreaterThan(resultActionsIndex);
-    expect(copyPanelIndex).toBeLessThan(evidenceIndex);
+    expect(copyPanelIndex).toBeLessThan(handoffIndex);
+    expect(handoffIndex).toBeLessThan(evidenceIndex);
+    expect(evidenceIndex).toBeLessThan(snapshotIndex);
     expect(receiptPreviewIndex).toBeGreaterThan(snapshotIndex);
     expect(receiptPreviewIndex).toBeLessThan(useRouterIndex);
     expect(receiptPreviewIndex).toBeLessThan(detailsIndex);
