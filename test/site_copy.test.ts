@@ -137,9 +137,22 @@ describe('site copy and labels', () => {
   it('keeps the evidence tables framed as claim-boundary ledgers', () => {
     const leaderboardSection = html.match(/<section class="wrap section" id="leaderboard">[\s\S]*?<\/section>/)?.[0] || '';
 
+    expect(leaderboardSection).toContain('What is useful now, and what still needs public work?');
+    expect(leaderboardSection).toContain('Use it now for note review; help finish the current row for comparisons.');
+    expect(leaderboardSection).toContain('Open public task');
+    expect(leaderboardSection).toContain('Finish the current row before ranking anyone.');
+    expect(leaderboardSection).toContain('Need 21 more scored PriMock57 cases');
+    expect(leaderboardSection).toContain('A non-capped OpenRouter key, credits, or another declared provider.');
+    expect(leaderboardSection).toContain('id="current-run-task-title"');
+    expect(leaderboardSection).toContain('id="current-run-task-bring"');
+    expect(leaderboardSection).not.toContain('Loading current PriMock57 run status');
+    expect(leaderboardSection).not.toContain('Loading current-run status.');
     expect(leaderboardSection).toContain('Claim boundary');
     expect(leaderboardSection).toContain("Historical rows can support a failure-gradient claim only; they cannot crown today's best AI scribe.");
     expect(leaderboardSection).toContain('Smoke rows prove plumbing on tiny synthetic sets; they are never ranked evidence.');
+    expect(app).toContain('setText("current-run-task-title"');
+    expect(app).toContain('setText("current-run-task-copy"');
+    expect(app).toContain('setText("current-run-task-done"');
     expect(app).toContain('const statusLabel = ranked ? "Historical only" : "Smoke only";');
     expect(app).toContain('const statusDetail = ranked ? `Baseline ${index + 1}; not current ranking` : "Plumbing proof; not ranked";');
   });

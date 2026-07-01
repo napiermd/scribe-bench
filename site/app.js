@@ -640,6 +640,7 @@ function renderCurrentRun(run) {
     : "";
   const partialText = partialAggregateText(partial);
   const publishableRemaining = Math.max(minimumPublishable - scored, 0);
+  const providerLabel = (providerConfigs[run.provider]?.label || run.provider || "provider").replace(/\s+free$/i, "");
 
   if (status) {
     status.textContent = run.statusLabel || "Open";
@@ -649,6 +650,32 @@ function renderCurrentRun(run) {
   setText(
     "current-run-copy",
     `${run.system || "current public API run"} has ${scored}/${target} PriMock57 cases scored toward a publishable current row. ${generated}/${attempted} attempted cases have generated notes.${attemptText} Raw notes stay out of the public repo.`
+  );
+  setText(
+    "current-run-task-title",
+    scored >= minimumPublishable
+      ? "Review this row before anyone ranks it."
+      : `Finish the current row: ${scored}/${target} scored.`
+  );
+  setText(
+    "current-run-task-copy",
+    scored >= minimumPublishable
+      ? `The run has reached the ${minimumPublishable}-case threshold. It still needs method review before it becomes current comparison evidence.`
+      : `Need ${publishableRemaining} more scored PriMock57 cases to reach the ${minimumPublishable}-case publishable threshold; all public output stays aggregate-only.`
+  );
+  setText(
+    "current-run-task-bring",
+    run.provider
+      ? `A non-capped ${providerLabel} key, credits, or another declared provider/judge.`
+      : "A non-capped provider key, credits, or another declared provider/judge."
+  );
+  setText(
+    "current-run-task-do",
+    resumeCommand ? "Copy the resume command and continue the cached public API run." : "Use the run builder or benchmark CLI to produce a declared aggregate row."
+  );
+  setText(
+    "current-run-task-done",
+    `Publish n>=${minimumPublishable} aggregate scores with judge, repeats, date, CI, and exclusions.`
   );
   setText(
     "freshness-current-gap",
@@ -808,6 +835,11 @@ function renderCurrentRunError() {
   }
   setText("current-run-title", "Could not load current run status");
   setText("current-run-copy", "The public runner still exists in GitHub; the status asset failed to load.");
+  setText("current-run-task-title", "Reload current-run status before ranking anyone.");
+  setText("current-run-task-copy", "The current public task could not load from the status asset. Use the run builder to create a fresh aggregate row instead.");
+  setText("current-run-task-bring", "A declared provider key or existing candidate-note file.");
+  setText("current-run-task-do", "Run the benchmark path and write a fresh status artifact.");
+  setText("current-run-task-done", "Aggregate-only row with n, judge, repeats, date, CI, and exclusions.");
   setText("current-run-generated", "--");
   setText("current-run-scored", "--");
   setText("current-run-errored", "--");

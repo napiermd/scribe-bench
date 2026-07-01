@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The evidence ledger now opens as a public task board",
+      "why": "The Evidence section had the right blocker details, but it still read like a dense ledger and could briefly open in a loading state even though the current-run facts already existed in the repo.",
+      "proof": "The Evidence heading now asks what is useful now and what still needs public work. The current-run card ships with static 9/57 counts and an Open public task strip with Bring, Do, and Done steps; the renderer refreshes those fields from current-run.json when it loads.",
+      "next": "Use the visible task to recruit a non-capped provider resume run, then replace the blocker receipt with a reviewed aggregate current row.",
+      "links": [
+        { "label": "Evidence ledger", "href": "#leaderboard" },
+        { "label": "Current row task", "href": "#current-run" },
+        { "label": "Public work queue", "href": "#run" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Evidence rows now carry their claim boundary",
       "why": "The Evidence section warned that launch rows are historical, but the table rows themselves could still be read as a current leaderboard once someone scrolled past the explanation.",
       "proof": "The historical table now opens with a visible caption and a Claim boundary column. Each powered row says Historical only and not current ranking; smoke rows say Smoke only and not ranked.",
