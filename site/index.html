@@ -410,9 +410,9 @@
             <p class="eyebrow">Public guide</p>
             <h2>Use ScribeBench for one job: prove what changed between source and note.</h2>
             <p>
-              The repo is a public clinical-AI QA workbench. It is not the scribe product,
-              not patient advice, and not a current winner board. Bring the evidence you
-              actually have, then leave with the artifact that evidence can support.
+              Paste a source encounter and generated note to see what the note added,
+              omitted, or invented. You leave with a reviewable artifact; the site is not
+              patient advice, clinical clearance, or a current winner board.
             </p>
           </div>
           <div class="split-actions">
@@ -421,23 +421,46 @@
           </div>
         </div>
 
+        <div class="guide-answer-strip" aria-label="ScribeBench in one pass">
+          <div>
+            <span>For whom</span>
+            <strong>Someone holding evidence.</strong>
+            <p>A reviewer, buyer, builder, or clinician with a source encounter, an AI-scribe note, or a public claim.</p>
+          </div>
+          <div>
+            <span>What to paste</span>
+            <strong>Source plus generated note.</strong>
+            <p>Use a transcript, source note, demo output, or candidate note. The browser check needs no account.</p>
+          </div>
+          <div>
+            <span>What you get</span>
+            <strong>A review packet.</strong>
+            <p>Unsupported care, note/source excerpts, evidence boundary, and the next proof step.</p>
+          </div>
+          <div>
+            <span>What not to claim</span>
+            <strong>Not a ranking or clearance.</strong>
+            <p>One note is triage. Model comparisons need declared datasets and aggregate rows.</p>
+          </div>
+        </div>
+
         <div class="guide-grid" aria-label="How to use ScribeBench">
           <article class="guide-card guide-primary">
             <span class="queue-status needed">One note</span>
-            <h3>Reviewer has source plus AI note.</h3>
-            <p>Run the browser checker. Leave with a QA packet naming unsupported care, excerpts, boundary, and next proof step.</p>
+            <h3>I need to review one AI-scribe note.</h3>
+            <p>Paste the source and generated note. Leave with a QA packet naming unsupported care, excerpts, boundary, and next proof step.</p>
             <a href="#quick-check">Check one note</a>
           </article>
           <article class="guide-card">
             <span class="queue-status valuable">Claim</span>
-            <h3>Buyer sees a vendor or model claim.</h3>
+            <h3>I need to challenge a public AI-scribe claim.</h3>
             <p>Turn "hallucination-free" or "best model" into the dataset, n, judge, repeats, rates, and disclosure it requires.</p>
             <a href="#claim-check">Challenge a claim</a>
           </article>
           <article class="guide-card">
             <span class="queue-status open">Current gap</span>
-            <h3>Contributor wants a useful public row.</h3>
-            <p>Review the blocker, use a non-capped provider, or submit aggregate scores from current PriMock57 or real-workflow runs.</p>
+            <h3>I can add evidence people can cite.</h3>
+            <p>Use this only for many scored notes: review the blocker, run a declared PriMock57 or real-workflow batch, then submit aggregate scores.</p>
             <a href="#current-run">Review blocker</a>
           </article>
         </div>
@@ -447,9 +470,10 @@
             <p class="eyebrow">What this repo is</p>
             <h3>One-note checker up front. Aggregate evidence behind it.</h3>
             <p>
-              The site, APIs, TypeScript evaluator, public PriMock57 data, worklog, and
-              scores-only ledger all serve the same contract: one note can create a review
-              card; many scored notes can create a public row.
+              ScribeBench is a public evidence loop. A single source-note pair creates a
+              review card; a declared batch of many notes creates an aggregate row. The repo
+              contains the site, evaluator, APIs, data, worklog, and ledger that make those
+              artifacts repeatable.
             </p>
           </div>
           <ol class="guide-loop">

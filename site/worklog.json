@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The Guide now answers the cold-visitor question first",
+      "why": "The Guide had the right pieces, but it still jumped from a high-level purpose into visitor roles, repo components, and public rows before plainly saying what someone should paste and what they get back.",
+      "proof": "The Guide now opens with a one-pass answer strip: who this is for, what to paste, what artifact comes back, and what not to claim. The three Guide cards now use first-person visitor jobs instead of role labels, and the repo explanation starts from the evidence loop before naming implementation pieces.",
+      "next": "Keep pressure-testing the first visit until every section earns its place by helping someone check a note, challenge a claim, or add citable aggregate evidence.",
+      "links": [
+        { "label": "Public guide", "href": "#next-steps" },
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Claim checker", "href": "#claim-check" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Lab copy now reads like a note-review packet",
       "why": "The Lab result had become useful on the page, but the copied output still opened with scope, scores, rubric, and benchmark language. That made the public artifact feel like internal eval output instead of something a reviewer or buyer could paste into a decision thread.",
       "proof": "The Lab buttons now copy a Review packet and Detailed review. The copied text starts with use-now, verdict, summary, boundary, and flagged source-note issues, including note and source excerpts, before method details such as judge, rubric, and scores.",

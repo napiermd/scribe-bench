@@ -50,4 +50,29 @@ describe('site copy and labels', () => {
     expect(app).toContain('Note says: ${detail.noteExcerpt}');
     expect(app).toContain('${label}: ${detail.sourceExcerpt}');
   });
+
+  it('answers the cold visitor question before repo machinery', () => {
+    const guideSection = html.match(/<section class="wrap section public-guide-section" id="next-steps">[\s\S]*?<\/section>/)?.[0] || '';
+    const answerStripIndex = guideSection.indexOf('guide-answer-strip');
+    const guideGridIndex = guideSection.indexOf('guide-grid');
+    const repoSystemIndex = guideSection.indexOf('guide-system');
+
+    expect(answerStripIndex).toBeGreaterThan(-1);
+    expect(answerStripIndex).toBeLessThan(guideGridIndex);
+    expect(answerStripIndex).toBeLessThan(repoSystemIndex);
+    expect(guideSection).toContain('For whom');
+    expect(guideSection).toContain('What to paste');
+    expect(guideSection).toContain('What you get');
+    expect(guideSection).toContain('What not to claim');
+    expect(guideSection).toContain('Paste a source encounter and generated note');
+    expect(guideSection).toContain('Someone holding evidence.');
+    expect(guideSection).toContain('Source plus generated note.');
+    expect(guideSection).toContain('A review packet.');
+    expect(guideSection).toContain('Not a ranking or clearance.');
+    expect(guideSection).toContain('I need to review one AI-scribe note.');
+    expect(guideSection).toContain('I need to challenge a public AI-scribe claim.');
+    expect(guideSection).toContain('I can add evidence people can cite.');
+    expect(guideSection).not.toContain('The repo is a public clinical-AI QA workbench');
+    expect(guideSection).not.toContain('The site, APIs, TypeScript evaluator');
+  });
 });
