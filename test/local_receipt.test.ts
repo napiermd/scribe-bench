@@ -213,6 +213,37 @@ describe('browser local receipt', () => {
     expect(negated.fabrication.dangerous).toEqual([]);
   });
 
+  it('catches unsupported urgent follow-up plans without a model', () => {
+    const source = [
+      'Urgent care visit for mild ankle sprain.',
+      'No x-ray was performed.',
+      'Patient was discharged home with RICE instructions.',
+      'Follow up as needed if symptoms worsen.',
+    ].join(' ');
+    const note = [
+      'Assessment: ankle sprain.',
+      'Plan: follow up with orthopedics within 48 hours for repeat evaluation.',
+    ].join(' ');
+    const result = runLocalReceipt(source, note);
+
+    expect(result.fabrication.dangerous.join(' ')).toMatch(/urgent follow-up plan/i);
+    expect(result.evidence.dangerous.some((item) => /urgent follow-up plan/i.test(item.finding) && /within 48 hours/i.test(item.noteExcerpt) && /Follow up as needed/i.test(item.sourceExcerpt))).toBe(true);
+  });
+
+  it('does not flag supported or negated urgent follow-up timing', () => {
+    const supported = runLocalReceipt(
+      'Discharge plan: follow up with primary care within 48 hours.',
+      'Plan: follow up with primary care within 48 hours.'
+    );
+    const negated = runLocalReceipt(
+      'Follow up as needed if symptoms worsen.',
+      'Plan: follow up as needed if symptoms worsen.'
+    );
+
+    expect(supported.fabrication.dangerous).toEqual([]);
+    expect(negated.fabrication.dangerous).toEqual([]);
+  });
+
   it('catches unsupported lab and imaging results without a model', () => {
     const source = [
       'Urgent care visit for right ankle pain after twisting injury.',

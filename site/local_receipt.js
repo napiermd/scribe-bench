@@ -316,6 +316,35 @@ const CARE_PLAN_GROUPS = [
   },
 ];
 
+const URGENT_FOLLOW_UP_GROUPS = [
+  {
+    label: "urgent follow-up plan",
+    note: followUpPatterns([
+      "24\\s*(?:hours?|hrs?)",
+      "48\\s*(?:hours?|hrs?)",
+      "(?:1|one|2|two)\\s+days?",
+      "tomorrow",
+      "next\\s+day",
+      "this\\s+week",
+    ]),
+    support: followUpPatterns([
+      "24\\s*(?:hours?|hrs?)",
+      "48\\s*(?:hours?|hrs?)",
+      "(?:1|one|2|two)\\s+days?",
+      "tomorrow",
+      "next\\s+day",
+      "this\\s+week",
+    ]),
+    contradiction: [
+      /\bfollow[-\s]?up\s+(?:only\s+)?(?:as\s+needed|PRN|if\s+(?:symptoms\s+)?(?:worsen|not\s+improving))\b/i,
+      /\breturn\s+(?:only\s+)?(?:as\s+needed|PRN|if\s+(?:symptoms\s+)?(?:worsen|not\s+improving))\b/i,
+      /\bno\s+(?:scheduled\s+|routine\s+)?follow[-\s]?up\s+(?:was\s+)?(?:needed|required|arranged|scheduled|planned)\b/i,
+      /\bfollow[-\s]?up\s+in\s+(?:3|three|4|four|6|six|8|eight)\s+(?:weeks?|months?)\b/i,
+      /\bfollow[-\s]?up\s+in\s+(?:1|one)\s+month\b/i,
+    ],
+  },
+];
+
 const RESULT_GROUPS = [
   {
     label: "lab result",
@@ -672,6 +701,30 @@ export function runLocalReceipt(source, note, metadata = {}) {
     }
   }
 
+  for (const group of URGENT_FOLLOW_UP_GROUPS) {
+    const noteMatch = firstPositiveHit(noteText, group.note);
+    if (!noteMatch) continue;
+    const supportHit = firstMatch(sourceText, group.support);
+    const contradictionHit = firstMatch(sourceText, group.contradiction);
+    const sourceSupports = Boolean(supportHit);
+    const sourceContradicts = Boolean(contradictionHit);
+    if (sourceContradicts || !sourceSupports) {
+      const finding = sourceContradicts
+        ? `${group.label} appears in the note, but the source explicitly denies or contradicts it.`
+        : `${group.label} appears in the note, but the source does not visibly support it.`;
+      dangerous.push(finding);
+      dangerousEvidence.push({
+        finding,
+        label: group.label,
+        reason: sourceContradicts ? "source contradiction" : "missing visible support",
+        noteExcerpt: noteMatch.excerpt,
+        sourceExcerpt: contradictionHit
+          ? sentenceExcerptAround(sourceText, contradictionHit.match.index, 72)
+          : "No matching urgent follow-up support phrase found in the source text.",
+      });
+    }
+  }
+
   for (const group of RESULT_GROUPS) {
     const noteMatch = firstPositiveHit(noteText, group.note);
     if (!noteMatch) continue;
@@ -717,10 +770,10 @@ export function runLocalReceipt(source, note, metadata = {}) {
   const total = Object.values(dimensions).reduce((sum, value) => sum + value, 0);
   const normalizedScore = Math.round(((total - 6) / 24) * 100);
   const reasoning = uniqueDangerous.length
-    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, medication changes, care-plan actions, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
+    ? `Browser-only receipt found ${uniqueDangerous.length} obvious unsupported or contradicted clinical fact${uniqueDangerous.length === 1 ? "" : "s"}. It checks common claims, diagnoses, treatments, medication changes, care-plan actions, urgent follow-up, test results, demographics, laterality, allergies, and leaks, but is still conservative triage.`
     : leaks.length
       ? `Browser-only receipt found ${leaks.length} template or metadata leak${leaks.length === 1 ? "" : "s"}. It did not find an obvious unsupported clinical claim.`
-      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, medication change, care-plan order/referral/disposition, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
+      : "Browser-only receipt found no obvious unsupported clinical claim, diagnosis, treatment action, medication change, care-plan order/referral/disposition, urgent follow-up plan, test-result claim, demographic mismatch, laterality mismatch, allergy contradiction, or deterministic leak. This does not prove the note is faithful; use the live judge or powered run for stronger evidence.";
 
   return {
     normalized: Math.max(0, Math.min(100, normalizedScore)),
@@ -780,6 +833,15 @@ function orderPatterns(terms) {
   return [
     new RegExp(`\\b(?:order(?:ed)?|schedule(?:d)?|arrange(?:d)?|sent\\s+(?:for|to))\\b[^.!?;]{0,80}\\b${termGroup}\\b`, "i"),
     new RegExp(`\\b${termGroup}\\b[^.!?;]{0,70}\\b(?:order(?:ed)?|schedule(?:d)?|arrange(?:d)?)\\b`, "i"),
+  ];
+}
+
+function followUpPatterns(terms) {
+  const termGroup = `(?:${terms.join("|")})`;
+  const followUpVerb = "(?:follow(?:ed)?[-\\s]?up|follow\\s+up|recheck|return|come\\s+back|be\\s+seen|see)";
+  return [
+    new RegExp(`\\b${followUpVerb}\\b[^.!?;]{0,90}\\b${termGroup}\\b`, "i"),
+    new RegExp(`\\b${termGroup}\\b[^.!?;]{0,90}\\b${followUpVerb}\\b`, "i"),
   ];
 }
 

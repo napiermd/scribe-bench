@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The no-key checker now catches invented urgent follow-up",
+      "why": "A practical source-vs-note review is not just diagnoses and test results. An AI note can also invent an urgent follow-up plan, turning routine discharge instructions into a new obligation for the clinician or patient.",
+      "proof": "The browser-only receipt now checks urgent follow-up timing such as tomorrow, 24 hours, 48 hours, or 1-2 days against source support and explicit contradictions like follow up as needed or no scheduled follow-up. Focused tests cover unsupported urgent follow-up and supported or negated non-catches.",
+      "next": "Keep strengthening the walk-up checker around concrete note-review risks before adding more explanatory site sections.",
+      "links": [
+        { "label": "Check one note", "href": "#quick-check-form" },
+        { "label": "Detailed receipt", "href": "#quick-check" },
+        { "label": "Public evidence card", "href": "#public-evidence-card" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Public evidence cards now include the actual flagged snippets",
       "why": "The one-note receipt had useful note/source excerpts, but the first-screen public evidence card collapsed the result into a generic issue count. That made the shareable artifact feel less useful than the detailed receipt it came from.",
       "proof": "One-note QA cards now show a Flagged evidence section with the top source-note issues plus note and source excerpts, and the copy-ready public card includes the same snippets. Claim and smoke cards stay concise when they do not have source-note evidence rows.",
