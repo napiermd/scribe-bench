@@ -21,6 +21,7 @@ describe('site copy and labels', () => {
     const quickCheckIndex = summarySection.indexOf('class="quick-check-panel"');
 
     expect(quickCheckIndex).toBeGreaterThan(-1);
+    expect(summarySection).toContain('<h1 id="quick-check-title">Did the AI scribe make up care?</h1>');
     expect(summarySection).toContain('Did the AI scribe make up care?');
     expect(summarySection).toContain('For clinical QA reviewers, buyers, and builders with evidence in');
     expect(summarySection).toContain('hand: paste what happened and what the AI wrote.');
@@ -29,6 +30,15 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('the source does not support');
     expect(summarySection).toContain('then writes a copyable QA');
     expect(summarySection).toContain('finding for review');
+    expect(summarySection).toContain('class="purpose-line"');
+    expect(summarySection).toContain('What ScribeBench is for');
+    expect(summarySection).toContain('Point of this');
+    expect(summarySection).toContain('Turn one AI-written note into a reviewable finding');
+    expect(summarySection).toContain('what the note claimed, what the source supports, and what to do next');
+    expect(summarySection).toContain('Who uses it');
+    expect(summarySection).toContain('Clinical QA, buyers, builders, and anyone challenging a public AI-scribe claim.');
+    expect(summarySection).toContain('Why the repo exists');
+    expect(summarySection).toContain('same checker, cases, scoring code, and aggregate evidence ledger');
     expect(summarySection).toContain('quick-entry-paths');
     expect(summarySection).toContain('Choose the ScribeBench job');
     expect(summarySection).toContain('I have source + note');
@@ -83,10 +93,11 @@ describe('site copy and labels', () => {
     expect(styles).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
     expect(styles).toContain('.quick-proof-pair div:last-child');
     expect(styles).toContain('.quick-check-panel {\n    order: 1;');
-    expect(styles).toContain('.quick-entry-paths {\n    order: 3;');
-    expect(styles).toContain('.quick-start-strip {\n    order: 4;');
-    expect(styles).toContain('.mobile-proof {\n    order: 7;');
-    expect(styles).toContain('.quick-capability-grid {\n    order: 9;');
+    expect(styles).toContain('.purpose-line {\n    order: 3;');
+    expect(styles).toContain('.quick-entry-paths {\n    order: 4;');
+    expect(styles).toContain('.quick-start-strip {\n    order: 5;');
+    expect(styles).toContain('.mobile-proof {\n    order: 8;');
+    expect(styles).toContain('.quick-capability-grid {\n    order: 10;');
     expect(styles).not.toContain('.quick-purpose-strip');
     expect(styles).not.toContain('.quick-origin-note');
     expect(styles).toContain('.quick-start-copy-fallback');
@@ -119,7 +130,6 @@ describe('site copy and labels', () => {
     expect(app).not.toContain('Route plan copied.');
     expect(app).not.toContain('Clipboard unavailable. Route plan shown here.');
     expect(app).not.toContain('function absoluteSiteHref(href)');
-    expect(summarySection).not.toContain('Why this exists');
     expect(summarySection).not.toContain('Documentation AI only matters if the signed record stays true.');
     expect(summarySection).not.toContain('13 hospital sites');
     expect(summarySection).not.toContain('A no-account source-vs-note checker.');

@@ -294,11 +294,12 @@ h4 {
 
 .purpose-line {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.54rem;
   border: 1px solid rgba(15, 118, 110, 0.24);
   border-left: 4px solid var(--accent);
   background: #eef8f5;
-  margin: 1rem 0 0;
+  margin: 0.25rem 0 0;
   padding: 0.78rem 0.86rem;
 }
 
@@ -528,6 +529,7 @@ h4 {
 
 .quick-check-head,
 .quick-check-help,
+.purpose-line,
 .quick-proof-label,
 .quick-capability-grid,
 .quick-output-contract,
@@ -555,8 +557,9 @@ h4 {
   margin-bottom: 0.35rem;
 }
 
-.quick-check-head h2 {
+.quick-check-head h1 {
   font-size: clamp(1.55rem, 2.6vw, 2.2rem);
+  max-width: none;
 }
 
 .quick-check-help {
@@ -908,7 +911,7 @@ h4 {
 .quick-check-form {
   display: grid;
   grid-column: 2;
-  grid-row: 4 / span 4;
+  grid-row: 5 / span 4;
   grid-template-columns: 1fr;
   gap: 0.76rem;
   align-self: start;
@@ -4910,6 +4913,7 @@ h4 {
   .current-model-list,
   .quick-output-contract,
   .thesis-strip,
+  .purpose-line,
   .proof-path,
   .quick-check-form,
   .quick-result-snapshot,
@@ -4941,6 +4945,7 @@ h4 {
 
   .quick-check-head,
   .quick-check-help,
+  .purpose-line,
   .quick-entry-paths,
   .quick-start-strip,
   .quick-result,
@@ -5296,35 +5301,39 @@ h4 {
     order: 2;
   }
 
-  .quick-entry-paths {
+  .purpose-line {
     order: 3;
   }
 
-  .quick-start-strip {
+  .quick-entry-paths {
     order: 4;
   }
 
-  .quick-result {
+  .quick-start-strip {
     order: 5;
   }
 
-  .quick-check-form {
+  .quick-result {
     order: 6;
   }
 
-  .mobile-proof {
+  .quick-check-form {
     order: 7;
   }
 
-  .quick-proof-label {
+  .mobile-proof {
     order: 8;
   }
 
-  .quick-capability-grid {
+  .quick-proof-label {
     order: 9;
   }
 
-  .quick-check-head h2 {
+  .quick-capability-grid {
+    order: 10;
+  }
+
+  .quick-check-head h1 {
     font-size: 1.38rem;
     line-height: 1.08;
   }

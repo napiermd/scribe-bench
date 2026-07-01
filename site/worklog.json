@@ -4,6 +4,19 @@
     {
       "date": "2026-07-01",
       "status": "shipped",
+      "title": "The first screen now states the point before the routes",
+      "why": "The site had a useful checker, but a cold visitor still had to infer who it was for, what they leave with, and why the repo exists.",
+      "proof": "The opening checker now has a real page H1 plus a compact Point / Who / Why repo exists contract before the source-note, claim, and aggregate-evidence routes.",
+      "next": "Keep making the first viewport answer the user's actual question: what do I bring, what do I get, and what public claim does this support?",
+      "links": [
+        { "label": "Source-note checker", "href": "#quick-check" },
+        { "label": "After-the-finding guide", "href": "#next-steps" },
+        { "label": "Evidence ledger", "href": "#leaderboard" }
+      ]
+    },
+    {
+      "date": "2026-07-01",
+      "status": "shipped",
       "title": "Copied QA findings now start with the reviewer decision",
       "why": "The on-screen result had become action-first, but the copied QA finding still opened like a report. That made the shareable artifact feel less decisive than the product surface.",
       "proof": "The copied source-vs-note QA finding now starts with Decision, Action, Why, Evidence, and Next before showing detailed source-note evidence and boundaries.",
