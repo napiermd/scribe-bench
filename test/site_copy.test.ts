@@ -19,6 +19,7 @@ describe('site copy and labels', () => {
   it('uses hero space to route visitors to the artifact they need', () => {
     const summarySection = html.match(/<section class="summary-band">[\s\S]*?<\/section>/)?.[0] || '';
     const introIndex = summarySection.indexOf('class="intro-panel"');
+    const useCaseIndex = summarySection.indexOf('class="use-case-strip"');
     const publicContractIndex = summarySection.indexOf('class="public-contract"');
     const routerIndex = summarySection.indexOf('class="start-router"');
     const quickCheckIndex = summarySection.indexOf('class="quick-check-panel"');
@@ -31,8 +32,18 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('care the source does not support');
     expect(summarySection).toContain('shows the contradiction');
     expect(summarySection).toContain('a review packet for a reviewer, vendor, or build-in-public thread');
-    expect(publicContractIndex).toBeGreaterThan(introIndex);
-    expect(publicContractIndex).toBeLessThan(routerIndex);
+    expect(useCaseIndex).toBeGreaterThan(introIndex);
+    expect(useCaseIndex).toBeLessThan(routerIndex);
+    expect(summarySection).toContain('Use ScribeBench if you need one of these outputs');
+    expect(summarySection).toContain('Clinical QA');
+    expect(summarySection).toContain('Check one note');
+    expect(summarySection).toContain('Leave with a review packet for unsupported care.');
+    expect(summarySection).toContain('Buyer or operator');
+    expect(summarySection).toContain('Challenge a claim');
+    expect(summarySection).toContain('Leave with the evidence ask a vendor should answer.');
+    expect(summarySection).toContain('Builder or contributor');
+    expect(summarySection).toContain('Publish a row');
+    expect(summarySection).toContain('Leave with a blocker receipt or aggregate-row recipe.');
     expect(summarySection).toContain('Plain-English ScribeBench answer');
     expect(summarySection).toContain('Plain English');
     expect(summarySection).toContain('This is a receipt generator for AI-scribe evidence.');
@@ -46,9 +57,11 @@ describe('site copy and labels', () => {
     expect(summarySection).toContain('Point');
     expect(summarySection).toContain('A fluent clinical note can still assert care that never happened.');
     expect(summarySection).toContain('one note gets a receipt; system claims need aggregate rows scored under the same rules');
-    expect(routerIndex).toBeGreaterThan(introIndex);
+    expect(routerIndex).toBeGreaterThan(useCaseIndex);
     expect(routerIndex).toBeLessThan(quickCheckIndex);
-    expect(proofIndex).toBeGreaterThan(routerIndex);
+    expect(publicContractIndex).toBeGreaterThan(routerIndex);
+    expect(publicContractIndex).toBeLessThan(quickCheckIndex);
+    expect(proofIndex).toBeGreaterThan(publicContractIndex);
     expect(summarySection).toContain('Choose the next job');
     expect(summarySection).toContain('What do you need to leave with?');
     expect(summarySection).toContain('Pick the route that matches what you have in hand');
@@ -89,6 +102,8 @@ describe('site copy and labels', () => {
     expect(styles).toContain('.quick-proof-pair');
     expect(styles).toContain('grid-template-columns: repeat(2, minmax(0, 1fr));');
     expect(styles).toContain('.quick-proof-pair div:last-child');
+    expect(styles).toContain('.use-case-strip');
+    expect(styles).toContain('.use-case-strip a');
     expect(styles).toContain('.public-contract');
     expect(styles).toContain('.public-contract-grid div');
     expect(styles).toContain('.public-contract-grid div {\n    grid-template-columns: 1fr;');
@@ -330,6 +345,8 @@ describe('site copy and labels', () => {
     expect(readme).toContain('copy a reviewer-ready review packet');
     expect(readme).toContain('Pick a visitor route');
     expect(readme).toContain('copy a short plan for what to bring, what to do, and what evidence artifact you should leave with');
+    expect(readme).toContain('Choose the walk-up use case');
+    expect(readme).toContain('clinical QA, buyer/operator, or builder/contributor');
     expect(readme).toContain('Explain the repo');
     expect(readme).toContain('Copy the citation boundary');
     expect(readme).toContain("old launch rows are discussed as failure-gradient evidence, not as today's best-model claim");

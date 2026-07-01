@@ -14,6 +14,7 @@ The system loop is simple: **one note becomes a review packet; one claim becomes
 
 - **Check one AI-scribe note** in the browser and copy a reviewer-ready packet with excerpts, issue flags, boundaries, and the next proof step.
 - **Pick a visitor route** and copy a short plan for what to bring, what to do, and what evidence artifact you should leave with.
+- **Choose the walk-up use case** — clinical QA, buyer/operator, or builder/contributor — before touching the demo.
 - **Challenge a claim** such as "hallucination-free," "safe note," or "best model" and get the evidence ask that would make it public and testable.
 - **Explain the repo** with a copyable repo receipt that says what ScribeBench is, what it is not, and which public artifacts it creates.
 - **Read the evidence ledger** without mistaking historical launch baselines or smoke checks for a current model ranking.
